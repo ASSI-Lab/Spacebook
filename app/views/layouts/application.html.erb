@@ -10,11 +10,14 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   
-  <% if user_signed_in? %>Logged in as <%= current_user.email%> [<%= link_to 'Logout', destroy_user_session_path, :method => :delete%>]
-  <% end %>
-  
-  <button onclick="window.location.href='/home'">---------------------------SPACEBOOK---------------------------</button>
+  <button onclick="window.location.href='/home'">----------------------------------SPACEBOOK----------------------------------</button>
   <button onclick="window.location.href='/home'">Contatti + info sviluppatori</button>
+
+  <form>
+    <% if user_signed_in? %>
+      Logged in as <%= current_user.email%>
+    <% end %>
+  </form>
 
   <body>
     <%= yield %>
