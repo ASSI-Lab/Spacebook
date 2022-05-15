@@ -13,9 +13,10 @@
   <% if user_signed_in? %>Logged in as <%= current_user.email%> [<%= link_to 'Logout', destroy_user_session_path, :method => :delete%>]
   <% end %>
   
-  <form action="/home">
-    <input type="submit" value="---------------------------SPACEBOOK---------------------------" />
-  </form>
+  <button onclick="window.location.href='/home'">---------------------------SPACEBOOK---------------------------</button>
+  <button onclick="window.location.href='/users/sign_in'">Accedi</button>
+  <button onclick="window.location.href='/users/sign_up'">Registrazione</button>
+  <button onclick="window.location.href='/home'">Contatti + info sviluppatori</button>
 
   <body>
     <%= yield %>
