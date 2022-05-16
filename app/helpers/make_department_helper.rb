@@ -1,0 +1,2 @@
+module MakeDepartmentHelper
+end

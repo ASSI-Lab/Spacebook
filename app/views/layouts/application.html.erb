@@ -9,15 +9,22 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-  
-  <button onclick="window.location.href='/home'">----------------------------------SPACEBOOK----------------------------------</button>
-  <button onclick="window.location.href='/home'">Contatti + info sviluppatori</button>
 
-  <form>
-    <% if user_signed_in? %>
-      Logged in as <%= current_user.email%>
+  <% if user_signed_in? %>
+    ---------------Logged in as <%= current_user.email%>
+  <% else %>
+    ---------------You are not logged in yet
+  <% end %>
+
+  <button onclick="window.location.href='/informations'">Contatti + info sviluppatori</button><br>
+  <button onclick="window.location.href='/home'">-------------------------------------------SPACEBOOK-------------------------------------------</button>
+  <br>
+
+  <% if user_signed_in? %>
+      <button onclick="window.location.href='/personal_area'">Area personale</button>
+      <button disabled onclick="window.location.href='/management'">Gestione sito</button>
+      <%= button_to 'Esci', destroy_user_session_path, :method => :delete %>
     <% end %>
-  </form>
 
   <body>
     <%= yield %>
