@@ -8,6 +8,6 @@
 
 <% if user_signed_in? %>
     <button onclick="window.location.href='/home'">Personal Area</button>
-    [<%= link_to 'Logout', destroy_user_session_path, :method => :delete%>]
+    <%= button_to 'Esci', destroy_user_session_path, :method => :delete%>
   <% end %>
 
