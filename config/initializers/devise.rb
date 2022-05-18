@@ -308,4 +308,7 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+
+  #indica ad omniauth chiave e client oauth relativi a Spacebook
+  config.omniauth :google_oauth2, '259835745255-k5k62dlbftipmvh5r1uqpps1dgg9rhgo.apps.googleusercontent.com', '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', {}
 end

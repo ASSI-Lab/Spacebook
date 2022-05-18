@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users
+  # per collegare devise all'utente e al controller per callback
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root "home#index"
   get "/home", to: "home#index"
