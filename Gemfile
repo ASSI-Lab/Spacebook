@@ -57,4 +57,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
-
+gem 'canard', '~> 0.6.2.pre'
