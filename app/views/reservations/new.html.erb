@@ -1,0 +1,68 @@
+<h1>New Reservation</h1>
+
+<%= form_with(model: @reservation) do |form| %>
+  <% if @reservation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@reservation.errors.count, "error") %> prohibited this reservation from being saved:</h2>
+
+      <ul>
+        <% @reservation.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email, required: true, value:current_user.email, readonly: true, size: 30 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :department %>
+    <%= form.text_field :department, required: true, size: 30 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :typology %>
+    <%= form.text_field :typology %>
+  </div>
+
+  <div class="field">
+    <%= form.label :space %>
+    <%= form.text_field :space %>
+  </div>
+
+  <div class="field">
+    <%= form.label :floor %>
+    <%= form.number_field :floor %>
+  </div>
+
+  <div class="field">
+    <%= form.label :seat %>
+    <%= form.number_field :seat %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_date %>
+    <%= form.time_select :start_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_date %>
+    <%= form.time_select :end_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label 'Dopo la conferma la prenotazione sarà'%>
+    <%= form.text_field :state, value:'valida', readonly: true %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<br>
+
+<button onclick="window.location.href='/user_reservations'">Le mie prenotazioni</button>

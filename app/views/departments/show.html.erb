@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<table border = "1">
+  <body>
+    <tr style="background-color:lightgrey">
+      <th>Nomedip</th>
+      <th>Emailmanager</th>
+    </tr>
+    <tr>
+      <th><%= @department.name %></th>
+      <th><%= @department.manager %></th>
+    </tr>
+
+    <tr style="background-color:lightgrey">
+      <th>Indirizzo</th> 
+      <th>Cap Citta Provincia</th>
+    </tr>
+    <tr>
+      <th>
+        <%= @department.via %>
+        <%= @department.civico %>
+      </th>
+      <th>
+        <%= @department.cap %>
+        <%= @department.citta %>
+        <%= @department.provincia %>
+      </th>
+    </tr>
+    
+    <tr style="background-color:lightgrey">
+      <th>Descrizione</th>
+      <th>Numpiani</th>
+    </tr>
+    <tr>
+      <th><%= @department.description %></th>
+      <th><%= @department.floors %></th>
+    </tr>
+
+    <tr style="background-color:lightgrey">
+      <th>Numspazi</th>
+      <th>Slotprenotabili</th>
+    </tr>
+    <tr>
+      <th><%= @department.spaces %></th>
+      <th><%= @department.slot %></th>
+    </tr>
+
+    <tr style="background-color:lightgrey">
+      <th>Apertura</th>
+      <th>Chiusura</th>
+    </tr>
+    <tr>
+      <th><%= @department.apertura %></th>
+      <th><%= @department.chiusura %></th>                  
+    </tr>
+    
+    <tr style="background-color:lightgrey">
+      <th><button onclick="window.location.href='/make_reservation'">Effettua una prenotazione</button></th>
+    </tr>
+
+  </body>
+</table>
+
+<button onclick="window.location.href='/home'">Indietro</button>

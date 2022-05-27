@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Favourite Spaces</h1>
+
+<tablez>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Department</th>
+      <th>Typology</th>
+      <th>Space</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @favourite_spaces.each do |favourite_space| %>
+      <tr>
+        <td><%= favourite_space.email %></td>
+        <td><%= favourite_space.department %></td>
+        <td><%= favourite_space.typology %></td>
+        <td><%= favourite_space.space %></td>
+        <td><%= link_to 'Show', favourite_space %></td>
+        <td><%= link_to 'Edit', edit_favourite_space_path(favourite_space) %></td>
+        <td><%= link_to 'Destroy', favourite_space, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<!-- <%= button_to 'New Favourite Space', new_favourite_space_path %> -->

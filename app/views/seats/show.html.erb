@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Department:</strong>
+  <%= @seat.department %>
+</p>
+
+<p>
+  <strong>Typology:</strong>
+  <%= @seat.typology %>
+</p>
+
+<p>
+  <strong>Space:</strong>
+  <%= @seat.space %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @seat.position %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @seat.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @seat.end_date %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @seat.state %>
+</p>
+
+<%= link_to 'Edit', edit_seat_path(@seat) %> |
+<%= link_to 'Back', seats_path %>

@@ -1,0 +1,78 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Home</h1>
+
+<h2>Dipartimenti:</h2>
+
+<% if !user_signed_in? %>
+  Accedi o registrati per essettuare le prenotazioni <br>
+<% end %>
+
+<ul style="list-style-type:none">
+  <% @departments.each do |department| %>
+  <li>
+    <table border = "1">
+      <body>
+        <tr>
+          <th>Nome</th>
+          <th>Email del manager</th>
+        </tr>
+        <tr>
+          <td><%= department.name %></td>
+          <td><%= department.manager %></td>
+        </tr>
+
+        <tr>
+          <th>Indirizzo</th> 
+          <th>Cap Citta Provincia</th>
+        </tr>
+        <tr>
+          <td><%= department.via %>, <%= department.civico %></td>
+          <td><%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
+        </tr>
+        
+        <tr>
+          <th>Descrizione</th>
+          <th>Numero di piani</th>
+        </tr>
+        <tr>
+          <td><%= department.description %></td>
+          <td><%= department.floors %></td>
+        </tr>
+
+        <tr>
+          <th>Numero di spazi</th>
+          <th>grandezza degli slot prenotabili</th>
+        </tr>
+        <tr>
+          <td><%= department.spaces %></td>
+          <td><%= department.slot %>h</td>
+        </tr>
+
+        <tr>
+          <th>Apertura</th>
+          <th>Chiusura</th>
+        </tr>
+        <tr>
+          <td><%= department.apertura %></td>
+          <td><%= department.chiusura %></td>                  
+        </tr>
+        
+
+        <% if user_signed_in? %>
+          <tr>
+            <th><button onclick="window.location.href='/make_reservation'">Effettua una prenotazione</button></th>
+            <!--<th><%= button_to 'Effettua una prenotazione', department, method: Reservation.new %></th>-->
+            <th><%= button_to 'Destroy', department, method: :delete, data: { confirm: 'Are you sure?' } %></th>
+          </tr>
+        <% end %>
+
+      </body>
+    </table>
+  </li>
+  <% end %>
+</ul>
+
+<br>
+
+<button onclick="window.location.href='/make_department'">Aggiungi dipartimento</button>

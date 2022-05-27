@@ -1,0 +1,89 @@
+<h1>Gestione sito</h1>
+
+<br>
+
+<h2>Dipartimenti</h2>
+<table border = "1">
+  <thead>
+    <th>Nome</th>
+    <th>Email del manager</th>
+    <th>Indirizzo</th> 
+    <th>Cap Citta Provincia</th>
+    <th>Descrizione</th>
+    <th>Numero di piani</th> 
+    <th>Numero di spazi</th>
+    <th>grandezza degli slot prenotabili</th>
+    <th>Apertura</th>
+    <th>Chiusura</th>
+  </thead>
+  <tbody>
+    <% @departments.each do |department| %>
+    <tr>
+      <td><%= department.name %></td>
+      <td><%= department.manager %></td>
+      <td><%= department.via %>, <%= department.civico %></td>
+      <td><%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
+      <td><%= department.description %></td>
+      <td><%= department.floors %></td>
+      <td><%= department.spaces %></td>
+      <td><%= department.slot %>h</td>
+      <td><%= department.apertura %></td>
+      <td><%= department.chiusura %></td>
+      <td><%= button_to 'Destroy', department, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+
+<h2>Prenotazioni</h2>
+<table border = "1">
+  <thead>
+    <tr>
+      <th>Utente</th>
+      <th>Dipartimento</th>
+      <th>Tipologia</th>
+      <th>Spazio</th>
+      <th>Piano</th>
+      <th>Posto</th>
+      <th>data inizio</th>
+      <th>data fine</th>
+      <th>Stato</th>
+      <th>Opzioni</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reservations.each do |reservation| %>
+      <tr>
+        <td><%= reservation.email %></td>
+        <td><%= reservation.department %></td>
+        <td><%= reservation.typology %></td>
+        <td><%= reservation.space %></td>
+        <td><%= reservation.floor %></td>
+        <td><%= reservation.seat %></td>
+        <td><%= reservation.start_date %></td>
+        <td><%= reservation.end_date %></td>
+        <td><%= reservation.state %></td>
+        <td><%= button_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+
+<h2>Utenti</h2>
+<table border = "1">
+  <thead>
+    <th>Email</th>
+    <th>Ruolo</th>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+    <tr>
+      <td><%= user.email %></td>
+      <td><%= user.roles %></td>
+      <td><button>sospendi</button></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

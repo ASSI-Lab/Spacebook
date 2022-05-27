@@ -1,0 +1,2 @@
+class FavouriteSpace < ApplicationRecord
+end

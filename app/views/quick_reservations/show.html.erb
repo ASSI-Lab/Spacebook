@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @quick_reservation.email %>
+</p>
+
+<p>
+  <strong>Department:</strong>
+  <%= @quick_reservation.department %>
+</p>
+
+<p>
+  <strong>Typology:</strong>
+  <%= @quick_reservation.typology %>
+</p>
+
+<p>
+  <strong>Space:</strong>
+  <%= @quick_reservation.space %>
+</p>
+
+<%= link_to 'Edit', edit_quick_reservation_path(@quick_reservation) %> |
+<%= link_to 'Back', quick_reservations_path %>

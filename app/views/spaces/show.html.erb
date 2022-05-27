@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Department:</strong>
+  <%= @space.department %>
+</p>
+
+<p>
+  <strong>Typology:</strong>
+  <%= @space.typology %>
+</p>
+
+<p>
+  <strong>Space:</strong>
+  <%= @space.space %>
+</p>
+
+<p>
+  <strong>Floor:</strong>
+  <%= @space.floor %>
+</p>
+
+<p>
+  <strong>Seats:</strong>
+  <%= @space.seats %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @space.state %>
+</p>
+
+<%= link_to 'Edit', edit_space_path(@space) %> |
+<%= link_to 'Back', spaces_path %>

@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Prenotazione numero: <%=@reservation.id%></h1>
+
+<table border = "1">
+  <thead>
+    <tr>
+      <th>Dipartimento</th>
+      <th>Tipologia</th>
+      <th>Spazio</th>
+      <th>Piano</th>
+      <th>Posto</th>
+      <th>data inizio</th>
+      <th>data fine</th>
+      <th>Stato</th>
+      <th>Opzioni</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td><%= @reservation.department %></td>
+      <td><%= @reservation.typology %></td>
+      <td><%= @reservation.space %></td>
+      <td><%= @reservation.floor %></td>
+      <td><%= @reservation.seat %></td>
+      <td><%= @reservation.start_date %></td>
+      <td><%= @reservation.end_date %></td>
+      <td><%= @reservation.state %></td>
+      <td><%= button_to 'Rimuovi', @reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  </tbody>
+</table>
+
+<button onclick="window.location.href='/user_reservations'">Le mie prenotazioni</button>

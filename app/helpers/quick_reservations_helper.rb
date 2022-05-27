@@ -1,0 +1,2 @@
+module QuickReservationsHelper
+end

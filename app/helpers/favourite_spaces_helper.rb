@@ -1,0 +1,2 @@
+module FavouriteSpacesHelper
+end

@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Quick Reservations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Department</th>
+      <th>Typology</th>
+      <th>Space</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @quick_reservations.each do |quick_reservation| %>
+      <tr>
+        <td><%= quick_reservation.email %></td>
+        <td><%= quick_reservation.department %></td>
+        <td><%= quick_reservation.typology %></td>
+        <td><%= quick_reservation.space %></td>
+        <td><%= link_to 'Show', quick_reservation %></td>
+        <td><%= link_to 'Edit', edit_quick_reservation_path(quick_reservation) %></td>
+        <td><%= link_to 'Destroy', quick_reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Quick Reservation', new_quick_reservation_path %>

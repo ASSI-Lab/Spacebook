@@ -1,8 +1,31 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
-  root "home#index"
 
-  get "/home", to: "home#index"
-  get "/area_personale", to: "area_personale#index"
+  resources :seats
+  resources :spaces
+  resources :quick_reservations
+  resources :favourite_spaces
+  resources :reservations
+  resources :departments
+
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  
+  root "departments#index"
+  
+  get "/home", to: "departments#index"
+  get "/personal_area", to: "personal_area#index"
+  
+  get "/make_reservation", to: "reservations#new"
+  
+  get "/user_reservations", to: "reservations#reserved"
+  get "/favourite_spaces", to: "favourite_spaces#index"
+  
+  get "/management", to: "management#index"
+  get "/informations", to: "informations#index"
+  
+  get "/make_department", to: "departments#new"
+  get "/make_space", to: "spaces#new"
+  get "/confirm_department_creation", to: "departments#confirm"
+  
+  get "/manager_department", to: "departments#manager_department"
 
 end

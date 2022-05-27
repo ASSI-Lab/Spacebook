@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @favourite_space.email %>
+</p>
+
+<p>
+  <strong>Department:</strong>
+  <%= @favourite_space.department %>
+</p>
+
+<p>
+  <strong>Typology:</strong>
+  <%= @favourite_space.typology %>
+</p>
+
+<p>
+  <strong>Space:</strong>
+  <%= @favourite_space.space %>
+</p>
+
+<%= link_to 'Edit', edit_favourite_space_path(@favourite_space) %> |
+<%= link_to 'Back', favourite_spaces_path %>

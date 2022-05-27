@@ -1,0 +1,2 @@
+class QuickReservation < ApplicationRecord
+end
