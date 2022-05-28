@@ -13,4 +13,9 @@ class ApplicationController < ActionController::Base
         redirect_back(fallback_location: root_path)                                          # in caso di errore di path reindirizza alla home 
         flash[:alert] = exception.message                                                    # Mostra messagio di errore
     end
+
+    rescue_from SQLite3::ConstraintException do |exception|                                                             # Reindirizza alla pagina corrente se i dati inseriti non rispettano i vincoli sul database
+        redirect_back(fallback_location: root_path)                                                                     # in caso di errore di path reindirizza alla home
+        flash[:alert] = 'ATTENZIONE: esiste gia un oggetto con questi dati. In particolare:[ '+exception.message+' ]'   # Mostra messagio di errore
+    end
 end
