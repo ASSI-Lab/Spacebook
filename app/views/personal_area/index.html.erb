@@ -16,12 +16,8 @@ Password <button>Modifica password</button><br>
     <button><h3>Effettua prenotazione rapida</h3></button><br>
     <button>sincronizza</button> Google calendar<br>
     
-    <button onclick="window.location.href='/manager_department'"><h3>Il mio dipartimento</h3></button>
-
-    
     <% if current_user.is_manager? %>
       <button onclick="window.location.href='/manager_department'"><h3>Il mio dipartimento</h3></button>
     <% end %>
-    
     
   <% end %>
