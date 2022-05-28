@@ -8,12 +8,14 @@ class DepartmentsController < ApplicationController
 
   # GET /manager_department  ++BOTTONE IL MIO DIPARTIMENTO++
   def manager_department
+
     if current_user.is_manager?                                                            # Controlla se l'utente è manager
-      @department = Department.where(manager: current_user.email) #'man@gmail.com')
+      @department = Department.where(manager: current_user.email)
     else
       redirect_back(fallback_location: root_path)                                          # in caso di errore di path reindirizza alla home 
       flash[:alert] = "Attenzione: Non sei autorizzato a visualizzare questa pagina!"      # Mostra messagio di errore
     end
+
   end
 
   # GET /departments/1 or /departments/1.json

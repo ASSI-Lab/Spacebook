@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
 
+<% @department.each do |department| %>
 <table border = "1">
   <body>
     <tr style="background-color:lightgrey">
@@ -7,8 +8,8 @@
       <th>Email Manager</th>
     </tr>
     <tr>
-      <th><%= @department.name %></th>
-      <th><%= @department.manager %></th>
+      <th><%= department.name %></th>
+      <th><%= department.manager %></th>
     </tr>
 
     <tr style="background-color:lightgrey">
@@ -17,13 +18,13 @@
     </tr>
     <tr>
       <th>
-        <%= @department.via %>
-        <%= @department.civico %>
+        <%= department.via %>
+        <%= department.civico %>
       </th>
       <th>
-        <%= @department.cap %>
-        <%= @department.citta %>
-        <%= @department.provincia %>
+        <%= department.cap %>
+        <%= department.citta %>
+        <%= department.provincia %>
       </th>
     </tr>
     
@@ -32,8 +33,8 @@
       <th>Numpiani</th>
     </tr>
     <tr>
-      <th><%= @department.description %></th>
-      <th><%= @department.floors %></th>
+      <th><%= department.description %></th>
+      <th><%= department.floors %></th>
     </tr>
 
     <tr style="background-color:lightgrey">
@@ -41,8 +42,8 @@
       <th>Slotprenotabili</th>
     </tr>
     <tr>
-      <th><%= @department.spaces %></th>
-      <th><%= @department.slot %></th>
+      <th><%= department.spaces %></th>
+      <th><%= department.slot %></th>
     </tr>
 
     <tr style="background-color:lightgrey">
@@ -50,8 +51,8 @@
       <th>Chiusura</th>
     </tr>
     <tr>
-      <th><%= @department.apertura %></th>
-      <th><%= @department.chiusura %></th>                  
+      <th><%= department.apertura %></th>
+      <th><%= department.chiusura %></th>                  
     </tr>
     
     <tr style="background-color:lightgrey">
@@ -60,5 +61,6 @@
 
   </body>
 </table>
+<% end %>
 
 <button onclick="window.location.href='/personal_area'">Indietro</button>
