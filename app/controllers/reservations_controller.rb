@@ -9,6 +9,7 @@ class ReservationsController < ApplicationController
 
   # GET /reservations/1 or /reservations/1.json
   def show
+    authorize! :show, @reservation, :message => "Attenzione: Non sei autorizzato a visualizzare la prenotazione."
   end
 
   # GET /reserved
@@ -23,11 +24,13 @@ class ReservationsController < ApplicationController
 
   # GET /reservations/1/edit
   def edit
+    authorize! :edit, @reservation, :message => "Attenzione: Non sei autorizzato a modificare la prenotazione."
   end
 
   # POST /reservations or /reservations.json
   def create
     @reservation = Reservation.new(reservation_params)
+    authorize! :create, @reservation, :message => "Attenzione: Non sei autorizzato ad effettuare una nuova prenotazione."
 
     respond_to do |format|
       if @reservation.save
@@ -42,6 +45,7 @@ class ReservationsController < ApplicationController
 
   # PATCH/PUT /reservations/1 or /reservations/1.json
   def update
+    authorize! :update, @reservation, :message => "Attenzione: Non sei autorizzato a modificare la prenotazione."
     respond_to do |format|
       if @reservation.update(reservation_params)
         format.html { redirect_to reservation_url(@reservation), notice: "Reservation was successfully updated." }
@@ -55,6 +59,7 @@ class ReservationsController < ApplicationController
 
   # DELETE /reservations/1 or /reservations/1.json
   def destroy
+    authorize! :destroy, @reservation, :message => "Attenzione: Non sei autorizzato ad eliminare la prenotazione."
     @reservation.destroy
 
     respond_to do |format|

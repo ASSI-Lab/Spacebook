@@ -6,9 +6,14 @@ class DepartmentsController < ApplicationController
     @departments = Department.all
   end
 
-  # GET /manager_department
+  # GET /manager_department  ++BOTTONE IL MIO DIPARTIMENTO++
   def manager_department
-    @department = Department.where(manager: current_user.email) #'man@gmail.com')
+    if current_user.is_manager?                                                            # Controlla se l'utente è manager
+      @department = Department.where(manager: current_user.email) #'man@gmail.com')
+    else
+      redirect_back(fallback_location: root_path)                                          # in caso di errore di path reindirizza alla home 
+      flash[:alert] = "Attenzione: Non sei autorizzato a visualizzare questa pagina!"      # Mostra messagio di errore
+    end
   end
 
   # GET /departments/1 or /departments/1.json
@@ -18,6 +23,7 @@ class DepartmentsController < ApplicationController
   # GET /departments/new
   def new
     @department = Department.new
+    authorize! :new, @department, :message => "Attenzione: Non sei autorizzato a creare un dipartimento."
   end
 
   # GET /departments/1/edit
@@ -27,6 +33,7 @@ class DepartmentsController < ApplicationController
   # POST /departments or /departments.json
   def create
     @department = Department.new(department_params)
+    authorize! :create, @department, :message => "Attenzione: Non sei autorizzato a creare un dipartimento."
 
     respond_to do |format|
       if @department.save
@@ -41,6 +48,7 @@ class DepartmentsController < ApplicationController
 
   # PATCH/PUT /departments/1 or /departments/1.json
   def update
+    authorize! :update, @department, :message => "Attenzione: Non sei autorizzato ad aggiornare un dipartimento."
     respond_to do |format|
       if @department.update(department_params)
         format.html { redirect_to department_url(@department), notice: "Department was successfully updated." }
@@ -54,6 +62,7 @@ class DepartmentsController < ApplicationController
 
   # DELETE /departments/1 or /departments/1.json
   def destroy
+    authorize! :destroy, @department, :message => "Attenzione: Non sei autorizzato ad eliminare un dipartimento."
     @department.destroy
 
     respond_to do |format|

@@ -5,11 +5,12 @@ class ApplicationController < ActionController::Base
 
     def configure_permitted_parameters
         devise_parameter_sanitizer.permit(:sign_up) do |user_params|
-          user_params.permit( :email, :password, :password_confirmation, { roles: [] })     # Parametri permessi (la struttura passata al metodo permit è un array)
+          user_params.permit( :email, :password, :password_confirmation, { roles: [] })     # Parametri permessi DEVISE (la struttura passata al metodo permit è un array)
         end
     end
 
-    rescue_from CanCan::AccessDenied do |exception|
-        redirect_to root_path, :alert => exception.message                                  # Reindirizza alla home in caso di accesso negato da parte di Canard
+    rescue_from CanCan::AccessDenied do |exception|                                          # Reindirizza alla pagina corrente in caso di accesso negato da parte di Canard
+        redirect_back(fallback_location: root_path)                                          # in caso di errore di path reindirizza alla home 
+        flash[:alert] = exception.message                                                    # Mostra messagio di errore
     end
 end

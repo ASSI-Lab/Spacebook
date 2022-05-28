@@ -1,4 +1,5 @@
 class SeatsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_seat, only: %i[ show edit update destroy ]
 
   # GET /seats or /seats.json
