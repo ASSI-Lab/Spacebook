@@ -11,5 +11,8 @@ class CreateSeats < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
+
+    add_index :seats, [:department, :typology, :space, :position, :start_date, :end_date, :state], unique: true, name: 'seats_index'
+
   end
 end

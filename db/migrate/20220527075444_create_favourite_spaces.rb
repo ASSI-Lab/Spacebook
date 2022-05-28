@@ -8,5 +8,8 @@ class CreateFavouriteSpaces < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
+
+    add_index :favourite_spaces, [:email, :department, :typology, :space], unique: true, name: 'favourite_spaces_index'
+
   end
 end

@@ -17,5 +17,10 @@ class CreateDepartments < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
+
+    add_index :departments, :name, unique: true
+    add_index :departments, :manager, unique: true
+    add_index :departments, [:via, :civico, :cap, :citta, :provincia], unique: true, name: 'departments_index'
+
   end
 end

@@ -10,5 +10,8 @@ class CreateSpaces < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
+
+    add_index :spaces, [:department, :typology, :space], unique: true, name: 'spaces_index'
+
   end
 end

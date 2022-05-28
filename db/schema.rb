@@ -28,6 +28,9 @@ ActiveRecord::Schema.define(version: 2022_05_27_150132) do
     t.time "chiusura"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["manager"], name: "index_departments_on_manager", unique: true
+    t.index ["name"], name: "index_departments_on_name", unique: true
+    t.index ["via", "civico", "cap", "citta", "provincia"], name: "departments_index", unique: true
   end
 
   create_table "favourite_spaces", force: :cascade do |t|
@@ -37,6 +40,7 @@ ActiveRecord::Schema.define(version: 2022_05_27_150132) do
     t.string "space"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email", "department", "typology", "space"], name: "favourite_spaces_index", unique: true
   end
 
   create_table "quick_reservations", force: :cascade do |t|
@@ -46,6 +50,7 @@ ActiveRecord::Schema.define(version: 2022_05_27_150132) do
     t.string "space"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_quick_reservations_on_email", unique: true
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -60,6 +65,7 @@ ActiveRecord::Schema.define(version: 2022_05_27_150132) do
     t.string "state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email", "department", "typology", "space", "floor", "seat", "start_date", "end_date"], name: "reservations_index", unique: true
   end
 
   create_table "seats", force: :cascade do |t|
@@ -72,6 +78,7 @@ ActiveRecord::Schema.define(version: 2022_05_27_150132) do
     t.string "state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["department", "typology", "space", "position", "start_date", "end_date", "state"], name: "seats_index", unique: true
   end
 
   create_table "spaces", force: :cascade do |t|
@@ -83,6 +90,7 @@ ActiveRecord::Schema.define(version: 2022_05_27_150132) do
     t.string "state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["department", "typology", "space"], name: "spaces_index", unique: true
   end
 
   create_table "users", force: :cascade do |t|
