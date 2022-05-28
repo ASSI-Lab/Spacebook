@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :reservations
   resources :departments
 
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations" }
   
   root "departments#index"
   
