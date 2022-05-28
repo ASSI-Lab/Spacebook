@@ -8,7 +8,7 @@ class DepartmentsController < ApplicationController
 
   # GET /manager_department
   def manager_department
-    @department = Department.where(manager: current_user.email) #'man@gmail.com')
+    @department = Department.where(manager: current_user.email)
   end
 
   # GET /departments/1 or /departments/1.json
