@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
     before_action :configure_permitted_parameters, if: :devise_controller?                  # Aggiunge parametri al controllo di sicurezza di devise
-
+    helper_method :require_department
+    
     protected
 
     def configure_permitted_parameters
@@ -18,4 +19,13 @@ class ApplicationController < ActionController::Base
         redirect_back(fallback_location: root_path)                                                                     # in caso di errore di path reindirizza alla home
         flash[:alert] = 'ATTENZIONE: esiste gia un oggetto con questi dati. In particolare:[ '+exception.message+' ]'   # Mostra messagio di errore
     end
+
+    def require_department
+        n = Department.where(manager: current_user.email).count
+            if n==0
+                flash[:alert] = "Attenzione: Come manager devi creare un dipartimento!"
+                redirect_to '/make_department' # halts request cycle
+            end
+    end
+
 end
