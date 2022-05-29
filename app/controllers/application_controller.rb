@@ -21,11 +21,8 @@ class ApplicationController < ActionController::Base
     end
 
     def require_department
-        n = Department.where(manager: current_user.email).count
-            if n==0
-                flash[:alert] = "Attenzione: Come manager devi creare un dipartimento!"
-                redirect_to '/make_department' # halts request cycle
-            end
+        flash[:alert] = "Attenzione: Come manager devi creare un dipartimento!"
+        redirect_to '/make_department' # halts request cycle         
     end
 
 end

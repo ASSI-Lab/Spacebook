@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2]
          
@@ -29,7 +29,8 @@ class User < ApplicationRecord
           # Uncomment the section below if you want users to be created if they don't exist
           unless user
               user = User.create(email: data['email'],
-                 password: Devise.friendly_token[0,20]
+                 password: Devise.friendly_token[0,20],
+                 confirmed_at: Time.zone.now                                                  # Aggiunge la conferma di iscrizione evitando l'invio della mail di conferma
               )
           end
           user

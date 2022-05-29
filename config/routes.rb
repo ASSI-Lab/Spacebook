@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :reservations
   resources :departments
 
+
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations" }
   
   root "departments#index"
@@ -27,5 +28,11 @@ Rails.application.routes.draw do
   get "/confirm_department_creation", to: "departments#confirm"
   
   get "/manager_department", to: "departments#manager_department"
+
+  resources :users do       # CONTROLLA LE MAIL DI CONFERMA E IN CASO DI ASSENZA PER NUOVA REGISTRAZIONE NE INVIA UNA (CONTROLLARE application_mailer PER ULTERIORI DETTAGLI)
+    member do
+      get :confirm_email
+    end
+  end
 
 end

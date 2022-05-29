@@ -10,11 +10,11 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <% if user_signed_in? and current_user.is_manager? and !current_page?('/make_department') %>
-    <% require_department %>     
-  <% end %>
-
-  <% if !user_signed_in? %>
+  <% if user_signed_in? %><!-- CONTROLLA SE L'UTENTE HA EFFETTUATO IL LOGIN -->
+    <% if current_user.is_manager? and !current_page?('/make_department') and (Department.where(manager: current_user.email).count == 0) %><!-- CONTROLLA SE L'UTENTE E' MANAGER E SE HA CREATO UN DIPARTIMENTO -->
+      <% require_department %>     <!-- IMPONE LA CREAZIONE DEL DIPARTIEMNTO (FUNZIONE CONTENUTA IN application_controller ) -->
+    <% end %>
+  <% else %>
     Non hai ancora eseguito l'accesso o la registrazione<br>
   <% end %>
 
