@@ -1,5 +1,205 @@
 <h1>New Department</h1>
+<%= form_with(model: @department) do |form| %>
+  <% if @department.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@department.errors.count, "error") %> prohibited this department from being saved:</h2>
 
-<%= render 'form', department: @department %>
+      <ul>
+        <% @department.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
+  <div class="field">
+    <%= form.label 'manager id' %>
+    <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, size: 30 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :manager %>
+    <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, size: 30 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :via %>
+    <%= form.text_field :via %>
+  </div>
+
+  <div class="field">
+    <%= form.label :civico %>
+    <%= form.text_field :civico %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cap %>
+    <%= form.text_field :cap %>
+  </div>
+
+  <div class="field">
+    <%= form.label :citta %>
+    <%= form.text_field :citta %>
+  </div>
+
+  <div class="field">
+    <%= form.label :provincia %>
+    <%= form.text_field :provincia %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :floors %>
+    <%= form.number_field :floors %>
+  </div>
+
+  <div class="field">
+    <%= form.label :number_of_spaces %>
+    <%= form.number_field :number_of_spaces %>
+  </div>
+
+  <div class="field">
+    <%= form.label :slot %>
+    <%= form.number_field :slot %>
+  </div>
+
+  <div class="field">
+    <%= form.label :apertura %>
+    <%= form.time_select :apertura %>
+  </div>
+
+  <div class="field">
+    <%= form.label :chiusura %>
+    <%= form.time_select :chiusura %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<h1>New Space</h1>
+<%= form_with(model: @space) do |form| %>
+  <% if @space.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@space.errors.count, "error") %> prohibited this space from being saved:</h2>
+
+      <ul>
+        <% @space.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :department_id %>
+    <%= form.number_field :department_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dep_name %>
+    <%= form.text_field :dep_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :typology %>
+    <%= form.text_field :typology %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :floor %>
+    <%= form.number_field :floor %>
+  </div>
+
+  <div class="field">
+    <%= form.label :number_of_seats %>
+    <%= form.number_field :number_of_seats %>
+  </div>
+
+  <div class="field">
+    <%= form.label :state %>
+    <%= form.text_field :state %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<h1>New Seat</h1>
+<%= form_with(model: @seat) do |form| %>
+  <% if @seat.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@seat.errors.count, "error") %> prohibited this seat from being saved:</h2>
+
+      <ul>
+        <% @seat.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :space_id %>
+    <%= form.number_field :space_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dep_name %>
+    <%= form.text_field :dep_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :typology %>
+    <%= form.text_field :typology %>
+  </div>
+
+  <div class="field">
+    <%= form.label :space_name %>
+    <%= form.text_field :space_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :position %>
+    <%= form.number_field :position %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_date %>
+    <%= form.datetime_select :start_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_date %>
+    <%= form.datetime_select :end_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :state %>
+    <%= form.text_field :state %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+<%= button_to 'Visualizza il tuo dipartimento', '/manager_department' %>
 <%= link_to 'Back', departments_path %>

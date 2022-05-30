@@ -12,6 +12,26 @@
       </ul>
     </div>
   <% end %>
+  
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :department_id %>
+    <%= form.number_field :department_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :space_id %>
+    <%= form.number_field :space_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :seat_id %>
+    <%= form.number_field :seat_id %>
+  </div>
 
   <div class="field">
     <%= form.label :email %>
@@ -19,8 +39,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :department %>
-    <%= form.text_field :department, required: true, size: 30 %>
+    <%= form.label :dep_name %>
+    <%= form.text_field :dep_name, required: true, size: 30 %>
   </div>
 
   <div class="field">
@@ -29,8 +49,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :space %>
-    <%= form.text_field :space %>
+    <%= form.label :space_name %>
+    <%= form.text_field :space_name %>
   </div>
 
   <div class="field">
@@ -39,8 +59,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :seat %>
-    <%= form.number_field :seat %>
+    <%= form.label :seat_num %>
+    <%= form.number_field :seat_num %>
   </div>
 
   <div class="field">

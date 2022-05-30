@@ -34,7 +34,7 @@ class ReservationsController < ApplicationController
 
     respond_to do |format|
       if @reservation.save
-        format.html { redirect_to '/user_reservations', notice: "Reservation was successfully created." }
+        format.html { redirect_to '/user_reservations', notice: "Prenotazione effettuata correttamente." }
         format.json { render :reserved, status: :created, location: @reservation }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -48,8 +48,11 @@ class ReservationsController < ApplicationController
     authorize! :update, @reservation, :message => "Attenzione: Non sei autorizzato a modificare la prenotazione."
     respond_to do |format|
       if @reservation.update(reservation_params)
-        format.html { redirect_to reservation_url(@reservation), notice: "Reservation was successfully updated." }
-        format.json { render :show, status: :ok, location: @reservation }
+        #format.html { redirect_to reservation_url(@reservation), notice: "Reservation was successfully updated." }
+        #format.json { render :show, status: :ok, location: @reservation }
+        format.html { redirect_to request.referrer, notice: "Prenotazione disabilitata." }
+        # Deve manda email di spiegazioni
+        format.js {render inline: "location.reload();" }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @reservation.errors, status: :unprocessable_entity }
@@ -76,6 +79,6 @@ class ReservationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def reservation_params
-      params.require(:reservation).permit(:email, :department, :typology, :space, :floor, :seat, :start_date, :end_date, :state)
+      params.require(:reservation).permit(:user_id, :department_id, :space_id, :seat_id, :email, :dep_name, :typology, :space_name, :floor, :seat_num, :start_date, :end_date, :state)
     end
 end

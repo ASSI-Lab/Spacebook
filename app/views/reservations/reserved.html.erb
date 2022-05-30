@@ -20,11 +20,11 @@
   <tbody>
     <% @reservations.each do |reservation| %>
       <tr>
-        <td><%= reservation.department %></td>
+        <td><%= reservation.dep_name %></td>
         <td><%= reservation.typology %></td>
-        <td><%= reservation.space %></td>
+        <td><%= reservation.space_name %></td>
         <td><%= reservation.floor %></td>
-        <td><%= reservation.seat %></td>
+        <td><%= reservation.seat_num %></td>
         <td><%= reservation.start_date %></td>
         <td><%= reservation.end_date %></td>
         <td><%= reservation.state %></td>

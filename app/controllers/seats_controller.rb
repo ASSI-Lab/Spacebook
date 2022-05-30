@@ -26,8 +26,10 @@ class SeatsController < ApplicationController
 
     respond_to do |format|
       if @seat.save
-        format.html { redirect_to seat_url(@seat), notice: "Seat was successfully created." }
-        format.json { render :show, status: :created, location: @seat }
+        # format.html { redirect_to seat_url(@seat), notice: "Seat was successfully created." }
+        # format.json { render :show, status: :created, location: @seat }
+        format.html { redirect_to request.referrer, notice: "Posto creato." }
+        format.js {render inline: "location.reload();" }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @seat.errors, status: :unprocessable_entity }
@@ -39,8 +41,10 @@ class SeatsController < ApplicationController
   def update
     respond_to do |format|
       if @seat.update(seat_params)
-        format.html { redirect_to seat_url(@seat), notice: "Seat was successfully updated." }
-        format.json { render :show, status: :ok, location: @seat }
+        # format.html { redirect_to seat_url(@seat), notice: "Seat was successfully updated." }
+        # format.json { render :show, status: :ok, location: @seat }
+        format.html { redirect_to request.referrer, notice: "Disponibilità posto aggiornata." }
+        format.js {render inline: "location.reload();" }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @seat.errors, status: :unprocessable_entity }
@@ -53,8 +57,10 @@ class SeatsController < ApplicationController
     @seat.destroy
 
     respond_to do |format|
-      format.html { redirect_to seats_url, notice: "Seat was successfully destroyed." }
-      format.json { head :no_content }
+      #format.html { redirect_to seats_url, notice: "Seat was successfully destroyed." }
+      #format.json { head :no_content }
+      format.html { redirect_to request.referrer, notice: "Posto eliminato." }
+      format.js {render inline: "location.reload();" }
     end
   end
 
@@ -66,6 +72,6 @@ class SeatsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def seat_params
-      params.require(:seat).permit(:department, :typology, :space, :position, :start_date, :end_date, :state)
+      params.require(:seat).permit(:space_id, :dep_name, :typology, :space_name, :position, :start_date, :end_date, :state)
     end
 end

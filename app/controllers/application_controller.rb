@@ -21,8 +21,8 @@ class ApplicationController < ActionController::Base
     end
 
     def require_department
-        flash[:alert] = "Attenzione: Come manager devi creare un dipartimento!"
-        redirect_to '/make_department' # halts request cycle         
+        flash[:alert] = "Attenzione: Come manager devi creare un dipartimento!" # Mostra messagio di spiegazione
+        redirect_to '/make_department'                                          # Reindirizza alla pagina di creazione del dipartimento
     end
 
 end

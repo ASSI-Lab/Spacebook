@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2022_05_27_150132) do
 
   create_table "departments", force: :cascade do |t|
+    t.integer "user_id"
     t.string "name"
     t.string "manager"
     t.string "via"
@@ -22,75 +23,100 @@ ActiveRecord::Schema.define(version: 2022_05_27_150132) do
     t.string "provincia"
     t.text "description"
     t.integer "floors"
-    t.integer "spaces"
+    t.integer "number_of_spaces"
     t.integer "slot"
     t.time "apertura"
     t.time "chiusura"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["manager"], name: "index_departments_on_manager", unique: true
-    t.index ["name"], name: "index_departments_on_name", unique: true
-    t.index ["via", "civico", "cap", "citta", "provincia"], name: "departments_index", unique: true
+    t.index ["manager"], name: "department_manager_index", unique: true
+    t.index ["name"], name: "departments_index", unique: true
+    t.index ["user_id"], name: "index_departments_on_user_id"
+    t.index ["via", "civico", "cap", "citta", "provincia"], name: "department_position_index", unique: true
   end
 
   create_table "favourite_spaces", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "department_id"
+    t.integer "space_id"
     t.string "email"
-    t.string "department"
+    t.string "dep_name"
     t.string "typology"
-    t.string "space"
+    t.string "space_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email", "department", "typology", "space"], name: "favourite_spaces_index", unique: true
+    t.index ["department_id"], name: "index_favourite_spaces_on_department_id"
+    t.index ["email", "dep_name", "typology", "space_name"], name: "favourite_spaces_index", unique: true
+    t.index ["space_id"], name: "index_favourite_spaces_on_space_id"
+    t.index ["user_id"], name: "index_favourite_spaces_on_user_id"
   end
 
   create_table "quick_reservations", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "department_id"
+    t.integer "space_id"
     t.string "email"
-    t.string "department"
+    t.string "dep_name"
     t.string "typology"
-    t.string "space"
+    t.string "space_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_quick_reservations_on_email", unique: true
+    t.index ["department_id"], name: "index_quick_reservations_on_department_id"
+    t.index ["email"], name: "quick_reservations_index", unique: true
+    t.index ["space_id"], name: "index_quick_reservations_on_space_id"
+    t.index ["user_id"], name: "index_quick_reservations_on_user_id"
   end
 
   create_table "reservations", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "department_id"
+    t.integer "space_id"
+    t.integer "seat_id"
     t.string "email"
-    t.string "department"
+    t.string "dep_name"
     t.string "typology"
-    t.string "space"
+    t.string "space_name"
     t.integer "floor"
-    t.integer "seat"
+    t.integer "seat_num"
     t.datetime "start_date"
     t.datetime "end_date"
     t.string "state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email", "department", "typology", "space", "floor", "seat", "start_date", "end_date"], name: "reservations_index", unique: true
+    t.index ["department_id"], name: "index_reservations_on_department_id"
+    t.index ["email", "dep_name", "typology", "space_name", "floor", "seat_num", "start_date", "end_date"], name: "reservations_index", unique: true
+    t.index ["seat_id"], name: "index_reservations_on_seat_id"
+    t.index ["space_id"], name: "index_reservations_on_space_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
   create_table "seats", force: :cascade do |t|
-    t.string "department"
+    t.integer "space_id"
+    t.string "dep_name"
     t.string "typology"
-    t.string "space"
+    t.string "space_name"
     t.integer "position"
     t.datetime "start_date"
     t.datetime "end_date"
     t.string "state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["department", "typology", "space", "position", "start_date", "end_date", "state"], name: "seats_index", unique: true
+    t.index ["dep_name", "typology", "space_name", "position", "start_date", "end_date", "state"], name: "seats_index", unique: true
+    t.index ["space_id"], name: "index_seats_on_space_id"
   end
 
   create_table "spaces", force: :cascade do |t|
-    t.string "department"
+    t.integer "department_id"
+    t.string "dep_name"
     t.string "typology"
-    t.string "space"
+    t.string "name"
     t.integer "floor"
-    t.integer "seats"
+    t.integer "number_of_seats"
     t.string "state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["department", "typology", "space"], name: "spaces_index", unique: true
+    t.index ["dep_name", "typology", "name"], name: "spaces_index", unique: true
+    t.index ["department_id"], name: "index_spaces_on_department_id"
   end
 
   create_table "users", force: :cascade do |t|

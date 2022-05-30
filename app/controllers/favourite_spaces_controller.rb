@@ -26,8 +26,9 @@ class FavouriteSpacesController < ApplicationController
 
     respond_to do |format|
       if @favourite_space.save
-        format.html { redirect_to favourite_space_url(@favourite_space), notice: "Favourite space was successfully created." }
-        format.json { render :show, status: :created, location: @favourite_space }
+        format.html { redirect_to request.referrer, notice: "Lo spazio è stato aggiunto ai preferiti." }
+        #format.json { render :show, status: :created, location: @favourite_space }
+        format.js {render inline: "location.reload();" }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @favourite_space.errors, status: :unprocessable_entity }
@@ -53,8 +54,10 @@ class FavouriteSpacesController < ApplicationController
     @favourite_space.destroy
 
     respond_to do |format|
-      format.html { redirect_to favourite_spaces_url, notice: "Favourite space was successfully destroyed." }
-      format.json { head :no_content }
+      #format.html { redirect_to favourite_spaces_url, notice: "Favourite space was successfully destroyed." }
+      #format.json { head :no_content }
+      format.html { redirect_to request.referrer, notice: "Lo spazio è stato rimosso dai preferiti." }
+      format.js {render inline: "location.reload();" }
     end
   end
 
@@ -66,6 +69,6 @@ class FavouriteSpacesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def favourite_space_params
-      params.require(:favourite_space).permit(:email, :department, :typology, :space)
+      params.require(:favourite_space).permit(:user_id, :department_id, :space_id, :email, :dep_name, :typology, :space_name)
     end
 end
