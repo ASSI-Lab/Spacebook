@@ -42,7 +42,7 @@
       <th>Slotprenotabili</th>
     </tr>
     <tr>
-      <th><%= department.spaces %></th>
+      <th><%= department.number_of_spaces %></th>
       <th><%= department.slot %></th>
     </tr>
 
@@ -51,8 +51,10 @@
       <th>Chiusura</th>
     </tr>
     <tr>
-      <th><%= department.apertura %></th>
-      <th><%= department.chiusura %></th>                  
+      <th><%= department.ora_apertura %></th>
+      <th><%= department.min_apertura %></th>
+      <th><%= department.ora_chiusura %></th>                  
+      <th><%= department.min_chiusura %></th>                  
     </tr>
     
     <tr style="background-color:lightgrey">

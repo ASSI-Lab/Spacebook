@@ -54,15 +54,16 @@
           <th>Chiusura</th>
         </tr>
         <tr>
-          <td><%= department.apertura %></td>
-          <td><%= department.chiusura %></td>                  
+          <td><%= department.ora_apertura %></td>
+          <td><%= department.min_apertura %></td>
+          <td><%= department.ora_chiusura %></td>                  
+          <td><%= department.min_chiusura %></td>                  
         </tr>
         
 
         <% if user_signed_in? %>
           <tr>
             <th><button onclick="window.location.href='/make_reservation'">Effettua una prenotazione</button></th>
-            <!--<th><%= button_to 'Effettua una prenotazione', department, method: Reservation.new %></th>-->
             <th><%= button_to 'Destroy', department, method: :delete, data: { confirm: 'Are you sure?' } %></th>
           </tr>
         <% end %>

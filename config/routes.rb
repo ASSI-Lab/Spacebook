@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   
   get "/make_department", to: "departments#new"
   get "/make_space", to: "spaces#new"
-  get "/confirm_department_creation", to: "departments#confirm"
+  #get "/confirm_department_creation", to: "departments#confirm_department_creation"
   
   get "/manager_department", to: "departments#manager_department"
 

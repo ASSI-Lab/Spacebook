@@ -25,8 +25,10 @@ ActiveRecord::Schema.define(version: 2022_05_27_150132) do
     t.integer "floors"
     t.integer "number_of_spaces"
     t.integer "slot"
-    t.time "apertura"
-    t.time "chiusura"
+    t.integer "ora_apertura"
+    t.integer "min_apertura"
+    t.integer "ora_chiusura"
+    t.integer "min_chiusura"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["manager"], name: "department_manager_index", unique: true

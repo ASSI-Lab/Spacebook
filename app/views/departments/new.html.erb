@@ -1,147 +1,278 @@
-<h1>New Department</h1>
-<%= form_with(model: @department) do |form| %>
-  <% if @department.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@department.errors.count, "error") %> prohibited this department from being saved:</h2>
 
-      <ul>
-        <% @department.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
+<table border = "1">
+  <% if (Department.where(manager: current_user.email).count == 0)%>
+    <head>
+      <tr>
+        <td colspan="2">
+          <%= form_with(model: @department) do |form| %>
+            <% if @department.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@department.errors.count, "error") %> prohibited this department from being saved:</h2>
+
+                <ul>
+                  <% @department.errors.each do |error| %>
+                    <li><%= error.full_message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="field", style='display:none'>
+              <%= form.label 'manager id' %>
+              <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, size: 20%>
+            </div>
+
+            <table border = "1">
+              <head>
+                <tr><td colspan="4" style="text-align:center"><h1>Registra il tuo dipartimento</h1></td></tr>
+              </head>
+              <body>
+                <tr>
+                  <td>
+                    <div class="field">
+                      <%= form.label 'Nome del dipartimento' %>
+                      <%= form.text_field :name %>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field">
+                      <%= form.label 'E-mail del manager' %>
+                      <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, size: 20 %>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field">
+                      <%= form.label 'Via, Viale, Piazza...' %>
+                      <%= form.text_field :via %>
+                    </div>
+
+                    <div class="field">
+                      <%= form.label 'n. civico' %>
+                      <%= form.text_field :civico %>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field">
+                      <%= form.label 'Cap' %>
+                      <%= form.text_field :cap %>
+                    </div>
+
+                    <div class="field">
+                      <%= form.label 'Città' %>
+                      <%= form.text_field :citta %>
+                    </div>
+
+                    <div class="field">
+                      <%= form.label 'Provincia' %>
+                      <%= form.text_field :provincia %>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="field">
+                      <%= form.label 'Descrizione del dipartimento' %>
+                      <%= form.text_area :description, rows: 8 %>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field">
+                      <%= form.label "Numero di piani" %>
+                      <%= form.number_field :floors %>
+                    </div>
+
+                    <div class="field">
+                      <%= form.label 'Numero di spazi' %>
+                      <%= form.number_field :number_of_spaces %>
+                    </div>
+
+                    <div class="field">
+                      <%= form.label "Ore minime prenotabili" %>
+                      <%= form.number_field :slot %>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field">
+                      <%= form.label 'Apertura:' %>
+                      <%= form.label 'ora' %>
+                      <%= form.number_field :ora_apertura %>
+                      <%= form.label 'minuti' %>
+                      <%= form.number_field :min_apertura %>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field">
+                      <%= form.label 'Chiusura:' %>
+                      <%= form.label 'ora' %>
+                      <%= form.number_field :ora_chiusura %>
+                      <%= form.label 'minuti' %>
+                      <%= form.number_field :min_chiusura %>
+                    </div>
+                  </td>
+                </tr>
+              </body>
+            </table>
+            
+            <br>
+
+            <div class="actions">
+              <%= form.submit %>
+            </div>
+
+          <% end %>
+        </td>
+      </tr>
+    </head>
+  <% else %>
+    <head>
+        <tr>
+          <td colspan="2">
+            <table border = "1">
+              <head>
+                <tr>
+                  <td colspan="9" style="text-align:center"><h2>Il tuo dipartimento</h2></td>
+                </tr>
+                <tr>
+                  <th>Nome</th>
+                  <th>Indirizzo</th>
+                  <th>Descrizione</th>
+                  <th>Numero di piani</th>
+                  <th>Numero di spazi</th>
+                  <th>Slot prenotabili</th>
+                  <th>Apertura</th>
+                  <th>Chiusura</th>
+                  <th>Elimina</th>
+                </tr>
+              </head>
+              <body>
+                <% (Department.where(user_id: current_user.id)).each do |mydep| %>
+                  <tr>
+                    <td><%= mydep.name %></td>
+                    <td><%= mydep.via+','+mydep.civico+','+mydep.cap+','+mydep.citta+','+mydep.provincia %></td>
+                    <td><%= mydep.description %></td>
+                    <td><%= mydep.floors %></td>
+                    <td><%= mydep.number_of_spaces %></td>
+                    <td><%= mydep.slot %></td>
+                    <td><%= mydep.ora_apertura %>:<%= mydep.min_apertura %></td>
+                    <td><%= mydep.ora_chiusura %>:<%= mydep.min_chiusura %></td>
+                    <th><%= button_to 'X', mydep, method: :delete, data: { confirm: 'Sicuro?' } %></th>
+                  </tr>
+                <% end %>
+              </body>
+            </table>
+          </td>
+        </tr>
+    </head>
+    <body>
+      <tr>
+        <td>
+          <%= form_with(model: @space) do |form| %>
+            <% if @space.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@space.errors.count, "error") %> prohibited this space from being saved:</h2>
+
+                <ul>
+                  <% @space.errors.each do |error| %>
+                    <li><%= error.full_message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="field", style='display:none'>
+              <%= form.label 'department_id' %>
+              <%= form.number_field :department_id, required: true, value: (Department.where(user_id: current_user.id)).first.id, readonly: true %>
+            </div>
+
+            <div class="field", style='display:none'>
+              <%= form.label 'Nome del dipartimento' %>
+              <%= form.text_field :dep_name, required: true, value: (Department.where(user_id: current_user.id)).first.name, readonly: true  %>
+            </div>
+
+            <table>
+              <head>
+                <tr><td colspan="2" style="text-align:center"><h1>Registra gli spazi del tuo dipartimento</h1></td></tr>
+              </head>
+              <body>
+                <tr>
+                  <td>
+                    <div class="field">
+                      <%= form.label 'Tipologia dello spazio' %>
+                      <%= form.select :typology, options_for_select([["Isola"], ["Aula"], ["Laboratiorio"], ["Biblioteca"]]), required: true%>
+                    </div>
+
+                    <div class="field">
+                      <%= form.label 'Nome dello spazio' %>
+                      <%= form.label '(univoco per ogni tipologia)' %>
+                      <%= form.text_field :name %>
+                    </div>
+
+                  </td>
+                  <td>
+
+                    <div class="field">
+                      <%= form.label 'Piano al quale si trova' %>
+                      <%= form.number_field :floor %>
+                    </div>
+
+                    <div class="field">
+                      <%= form.label 'numero di posti prenotabili' %>
+                      <%= form.number_field :number_of_seats %>
+                    </div>
+
+                    <div class="field", style='display:none'>
+                      <%= form.label 'Disponibilità' %>
+                      <%= form.text_field :state, value: "Abilitato", required: true %>
+                    </div>
+                  </td>
+                </tr>              
+              </body>
+            </table>
+
+            <br>
+
+            <div class="actions">
+              <%= form.submit %>
+            </div>
+
+          <% end %>
+        </td>
+        <td>
+          <table border = "1">
+            <head>
+              <tr><td colspan="6" style="text-align:center"><h2>Spazi creati</h2></td></tr>
+              <tr>
+                <th>Tipologia</th>
+                <th>Nome</th>
+                <th>Piano</th>
+                <th>Numero di posti</th>
+                <th>Disponibilità</th>
+                <th>Elimina</th>
+              </tr>
+            </head>
+            <body>
+              <% (Space.where(department_id: (Department.where(user_id: current_user.id)).first.id)).each do |jcs| %>
+                <tr>
+                  <td><%= jcs.typology %></td>
+                  <td><%= jcs.name %></td>
+                  <td><%= jcs.floor %></td>
+                  <td><%= jcs.number_of_seats %></td>
+                  <td><%= jcs.state %></td>
+                  <th><%= button_to 'X', jcs, method: :delete, data: { confirm: 'Sicuro?' } %></th>
+                </tr>
+              <% end %>
+            </body>
+          </table>
+        </td>
+      </tr>
+    </body>
   <% end %>
+</table>
 
-  <div class="field">
-    <%= form.label 'manager id' %>
-    <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, size: 30 %>
-  </div>
+<br>
+<!-- Bottone per la conferma e per la creazione automatica dei posti -->
+<br>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :manager %>
-    <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, size: 30 %>
-  </div>
-
-  <div class="field">
-    <%= form.label :via %>
-    <%= form.text_field :via %>
-  </div>
-
-  <div class="field">
-    <%= form.label :civico %>
-    <%= form.text_field :civico %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cap %>
-    <%= form.text_field :cap %>
-  </div>
-
-  <div class="field">
-    <%= form.label :citta %>
-    <%= form.text_field :citta %>
-  </div>
-
-  <div class="field">
-    <%= form.label :provincia %>
-    <%= form.text_field :provincia %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :floors %>
-    <%= form.number_field :floors %>
-  </div>
-
-  <div class="field">
-    <%= form.label :number_of_spaces %>
-    <%= form.number_field :number_of_spaces %>
-  </div>
-
-  <div class="field">
-    <%= form.label :slot %>
-    <%= form.number_field :slot %>
-  </div>
-
-  <div class="field">
-    <%= form.label :apertura %>
-    <%= form.time_select :apertura %>
-  </div>
-
-  <div class="field">
-    <%= form.label :chiusura %>
-    <%= form.time_select :chiusura %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
-
-<h1>New Space</h1>
-<%= form_with(model: @space) do |form| %>
-  <% if @space.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@space.errors.count, "error") %> prohibited this space from being saved:</h2>
-
-      <ul>
-        <% @space.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :department_id %>
-    <%= form.number_field :department_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :dep_name %>
-    <%= form.text_field :dep_name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :typology %>
-    <%= form.text_field :typology %>
-  </div>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :floor %>
-    <%= form.number_field :floor %>
-  </div>
-
-  <div class="field">
-    <%= form.label :number_of_seats %>
-    <%= form.number_field :number_of_seats %>
-  </div>
-
-  <div class="field">
-    <%= form.label :state %>
-    <%= form.text_field :state %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
-
-<h1>New Seat</h1>
 <%= form_with(model: @seat) do |form| %>
   <% if @seat.errors.any? %>
     <div id="error_explanation">
@@ -200,6 +331,4 @@
   </div>
 <% end %>
 
-
-<%= button_to 'Visualizza il tuo dipartimento', '/manager_department' %>
-<%= link_to 'Back', departments_path %>
+<br>
