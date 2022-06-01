@@ -3,66 +3,52 @@
 <h1>Home</h1>
 
 <h2>Dipartimenti:</h2>
-
-<% if !user_signed_in? %>
-  Accedi o registrati per essettuare le prenotazioni <br>
-<% end %>
-
+<!-- Lista di tutti i dipartimenti dell'applicazione -->
 <ul style="list-style-type:none">
   <% @departments.each do |department| %>
   <li>
-    <table border = "1">
+    <table border = "1" style="text-align:center">
+      <head>
+        <tr style="background-color:lightgrey"><th colspan="2">||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</th></tr>
+      </head>
       <body>
         <tr>
-          <th>Nome</th>
-          <th>Email del manager</th>
-        </tr>
-        <tr>
-          <td><%= department.name %></td>
-          <td><%= department.manager %></td>
+          <td><b>Nome</b><br><%= department.name %></td>
+          <td><b>Email del manager</b><br><%= department.manager %></td>
         </tr>
 
         <tr>
-          <th>Indirizzo</th> 
-          <th>Cap Citta Provincia</th>
-        </tr>
-        <tr>
-          <td><%= department.via %>, <%= department.civico %></td>
-          <td><%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
+          <td><b>Indirizzo</b><br><%= department.via %>, <%= department.civico %></td>
+          <td><b>Cap Citta Provincia</b><br><%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
         </tr>
         
         <tr>
-          <th>Descrizione</th>
-          <th>Numero di piani</th>
-        </tr>
-        <tr>
-          <td><%= department.description %></td>
-          <td><%= department.floors %></td>
+          <td><b>Descrizione</b><br><%= department.description %></td>
+          <td><b>Numero di piani</b><br><%= department.floors %></td>
         </tr>
 
         <tr>
-          <th>Numero di spazi</th>
-          <th>grandezza degli slot prenotabili</th>
-        </tr>
-        <tr>
-          <td><%= department.number_of_spaces %></td>
-          <td><%= department.slot %>h</td>
+          <td><b>Numero di spazi</b><br><%= department.number_of_spaces %></td>
+          <td><b>grandezza degli slot prenotabili</b><br><%= department.slot %>h</td>
         </tr>
 
         <tr>
-          <th>Apertura</th>
-          <th>Chiusura</th>
-        </tr>
-        <tr>
-          <td><%= department.ora_apertura %>:<%= department.min_apertura %></td>
-          <td><%= department.ora_chiusura %>:<%= department.min_chiusura %></td>                  
+          <td><b>Apertura</b><br><%= department.ora_apertura %>:<%= department.min_apertura %></td>
+          <td><b>Chiusura</b><br><%= department.ora_chiusura %>:<%= department.min_chiusura %></td>                  
         </tr>
         
 
         <% if user_signed_in? %>
-          <tr>
+          <tr style="background-color:lightgrey">
             <th><button onclick="window.location.href='/make_reservation'">Effettua una prenotazione</button></th>
-            <th><%= button_to 'Destroy', department, method: :delete, data: { confirm: 'Are you sure?' } %></th>
+            <th><%= button_to 'Destroy', department, method: :delete, data: { confirm: 'Are you sure?' }%></th>
+          </tr>
+        <% else %>
+          <tr>
+            <th colspan="2">Per essettuare le prenotazioni
+              <button onclick="window.location.href='/users/sign_in'">Accedi</button> o 
+              <button onclick="window.location.href='/users/sign_up'">registrati</buùtton>.
+            </th>
           </tr>
         <% end %>
 

@@ -1,68 +1,65 @@
+<!-- Mostra il dipartimento del manager e gli spazi relativi -->
 <p id="notice"><%= notice %></p>
 
-<% @department.each do |department| %>
-<table border = "1">
+<table border = "1" style="text-align:center">
+  <head>
+    <tr>
+      <td colspan="18"><h2>Il tuo dipartimento</h2></td>
+    </tr>
+    <tr>
+      <th colspan="2">Nome</th>
+      <th colspan="2">Indirizzo</th>
+      <th colspan="2">Descrizione</th>
+      <th colspan="2">Numero di piani</th>
+      <th colspan="2">Numero di spazi</th>
+      <th colspan="2">Slot prenotabili</th>
+      <th colspan="2">Apertura</th>
+      <th colspan="2">Chiusura</th>
+      <th colspan="2">Opzioni</th>
+    </tr>
+  </head>
   <body>
-    <tr style="background-color:lightgrey">
-      <th>Nomedip</th>
-      <th>Email Manager</th>
-    </tr>
     <tr>
-      <th><%= department.name %></th>
-      <th><%= department.manager %></th>
+      <td colspan="2"><%= (@department.first).name %></td>
+      <td colspan="2"><%= (@department.first).via+','+(@department.first).civico+','+(@department.first).cap+','+(@department.first).citta+','+(@department.first).provincia %></td>
+      <td colspan="2"><%= (@department.first).description %></td>
+      <td colspan="2"><%= (@department.first).floors %></td>
+      <td colspan="2"><%= (@department.first).number_of_spaces %></td>
+      <td colspan="2"><%= (@department.first).slot %></td>
+      <td colspan="2"><%= (@department.first).ora_apertura %>:<%= (@department.first).min_apertura %></td>
+      <td colspan="2"><%= (@department.first).ora_chiusura %>:<%= (@department.first).min_chiusura %></td>
+      <th colspan="2">
+        <button onclick="window.location.href='/make_reservation'">Prenota</button>
+        <%= button_to 'Elimina', (@department.first), method: :delete, data: { confirm: 'Sicuro?' } %>
+      </tr>
     </tr>
 
-    <tr style="background-color:lightgrey">
-      <th>Indirizzo</th> 
-      <th>Cap Citta Provincia</th>
-    </tr>
+    <tr><td colspan="18" style="text-align:center"><h2>Spazi del dipartimento</h2></td></tr>
     <tr>
-      <th>
-        <%= department.via %>
-        <%= department.civico %>
-      </th>
-      <th>
-        <%= department.cap %>
-        <%= department.citta %>
-        <%= department.provincia %>
-      </th>
+      <th colspan="3">Tipologia</th>
+      <th colspan="3">Nome</th>
+      <th colspan="3">Piano</th>
+      <th colspan="3">Numero di posti</th>
+      <th colspan="3">Disponibilità</th>
+      <th colspan="3">Opzioni</th>
     </tr>
-    
-    <tr style="background-color:lightgrey">
-      <th>Descrizione</th>
-      <th>Numpiani</th>
-    </tr>
-    <tr>
-      <th><%= department.description %></th>
-      <th><%= department.floors %></th>
-    </tr>
-
-    <tr style="background-color:lightgrey">
-      <th>Numspazi</th>
-      <th>Slotprenotabili</th>
-    </tr>
-    <tr>
-      <th><%= department.number_of_spaces %></th>
-      <th><%= department.slot %></th>
-    </tr>
-
-    <tr style="background-color:lightgrey">
-      <th>Apertura</th>
-      <th>Chiusura</th>
-    </tr>
-    <tr>
-      <th><%= department.ora_apertura %></th>
-      <th><%= department.min_apertura %></th>
-      <th><%= department.ora_chiusura %></th>                  
-      <th><%= department.min_chiusura %></th>                  
-    </tr>
-    
-    <tr style="background-color:lightgrey">
-      <th><button onclick="window.location.href='/make_reservation'">Effettua una prenotazione</button></th>
-    </tr>
-
+    <% @spaces.each do |space| %>
+      <tr>
+        <td colspan="3"><%= space.typology %></td>
+        <td colspan="3"><%= space.name %></td>
+        <td colspan="3"><%= space.floor %></td>
+        <td colspan="3"><%= space.number_of_seats %></td>
+        <td colspan="3"><%= space.state %></td>
+        <th colspan="3">
+          <% if space.state == 'Abilitato'%>
+            <button>Disabilita</button>
+          <% else %>
+            <button>Abilita</button>
+          <% end %>
+          <%= button_to 'Elimina', space, method: :delete, data: { confirm: 'Sicuro?' } %>
+        </th>
+      </tr>
+    <% end %>
+    <tr><th></th></tr>
   </body>
 </table>
-<% end %>
-
-<button onclick="window.location.href='/personal_area'">Indietro</button>

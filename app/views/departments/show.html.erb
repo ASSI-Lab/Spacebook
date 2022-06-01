@@ -1,66 +1,76 @@
+<!-- Permetta all'admin di visualizzare il singolo dipartimento selezionato ed i vari spazi associati -->
+
 <p id="notice"><%= notice %></p>
 
-<table border = "1">
-  <body>
-    <tr style="background-color:lightgrey">
-      <th>Nomedip</th>
-      <th>Emailmanager</th>
-    </tr>
-    <tr>
-      <th><%= @department.name %></th>
-      <th><%= @department.manager %></th>
-    </tr>
-
-    <tr style="background-color:lightgrey">
-      <th>Indirizzo</th> 
-      <th>Cap Citta Provincia</th>
-    </tr>
-    <tr>
-      <th>
-        <%= @department.via %>
-        <%= @department.civico %>
-      </th>
-      <th>
-        <%= @department.cap %>
-        <%= @department.citta %>
-        <%= @department.provincia %>
-      </th>
-    </tr>
-    
-    <tr style="background-color:lightgrey">
-      <th>Descrizione</th>
-      <th>Numpiani</th>
-    </tr>
-    <tr>
-      <th><%= @department.description %></th>
-      <th><%= @department.floors %></th>
-    </tr>
-
-    <tr style="background-color:lightgrey">
-      <th>Numspazi</th>
-      <th>Slotprenotabili</th>
-    </tr>
-    <tr>
-      <th><%= @department.number_of_spaces %></th>
-      <th><%= @department.slot %></th>
-    </tr>
-
-    <tr style="background-color:lightgrey">
-      <th>Apertura</th>
-      <th>Chiusura</th>
-    </tr>
-    <tr>
-      <th><%= @department.ora_apertura %></th>
-      <th><%= @department.min_apertura %></th>
-      <th><%= @department.ora_chiusura %></th>                  
-      <th><%= @department.min_chiusura %></th>
-    </tr>
-    
-    <tr style="background-color:lightgrey">
-      <th><button onclick="window.location.href='/make_reservation'">Effettua una prenotazione</button></th>
-    </tr>
-
-  </body>
+<table>
+  <head> 
+      <tr>
+        <td colspan="2">
+          <table border = "1"> <!-- Mostra il dipartimento selezionato -->
+            <head>
+              <tr>
+                <td colspan="10">
+                  <h2 style="text-align:left"> Dipartimento: <%= @department.id %><br> Manager: <%= @department.user_id %> </h2>
+                </td>
+              </tr>
+              <tr style="text-align:center">
+                <th>Nome dipartimento</th>
+                <th>E-mail manager</th>
+                <th>Indirizzo</th>
+                <th>Descrizione</th>
+                <th>Numero di piani</th>
+                <th>Numero di spazi</th>
+                <th>Slot prenotabili</th>
+                <th>Apertura</th>
+                <th>Chiusura</th>
+                <th>Elimina</th>
+              </tr>
+            </head>
+            <body>
+              <tr style="text-align:center">
+                <td><%= @department.name %></td>
+                <td><%= @department.manager %></td>
+                <td><%= @department.via+','+@department.civico+','+@department.cap+','+@department.citta+','+@department.provincia %></td>
+                <td><%= @department.description %></td>
+                <td><%= @department.floors %></td>
+                <td><%= @department.number_of_spaces %></td>
+                <td><%= @department.slot %></td>
+                <td><%= @department.ora_apertura %>:<%= @department.min_apertura %></td>
+                <td><%= @department.ora_chiusura %>:<%= @department.min_chiusura %></td>
+                <th><%= button_to 'X', @department, method: :delete, data: { confirm: 'Sicuro?' } %></th>
+              </tr>
+            </body>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table border = "1"> <!-- Mostra gli spazi relativi al dipartimento -->
+            <head>
+              <tr><th colspan="6" style="text-align:center"><b>Spazi relativi al dipartimento</b></th></tr>
+              <tr>
+                <th>id</th>
+                <th>Tipologia</th>
+                <th>Nome</th>
+                <th>Piano</th>
+                <th>Numero di posti</th>
+                <th>Disponibilità</th>
+              </tr>
+            </head>
+            <body>
+              <% @spaces.each do |space| %>
+                <tr>
+                  <td><%= space.id %></td>
+                  <td><%= space.typology %></td>
+                  <td><%= space.name %></td>
+                  <td><%= space.floor %></td>
+                  <td><%= space.number_of_seats %></td>
+                  <td><%= space.state %></td>
+                </tr>
+              <% end %>
+            </body>
+          </table>
+        </td>
+      </tr>
+  </head>
 </table>
-
-<button onclick="window.location.href='/home'">Indietro</button>

@@ -6,21 +6,23 @@ class DepartmentsController < ApplicationController
     @departments = Department.all
   end
 
-  # GET /manager_department  ++BOTTONE IL MIO DIPARTIMENTO++
+  # GET /manager_department | Mostra al manager il dipartimento gestito | accessibile premento il bottone 'il mio dipartimento' nall'area personale
   def manager_department
     if current_user.is_manager?                                                            # Controlla se l'utente è manager
       @department = Department.where(manager: current_user.email)
+      @spaces = Space.where(department_id: ((@department).first).id)
     else
       redirect_back(fallback_location: root_path)                                          # In caso di errore di path reindirizza alla home 
       flash[:alert] = "Attenzione: Non sei autorizzato a visualizzare questa pagina!"      # Mostra messagio di errore
     end
   end
 
-  # GET /departments/1 or /departments/1.json
+  # GET /departments/1 or /departments/1.json | Mostra all'admin il singolo dipartimento
   def show
+    @spaces = Space.where(department_id: @department.id)
   end
 
-  # GET /departments/new
+  # GET /departments/new | Mostra al manager la pagina di creazione dei dipartimenti e degli spazi con i relativi form
   def new
     @department = Department.new
     @space = Space.new

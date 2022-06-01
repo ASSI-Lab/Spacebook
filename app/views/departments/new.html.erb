@@ -1,11 +1,12 @@
+<!-- Pagina per la creazione del dipartimento e dei relativi spazi da parte del manager che vi accede (solo un manager può accedervi) -->
 
 <table border = "1">
   <% if (Department.where(manager: current_user.email).count == 0)%>
-    <head>
+    <head> <!-- Mostra il form di registrazione del dipartimento -->
       <tr>
         <td colspan="2">
           <%= form_with(model: @department) do |form| %>
-            <% if @department.errors.any? %>
+            <% if @department.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
               <div id="error_explanation">
                 <h2><%= pluralize(@department.errors.count, "error") %> prohibited this department from being saved:</h2>
 
@@ -17,11 +18,13 @@
               </div>
             <% end %>
 
+            <!-- Campo inserito automaticamente -->
             <div class="field", style='display:none'>
               <%= form.label 'manager id' %>
               <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, size: 20%>
             </div>
 
+            <!-- Campi inseriti dal manager -->
             <table border = "1">
               <head>
                 <tr><td colspan="4" style="text-align:center"><h1>Registra il tuo dipartimento</h1></td></tr>
@@ -112,9 +115,8 @@
                 </tr>
               </body>
             </table>
-            
-            <br>
 
+            <!-- Tasto per la creazione --><br>
             <div class="actions">
               <%= form.submit %>
             </div>
@@ -124,7 +126,7 @@
       </tr>
     </head>
   <% else %>
-    <head>
+    <head> <!-- Mostra il dipartimento appena creato -->
         <tr>
           <td colspan="2">
             <table border = "1">
@@ -145,29 +147,28 @@
                 </tr>
               </head>
               <body>
-                <% (Department.where(user_id: current_user.id)).each do |mydep| %>
-                  <tr>
-                    <td><%= mydep.name %></td>
-                    <td><%= mydep.via+','+mydep.civico+','+mydep.cap+','+mydep.citta+','+mydep.provincia %></td>
-                    <td><%= mydep.description %></td>
-                    <td><%= mydep.floors %></td>
-                    <td><%= mydep.number_of_spaces %></td>
-                    <td><%= mydep.slot %></td>
-                    <td><%= mydep.ora_apertura %>:<%= mydep.min_apertura %></td>
-                    <td><%= mydep.ora_chiusura %>:<%= mydep.min_chiusura %></td>
-                    <th><%= button_to 'X', mydep, method: :delete, data: { confirm: 'Sicuro?' } %></th>
-                  </tr>
-                <% end %>
+                <% mydep = (Department.where(user_id: current_user.id)).first %>
+                <tr>
+                  <td><%= mydep.name %></td>
+                  <td><%= mydep.via+','+mydep.civico+','+mydep.cap+','+mydep.citta+','+mydep.provincia %></td>
+                  <td><%= mydep.description %></td>
+                  <td><%= mydep.floors %></td>
+                  <td><%= mydep.number_of_spaces %></td>
+                  <td><%= mydep.slot %></td>
+                  <td><%= mydep.ora_apertura %>:<%= mydep.min_apertura %></td>
+                  <td><%= mydep.ora_chiusura %>:<%= mydep.min_chiusura %></td>
+                  <th><%= button_to 'X', mydep, method: :delete, data: { confirm: 'Sicuro?' } %></th>
+                </tr>
               </body>
             </table>
           </td>
         </tr>
     </head>
-    <body>
+    <body> <!-- Mostra form di inserimento degli spazi e gli spazi gia inseriti -->
       <tr>
         <td>
           <%= form_with(model: @space) do |form| %>
-            <% if @space.errors.any? %>
+            <% if @space.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
               <div id="error_explanation">
                 <h2><%= pluralize(@space.errors.count, "error") %> prohibited this space from being saved:</h2>
 
@@ -179,16 +180,19 @@
               </div>
             <% end %>
 
+            <!-- Campo inserito automaticamente -->
             <div class="field", style='display:none'>
               <%= form.label 'department_id' %>
               <%= form.number_field :department_id, required: true, value: (Department.where(user_id: current_user.id)).first.id, readonly: true %>
             </div>
 
+            <!-- Campo inserito automaticamente -->
             <div class="field", style='display:none'>
               <%= form.label 'Nome del dipartimento' %>
               <%= form.text_field :dep_name, required: true, value: (Department.where(user_id: current_user.id)).first.name, readonly: true  %>
             </div>
 
+            <!-- Campi inseriti dal manager -->
             <table>
               <head>
                 <tr><td colspan="2" style="text-align:center"><h1>Registra gli spazi del tuo dipartimento</h1></td></tr>
@@ -220,17 +224,18 @@
                       <%= form.number_field :number_of_seats %>
                     </div>
 
-                    <div class="field", style='display:none'>
-                      <%= form.label 'Disponibilità' %>
-                      <%= form.text_field :state, value: "Abilitato", required: true %>
-                    </div>
                   </td>
                 </tr>              
               </body>
             </table>
 
-            <br>
+            <!-- Campo inserito automaticamente -->
+            <div class="field", style='display:none'>
+              <%= form.label 'Disponibilità' %>
+              <%= form.text_field :state, value: "Abilitato", required: true %>
+            </div>
 
+            <!-- Tasto per la creazione --><br>
             <div class="actions">
               <%= form.submit %>
             </div>
@@ -238,7 +243,7 @@
           <% end %>
         </td>
         <td>
-          <table border = "1">
+          <table border = "1"> <!-- Mostra gli spazi creati fino ad ora e permette di eliminarli -->
             <head>
               <tr><td colspan="6" style="text-align:center"><h2>Spazi creati</h2></td></tr>
               <tr>
@@ -270,9 +275,16 @@
 </table>
 
 <br>
-<!-- Bottone per la conferma e per la creazione automatica dei posti -->
+
+<button>Conferma la registrazione del dipartimento e dei relativi spazi</button>
+
+<br>
+<br>
+<br>
+<br>
 <br>
 
+<!-- Form per la creazione dei posti. Successivamente da automatizzare alla pressione del bottone sopra indicato -->
 <%= form_with(model: @seat) do |form| %>
   <% if @seat.errors.any? %>
     <div id="error_explanation">
