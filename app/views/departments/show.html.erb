@@ -6,7 +6,7 @@
   <head> 
       <tr>
         <td colspan="2">
-          <table border = "1" width="80%"> <!-- Mostra il dipartimento selezionato -->
+          <table border = "1" width="100%"> <!-- Mostra il dipartimento selezionato -->
             <head>
               <tr>
                 <td colspan="10">
@@ -23,7 +23,6 @@
                 <th>Slot prenotabili</th>
                 <th>Apertura</th>
                 <th>Chiusura</th>
-                <th>Elimina</th>
               </tr>
             </head>
             <body>
@@ -34,10 +33,9 @@
                 <td><%= @department.description %></td>
                 <td><%= @department.floors %></td>
                 <td><%= @department.number_of_spaces %></td>
-                <td><%= @department.slot %></td>
+                <td><%= @department.slot %>h</td>
                 <td><%= @department.ora_apertura %>:<%= @department.min_apertura %></td>
                 <td><%= @department.ora_chiusura %>:<%= @department.min_chiusura %></td>
-                <th><%= button_to 'X', @department, method: :delete, data: { confirm: 'Sicuro?' } %></th>
               </tr>
             </body>
           </table>
@@ -45,10 +43,10 @@
       </tr>
       <tr>
         <td>
-          <table border = "1" width="80%"> <!-- Mostra gli spazi relativi al dipartimento -->
+          <table border = "1" width="100%"> <!-- Mostra gli spazi relativi al dipartimento -->
             <head>
-              <tr><th colspan="6" style="background-color:lightgrey"><b>Spazi relativi al dipartimento</b></th></tr>
-              <tr>
+              <tr><th colspan="6"><b>Spazi relativi al dipartimento</b></th></tr>
+              <tr style="background-color:lightgrey">
                 <th>id</th>
                 <th>Tipologia</th>
                 <th>Nome</th>

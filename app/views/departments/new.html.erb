@@ -1,6 +1,6 @@
 <!-- Pagina per la creazione del dipartimento e dei relativi spazi da parte del manager che vi accede (solo un manager può accedervi) -->
 
-<table border = "1">
+<table width="100%" style="text-align:center">
   <% if (Department.where(manager: current_user.email).count == 0)%>
     <head> <!-- Mostra il form di registrazione del dipartimento -->
       <tr>
@@ -25,7 +25,7 @@
             </div>
 
             <!-- Campi inseriti dal manager -->
-            <table border = "1">
+            <table border = "1"  width="100%">
               <head>
                 <tr><td colspan="4" style="text-align:center"><h1>Registra il tuo dipartimento</h1></td></tr>
               </head>
@@ -129,12 +129,12 @@
     <head> <!-- Mostra il dipartimento appena creato -->
         <tr>
           <td colspan="2">
-            <table border = "1">
+            <table border = "1" width="100%">
               <head>
                 <tr>
-                  <td colspan="9" style="text-align:center"><h2>Il tuo dipartimento</h2></td>
+                  <td colspan="9"><h2>Il tuo dipartimento</h2></td>
                 </tr>
-                <tr>
+                <tr style="background-color:lightgrey">
                   <th>Nome</th>
                   <th>Indirizzo</th>
                   <th>Descrizione</th>
@@ -166,7 +166,7 @@
     </head>
     <body> <!-- Mostra form di inserimento degli spazi e gli spazi gia inseriti -->
       <tr>
-        <td>
+        <td> <!-- Form di inserimento degli spazi -->
           <%= form_with(model: @space) do |form| %>
             <% if @space.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
               <div id="error_explanation">
@@ -193,9 +193,9 @@
             </div>
 
             <!-- Campi inseriti dal manager -->
-            <table>
+            <table width="100%">
               <head>
-                <tr><td colspan="2" style="text-align:center"><h1>Registra gli spazi del tuo dipartimento</h1></td></tr>
+                <tr><td colspan="2" style="text-align:center" width="50%"><h1>Registra gli spazi del tuo dipartimento</h1></td></tr>
               </head>
               <body>
                 <tr>
@@ -242,11 +242,11 @@
 
           <% end %>
         </td>
-        <td>
-          <table border = "1"> <!-- Mostra gli spazi creati fino ad ora e permette di eliminarli -->
+        <td width="50%"> <!-- Mostra gli spazi creati fino ad ora e permette di eliminarli -->
+          <table border = "1" width="100%"> 
             <head>
               <tr><td colspan="6" style="text-align:center"><h2>Spazi creati</h2></td></tr>
-              <tr>
+              <tr style="background-color:lightgrey">
                 <th>Tipologia</th>
                 <th>Nome</th>
                 <th>Piano</th>
