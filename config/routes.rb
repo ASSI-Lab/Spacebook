@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   #get "/confirm_department_creation", to: "departments#confirm_department_creation"
   
   get "/manager_department", to: "departments#manager_department"
+  get "/edit_department", to: "departments#edit"
 
   resources :users do       # CONTROLLA LE MAIL DI CONFERMA E IN CASO DI ASSENZA PER NUOVA REGISTRAZIONE NE INVIA UNA (CONTROLLARE application_mailer PER ULTERIORI DETTAGLI)
     member do

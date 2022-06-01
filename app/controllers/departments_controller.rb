@@ -57,10 +57,8 @@ class DepartmentsController < ApplicationController
     authorize! :update, @department, :message => "Attenzione: Non sei autorizzato ad aggiornare un dipartimento."
     respond_to do |format|
       if @department.update(department_params)
-        format.html { redirect_to department_url(@department), notice: "Department was successfully created." }
-        format.json { render :show, status: :created, location: @department }
-        # format.html { redirect_to '/manager_department', notice: "Il dipartimento è stato aggiornato correttamente" }
-        # format.json { render :manager_department, status: :ok, location: @department }
+        format.html { redirect_to '/manager_department', notice: "Il dipartimento è stato aggiornato correttamente" }
+        format.json { render :manager_department, status: :ok, location: @department }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @department.errors, status: :unprocessable_entity }

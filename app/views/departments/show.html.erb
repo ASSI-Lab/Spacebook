@@ -2,18 +2,18 @@
 
 <p id="notice"><%= notice %></p>
 
-<table>
+<table style="text-align:center">
   <head> 
       <tr>
         <td colspan="2">
-          <table border = "1"> <!-- Mostra il dipartimento selezionato -->
+          <table border = "1" width="80%"> <!-- Mostra il dipartimento selezionato -->
             <head>
               <tr>
                 <td colspan="10">
-                  <h2 style="text-align:left"> Dipartimento: <%= @department.id %><br> Manager: <%= @department.user_id %> </h2>
+                  <h2 style="text-align:center"> Dipartimento: <%= @department.id %><br> Manager: <%= @department.user_id %> </h2>
                 </td>
               </tr>
-              <tr style="text-align:center">
+              <tr style="background-color:lightgrey">
                 <th>Nome dipartimento</th>
                 <th>E-mail manager</th>
                 <th>Indirizzo</th>
@@ -27,7 +27,7 @@
               </tr>
             </head>
             <body>
-              <tr style="text-align:center">
+              <tr>
                 <td><%= @department.name %></td>
                 <td><%= @department.manager %></td>
                 <td><%= @department.via+','+@department.civico+','+@department.cap+','+@department.citta+','+@department.provincia %></td>
@@ -45,9 +45,9 @@
       </tr>
       <tr>
         <td>
-          <table border = "1"> <!-- Mostra gli spazi relativi al dipartimento -->
+          <table border = "1" width="80%"> <!-- Mostra gli spazi relativi al dipartimento -->
             <head>
-              <tr><th colspan="6" style="text-align:center"><b>Spazi relativi al dipartimento</b></th></tr>
+              <tr><th colspan="6" style="background-color:lightgrey"><b>Spazi relativi al dipartimento</b></th></tr>
               <tr>
                 <th>id</th>
                 <th>Tipologia</th>

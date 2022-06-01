@@ -40,8 +40,7 @@
 
         <% if user_signed_in? %>
           <tr style="background-color:lightgrey">
-            <th><button onclick="window.location.href='/make_reservation'">Effettua una prenotazione</button></th>
-            <th><%= button_to 'Destroy', department, method: :delete, data: { confirm: 'Are you sure?' }%></th>
+            <th colspan="2"><button onclick="window.location.href='/make_reservation'"><b>Effettua una prenotazione</b></button></th>
           </tr>
         <% else %>
           <tr>
