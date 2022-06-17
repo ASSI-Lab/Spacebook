@@ -58,44 +58,6 @@
 
     </div>
 
-	<!-- 
-	<% if !user_signed_in? %>
-		<div class="grid-item3">
-			<button type="button" class="btnAccedi" onclick="window.location.href='/users/sign_in'"> Accedi </button>
-		</div>
-		<div class="grid-item4">
-			<button type="button" class="btnRegistrazione" onclick="window.location.href='/users/sign_up'"> Registrazione </button>
-		</div>
-		<div class="grid-item5">
-		<% else %>
-			<button type="button" class="btnAPersonale" onclick="window.location.href='/personal_area'"> Area personale </button>
-			<%= button_to 'Logout', destroy_user_session_path, :method => :delete, :class => "btnLogout"%>
-			<% if current_user.roles in ["admin"] %>
-				<button type="button" class="btnGSito" onclick="window.location.href='/management'"> Gestione sito </button>
-			<% end %>
-		</div>
-	<% end %>
-	-->
-
-<!--
- 	<table class="headerTable">
-        <tr class="headerRow">
-            <td class="btnHomeTd"><button type="button" class="btnHome" onclick="window.location.href='/home'"> home </button></td>
-            	<a href="/home"> <img class="tastohome" src="../../../immagini/space-rocket.jpg"></a>
-            <td class="titleTd"><h1> SPACEBOOK </h1></td>
-            <% if !user_signed_in? %>
-                <td><button type="button" class="btnAccedi" onclick="window.location.href='/users/sign_in'"> Accedi </button></td>
-                <td><button type="button" class="btnRegistrazione" onclick="window.location.href='/users/sign_up'"> Registrazione </button></td>
-			<% else %>
-				<td class="btnAPersonaleTd"><button type="button" class="btnAPersonale" onclick="window.location.href='/personal_area'"> Area personale </button></td>
-				<td class="btnLogoutTd"><%= button_to 'Logout', destroy_user_session_path, :method => :delete, :class => "btnLogout"%></td>
-                <% if current_user.roles in ["admin"] %>
-                    <button type="button" class="btnGSito" onclick="window.location.href='/management'"> Gestione sito </button>
-                <% end %>
-            <% end %>
-        </tr>
-    </table>
--->
 	<!-- <p class="notice"><%= notice %></p> -->
 	<!-- <p class="alert"><%= alert %></p> -->
 
