@@ -1,3 +1,145 @@
 // Place all the styles related to the Departments controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+// CODICE PER index.html
+
+.page {
+    width: 99%;
+    height: 90%;
+    margin-top: 80px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border: 2px solid rgb(0, 9, 175);
+    padding-bottom: 10px;
+}
+
+.modulo-ricerca {
+    background-color: #f6f6f6;
+    border: 1px solid rgb(212, 217, 250);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 8px;
+    width: 35%;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+  
+.modulo-ricerca #search {
+    border: 1px solid #DDD;
+    -webkit-box-shadow: 0 1px 1px #ddd inset, 0 1px 0 #FFF;
+    -moz-box-shadow: 0 1px 1px #ddd inset, 0 1px 0 #FFF;
+    box-shadow: 0 1px 1px #ddd inset, 0 1px 0 #FFF;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 1px;
+    color: rgb(0, 0, 0);
+    float: left;
+    font: 15px 'Comic Sans MS', cursive;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 10px;
+    width: 78%;
+}
+  
+.modulo-ricerca #search:-moz-placeholder,
+.modulo-ricerca #search:-ms-input-placeholder,
+.modulo-ricerca #search::-webkit-input-placeholder {
+    color: #999;
+    font-weight: normal;
+ }
+  
+.modulo-ricerca #submit {
+    background-color: #4f92f6;
+    border: 1px solid #142a6d;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    height: 40px;
+    float: right;
+    font: 15px 'Comic Sans MS', cursive;
+    padding: 0;
+    text-shadow: 0 1px 0 rgba(0, 0 ,0, .3);
+    width: 18%;
+}
+
+.row {
+    border: 0.5px solid rgb(0, 9, 175);
+    width: 100%;
+    margin: 0px;
+    padding: 3px;
+}
+
+.col-9 {
+    border: 0.5px solid rgb(23, 102, 11);
+    height: 100%;
+}
+
+.col-3 {
+    border: 0.5px solid rgb(23, 102, 11);
+}
+
+.card {
+    width: 47%;
+    border: 2px solid rgb(0, 9, 175);
+    padding: 5px;
+    margin: 5px;
+    display: inline-table;
+}
+
+.card-body {
+    width: 90%;
+    height: 120px;
+}
+
+.card-title{
+    font-family: 'Comic Sans MS', cursive;
+    text-align: center;
+    font-size: 35px;
+}
+
+.card-text{
+    font-family: 'Comic Sans MS', cursive;
+    text-align: justify;
+    font-size: 20px;
+}
+
+p {
+    font-family: 'Comic Sans MS', cursive;
+    text-align: justify;
+    font-size: 18px;
+}
+
+.btnEffettua {
+    width: 100%;
+    height: 15%;
+    font-family: 'Comic Sans MS', cursive;
+    color:rgb(6, 6, 175);
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    border: 0;
+    background-color: rgb(142, 222, 248);
+    border: 0.5px solid rgb(0, 9, 175);
+    border-radius: 2px;
+}
+
+.label {
+    text-align: left;
+    display: inline-block;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 20px;
+}
+
+.mappa {
+    width: 100%;
+    height: 60%;
+    border: 0.5px solid rgb(147, 10, 104);
+    margin: 5px;
+}

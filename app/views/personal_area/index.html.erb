@@ -1,42 +1,97 @@
-<h1>Area personale</h1>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="UTF-8">
+   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title> Area personale - Spacebook </title>
+	<%= csrf_meta_tags %>
+	<%= csp_meta_tag %>
 
-<table>
-    <tr>
-      <td>Username <td><button>Modifica username</button></td>
-    </tr>
-    <tr>
-      <td>Email:   <td>[ <%= current_user.email %> ]</td>
-    </tr>
-    <tr>
-      <td>Password <td><button>Modifica password</button></td>
-    </tr>
-</table>
+	<%= stylesheet_link_tag 'personal_area', media: 'all', 'data-turbolinks-track': 'reload' %>
+	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-<br>
-<br>
+<body>
 
-<table border="1" width="100%" style="text-align:center">
-  <tr>
-    <td width="70%">
-      <table width="100%">
-        <tr>
-          <td><button onclick="window.location.href='/user_reservations'" style="width:100%"><h4>Le mie prenotazioni</h4></button></td>
-          <td><button onclick="window.location.href='/favourite_spaces'" style="width:100%"><h4>Spazi preferiti</h4></button><br></td>
-        </tr>
-        <tr>
-          <td><button onclick="window.location.href='/make_reservation'" style="width:100%"><h4>Effettua una nuova prenotazione</h4></button><br>
-          <td><button style="width:100%"><h4>Effettua prenotazione rapida</h4></button><br>
-        <tr>
-          <td colspan="2">
-            <% if current_user.is_manager? %>
-              <button onclick="window.location.href='/manager_department'" style="width:100%"><h4>Il mio dipartimento</h4></button>
-            <% end %>
-          <td>
-        </tr>
-      </table>
-    </td>
-    <td width="30%">
-      <button>sincronizza</button> Google calendar<br>
-    </td>
-  </tr>
-</table>
+	<!-- <div class="page"> -->
+		<div class="sinistra">
+			<div class="card" id="miePre">
+				<div class="box-img">
+					<img class="cardIMG" src="https://i.pinimg.com/564x/a8/f6/16/a8f616ac07e34955d19b0f3b841464ae.jpg">
+				</div>
+				<div class="card-body">
+					<h6 class="card-title"> Le mie prenotazioni </h6>
+					<button class="btnCardSN" onclick="window.location.href='/user_reservations'"> VAI </button>
+				</div>
+			</div>
+			<div class="card" id="spaziPre">
+				<div class="box-img">
+					<img class="cardIMG" src="https://i.pinimg.com/736x/6c/d8/88/6cd888c15ab763b64f63ead68c0360e0.jpg">
+				</div>
+				<div class="card-body">
+					<h6 class="card-title"> Spazi preferiti </h6>
+					<button class="btnCardSN" onclick="window.location.href='/favourite_spaces'"> VAI </button>
+				</div>
+			</div>
+			<div class="card" id="nuovaPre">
+				<div class="box-img">
+					<img class="cardIMG" src="https://i.pinimg.com/564x/3f/18/f9/3f18f9877c8676d710990def7a668a76.jpg">
+				</div>
+				<div class="card-body">
+					<h6 class="card-title"> Effettua una nuova prenotazione </h6>
+					<button class="btnCardSN" onclick="window.location.href='/make_reservations'"> VAI </button>
+				</div>
+			</div>
+			<div class="card" id="rapidaPre">
+				<div class="box-img">
+					<img class="cardIMG" src="https://i.pinimg.com/564x/0c/86/8e/0c868e529d2caa0a30a6b83616b8acd9.jpg">
+				</div>
+				<div class="card-body">
+					<h6 class="card-title"> Effettua prenotazione rapida </h6>
+					<button class="btnCardSN"> VAI </button>
+				</div>
+			</div>
+			<% if current_user.is_manager? %>
+				<div class="card" id="mioDip">
+					<div class="box-img">
+						<img class="cardIMG" src="https://i.pinimg.com/564x/4a/71/d2/4a71d2ab6833fe82829bbd76ce5654cc.jpg">
+						<div class="card-body">
+							<h6 class="card-title"> Il mio dipartimento </h6>
+							<button class="btnCardSN" onclick="window.location.href='/manager_department'"> VAI </button>
+						</div>
+					</div>
+				</div>
+			<% end %>
+		</div>
+
+		<div class="destra">
+			<div class="utente">
+				<div class="card">
+					<div class="card-body">
+						<h6 class="card-title"> Info utente </h6>
+					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item"> 
+							<label class="label"> Email: <%= current_user.email %> </label>
+						</li>
+						<li class="list-group-item"> 
+							<label class="label"> Password: <%= current_user.password %> </label> 
+							<button class="btnCardDXpass"> modifica </button>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="sincro">
+				<td width="30%">
+					<button class="btnCardDXsincro">sincronizza</button> Google calendar<br>
+					<div class="linkMaps">
+						<img class="imgMappa" src="https://i.pinimg.com/564x/9f/67/bd/9f67bd1001890ae854c4524e5968af13.jpg">
+					</div>
+				</td>
+			</div>
+		</div>
+
+	<!-- </div> -->
+</body>
+</html>

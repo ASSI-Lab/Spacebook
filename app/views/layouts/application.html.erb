@@ -1,58 +1,87 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Spacebook</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+	<!-- HEADER -->
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<%= csrf_meta_tags %>
+		<%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+		<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+		<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-  <% if user_signed_in? %><!-- CONTROLLA SE L'UTENTE HA EFFETTUATO IL LOGIN -->
-    <% if current_user.is_manager? and !current_page?('/make_department') and (Department.where(manager: current_user.email).count == 0) %><!-- CONTROLLA SE L'UTENTE E' MANAGER E SE HA CREATO UN DIPARTIMENTO -->
-      <% require_department %>     <!-- IMPONE LA CREAZIONE DEL DIPARTIEMNTO (FUNZIONE CONTENUTA IN application_controller ) -->
-    <% end %>
-  <% else %>
-    Non hai ancora eseguito l'accesso o la registrazione<br>
-  <% end %>
+    	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+	</head>
+
+	<% if user_signed_in? %>		<!-- CONTROLLA SE L'UTENTE HA EFFETTUATO IL LOGIN -->
+	<% if current_user.is_manager? and !current_page?('/make_department') and (Department.where(manager: current_user.email).count == 0) %>	<!-- CONTROLLA SE L'UTENTE E' MANAGER E SE HA CREATO UN DIPARTIMENTO -->
+		<% require_department %>		<!-- IMPONE LA CREAZIONE DEL DIPARTIEMNTO (FUNZIONE CONTENUTA IN application_controller ) -->
+	<% end %>
+	<% else %>
+	Non hai ancora eseguito l'accesso o la registrazione<br>
+	<% end %>
+
+	<div class="header text-center fixed-up">
+		<button type="button" class="btnHome" onclick="window.location.href='/home'"> home </button>
+		<!-- <a href="/home"> <img class="tastohome" src="../../../immagini/space-rocket.jpg"></a> -->
+		<h1> SPACEBOOK </h1>
+ 		<% if !user_signed_in? %>
+			<button type="button" class="btnAccedi" onclick="window.location.href='/users/sign_in'"> Accedi </button>
+			<button type="button" class="btnRegistrazione" onclick="window.location.href='/users/sign_up'"> Registrazione </button>
+    		<% else %>
+			<button type="button" class="btnAPersonale" onclick="window.location.href='/personal_area'"> Area personale </button>
+			<%= button_to 'Logout', destroy_user_session_path, :method => :delete, :class => "btnLogout"%>
+			<% if current_user.roles in ["admin"] %>
+				<button type="button" class="btnGSito" onclick="window.location.href='/management'"> Gestione sito </button>
+			<% end %>
+		<% end %>
+	</div>   
+<!--
+	<div class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li> <button type="button" class="btnHome" onclick="window.location.href='/home'"> home </button> </li>
+					<li> <h1> SPACEBOOK </h1> </li>
+					<% if !user_signed_in? %>
+						<li> <button type="button" class="btnAccedi" onclick="window.location.href='/users/sign_in'"> Accedi </button> </li>
+						<li> <button type="button" class="btnRegistrazione" onclick="window.location.href='/users/sign_up'"> Registrazione </button> </li>
+					<% else %>
+						<li> <button type="button" class="btnAPersonale" onclick="window.location.href='/personal_area'"> Area personale </button> </li>
+						<li> <%= button_to 'Logout', destroy_user_session_path, :method => :delete, :class => "btnLogout"%> </li>
+						<% if current_user.roles in ["admin"] %>
+							<li> <button type="button" class="btnGSito" onclick="window.location.href='/management'"> Gestione sito </button> </li>
+						<% end %>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+	</div>
+-->
+	<!-- <p class="notice"><%= notice %></p> -->
+	<!-- <p class="alert"><%= alert %></p> -->
+
+	<body>
+		<%= yield %>
+	</body>
+
+	<br>
+	<br>
+
+<!-- FOOTER  -->
+	<table width="100%">
+		<td>
+			<% if user_signed_in? %>
+				Hai fatto l'accesso come: [ <%= current_user.email %> ]
+			<% end %>
+		</td>
+	</table>
 
 
-    <button onclick="window.location.href='/home'" style="width:80%"><h2>SPACEBOOK</h2></button>
 
-    <% if !user_signed_in? %>
-      <button onclick="window.location.href='/users/sign_in'" style="width:9%">Accedi</button>
-      <button onclick="window.location.href='/users/sign_up'" style="width:10%">Registrazione</button>
-    <% else %>
-      <button onclick="window.location.href='/personal_area'" style="width:10%">Area personale</button>  
-      <% if current_user.roles in ["admin"] %>
-        <button onclick="window.location.href='/management'" style="width:9%">Gestione sito</button>
-      <% end %>
-    <% end %>
-
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-
-  <body>
-    <%= yield %>
-  </body>
-
-  <br>
-  <br>
-
-  <table width="100%">
-    <td>
-      <button onclick="window.location.href='/informations'">Informazioni</button>
-      <% if user_signed_in? %>
-        Hai fatto l'accesso come: [ <%= current_user.email %> ]
-      <% end %>
-    </td>
-    <td style="text-align:center">
-      <% if user_signed_in? %>
-        <%= button_to 'Esci', destroy_user_session_path, :method => :delete %>
-      <% end %>
-    </td>
-  </table>
-
+	<footer class="py-4 flex-shrink-0 fixed-bottom">
+		<div class="container text-center">
+			<a class="info"> informazioni </a>
+		</div>
+ 	</footer>
 </html>

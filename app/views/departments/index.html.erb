@@ -1,61 +1,79 @@
-<p id="notice"><%= notice %></p>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="UTF-8">
+   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title> Home - Spacebook </title>
+	<%= csrf_meta_tags %>
+	<%= csp_meta_tag %>
 
-<h1>Home</h1>
+	<%= stylesheet_link_tag 'departments', media: 'all', 'data-turbolinks-track': 'reload' %>
+	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-<h2>Dipartimenti:</h2>
+<body>
+	<p id="notice"><%= notice %></p>
 
-<!-- Lista di tutti i dipartimenti dell'applicazione -->
-<ul style="list-style-type:none">
-  <% @departments.each do |department| %>
-  <li>
-    <table border = "1" style="text-align:center">
-      <head>
-        <tr style="background-color:lightgrey"><th colspan="2">||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</th></tr>
-      </head>
-      <body>
-        <tr>
-          <td><b>Nome</b><br><%= department.name %></td>
-          <td><b>Email del manager</b><br><%= department.manager %></td>
-        </tr>
+	
 
-        <tr>
-          <td><b>Indirizzo</b><br><%= department.via %>, <%= department.civico %></td>
-          <td><b>Cap Citta Provincia</b><br><%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
-        </tr>
-        
-        <tr>
-          <td><b>Descrizione</b><br><%= department.description %></td>
-          <td><b>Numero di piani</b><br><%= department.floors %></td>
-        </tr>
+	<div class="page">
+		<!-- barra di ricerca per dipartimenti-->
+		<form class="modulo-ricerca" action="" method="post">
+			<input id="search" type="text" name="inputTesto" placeholder="Trova il tuo dipartimento" required>
+			<input id="submit" type="submit" name="researchButton" value="CERCA">
+		</form>
+		<!-- ordinamento per categoria DA FARE -->
+		<div class="row">
+			<div class="col-9">
+				<!-- Lista di tutti i dipartimenti dell'applicazione -->
+				<% @departments.each do |department| %>
+					<div class="card">
+						<div class="card-body">
+							<h3 class="card-title"> <%= department.name %> </h3>
+							<h5 class="card-text"> <%= department.description %> </h5>
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item"> 
+								<label class="label"> Indirizzo </label> 
+								<br> 
+								<p> <%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %> </p>
+							</li>
+							<li class="list-group-item"> 
+								<label class="label"> Numero piani - spazi </label> 
+								<br> 
+								<p> <%= department.floors %> - <%= department.number_of_spaces %> </p>
+							</li>
+							<li class="list-group-item"> 
+								<label class="label"> Orario </label> 
+								<br> 
+								<p> <%= department.ora_apertura %>:<%= department.min_apertura %> - <%= department.ora_chiusura %>:<%= department.min_chiusura %> </p>
+							</li>
+							<li class="list-group-item"> 
+								<label class="label"> Email manager </label> 
+								<br> 
+								<p> <%= department.manager %> </p>
+							</li>
+							<% if user_signed_in? %>
+								<li class="list-group-item">							
+									<button type="button" class="btnEffettua" onclick="window.location.href='/make_reservation'"> <i class='bi bi-cursor'></i> prenota </button>
+								</li>
+							<% else %>
+								<li class="list-group-item">
+									<label class="label"> Per effettuare le prenotazioni <a href="/users/sign_in"> accedi </a> o <a href="/users/sign_up"> registrati </a> </label> 
+								</li>
+							<% end %>
+						</ul>	
+					</div>
+				<% end %>
+			</div>
 
-        <tr>
-          <td><b>Numero di spazi</b><br><%= department.number_of_spaces %></td>
-          <td><b>grandezza degli slot prenotabili</b><br><%= department.slot %>h</td>
-        </tr>
-
-        <tr>
-          <td><b>Apertura</b><br><%= department.ora_apertura %>:<%= department.min_apertura %></td>
-          <td><b>Chiusura</b><br><%= department.ora_chiusura %>:<%= department.min_chiusura %></td>                  
-        </tr>
-        
-
-        <% if user_signed_in? %>
-          <tr style="background-color:lightgrey">
-            <th colspan="2"><button onclick="window.location.href='/make_reservation'"><b>Effettua una prenotazione</b></button></th>
-          </tr>
-        <% else %>
-          <tr>
-            <th colspan="2">Per essettuare le prenotazioni
-              <button onclick="window.location.href='/users/sign_in'">Accedi</button> o 
-              <button onclick="window.location.href='/users/sign_up'">registrati</buùtton>.
-            </th>
-          </tr>
-        <% end %>
-
-      </body>
-    </table>
-  </li>
-  <% end %>
-</ul>
-
-<br>
+			<div class="col-3">
+				<!-- mappa per geolocalizzazione (sinistra) -->
+				<div class="mappa">
+					MAPPA
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
