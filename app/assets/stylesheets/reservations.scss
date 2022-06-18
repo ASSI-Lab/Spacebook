@@ -1,3 +1,30 @@
 // Place all the styles related to the Reservations controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.table.table-striped.table-bordered{
+    border: 3px solid rgb(0, 9, 175);
+    text-align:center;
+    width: 90%;
+    margin-left: 5%;
+
+}
+
+.thead{
+    background-color: rgb(142, 222, 248);
+    color: rgb(0, 0, 0);
+}
+
+.Box {
+    width: 50%;
+    height: auto;
+    position: absolute;
+    left: 5%;
+    align-items: center;
+    border: 5px solid rgb(0, 9, 175);
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-top: 3%;  
+    margin-bottom: 20%;
+
+}

@@ -2,8 +2,8 @@
 
 <h1>Ecco le tue prenotazioni</h1>
 
-<table border = "1">
-  <thead>
+<table class = "table table-striped table-bordered">
+  <thead class="thead">
     <tr>
       <th>Dipartimento</th>
       <th>Tipologia</th>
@@ -28,12 +28,17 @@
         <td><%= reservation.start_date %></td>
         <td><%= reservation.end_date %></td>
         <td><%= reservation.state %></td>
-        <td><%= button_to 'Rimuovi', reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= button_to 'Rimuovi', reservation, method: :delete, data: { confirm: 'Are you sure?' },  :class => "btnLogout" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
+<br/>
+<br/>
+<br/>
+<br/>
 
-<button onclick="window.location.href='/make_reservation'">Effettua una nuova prenotazione</button>
+<div class = "actions" >
+<button  class="btn btn-signup" onclick="window.location.href='/make_reservation'">Effettua una nuova prenotazione</button>
+</div>

@@ -1,6 +1,9 @@
 <!-- Pagina per la creazione del dipartimento e dei relativi spazi da parte del manager che vi accede (solo un manager può accedervi) -->
+<br/>
+<br/>
 
-<table width="100%" style="text-align:center">
+
+<table class = "table table-striped table-bordered">
   <% if (Department.where(manager: current_user.email).count == 0)%>
     <head> <!-- Mostra il form di registrazione del dipartimento -->
       <tr>
@@ -19,106 +22,150 @@
             <% end %>
 
             <!-- Campo inserito automaticamente -->
-            <div class="field", style='display:none'>
+            <div class="label", style='display:none'>
               <%= form.label 'manager id' %>
-              <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, size: 20%>
+            </div>
+            <div class="field">
+              <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, size: 20, :class=>"campoT" %>
             </div>
 
+
+    
+
             <!-- Campi inseriti dal manager -->
-            <table border = "1"  width="100%">
+            <table class = "table table-striped table-bordered">
               <head>
                 <tr><td colspan="4" style="text-align:center"><h1>Registra il tuo dipartimento</h1></td></tr>
               </head>
               <body>
                 <tr>
                   <td>
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Nome del dipartimento' %>
-                      <%= form.text_field :name %>
+                    </div>
+                    <div class="field">
+                      <%= form.text_field :name, :class=>"campoT"%>
                     </div>
                   </td>
                   <td>
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'E-mail del manager' %>
-                      <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, size: 20 %>
+                    </div>
+                    <div class="field">
+                      <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, size: 20 , :class=>"campoT"%>
                     </div>
                   </td>
                   <td>
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Via, Viale, Piazza...' %>
-                      <%= form.text_field :via %>
+                    </div>
+                    <div class="field">
+                      <%= form.text_field :via , :class=>"campoT"%>
                     </div>
 
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'n. civico' %>
-                      <%= form.text_field :civico %>
+                    </div>
+                    <div class="field">
+                      <%= form.text_field :civico , :class=>"campoT"%>
                     </div>
                   </td>
                   <td>
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Cap' %>
-                      <%= form.text_field :cap %>
+                    </div>
+                    <div class="field">
+                      <%= form.text_field :cap , :class=>"campoT"%>
                     </div>
 
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Città' %>
-                      <%= form.text_field :citta %>
+                    </div>
+                    <div class="field">
+                      <%= form.text_field :citta, :class=>"campoT" %>
                     </div>
 
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Provincia' %>
-                      <%= form.text_field :provincia %>
+                    </div>
+                    <div class="field">
+                      <%= form.text_field :provincia, :class=>"campoT" %>
                     </div>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Descrizione del dipartimento' %>
-                      <%= form.text_area :description, rows: 8 %>
+                    </div>
+                    <div class="field"> 
+                      <%= form.text_area :description, rows: 8, :class=>"campoT" %>
                     </div>
                   </td>
                   <td>
-                    <div class="field">
+                    <div class="label">
                       <%= form.label "Numero di piani" %>
-                      <%= form.number_field :floors %>
+                    </div>
+                    <div class="field">
+                      <%= form.number_field :floors , :class=>"campoT"%>
                     </div>
 
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Numero di spazi' %>
-                      <%= form.number_field :number_of_spaces %>
+                    </div>
+                    <div class="field">
+                      <%= form.number_field :number_of_spaces , :class=>"campoT"%>
                     </div>
 
-                    <div class="field">
+                    <div class="label">
                       <%= form.label "Ore minime prenotabili" %>
-                      <%= form.number_field :slot %>
+                      </div>
+                      <div class="field"> 
+                      <%= form.number_field :slot , :class=>"campoT"%>
                     </div>
                   </td>
                   <td>
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Apertura:' %>
                       <%= form.label 'ora' %>
-                      <%= form.number_field :ora_apertura %>
+                      </div>
+                      <div class="field"> 
+                      <%= form.number_field :ora_apertura, :class=>"campoT" %>
+                      </div>
+                      <br/>
+                      <div class="label">
                       <%= form.label 'minuti' %>
-                      <%= form.number_field :min_apertura %>
+                      </div>
+                      <div class="field"> 
+                      <%= form.number_field :min_apertura, :class=>"campoT" %>
                     </div>
                   </td>
                   <td>
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Chiusura:' %>
                       <%= form.label 'ora' %>
-                      <%= form.number_field :ora_chiusura %>
+                      </div>
+                      <div class="field"> 
+                      <%= form.number_field :ora_chiusura, :class=>"campoT" %>
+                      </div>
+                      <br/>
+                      <div class="label">
                       <%= form.label 'minuti' %>
-                      <%= form.number_field :min_chiusura %>
+                      </div>
+                      <div class="field"> 
+                      <%= form.number_field :min_chiusura, :class=>"campoT" %>
                     </div>
                   </td>
                 </tr>
               </body>
             </table>
 
+
+            <br/>
+            <br/>
             <!-- Tasto per la creazione --><br>
             <div class="actions">
-              <%= form.submit value: 'Continua'%>
+              <%= form.submit class:"btn btn-signup", class:"btn btn-signup", value: 'Continua'%>
             </div>
 
           <% end %>
@@ -129,12 +176,12 @@
     <head> <!-- Mostra il dipartimento appena creato -->
         <tr>
           <td colspan="2">
-            <table border = "1" width="100%">
+            <table class = "table table-striped table-bordered">
               <head>
                 <tr>
                   <td colspan="9"><h2>Il tuo dipartimento</h2></td>
                 </tr>
-                <tr style="background-color:lightgrey">
+                <tr class="thead">
                   <th>Nome</th>
                   <th>Indirizzo</th>
                   <th>Descrizione</th>
@@ -164,6 +211,9 @@
           </td>
         </tr>
     </head>
+    <br/>
+    <br/>
+    <br/>
     <body> <!-- Mostra form di inserimento degli spazi e gli spazi gia inseriti -->
       <tr>
         <td> <!-- Form di inserimento degli spazi -->
@@ -180,48 +230,64 @@
               </div>
             <% end %>
 
-            <!-- Campo inserito automaticamente -->
-            <div class="field", style='display:none'>
-              <%= form.label 'department_id' %>
-              <%= form.number_field :department_id, required: true, value: (Department.where(user_id: current_user.id)).first.id, readonly: true %>
-            </div>
+            <br/>
+            <br/>
 
             <!-- Campo inserito automaticamente -->
-            <div class="field", style='display:none'>
+            <div class="label", style='display:none'>
+              <%= form.label 'department_id' %>
+            </div>
+            <div class="field">
+              <%= form.number_field :department_id, required: true, value: (Department.where(user_id: current_user.id)).first.id, readonly: true, :class=>"campoT" %>
+            </div>
+
+  
+            <!-- Campo inserito automaticamente -->
+            <div class="label", style='display:none'>
               <%= form.label 'Nome del dipartimento' %>
-              <%= form.text_field :dep_name, required: true, value: (Department.where(user_id: current_user.id)).first.name, readonly: true  %>
+            </div>
+            <div class="field">
+              <%= form.text_field :dep_name, required: true, value: (Department.where(user_id: current_user.id)).first.name, readonly: true, :class=>"campoT"  %>
             </div>
 
             <!-- Campi inseriti dal manager -->
-            <table width="100%">
+            <table class = "table table-striped table-bordered">
               <head>
                 <tr><td colspan="2" style="text-align:center" width="50%"><h1>Registra gli spazi del tuo dipartimento</h1></td></tr>
               </head>
               <body>
                 <tr>
                   <td>
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Tipologia dello spazio' %>
-                      <%= form.select :typology, options_for_select([["Isola"], ["Aula"], ["Laboratiorio"], ["Biblioteca"]]), required: true%>
+                    </div>
+                    <div class="field">
+                      <%= form.select :typology, options_for_select([["Isola"], ["Aula"], ["Laboratiorio"], ["Biblioteca"]]), required: true, :class=>"campoT"%>
                     </div>
 
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Nome dello spazio' %>
                       <%= form.label '(univoco per ogni tipologia)' %>
-                      <%= form.text_field :name %>
+                    </div>
+                    <div class="field">
+                      <%= form.text_field :name, :class=>"campoT" %>
                     </div>
 
                   </td>
                   <td>
 
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'Piano al quale si trova' %>
-                      <%= form.number_field :floor %>
+                    </div>
+                    <div class="field">
+                      <%= form.number_field :floor, :class=>"campoT"%>
                     </div>
 
-                    <div class="field">
+                    <div class="label">
                       <%= form.label 'numero di posti prenotabili' %>
-                      <%= form.number_field :number_of_seats %>
+                    </div>
+                    <div class="field">
+                      <%= form.number_field :number_of_seats, :class=>"campoT"%>
                     </div>
 
                   </td>
@@ -229,24 +295,32 @@
               </body>
             </table>
 
+            <br/>
+            <br/>
+
             <!-- Campo inserito automaticamente -->
-            <div class="field", style='display:none'>
+            <div class="role">
               <%= form.label 'Disponibilità' %>
-              <%= form.text_field :state, value: "Abilitato", required: true %>
+            
+              <%= form.text_field :state, value: "Abilitato", required: true%>
             </div>
 
             <!-- Tasto per la creazione --><br>
             <div class="actions">
-              <%= form.submit value: 'Inserisci spazio'%>
+              <%= form.submit class:"btn btn-signup", value: 'Inserisci spazio'%>
             </div>
 
           <% end %>
         </td>
+        
         <td width="50%"> <!-- Mostra gli spazi creati fino ad ora e permette di eliminarli -->
-          <table border = "1" width="100%"> 
+        <br/>
+        <br/>
+
+          <table class = "table table-striped table-bordered"> 
             <head>
               <tr><td colspan="6" style="text-align:center"><h2>Spazi creati</h2></td></tr>
-              <tr style="background-color:lightgrey">
+              <tr class="thead">
                 <th>Tipologia</th>
                 <th>Nome</th>
                 <th>Piano</th>
@@ -263,7 +337,7 @@
                   <td><%= jcs.floor %></td>
                   <td><%= jcs.number_of_seats %></td>
                   <td><%= jcs.state %></td>
-                  <th><%= button_to 'X', jcs, method: :delete, data: { confirm: 'Sicuro?' } %></th>
+                  <th><%= button_to 'X', jcs, method: :delete, data: { confirm: 'Sicuro?' } ,  :class => "btnLogout"%></th>
                 </tr>
               <% end %>
             </body>
@@ -274,10 +348,13 @@
   <% end %>
 </table>
 
-<br>
+<br/>
+<br/>
+<br/>
 
-<button>Conferma la registrazione del dipartimento e dei relativi spazi</button>
-
+<div class="actions">
+<button class="btn btn-signup">Conferma la registrazione del dipartimento e dei relativi spazi</button>
+</div>
 <br>
 <br>
 <br>
@@ -298,49 +375,63 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :space_id %>
-    <%= form.number_field :space_id %>
+    </div>
+    <div class="field">
+    <%= form.number_field :space_id , :class=>"campoT"%>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :dep_name %>
-    <%= form.text_field :dep_name %>
+    </div>
+    <div class="field">
+    <%= form.text_field :dep_name, :class=>"campoT" %>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :typology %>
-    <%= form.text_field :typology %>
+    </div>
+    <div class="field">
+    <%= form.text_field :typology, :class=>"campoT" %>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :space_name %>
-    <%= form.text_field :space_name %>
+    </div>
+    <div class="field">
+    <%= form.text_field :space_name , :class=>"campoT"%>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :position %>
-    <%= form.number_field :position %>
+    </div>
+    <div class="field">
+    <%= form.number_field :position , :class=>"campoT"%>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :start_date %>
     <%= form.datetime_select :start_date %>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :end_date %>
     <%= form.datetime_select :end_date %>
   </div>
 
-  <div class="field">
+  <br/>
+  <br/>
+  <div class="role">
     <%= form.label :state %>
     <%= form.text_field :state %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class:"btn btn-signup" %>
   </div>
 <% end %>
+
+
 
 <br>

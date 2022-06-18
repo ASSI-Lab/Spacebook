@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+
+<div class="Box">
+
 <h1>New Reservation</h1>
 
 <%= form_with(model: @reservation) do |form| %>
@@ -13,76 +22,115 @@
     </div>
   <% end %>
   
-  <div class="field">
+  
+  <div class="label">
     <%= form.label :user_id %>
-    <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true %>
+  </div>
+  <div class="field">
+    <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, :class=>"campoT"%>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :department_id %>
-    <%= form.number_field :department_id %>
+  </div>
+  <div class="field">
+    <%= form.number_field :department_id , :class=>"campoT"%>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :space_id %>
-    <%= form.number_field :space_id %>
+  </div>
+  <div class="field">
+    <%= form.number_field :space_id , :class=>"campoT"%>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :seat_id %>
-    <%= form.number_field :seat_id %>
+  </div>
+  <div class="field">
+    <%= form.number_field :seat_id , :class=>"campoT"%>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :email %>
-    <%= form.text_field :email, required: true, value:current_user.email, readonly: true, size: 30 %>
+  </div>
+  <div class="field">
+    <%= form.text_field :email, required: true, value:current_user.email, readonly: true, size: 30, :class=>"campoT" %>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :dep_name %>
-    <%= form.text_field :dep_name, required: true, size: 30 %>
+  </div>
+  <div class="field">
+    <%= form.text_field :dep_name, required: true, size: 30 , :class=>"campoT"%>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :typology %>
-    <%= form.text_field :typology %>
+  </div>
+  <div class="field">
+    <%= form.text_field :typology, :class=>"campoT" %>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :space_name %>
-    <%= form.text_field :space_name %>
+  </div>
+  <div class="field">
+    <%= form.text_field :space_name, :class=>"campoT" %>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :floor %>
-    <%= form.number_field :floor %>
+  </div>
+  <div class="field">
+    <%= form.number_field :floor , :class=>"campoT"%>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :seat_num %>
-    <%= form.number_field :seat_num %>
+  </div>
+  <div class="field">
+  <%= form.number_field :seat_num , :class=>"campoT"%>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :start_date %>
     <%= form.time_select :start_date %>
   </div>
 
-  <div class="field">
+  <div class="label">
     <%= form.label :end_date %>
     <%= form.time_select :end_date %>
   </div>
 
-  <div class="field">
+  <br/>
+  <br/>
+  
+  <div class="role" >
     <%= form.label 'Dopo la conferma la prenotazione sarà'%>
     <%= form.text_field :state, value:'valida', readonly: true %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class:"btn btn-signup" %>
   </div>
 <% end %>
 
 <br>
+<br/>
+<br/>
+<br/>
 
-<button onclick="window.location.href='/user_reservations'">Le mie prenotazioni</button>
+<div class = "actions" >
+<button class="btn btn-signup", onclick="window.location.href='/user_reservations'">Le mie prenotazioni</button>
+</div>
+
+
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</body>
