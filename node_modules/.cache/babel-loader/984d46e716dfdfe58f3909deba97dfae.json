@@ -1,0 +1,1 @@
+{"ast":null,"code":"import getNodeName from \"./getNodeName.js\";\nexport default (function (element) {\n  return ['table', 'td', 'th'].includes(getNodeName(element));\n});","map":null,"metadata":{},"sourceType":"module"}

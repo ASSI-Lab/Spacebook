@@ -1,26 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<!-- HEADER -->
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<%= csrf_meta_tags %>
+		<%= csp_meta_tag %>
+
+		<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+		<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+	</head>
+
+  <body>
+
+  <div class="centralBox">
+
+
 <h2>Log in</h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
+  
+  <div class="label">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+  <div class="field">
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", :class=>"campoT"  %>
   </div>
 
-  <div class="field">
+  
+  <div class="label">
     <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
+  </div>
+  <div class="field">
+    <%= f.password_field :password, autocomplete: "current-password", :class=>"campoT"  %>
   </div>
 
   <% if devise_mapping.rememberable? %>
-    <div class="field">
+    <div class="role">
       <%= f.check_box :remember_me %>
       <%= f.label :remember_me %>
     </div>
   <% end %>
 
   <div class="actions">
-    <%= f.submit "Log in" %>
+    <%= f.submit class:"btn btn-signup", value:"Sign in" %>
   </div>
 <% end %>
 
+
+<div class="links">
 <%= render "users/shared/links" %>
+</div>
+
+</div>
+
+
+
+</body>
+
+
+</html>
