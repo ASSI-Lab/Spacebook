@@ -7,15 +7,20 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   
         if @user.persisted?
           flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Google'
-          if @user.roles_mask != nil
-            print "\n\n\n",@user.roles_mask,"\n\n\n"
-          else
-            print "\n\n\n SENZA RUOLO \n\n\n"
-            u = @user
-            u.roles = ['admin']
-            u.save
-            print "\n\n\n",u.roles_mask,"\n\n\n"
-          end
+          auth = request.env["omniauth.auth"]                   # RICHIEDO A GOOGLE HASH DI AUTORIZZAZIONE(CONTIENE I DATI DEL PROFILO GOOGLE DELL'UTENTE)
+          @user.access_token = auth.credentials.token           # AGGIUNGO ACCESS TOKEN UTENTE AL DATABASE
+          @user.expires_at = auth.credentials.expires_at        # AGGIUNGO DATA SCADENZA TOKEN UTENTE AL DATABASE
+          @user.refresh_token = auth.credentials.refresh_token  # AGGIUNGO TOKEN DI REFRESH AL DATABASE
+          @user.save!
+          if @user.roles_mask != nil                            ####################
+            print "\n\n\n",@user.roles_mask,"\n\n\n"            #
+          else                                                  #
+            print "\n\n\n SENZA RUOLO \n\n\n"                   #
+            u = @user                                           # FUNZIONALITÀ CHE ASSOCIA A CHI USA LOGIN GOOGLE IL RUOLO DI ADMIN(SOLO TEST!!!)
+            u.roles = ['admin']                                 #
+            u.save                                              #
+            print "\n\n\n",u.roles_mask,"\n\n\n"                #
+          end                                                   ####################
           sign_in_and_redirect @user, event: :authentication
         else
           session['devise.google_data'] = request.env['omniauth.auth'].except('extra') # Removing extra as it can overflow some session stores
