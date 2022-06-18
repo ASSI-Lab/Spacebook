@@ -29,7 +29,6 @@ Rails.application.routes.draw do
   
   get "/manager_department", to: "departments#manager_department"
   get "/edit_department", to: "departments#edit"
-  get "/calendar", to: "calendar#index"
   get "/tasks", to:"tasks#index"
 
   resources :users do       # CONTROLLA LE MAIL DI CONFERMA E IN CASO DI ASSENZA PER NUOVA REGISTRAZIONE NE INVIA UNA (CONTROLLARE application_mailer PER ULTERIORI DETTAGLI)
