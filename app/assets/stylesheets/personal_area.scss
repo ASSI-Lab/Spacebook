@@ -2,6 +2,164 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+.grid-container-page {
+    width: 90%;
+    text-align: center;
+    border: 1.5px solid rgb(12, 175, 0);
+    align-items: center;
+    display: grid;
+    grid-template-rows: 0.5fr 3fr;
+    grid-template-columns: 6fr 4fr;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.grid-item-descrizione {
+    border: 0.5px solid rgb(1, 17, 0);
+    margin-right: 7%;
+}
+
+.descrizione {
+    padding: 35px;
+    font-size: 20px;
+}
+
+p {
+    font-family: 'Comic Sans MS', cursive;
+    text-align: justify;
+    font-size: 18px;
+}
+
+.grid-item-infoUtente {
+    border: 0.5px solid rgb(1, 17, 0);
+    margin-left: 7%;
+}
+
+.card {
+    width: 95%;
+    height: 90%;
+    border: 2px solid rgb(0, 9, 175);
+    display: grid;
+    margin-left: 20px;
+    margin-right: 2px;
+    grid-template-rows: 1fr 2fr;
+    grid-template-columns: 1fr;
+}
+
+.card-body {
+    width: 90%;
+    height: 100%;
+}
+
+.card-title{
+    font-family: 'Comic Sans MS', cursive;
+    text-align: center;
+    font-size: 35px;
+    color: rgb(0, 27, 134);
+}
+
+.list-group {
+    display: grid;
+}
+
+.label {
+    text-align: left;
+    display: inline-block;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 20px;
+}
+
+.btnCardPassword {
+    font-family: 'Comic Sans MS', cursive;
+    color: rgb(6, 6, 175);
+    font-size: 20px;
+    text-align: center;
+    border: 0;
+    background-color: rgb(142, 222, 248);
+    border: 0.5px solid rgb(0, 9, 175);
+    border-radius: 2px;
+}
+
+.grid-container-cards {
+    border: 0.5px solid rgb(1, 17, 0);
+    align-items: center;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    overflow: auto;
+    margin-right: 7%;
+}
+
+.box-img {
+    width: 100%;
+    height: 100px;
+}
+
+.cardIMG {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btnCardSN {
+    font-family: 'Comic Sans MS', cursive;
+    color:rgb(6, 6, 175);
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    border: 0;
+    background-color: rgb(142, 222, 248);
+    border: 0.5px solid rgb(0, 9, 175);
+    border-radius: 2px;
+}
+
+.grid-container-calendar {
+    border: 2px solid rgb(143, 0, 79);
+    display: grid;
+    grid-template-rows: 0.4fr 5fr;
+    grid-template-columns: 1fr;
+    margin-left: 7%;
+}
+
+.btnCardDXsincro {
+    font-family: 'Comic Sans MS', cursive;
+    color:rgb(6, 6, 175);
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    border: 0;
+    background-color: rgb(142, 222, 248);
+    border: 0.5px solid rgb(0, 9, 175);
+    border-radius: 2px;
+}
+
+.grid-item1-sincro {
+    text-align: center;
+    display: inline-block;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 20px;
+}
+
+.grid-item2-sincro {
+    text-align: center;
+    display: inline-block;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 20px;
+    border: 0.5px solid rgb(0, 9, 175);
+
+}
+
+.imgCalendario {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+/*
 .sinistra {
     float: left;
     width: 55%;
@@ -118,3 +276,171 @@
     height: 100%;
     object-fit: cover;
 }
+*/
+
+
+/*
+.grid-container-page {
+    text-align: center;
+    // border: 1.5px solid rgb(12, 175, 0);
+    margin-top: 10px;
+    align-items: center;
+    display: grid;
+    grid-template-rows: 0.2fr 2fr;
+    grid-template-columns: 6fr 4fr;
+    margin-bottom: 5px;
+}
+
+.descrizione {
+    padding: 35px;
+    font-size: 20px;
+}
+
+p {
+    font-family: 'Comic Sans MS', cursive;
+    text-align: justify;
+    font-size: 18px;
+}
+
+.grid-item-infoUtente {
+    float: right;
+    width: 100%;
+    border: 2px solid rgb(177, 66, 6);
+    // margin-right: 10px;
+    margin-bottom: 30px;
+}
+
+.grid-item-infoUtente > .card {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 40px;
+}
+
+.card-title{
+    font-family: 'Comic Sans MS', cursive;
+    text-align: center;
+    font-size: 35px;
+    color: blue;
+}
+
+.label {
+    text-align: left;
+    display: inline-block;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 20px;
+}
+
+.btnCardPassword {
+    font-family: 'Comic Sans MS', cursive;
+    color:rgb(6, 6, 175);
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    border: 0;
+    background-color: rgb(142, 222, 248);
+    border: 0.5px solid rgb(0, 9, 175);
+    border-radius: 2px;
+}
+
+.grid-container-cards {
+    text-align: left;
+    // border: 0.5px solid rgb(102, 24, 0);
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    overflow: auto;
+}
+
+.card {
+    width: 95%;
+    height: 90%;
+    border: 2px solid rgb(0, 9, 175);
+    display: grid;
+    margin-left: 20px;
+    margin-right: 2px;
+    grid-template-rows: 0.5fr 1fr;
+    grid-template-columns: 1fr;
+}
+
+.box-img {
+    width: 100%;
+    height: 20%;
+}
+
+.cardIMG {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-body {
+    width: 90%;
+    height: 100%;
+}
+
+#mioDip {
+    width: 100%;
+}
+
+.btnCardSN {
+    font-family: 'Comic Sans MS', cursive;
+    color:rgb(6, 6, 175);
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    border: 0;
+    background-color: rgb(142, 222, 248);
+    border: 0.5px solid rgb(0, 9, 175);
+    border-radius: 2px;
+}
+
+.grid-container-sincronizzazione {
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgb(143, 0, 79);
+    display: grid;
+    grid-template-rows: 0.4fr 5fr 4fr;
+    grid-template-columns: 1fr;
+}
+
+.btnCardDXsincro {
+    font-family: 'Comic Sans MS', cursive;
+    color:rgb(6, 6, 175);
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    border: 0;
+    background-color: rgb(142, 222, 248);
+    border: 0.5px solid rgb(0, 9, 175);
+    border-radius: 2px;
+}
+
+.grid-item1-sincro {
+    text-align: center;
+    display: inline-block;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 20px;
+    border-top: 1.5px solid rgb(10, 115, 147);
+    border-left: 1.5px solid rgb(10, 115, 147);
+    border-right: 1.5px solid rgb(10, 115, 147);
+}
+
+.grid-item2-sincro {
+    text-align: center;
+    display: inline-block;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 20px;
+    border-top: 1.5px solid rgb(10, 115, 147);
+    border-left: 1.5px solid rgb(10, 115, 147);
+    border-right: 1.5px solid rgb(10, 115, 147);
+}
+
+.imgCalendario {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+*/
