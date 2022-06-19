@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_18_112849) do
+ActiveRecord::Schema.define(version: 2022_06_19_093448) do
 
   create_table "departments", force: :cascade do |t|
     t.integer "user_id"
@@ -133,6 +133,45 @@ ActiveRecord::Schema.define(version: 2022_06_18_112849) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_tasks_on_user_id"
+  end
+
+  create_table "temp_deps", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "name"
+    t.string "manager"
+    t.string "via"
+    t.string "civico"
+    t.string "cap"
+    t.string "citta"
+    t.string "provincia"
+    t.text "description"
+    t.integer "floors"
+    t.integer "number_of_spaces"
+    t.integer "slot"
+    t.integer "min_apertura"
+    t.integer "ora_apertura"
+    t.integer "min_chiusura"
+    t.integer "ora_chiusura"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["manager"], name: "temp_dep_manager_index", unique: true
+    t.index ["name"], name: "temp_deps_index", unique: true
+    t.index ["user_id"], name: "index_temp_deps_on_user_id"
+    t.index ["via", "civico", "cap", "citta", "provincia"], name: "temp_dep_position_index", unique: true
+  end
+
+  create_table "temp_sps", force: :cascade do |t|
+    t.integer "temp_dep_id"
+    t.string "dep_name"
+    t.string "typology"
+    t.string "name"
+    t.integer "floor"
+    t.integer "number_of_seats"
+    t.string "state"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["dep_name", "typology", "name"], name: "temp_sps_index", unique: true
+    t.index ["temp_dep_id"], name: "index_temp_sps_on_temp_dep_id"
   end
 
   create_table "users", force: :cascade do |t|
