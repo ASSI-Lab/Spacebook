@@ -1,0 +1,79 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @temp_dep.name %>
+</p>
+
+<p>
+  <strong>Manager:</strong>
+  <%= @temp_dep.manager %>
+</p>
+
+<p>
+  <strong>Via:</strong>
+  <%= @temp_dep.via %>
+</p>
+
+<p>
+  <strong>Civico:</strong>
+  <%= @temp_dep.civico %>
+</p>
+
+<p>
+  <strong>Cap:</strong>
+  <%= @temp_dep.cap %>
+</p>
+
+<p>
+  <strong>Citta:</strong>
+  <%= @temp_dep.citta %>
+</p>
+
+<p>
+  <strong>Provincia:</strong>
+  <%= @temp_dep.provincia %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @temp_dep.description %>
+</p>
+
+<p>
+  <strong>Floors:</strong>
+  <%= @temp_dep.floors %>
+</p>
+
+<p>
+  <strong>Number of spaces:</strong>
+  <%= @temp_dep.number_of_spaces %>
+</p>
+
+<p>
+  <strong>Slot:</strong>
+  <%= @temp_dep.slot %>
+</p>
+
+<p>
+  <strong>Min apertura:</strong>
+  <%= @temp_dep.min_apertura %>
+</p>
+
+<p>
+  <strong>Ora apertura:</strong>
+  <%= @temp_dep.ora_apertura %>
+</p>
+
+<p>
+  <strong>Min chiusura:</strong>
+  <%= @temp_dep.min_chiusura %>
+</p>
+
+<p>
+  <strong>Ora chiusura:</strong>
+  <%= @temp_dep.ora_chiusura %>
+</p>
+
+<%= link_to 'Edit', edit_temp_dep_path(@temp_dep) %> |
+<%= link_to 'Back', temp_deps_path %>

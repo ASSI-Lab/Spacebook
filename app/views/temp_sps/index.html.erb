@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Temp Sps</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dep name</th>
+      <th>Typology</th>
+      <th>Name</th>
+      <th>Floor</th>
+      <th>Number of seats</th>
+      <th>State</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @temp_sps.each do |temp_sp| %>
+      <tr>
+        <td><%= temp_sp.dep_name %></td>
+        <td><%= temp_sp.typology %></td>
+        <td><%= temp_sp.name %></td>
+        <td><%= temp_sp.floor %></td>
+        <td><%= temp_sp.number_of_seats %></td>
+        <td><%= temp_sp.state %></td>
+        <td><%= link_to 'Show', temp_sp %></td>
+        <td><%= link_to 'Edit', edit_temp_sp_path(temp_sp) %></td>
+        <td><%= link_to 'Destroy', temp_sp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Temp Sp', new_temp_sp_path %>
