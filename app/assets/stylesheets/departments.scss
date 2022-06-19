@@ -4,15 +4,66 @@
 
 // CODICE PER index.html
 
-.page {
-    width: 99%;
-    height: 90%;
-    margin-top: 80px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 20px;
-    border: 2px solid rgb(0, 9, 175);
-    padding-bottom: 10px;
+.grid-container-page {
+    text-align: center;
+    // border: 1.5px solid rgb(12, 175, 0);
+    margin-top: 10px;
+    align-items: center;
+    display: grid;
+    grid-template-rows: 1fr 0.5fr 6fr;
+    grid-template-columns: 6fr 4fr;
+    margin-bottom: 15px;
+}
+
+.descrizione {
+    padding: 35px;
+    font-size: 20px;
+}
+
+.grid-item-prenRapida {
+    width: 100%;
+    height: 100%;
+   
+    border: 2px solid rgb(0, 113, 144);
+}
+
+.labelPR {
+    text-align: center;
+    display: inline-block;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 35px;
+}
+
+.testo {
+    text-align: center;
+    font-family: 'Comic Sans MS', cursive;
+    padding: 25px;
+    font-size: 20px;
+}
+
+.btnEffettuaPR {
+    width: 45%;
+    height: 20%;
+    font-family: 'Comic Sans MS', cursive;
+    color:rgb(6, 6, 175);
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    border: 0;
+    background-color: rgb(142, 222, 248);
+    border: 0.5px solid rgb(0, 9, 175);
+    border-radius: 2px;
+}ù
+
+.grid-item-vuoto-r1c2 {
+    width: 100%;
+    height: 100%;
+    // border: 0.5px solid rgb(87, 85, 84);
+}
+
+.grid-item-ricerca {
+    // border: 0.5px solid rgb(0, 9, 175);
+    display: grid;
 }
 
 .modulo-ricerca {
@@ -25,8 +76,8 @@
     padding: 8px;
     width: 35%;
     margin-left: 20px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    // margin-top: 10px;
+    margin-bottom: 10px;
 }
   
 .modulo-ricerca #search {
@@ -69,33 +120,44 @@
     width: 18%;
 }
 
-.row {
-    border: 0.5px solid rgb(0, 9, 175);
+.grid-item-vuoto-r2c2 {
     width: 100%;
-    margin: 0px;
-    padding: 3px;
+    height: 100%;
+    // border: 0.5px solid rgb(87, 85, 84);
 }
 
-.col-9 {
-    border: 0.5px solid rgb(23, 102, 11);
+.grid-container-dipartimenti {
+    text-align: left;
+    // border: 0.5px solid rgb(102, 24, 0);
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    overflow: auto;
+}
+
+.grid-item-dipartimenti {
+    // border: 0.5px solid rgb(110, 0, 50);
+    width: 100%;
     height: 100%;
 }
 
-.col-3 {
-    border: 0.5px solid rgb(23, 102, 11);
-}
-
 .card {
-    width: 47%;
+    width: 95%;
+    height: 90%;
     border: 2px solid rgb(0, 9, 175);
-    padding: 5px;
-    margin: 5px;
-    display: inline-table;
+    display: grid;
+    margin-left: 20px;
+    margin-right: 2px;
+    grid-template-rows: 1fr 2fr;
+    grid-template-columns: 1fr;
 }
 
 .card-body {
     width: 90%;
-    height: 120px;
+    height: 100%;
 }
 
 .card-title{
@@ -108,6 +170,18 @@
     font-family: 'Comic Sans MS', cursive;
     text-align: justify;
     font-size: 20px;
+    height: 20%;
+}
+
+.list-group {
+    display: grid;
+}
+
+.label {
+    text-align: left;
+    display: inline-block;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 20px;
 }
 
 p {
@@ -117,8 +191,6 @@ p {
 }
 
 .btnEffettua {
-    width: 100%;
-    height: 15%;
     font-family: 'Comic Sans MS', cursive;
     color:rgb(6, 6, 175);
     font-size: 20px;
@@ -130,16 +202,31 @@ p {
     border-radius: 2px;
 }
 
-.label {
-    text-align: left;
+.grid-container-mappa {
+    width: 100%;
+    height: 100%;
+    // border: 0.5px solid rgb(147, 126, 10);
+    position: sticky;
+    display: grid;
+    grid-template-rows: 0.4fr 5fr 4fr;
+    grid-template-columns: 1fr;
+}
+
+.grid-item1-mappa {
+    text-align: center;
     display: inline-block;
     font-family: 'Comic Sans MS', cursive;
     font-size: 20px;
+    border-top: 1.5px solid rgb(10, 115, 147);
+    border-left: 1.5px solid rgb(10, 115, 147);
+    border-right: 1.5px solid rgb(10, 115, 147);
 }
 
-.mappa {
+img {
     width: 100%;
-    height: 60%;
-    border: 0.5px solid rgb(147, 10, 104);
-    margin: 5px;
+    height: 100%;
+    object-fit: cover;
+    border-bottom: 1.5px solid rgb(10, 115, 147);
+    border-left: 1.5px solid rgb(10, 115, 147);
+    border-right: 1.5px solid rgb(10, 115, 147);
 }

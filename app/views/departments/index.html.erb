@@ -14,19 +14,38 @@
 <body>
 	<p id="notice"><%= notice %></p>
 
-	
-
-	<div class="page">
-		<!-- barra di ricerca per dipartimenti-->
-		<form class="modulo-ricerca" action="" method="post">
-			<input id="search" type="text" name="inputTesto" placeholder="Trova il tuo dipartimento" required>
-			<input id="submit" type="submit" name="researchButton" value="CERCA">
-		</form>
-		<!-- ordinamento per categoria DA FARE -->
-		<div class="row">
-			<div class="col-9">
-				<!-- Lista di tutti i dipartimenti dell'applicazione -->
-				<% @departments.each do |department| %>
+	<div class="grid-container-page">
+		<div class="grid-item-descrizione">
+			<p class="descrizione"> 
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+				Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+				Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+			</p>
+		</div>
+		<% if user_signed_in? %>
+			<div class="grid-item-prenRapida">
+				<label class="labelPR"> Prenotazione rapida </label>
+				<p class="testo"> La tua prenotazione rapida è impostata su [ dipartimento - spazio ] </p>
+				<button type="button" class="btnEffettuaPR"> <i class='bi bi-cursor'></i> prenota </button>
+			</div>
+		<% else %>
+			<div class="grid-item-vuoto-r1c2">
+			</div>
+		<% end %>
+		<div class="grid-item-ricerca">
+			<!-- barra di ricerca per dipartimenti-->
+			<form class="modulo-ricerca" action="" method="post">
+				<input id="search" type="text" name="inputTesto" placeholder="Trova il tuo dipartimento" required>
+				<input id="submit" type="submit" name="researchButton" value="CERCA">
+			</form>
+		</div>
+		<div class="grid-item-vuoto-r2c2">
+		</div>
+		<div class="grid-container-dipartimenti">
+			<!-- Lista di tutti i dipartimenti dell'applicazione -->
+			<% @departments.each do |department| %>
+				<div class="grid-item-dipartimenti">
 					<div class="card">
 						<div class="card-body">
 							<h3 class="card-title"> <%= department.name %> </h3>
@@ -64,14 +83,16 @@
 							<% end %>
 						</ul>	
 					</div>
-				<% end %>
-			</div>
-
-			<div class="col-3">
-				<!-- mappa per geolocalizzazione (sinistra) -->
-				<div class="mappa">
-					MAPPA
 				</div>
+			<% end %>
+		</div>
+		<div class="grid-container-mappa">
+			<!-- mappa per geolocalizzazione (destra) -->
+			<div class="grid-item1-mappa">
+				<label class="labelMappa"> MAPPA </label>
+			</div>
+			<div class="grid-item2-mappa">
+				<img src="https://www.ninaedizionishop.it/87/mappa-europa.jpg">
 			</div>
 		</div>
 	</div>
