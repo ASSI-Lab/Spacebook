@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :temp_deps
+  resources :temp_sps
   resources :seats
   resources :spaces
   resources :quick_reservations
