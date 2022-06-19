@@ -1,0 +1,19 @@
+<section>
+  <h5>Prossimi 10 eventi</h5>
+  <table class="">
+    <thead>
+    <tr>
+      <th class="">Ora</th>
+      <th class="">Descrizione</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @result.items.each do |event| %>
+        <tr>
+          <td class=""><%= event.start.date_time || event.start.date %></td>
+          <td class=""><%= event.summary %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</section>

@@ -2,6 +2,8 @@ require "google/apis/calendar_v3"
 require "google/api_client/client_secrets.rb"
 
 class TasksController < ApplicationController
+  CALENDAR_ID = 'primary'
+
   def index
   end
 
@@ -17,20 +19,17 @@ class TasksController < ApplicationController
       client.insert_event('primary', event)                     # INSERISCO L'EVENTO CREATO SU CALENDAR
       redirect_to tasks_path
       flash[:notice] = 'Evento aggiunto con successo.'
-      # response = client.list_events(CALENDAR_ID,              # STAMPA SU TERMINALE EVENTI IN ARRIVO
-      #     max_results:   10,
-      #     single_events: true,
-      #     order_by:      "startTime",
-      #     time_min:      DateTime.now.rfc3339)                
-      # puts "Eventi in arrivo:"
-      # puts "Nessun evento trovato!" if response.items.empty?
-      # response.items.each do |event|
-      # start = event.start.date || event.start.date_time
-      # puts "- #{event.summary} (#{start})"
-      # end
   end
 
-
+  def show
+    client = get_google_calendar_client current_user # INIZIALIZZO CLIENT GOOGLE CALENDAR
+    @result = client.list_events(CALENDAR_ID,
+                                  max_results: 10,
+                                  single_events: true,
+                                  order_by: 'startTime',
+                                  time_min: Time.now.iso8601)
+    client
+  end
 
   def get_google_calendar_client current_user
       client = Google::Apis::CalendarV3::CalendarService.new
@@ -97,3 +96,4 @@ class TasksController < ApplicationController
       )
   end
 end
+
