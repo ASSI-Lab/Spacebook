@@ -9,7 +9,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :validatable,
+         :recoverable, :rememberable, :validatable, :timeoutable,
          :omniauthable, omniauth_providers: [:google_oauth2]
          
          acts_as_user :roles => [ :manager, :admin ]    #RUOLI DEFINITI PER IL CONTROLLO AUTORIZZAZIONI DI CANARD

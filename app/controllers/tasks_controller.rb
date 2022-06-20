@@ -13,22 +13,31 @@ class TasksController < ApplicationController
   end
 
   def create
+    begin
       client = get_google_calendar_client current_user          # INIZIALIZZO SERVIZIO CALENDAR
       task = params[:task]                                      # CREO PARAMETRI PER EVENTO
       event = get_event task                                    # FORMATTO PER RICHIESTA API CALENDAR
       client.insert_event('primary', event)                     # INSERISCO L'EVENTO CREATO SU CALENDAR
       redirect_to tasks_path
       flash[:notice] = 'Evento aggiunto con successo.'
+    rescue => exception
+      flash.now[:error] = "Token Google scaduto! Esegui nuovamente l'accesso."
+    end
   end
 
   def show
-    client = get_google_calendar_client current_user # INIZIALIZZO CLIENT GOOGLE CALENDAR
-    @result = client.list_events(CALENDAR_ID,
-                                  max_results: 10,
-                                  single_events: true,
-                                  order_by: 'startTime',
-                                  time_min: Time.now.iso8601)
-    client
+    begin
+      client = get_google_calendar_client current_user # INIZIALIZZO CLIENT GOOGLE CALENDAR
+      @result = client.list_events(CALENDAR_ID,
+                                    max_results: 10,
+                                    single_events: true,
+                                    order_by: 'startTime',
+                                    time_min: Time.now.iso8601)
+      client
+      flash.now[:notice] = 'Eventi caricati con successo.'
+    rescue => exception
+      flash.now[:error] = "Token Google scaduto! Esegui nuovamente l'accesso."
+    end
   end
 
   def get_google_calendar_client current_user

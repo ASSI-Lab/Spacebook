@@ -39,4 +39,9 @@ Rails.application.routes.draw do
     end
   end
 
+  devise_scope :user do     # CONTROLLA IL TIMEOUT DELLA SESSIONE DELL'UTENTE 
+    get   "/check_session_timeout"    => "session_timeout#check_session_timeout"
+    get   "/session_timeout"          => "session_timeout#render_timeout"
+  end
+  
 end

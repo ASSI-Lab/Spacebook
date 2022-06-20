@@ -60,6 +60,11 @@
 
 	<!-- <p class="notice"><%= notice %></p> -->
 	<!-- <p class="alert"><%= alert %></p> -->
+	<% flash.each do |type, msg| %> <!-- MOSTRA I MESSAGGI MARCATI COME FLASH UTILIZZANDO UNA CLASSE DI BOOTSTRAP -->
+		<div class="alert alert-info">
+			<%= msg %>
+		</div>
+	<% end %>
 
 	<body>
 		<%= yield %>
