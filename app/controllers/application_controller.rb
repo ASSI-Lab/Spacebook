@@ -15,9 +15,9 @@ class ApplicationController < ActionController::Base
         flash[:alert] = exception.message                                                    # Mostra messagio di errore
     end
 
-    rescue_from SQLite3::ConstraintException do |exception|                                                             # Reindirizza alla pagina corrente se i dati inseriti non rispettano i vincoli sul database
-        redirect_back(fallback_location: root_path)                                                                     # in caso di errore di path reindirizza alla home
-        flash[:alert] = 'ATTENZIONE: esiste gia un oggetto con questi dati. In particolare:[ '+exception.message+' ]'   # Mostra messagio di errore
+    rescue_from SQLite3::ConstraintException do |exception|                                                                 # Reindirizza alla pagina corrente se i dati inseriti non rispettano i vincoli sul database
+        redirect_back(fallback_location: root_path)                                                                         # in caso di errore di path reindirizza alla home
+        flash[:alert] = 'Questi dati sono gia stati inseriti da un altro utente. In particolare: [ '+exception.message+' ]' # Mostra messagio di errore
     end
 
     def require_department

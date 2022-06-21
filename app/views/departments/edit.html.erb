@@ -87,26 +87,9 @@
         </body>
     </table>
 
-    <!-- Campi non aggiornabili dall'utente -->
-    <div class="field", style='display:none'>
-        <%= form.label 'Apertura:' %>
-        <%= form.label 'ora' %>
-        <%= form.number_field :ora_apertura, required: true, :value => @department.ora_apertura, readonly: true %>
-        <%= form.label 'minuti' %>
-        <%= form.number_field :min_apertura, required: true, :value => @department.min_apertura, readonly: true %>
-    </div>
-
-    <div class="field", style='display:none'>
-        <%= form.label 'Chiusura:' %>
-        <%= form.label 'ora' %>
-        <%= form.number_field :ora_chiusura, required: true, :value => @department.ora_chiusura, readonly: true %>
-        <%= form.label 'minuti' %>
-        <%= form.number_field :min_chiusura, required: true, :value => @department.min_chiusura, readonly: true %>
-    </div>
-
-    <!-- Tasto per la creazione --><br>
+    <!-- Tasto per l'aggiornamento --><br>
     <div class="actions">
-        <%= form.submit value: 'Aggiorna'%>
+        <%= form.submit value: 'Aggiorna' %>
     </div>
 
 <% end %>
