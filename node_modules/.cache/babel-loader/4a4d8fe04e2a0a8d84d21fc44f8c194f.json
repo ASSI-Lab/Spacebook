@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { isElement } from \"./instanceOf.js\";\nexport default (function (element) {\n  return isElement(element) ? element : element.contextElement;\n});","map":null,"metadata":{},"sourceType":"module"}

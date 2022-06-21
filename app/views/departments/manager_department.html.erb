@@ -15,8 +15,6 @@
           <th colspan="2">Numero di piani</th>
           <th colspan="2">Numero di spazi</th>
           <th colspan="2">Slot prenotabili</th>
-          <th colspan="2">Apertura</th>
-          <th colspan="2">Chiusura</th>
           <th colspan="2">Opzioni</th>
         </tr>
       </head>
@@ -28,8 +26,6 @@
           <td colspan="2"><%= (@department.first).floors %></td>
           <td colspan="2"><%= (@department.first).number_of_spaces %></td>
           <td colspan="2"><%= (@department.first).slot %>h</td>
-          <td colspan="2"><%= (@department.first).ora_apertura %>:<%= (@department.first).min_apertura %></td>
-          <td colspan="2"><%= (@department.first).ora_chiusura %>:<%= (@department.first).min_chiusura %></td>
           <th colspan="2">
             <%= button_to 'Prenota', '/make_reservation', method: :get ,  :class => "btnLogout" %>
             <%= button_to 'Aggiorna', edit_department_path(@department.first), method: :get ,  :class => "btnLogout" %>

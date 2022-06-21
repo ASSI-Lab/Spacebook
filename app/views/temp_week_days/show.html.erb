@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Dep name:</strong>
+  <%= @temp_week_day.dep_name %>
+</p>
+
+<p>
+  <strong>Day:</strong>
+  <%= @temp_week_day.day %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @temp_week_day.state %>
+</p>
+
+<p>
+  <strong>Apertura:</strong>
+  <%= @temp_week_day.apertura %>
+</p>
+
+<p>
+  <strong>Chiusura:</strong>
+  <%= @temp_week_day.chiusura %>
+</p>
+
+<%= link_to 'Edit', edit_temp_week_day_path(@temp_week_day) %> |
+<%= link_to 'Back', temp_week_days_path %>

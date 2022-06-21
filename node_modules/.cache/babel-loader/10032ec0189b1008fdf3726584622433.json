@@ -1,0 +1,1 @@
+{"ast":null,"code":"export default (function (element) {\n  return (// $FlowFixMe: need to get type refinement work\n    element.hasOwnProperty('jquery') ? element[0] : element\n  );\n});","map":null,"metadata":{},"sourceType":"module"}

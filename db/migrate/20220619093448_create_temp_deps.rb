@@ -17,10 +17,6 @@ class CreateTempDeps < ActiveRecord::Migration[6.1]
       t.integer :floors
       t.integer :number_of_spaces
       t.integer :slot
-      t.integer :min_apertura
-      t.integer :ora_apertura
-      t.integer :min_chiusura
-      t.integer :ora_chiusura
 
       t.timestamps
     end

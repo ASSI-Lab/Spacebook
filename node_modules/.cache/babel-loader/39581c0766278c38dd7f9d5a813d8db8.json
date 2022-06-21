@@ -1,0 +1,1 @@
+{"ast":null,"code":"export default (function (element) {\n  var rect = JSON.parse(JSON.stringify(element.getBoundingClientRect()));\n  rect.x = rect.left;\n  rect.y = rect.top;\n  return rect;\n});","map":null,"metadata":{},"sourceType":"module"}

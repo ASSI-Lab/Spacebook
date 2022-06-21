@@ -25,8 +25,8 @@ class TempSpsController < ApplicationController
 
     respond_to do |format|
       if @temp_sp.save
-        format.html { redirect_to temp_sp_url(@temp_sp), notice: "Temp sp was successfully created." }
-        format.json { render :show, status: :created, location: @temp_sp }
+        format.html { redirect_to request.referrer, notice: "Spazio inserito correttamente." }
+        format.js {render inline: "location.reload();" }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @temp_sp.errors, status: :unprocessable_entity }
@@ -38,8 +38,8 @@ class TempSpsController < ApplicationController
   def update
     respond_to do |format|
       if @temp_sp.update(temp_sp_params)
-        format.html { redirect_to temp_sp_url(@temp_sp), notice: "Temp sp was successfully updated." }
-        format.json { render :show, status: :ok, location: @temp_sp }
+        format.html { redirect_to request.referrer, notice: "Spazio aggiornato correttamente." }
+        format.js {render inline: "location.reload();" }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @temp_sp.errors, status: :unprocessable_entity }
@@ -52,8 +52,8 @@ class TempSpsController < ApplicationController
     @temp_sp.destroy
 
     respond_to do |format|
-      format.html { redirect_to temp_sps_url, notice: "Temp sp was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to request.referrer, notice: "Spazio rimosso correttamente." }
+      format.js {render inline: "location.reload();" }
     end
   end
 
@@ -65,6 +65,6 @@ class TempSpsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def temp_sp_params
-      params.require(:temp_sp).permit(:dep_name, :typology, :name, :floor, :number_of_seats, :state)
+      params.require(:temp_sp).permit(:temp_dep_id, :dep_name, :typology, :name, :floor, :number_of_seats, :state)
     end
 end

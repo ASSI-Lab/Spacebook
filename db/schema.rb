@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_19_093448) do
+ActiveRecord::Schema.define(version: 2022_06_20_203544) do
 
   create_table "departments", force: :cascade do |t|
     t.integer "user_id"
@@ -25,10 +25,6 @@ ActiveRecord::Schema.define(version: 2022_06_19_093448) do
     t.integer "floors"
     t.integer "number_of_spaces"
     t.integer "slot"
-    t.integer "ora_apertura"
-    t.integer "min_apertura"
-    t.integer "ora_chiusura"
-    t.integer "min_chiusura"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["manager"], name: "department_manager_index", unique: true
@@ -148,10 +144,6 @@ ActiveRecord::Schema.define(version: 2022_06_19_093448) do
     t.integer "floors"
     t.integer "number_of_spaces"
     t.integer "slot"
-    t.integer "min_apertura"
-    t.integer "ora_apertura"
-    t.integer "min_chiusura"
-    t.integer "ora_chiusura"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["manager"], name: "temp_dep_manager_index", unique: true
@@ -172,6 +164,19 @@ ActiveRecord::Schema.define(version: 2022_06_19_093448) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["dep_name", "typology", "name"], name: "temp_sps_index", unique: true
     t.index ["temp_dep_id"], name: "index_temp_sps_on_temp_dep_id"
+  end
+
+  create_table "temp_week_days", force: :cascade do |t|
+    t.integer "temp_dep_id"
+    t.string "dep_name"
+    t.string "day"
+    t.string "state"
+    t.datetime "apertura"
+    t.datetime "chiusura"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["dep_name", "day"], name: "temp_week_days_index", unique: true
+    t.index ["temp_dep_id"], name: "index_temp_week_days_on_temp_dep_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -195,6 +200,19 @@ ActiveRecord::Schema.define(version: 2022_06_19_093448) do
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "week_days", force: :cascade do |t|
+    t.integer "department_id"
+    t.string "dep_name"
+    t.string "day"
+    t.string "state"
+    t.datetime "apertura"
+    t.datetime "chiusura"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["dep_name", "day"], name: "week_days_index", unique: true
+    t.index ["department_id"], name: "index_week_days_on_department_id"
   end
 
   add_foreign_key "tasks", "users"

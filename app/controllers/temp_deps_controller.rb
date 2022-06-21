@@ -12,7 +12,14 @@ class TempDepsController < ApplicationController
 
   # GET /temp_deps/new
   def new
-    @temp_dep = TempDep.new
+    if (Department.where(manager: current_user.email).count == 1)
+      redirect_to '/manager_department'
+      flash[:alert] = "Hai gia creato un dipartimento! Eccolo quì!" # Mostra messagio di spiegazione
+    else
+      @temp_dep = TempDep.new
+      @temp_week_day = TempWeekDay.new
+      @temp_sp = TempSp.new
+    end
   end
 
   # GET /temp_deps/1/edit
@@ -25,8 +32,8 @@ class TempDepsController < ApplicationController
 
     respond_to do |format|
       if @temp_dep.save
-        format.html { redirect_to temp_dep_url(@temp_dep), notice: "Temp dep was successfully created." }
-        format.json { render :show, status: :created, location: @temp_dep }
+        format.html { redirect_to request.referrer, notice: "Il dipartimento è stato registrato correttamente. Procedi con la registrazione degli spazi!" }
+        format.js {render inline: "location.reload();" }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @temp_dep.errors, status: :unprocessable_entity }
@@ -38,8 +45,8 @@ class TempDepsController < ApplicationController
   def update
     respond_to do |format|
       if @temp_dep.update(temp_dep_params)
-        format.html { redirect_to temp_dep_url(@temp_dep), notice: "Temp dep was successfully updated." }
-        format.json { render :show, status: :ok, location: @temp_dep }
+        format.html { redirect_to request.referrer, notice: "Le informazioni del dipartimento sono state modificate correttamente" }
+        format.js {render inline: "location.reload();" }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @temp_dep.errors, status: :unprocessable_entity }
@@ -52,8 +59,8 @@ class TempDepsController < ApplicationController
     @temp_dep.destroy
 
     respond_to do |format|
-      format.html { redirect_to temp_deps_url, notice: "Temp dep was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to request.referrer, notice: "Il dipartimento è stato rimosso correttamente!" }
+      format.js {render inline: "location.reload();" }
     end
   end
 
@@ -65,6 +72,6 @@ class TempDepsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def temp_dep_params
-      params.require(:temp_dep).permit(:name, :manager, :via, :civico, :cap, :citta, :provincia, :description, :floors, :number_of_spaces, :slot, :min_apertura, :ora_apertura, :min_chiusura, :ora_chiusura)
+      params.require(:temp_dep).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :description, :floors, :number_of_spaces, :slot)
     end
 end

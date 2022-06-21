@@ -1,0 +1,2 @@
+module TempWeekDaysHelper
+end
