@@ -11,6 +11,32 @@
 
     	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
+		<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+		<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+		<script src="js/scripts.js"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+		<script src="js/datatables-simple-demo.js"></script>
+
+		<link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+		<link rel = "stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+		<script src = "https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+		<script src = "https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+		<script>
+			$(document).ready(function() {
+				$('#datatablesDipartimenti').DataTable();
+				$('#datatablesUtenti').DataTable();
+				$('#datatablesPrenotazioni').DataTable();
+			} );
+		</script>
+
 	</head>
 
 	<% if user_signed_in? %> <!-- CONTROLLA SE L'UTENTE HA EFFETTUATO IL LOGIN -->
@@ -22,42 +48,74 @@
 		Non hai ancora eseguito l'accesso o la registrazione<br>
 	<% end %>
 
-	<div class="grid-container">
-		<div class="grid-item1">
-			<div class="grid-item11">
-				<button type="button" class="btnHome" onclick="window.location.href='/home'"> home </button>
+	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+		<!-- Navbar Brand-->
+		<a class="navbar-brand ps-3" href="index.html"> SPACEBOOK </a>
+		<!-- Sidebar Toggle-->
+		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+		<!-- Navbar Search -->
+		<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+			<div class="input-group">
+				<input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+				<button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
 			</div>
-		</div>
-        <div class="grid-item2">
-			<div class="grid-item21">
-				<h1> SPACEBOOK </h1>
-			</div>
-			<% if user_signed_in? && current_user.roles in ["admin"]%>
-				<div class="grid-item22">
-					<button type="button" class="btnGSito" onclick="window.location.href='/management'"> Gestione sito </button>
-				</div>
-			<% end %>
-		</div>
-		<div class="grid-item3">
-			<% if !user_signed_in? %>
-				<div class="grid-item31">
-					<button type="button" class="btnAccedi" onclick="window.location.href='/users/sign_in'"> Accedi </button>
-				</div>
-				<div class="grid-item32">
-					<button type="button" class="btnRegistrazione" onclick="window.location.href='/users/sign_up'"> Registrazione </button>
-				</div>
-				<% else %>
-					<div class="grid-item33">
-						<button type="button" class="btnAPersonale" onclick="window.location.href='/personal_area'"> Area personale </button>
-					</div>
-					<div class="grid-item34">
-						<%= button_to 'Logout', destroy_user_session_path, :method => :delete, :class => "btnLogout"%>
-					</div>
-				</div>
-			<% end %>
-		</div>
+		</form>
+		<!-- Navbar-->
+		<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+			<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+			<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+				<li><a class="dropdown-item">
+					<% if user_signed_in? %>
+						Hai fatto l'accesso come: [ <%= current_user.email %> ]
+					<% end %>
+				</a></li>
+				<li><a class="dropdown-item" href="/personal_area"> Area personale </a></li>
+				<li><hr class="dropdown-divider" /></li>
+				<li><a class="dropdown-item"> <%= button_to 'Logout', destroy_user_session_path, :method => :delete, :class => "btnLogout"%> </a></li>
+			</ul>
+			</li>
+		</ul>
+     </nav>
 
-    </div>
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_nav">
+			<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+			<div class="sb-sidenav-menu">
+				<div class="nav">
+					<a class="nav-link" href="/home">
+						<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+						HOME
+					</a>
+					<a class="nav-link" href="/make_reservation">
+						<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+						Effettua prenotazione
+					</a>
+					<a class="nav-link" href="/home"> 	<!-- bottone -->
+						<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+						Prenotazione rapida
+					</a>
+					<% if user_signed_in? && current_user.roles in ["manager"]%>
+						<a class="nav-link" href="/manager_department">
+							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+							Mio dipartimento
+						</a>
+					<% end %>
+					<% if user_signed_in? && current_user.roles in ["admin"]%>
+						<a class="nav-link" href="/management">
+							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+							Gestione sito
+						</a>
+					<% end %>
+					<a class="nav-link" href="informations"> 
+						<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+						informazioni 
+					</a>
+				</div>
+			</div>
+		</nav>
+	</div>
+
 
 	<!-- <p class="notice"><%= notice %></p> -->
 	<!-- <p class="alert"><%= alert %></p> -->
@@ -73,13 +131,23 @@
 
 	<br><br>
 
-	<!-- FOOTER  -->
-	<footer class="py-4 flex-shrink-0 fixed-bottom">
-		<div class="container text-center">
-			<% if user_signed_in? %>
-				Hai fatto l'accesso come: [ <%= current_user.email %> ]
-			<% end %>
-			e Quì puoi richiedere <a class="info"> informazioni </a> !
+<!-- FOOTER
+	<footer class="py-5 bg-light mt-auto">
+		<div class="container-fluid px-4">
+			<div class="d-flex align-items-center justify-content-between small">
+				<div class="text-muted">Copyright &copy; Your Website 2022</div>
+				<div>
+					<a href="#">Privacy Policy</a>
+					&middot;
+					<a href="#">Terms &amp; Conditions</a>
+					<br>
+					<% if user_signed_in? %>
+						Hai fatto l'accesso come: [ <%= current_user.email %> ]
+					<% end %>
+					Qui puoi richiedere <a class="info"> informazioni </a> !
+				</div>
+			</div>
 		</div>
- 	</footer>
+	</footer>
+ -->
 </html>

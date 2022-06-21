@@ -7,6 +7,7 @@ class DepartmentsController < ApplicationController
   # GET /departments or /departments.json
   def index
     @departments = Department.all
+    @week_days = WeekDay.all
   end
 
   # GET /manager_department | Mostra al manager il dipartimento gestito | accessibile premento il bottone 'il mio dipartimento' nall'area personale

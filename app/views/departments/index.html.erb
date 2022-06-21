@@ -12,89 +12,110 @@
 </head>
 
 <body>
-	<p id="notice"><%= notice %></p>
+        <!-- Page content-->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Introduzione -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h2 class="card-title"> CIAO AMIO </h2>
+                            <p class="card-text">
+								Speriamo ti troverai bene nel nostro sito, siamo super fighi e strabravi perciò vedi di non rompere e non fare danni!
+								Registrati e prenota tutti gli spazi che vuoi in pochi e semplici passi (se non ci riesci hai dei problemi)
+							</p>
+                        </div>
+                    </div>
 
-	<div class="grid-container-page">
-		<div class="grid-item-descrizione">
-			<p class="descrizione"> 
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-				Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-				Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-			</p>
-		</div>
-		<% if user_signed_in? %>
-			<div class="grid-item-prenRapida">
-				<label class="labelPR"> Prenotazione rapida </label>
-				<p class="testo"> La tua prenotazione rapida è impostata su [ dipartimento - spazio ] </p>
-				<button type="button" class="btnEffettuaPR"> <i class='bi bi-cursor'></i> prenota </button>
-			</div>
-		<% else %>
-			<div class="grid-item-vuoto-r1c2">
-			</div>
-		<% end %>
-		<div class="grid-item-ricerca">
-			<!-- barra di ricerca per dipartimenti-->
-			<form class="modulo-ricerca" action="" method="post">
-				<input id="search" type="text" name="inputTesto" placeholder="Trova il tuo dipartimento" required>
-				<input id="submit" type="submit" name="researchButton" value="CERCA">
-			</form>
-		</div>
-		<div class="grid-item-vuoto-r2c2">
-		</div>
-		<div class="grid-container-dipartimenti">
-			<!-- Lista di tutti i dipartimenti dell'applicazione -->
-			<% @departments.each do |department| %>
-				<div class="grid-item-dipartimenti">
-					<div class="card">
-						<div class="card-body">
-							<h3 class="card-title"> <%= department.name %> </h3>
-							<h5 class="card-text"> <%= department.description %> </h5>
+					<!-- Barra di ricerca per dipartimenti -->
+					<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+						<div class="input-group">
+							<input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+							<button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
 						</div>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item"> 
-								<label class="label"> Indirizzo </label> 
-								<br> 
-								<p> <%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %> </p>
-							</li>
-							<li class="list-group-item"> 
-								<label class="label"> Numero piani - spazi </label> 
-								<br> 
-								<p> <%= department.floors %> - <%= department.number_of_spaces %> </p>
-							</li>
-							<li class="list-group-item"> 
-								<label class="label"> Orario </label> 
-								<br> 
-								<p> <%= department.ora_apertura %>:<%= department.min_apertura %> - <%= department.ora_chiusura %>:<%= department.min_chiusura %> </p>
-							</li>
-							<li class="list-group-item"> 
-								<label class="label"> Email manager </label> 
-								<br> 
-								<p> <%= department.manager %> </p>
-							</li>
-							<% if user_signed_in? %>
-								<li class="list-group-item">							
-									<button type="button" class="btnEffettua" onclick="window.location.href='/make_reservation'"> <i class='bi bi-cursor'></i> prenota </button>
-								</li>
-							<% else %>
-								<li class="list-group-item">
-									<label class="label"> Per effettuare le prenotazioni <a href="/users/sign_in"> accedi </a> o <a href="/users/sign_up"> registrati </a> </label> 
-								</li>
-							<% end %>
-						</ul>	
-					</div>
-				</div>
-			<% end %>
-		</div>
-		<div class="grid-container-mappa">
-			<!-- mappa per geolocalizzazione (destra) -->
-			<div class="grid-item1-mappa">
-				<label class="labelMappa"> MAPPA </label>
-			</div>
-			<div class="grid-item2-mappa">
-				<img src="https://www.ninaedizionishop.it/87/mappa-europa.jpg">
-			</div>
-		</div>
-	</div>
+					</form>
+
+                    <!-- Lista di tutti i dipartimenti dell'applicazione -->
+                    <div class="row">
+						<% @departments.each do |department| %>
+							<div class="col-sm-6">
+								<!-- DIPARTIMENTO -->
+								<div class="card mb-4">
+									<a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+									<div class="card-body">
+										<h2 class="card-title h4"> <%= department.name %> </h2>
+										<div class="small text-muted"> <%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %> </div> <br>
+										<ul class="list-group list-group-flush">
+											<li class="list-group-item">
+												<label class="label"> Descrizione </label> 
+												<br> 
+												<p class="card-text"> <%= department.description %> </p>
+											</li>
+											<li class="list-group-item"> 
+												<label class="label"> Numero piani - spazi </label> 
+												<br> 
+												<p> <%= department.floors %> - <%= department.number_of_spaces %> </p>
+											</li>
+											<li class="list-group-item"> 
+												<label class="label"> Orari </label> 
+												<br> 
+												<% @week_days.where(department_id: department.id).each do |wd| %>
+													<p> <%= wd.day %> <%= wd.apertura.hour %>:00 - <%= wd.chiusura.hour %>:00 </p>
+												<% end %>
+											</li>
+											<li class="list-group-item"> 
+												<label class="label"> Email manager </label> 
+												<br> 
+												<p> <%= department.manager %> </p>
+											</li>
+											<% if user_signed_in? %>
+												<li class="list-group-item">							
+													<button type="button" class="btnEffettua" onclick="window.location.href='/make_reservation'"> <i class='bi bi-cursor'></i> prenota </button>
+												</li>
+											<% else %>
+												<li class="list-group-item">
+													<label class="label"> Per effettuare le prenotazioni <a href="/users/sign_in"> accedi </a> o <a href="/users/sign_up"> registrati </a> </label> 
+												</li>
+											<% end %>
+										</ul>	
+									</div>
+								</div>
+							</div>
+						<% end %>
+                    </div>
+                    <!-- Pagination -->
+                    <nav aria-label="Pagination">
+                        <hr class="my-0" />
+                        <ul class="pagination justify-content-center my-4">
+                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
+                            <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#!">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#!">3</a></li>
+                            <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
+                            <li class="page-item"><a class="page-link" href="#!">15</a></li>
+                            <li class="page-item"><a class="page-link" href="#!">Older</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- Side widgets -->
+                <div class="col-lg-4 sticky-top">
+					<!-- Bottone per la prenotazione rapida -->
+                    <div class="card mb-4">
+                        <div class="card-header"> 
+							<label class="label"> Prenotazione rapida </label> 
+						 	<button type="button" class="btnEffettuaPR"> <i class='bi bi-cursor'></i> prenota </button> </div>
+                        <div class="card-body"> 
+							<p class="card-text"> La tua prenotazione rapida è impostata su [ dipartimento - spazio ] </p>
+						</div>
+                    </div>
+
+                    <!-- Mappa per geolocalizzazione -->
+                    <div class="card mb-4">
+                        <div class="card-header"> Mappa </div>
+						<img class="card-img-top" src="https://www.ninaedizionishop.it/87/mappa-europa.jpg" alt="..." />
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
 </html>
