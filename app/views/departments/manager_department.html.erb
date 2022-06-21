@@ -1,71 +1,228 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="UTF-8">
+   	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<title> Il mio dipartimento - Spacebook </title>
+	<%= csrf_meta_tags %>
+	<%= csp_meta_tag %>
+
+	<%= stylesheet_link_tag 'management', media: 'all', 'data-turbolinks-track': 'reload' %>  <!-- da modificare il link al css -->
+	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+	<script>
+		$(document).ready(function() {
+			$('#datatablesMioDipartimento').DataTable();
+			$('#datatablesSpazi').DataTable();
+			$('#datatablesPrenotazioni').DataTable();
+		} );
+	</script>
+
+<!--
+	<script>
+		// Set new default font family and font color to mimic Bootstrap's default styling
+		Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+		Chart.defaults.global.defaultFontColor = '#292b2c';
+
+		// Area Chart Example
+		var ctx = document.getElementById("myAreaChart");
+		var myLineChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+		labels: ["Mar 1", "Mar 2", "Mar 3", "Mar 4", "Mar 5", "Mar 6", "Mar 7", "Mar 8", "Mar 9", "Mar 10", "Mar 11", "Mar 12", "Mar 13"],
+		datasets: [{
+			label: "Sessions",
+			lineTension: 0.3,
+			backgroundColor: "rgba(2,117,216,0.2)",
+			borderColor: "rgba(2,117,216,1)",
+			pointRadius: 5,
+			pointBackgroundColor: "rgba(2,117,216,1)",
+			pointBorderColor: "rgba(255,255,255,0.8)",
+			pointHoverRadius: 5,
+			pointHoverBackgroundColor: "rgba(2,117,216,1)",
+			pointHitRadius: 50,
+			pointBorderWidth: 2,
+			data: [10000, 30162, 26263, 18394, 18287, 28682, 31274, 33259, 25849, 24159, 32651, 31984, 38451],
+		}],
+		},
+		options: {
+		scales: {
+			xAxes: [{
+			time: {
+				unit: 'date'
+			},
+			gridLines: {
+				display: false
+			},
+			ticks: {
+				maxTicksLimit: 7
+			}
+			}],
+			yAxes: [{
+			ticks: {
+				min: 0,
+				max: 40000,
+				maxTicksLimit: 5
+			},
+			gridLines: {
+				color: "rgba(0, 0, 0, .125)",
+			}
+			}],
+		},
+		legend: {
+			display: false
+		}
+		}
+		});
+	</script>
+-->
+
+</head>
+
+<body>
+
 <!-- Mostra il dipartimento del manager e gli spazi relativi -->
 <p id="notice"><%= notice %></p>
 
-<table>
-  <head>
-    <table class = "table table-striped table-bordered">
-      <head>
-        <tr>
-          <td colspan="18"><h2>Il tuo dipartimento</h2></td>
-        </tr>
-        <tr class="thead">
-          <th colspan="2">Nome</th>
-          <th colspan="2">Indirizzo</th>
-          <th colspan="2">Descrizione</th>
-          <th colspan="2">Numero di piani</th>
-          <th colspan="2">Numero di spazi</th>
-          <th colspan="2">Slot prenotabili</th>
-          <th colspan="2">Opzioni</th>
-        </tr>
-      </head>
-      <body>
-        <tr>
-          <td colspan="2"><%= (@department.first).name %></td>
-          <td colspan="2"><%= (@department.first).via+','+(@department.first).civico+','+(@department.first).cap+','+(@department.first).citta+','+(@department.first).provincia %></td>
-          <td colspan="2"><%= (@department.first).description %></td>
-          <td colspan="2"><%= (@department.first).floors %></td>
-          <td colspan="2"><%= (@department.first).number_of_spaces %></td>
-          <td colspan="2"><%= (@department.first).slot %>h</td>
-          <th colspan="2">
-            <%= button_to 'Prenota', '/make_reservation', method: :get ,  :class => "btnLogout" %>
-            <%= button_to 'Aggiorna', edit_department_path(@department.first), method: :get ,  :class => "btnLogout" %>
-            <%= button_to 'Elimina', @department.first, method: :delete, data: { confirm: 'Sicuro?' } ,  :class => "btnLogout" %>
-          </tr>
-        </tr>
-      </body>
-  </head>
-  <body>
-    <table class = "table table-striped table-bordered">
-      <head>
-        <tr><td colspan="18" style="text-align:center"><h2>Spazi del dipartimento</h2></td></tr>
-        <tr class="thead">
-          <th colspan="3">Tipologia</th>
-          <th colspan="3">Nome</th>
-          <th colspan="3">Piano</th>
-          <th colspan="3">Numero di posti</th>
-          <th colspan="3">Disponibilità</th>
-          <th colspan="3">Opzioni</th>
-        </tr>
-      </head>
-      <body>
-        <% @spaces.each do |space| %>
-          <tr>
-            <td colspan="3"><%= space.typology %></td>
-            <td colspan="3"><%= space.name %></td>
-            <td colspan="3"><%= space.floor %></td>
-            <td colspan="3"><%= space.number_of_seats %></td>
-            <td colspan="3"><%= space.state %></td>
-            <th colspan="3">
-              <% if space.state == 'Abilitato'%>
-                <button class="btnLogout" >Disabilita</button>
-              <% else %>
-                <button class="btnLogout">Abilita</button>
-              <% end %>
-              <%= button_to 'Elimina', space, method: :delete, data: { confirm: 'Sicuro?' },  :class => "btnLogout" %>
-            </th>
-          </tr>
-        <% end %>
-      </body>
-    </table>
-  </body>
-</table>
+<div class="sb-nav-fixed">
+	<div id="layoutSidenav_content">
+		<main>
+			<div class="container-fluid px-4">
+				<!-- IL MIO DIPARTIMENTO -->
+				<div class="card mb-4">
+					<div class="card-header">
+						<i class="fas fa-table me-1"></i>
+						Il mio dipartimento
+					</div>
+					<div class="card-body">
+						<table id="datatablesMioDipartimento" class="table table-responsive table-striped table-bordered table-hover">
+							<thead>
+							
+								<tr>
+									<th> Nome </th>
+									<th> Indirizzo </th>
+									<th> Descrizione </th>
+									<th> Numero di piani </th>
+									<th> Numero di spazi </th>
+									<th> Slot prenotabili </th>
+									<th> Opzioni </th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td> <%= (@department.first).name %> </td>
+									<td> <%= (@department.first).via+','+(@department.first).civico+','+(@department.first).cap+','+(@department.first).citta+','+(@department.first).provincia %> </td>
+									<td> <%= (@department.first).description %> </td>
+									<td> <%= (@department.first).floors %> </td>
+									<td> <%= (@department.first).number_of_spaces %> </td>
+									<td> <%= (@department.first).slot %>h </td>
+									<th> 
+										<%= button_to 'Prenota', '/make_reservation', method: :get ,  :class => "btnLogout" %>
+										<%= button_to 'Aggiorna', edit_department_path(@department.first), method: :get ,  :class => "btnLogout" %>
+										<%= button_to 'Elimina', @department.first, method: :delete, data: { confirm: 'Sicuro?' } ,  :class => "btnLogout" %>
+									 </th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- SPAZI DEL DIPARTIMENTO -->
+				<div class="row">
+                         <div class="col-xl-6">
+						<div class="card mb-4">
+							<div class="card-header">
+								<i class="fas fa-table me-1"></i>
+								Spazi del dipartimento
+							</div>
+							<div class="card-body">
+								<table id="datatablesSpazi" class="table table-responsive table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<th> Tipologia </th>
+											<th> Nome </th>
+											<th> Piano </th>
+											<th> Numero di posti </th>
+											<th> Disponibilità </th>
+											<th> Opzioni </th>
+										</tr>
+									</thead>
+									<tbody>
+										<% @spaces.each do |space| %>
+											<tr>
+												<td> <%= space.typology %> </td>
+												<td> <%= space.name %> </td>
+												<td> <%= space.floor %> </td>
+												<td> <%= space.number_of_seats %> </td>
+												<td> <%= space.state %> </td>
+												<th> 
+													<% if space.state == 'Abilitato'%>
+														<button class="btnLogout" >Disabilita</button>
+													<% else %>
+														<button class="btnLogout">Abilita</button>
+													<% end %>
+													<%= button_to 'Elimina', space, method: :delete, data: { confirm: 'Sicuro?' },  :class => "btnLogout" %>
+												</th>
+											</tr>
+										<% end %>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+                         <div class="col-xl-6">
+						<div class="card mb-4">
+							<div class="card-header">
+							<i class="fas fa-chart-area me-1"></i>
+							Area Chart Example
+							</div>
+							<div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+						</div>
+					</div>
+
+
+				
+				
+				<!-- PRENOTAZIONI -->
+				<div class="card mb-4">
+					<div class="card-header">
+						<i class="fas fa-chart-bar me-1"></i>
+						Prenotazioni
+					</div>
+					<div class="card-body">
+						<table id="datatablesPrenotazioni" class="table table-responsive table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th> Utente </th>
+									<th> Dipartimento </th>
+									<th> Tipologia </th>
+									<th> Spazio </th>
+									<th> Piano </th>
+									<th> Posto </th>
+									<th> Stato </th>
+									<th> Opzioni </th>
+								</tr>
+							</thead>
+							<tbody>
+								<% @reservations.each do |reservation| %>
+									<tr>
+										<td><%= reservation.email %></td>
+										<td><%= reservation.dep_name %></td>
+										<td><%= reservation.typology %></td>
+										<td><%= reservation.space_name %></td>
+										<td><%= reservation.floor %></td>
+										<td><%= reservation.seat_num %></td>
+										<td><%= reservation.state %></td>
+										<td><%= button_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btnDestroy" %></td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</div>
+</body>
+</html>

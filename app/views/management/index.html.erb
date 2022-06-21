@@ -6,9 +6,16 @@
 	<title> Gestione sito - Spacebook </title>
 	<%= csrf_meta_tags %>
 	<%= csp_meta_tag %>
-
 	<%= stylesheet_link_tag 'management', media: 'all', 'data-turbolinks-track': 'reload' %>
 	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+	<script>
+		$(document).ready(function() {
+			$('#datatablesDipartimenti').DataTable();
+			$('#datatablesUtenti').DataTable();
+			$('#datatablesPrenotazioni').DataTable();
+		} );
+	</script>
 
 </head>
 
@@ -22,7 +29,7 @@
 					<div class="card-header">
 						<i class="fas fa-table me-1"></i>
 						Dipartimenti
-                         </div>
+                    </div>
 					<div class="card-body">
 						<table id="datatablesDipartimenti" class="table table-responsive table-striped table-bordered table-hover">
 							<thead>
@@ -100,8 +107,6 @@
 											<th> Spazio </th>
 											<th> Piano </th>
 											<th> Posto </th>
-											<th> Data inizio </th>
-											<th> Data fine </th>
 											<th> Stato </th>
 											<th> Opzioni </th>
 										</tr>
@@ -115,8 +120,6 @@
 												<td><%= reservation.space_name %></td>
 												<td><%= reservation.floor %></td>
 												<td><%= reservation.seat_num %></td>
-												<td><%= reservation.start_date %></td>
-												<td><%= reservation.end_date %></td>
 												<td><%= reservation.state %></td>
 												<td><%= button_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btnDestroy" %></td>
 											</tr>
@@ -133,6 +136,7 @@
 
 </body>
 </html>
+
 <!--
 	<h2>Dipartimenti</h2>
 	<table border = "1" width="100%">
@@ -144,7 +148,6 @@
 	<th>Numero di piani</th> 
 	<th>Numero di spazi</th>
 	<th>grandezza degli slot prenotabili</th>
-
 	<th>Opzioni</th>
 	</thead>
 	<tbody>
@@ -166,7 +169,6 @@
 	</tbody>
 	</table>
 	<br>
-
 	<h2>Prenotazioni</h2>
 	<table border = "1" width="75%">
 	<thead style="background-color:lightgrey">
@@ -201,7 +203,6 @@
 	</tbody>
 	</table>
 	<br>
-
 	<h2>Utenti</h2>
 	<table border = "1" width="50%">
 	<thead style="background-color:lightgrey">

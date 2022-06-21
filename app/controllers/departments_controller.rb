@@ -115,8 +115,9 @@ class DepartmentsController < ApplicationController
       if ((@department.count) == 0)                                        # Controlla se il dipartimento esiste
         redirect_to "/make_department"                                     # In caso negativo reindirizza alla creazione del dipartimento
       else
-        @week_day = WeekDay.where(department_id: ((@department).first).id) # In caso positivo invece raccoglie gli orari
-        @spaces = Space.where(department_id: ((@department).first).id)     # e gli spazi del dipartimento trovato
+        @week_days = WeekDay.where(department_id: ((@department).first).id)           # In caso positivo invece raccoglie gli orari,
+        @spaces = Space.where(department_id: ((@department).first).id)                # gli spazi
+        @reservations = Reservation.where(department_id: ((@department).first).id)   # e le prenotazioni del dipartimento trovato
       end # A questo punto si aprirà la view '/manager_department' che lavorerà con questi dati.
 
     else # Se l'user non è manager
