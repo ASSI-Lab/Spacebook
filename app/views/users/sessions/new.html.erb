@@ -21,62 +21,60 @@
 					<div class="col-lg-5">
 						<div class="card shadow-lg border-0 rounded-lg mt-5">
 							<div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
-							<div class="card-body">
-								<!-- <form> -->
-								<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-									<div class="form-floating mb-3">
-										<!-- 
-										<input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
-										<label for="inputEmail"> Email address </label> -->
-										<div class="label">
-											<%= f.label :email %><br />
-										</div>
-										<div class="field">
-											<%= f.email_field :email, autofocus: true, autocomplete: "email", :class=>"campoT"  %>
-										</div>
-									</div>
-									<div class="form-floating mb-3">
-										<!--
-										<input class="form-control" id="inputPassword" type="password" placeholder="Password" />
-										<label for="inputPassword"> Password </label> -->
-										<div class="label">
-											<%= f.label :password %><br />
-										</div>
-										<div class="field">
-											<%= f.password_field :password, autocomplete: "current-password", :class=>"campoT"  %>
-										</div>
-									</div>
-									<div class="form-check mb-3">
-										<!--
-										<input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-										<label class="form-check-label" for="inputRememberPassword"> Remember Password </label> -->
-										<% if devise_mapping.rememberable? %>
-											<div class="role">
-												<%= f.check_box :remember_me %>
-												<%= f.label :remember_me %>
-											</div>
-										<% end %>
-									</div>
-									<div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-										<div class="links">
-											<%= render "users/shared/links" %>
-										</div>
-										<!-- <a class="btn btn-primary" href="index.html"> Login </a> -->
-										
-									</div>
-								<!-- /form> -->
-								<% end %>
-							</div>
-							<div class="card-footer text-center py-3">
-								<div class="actions">
+								<div class="card-body">
+									<!-- <form> -->
 									<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-										<%= f.submit class:"btn btn-signup", value:"Sign in"%>
+										<div class="form-floating mb-3">
+											<!-- 
+											<input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+											<label for="inputEmail"> Email address </label> -->
+											<div class="label">
+												<%= f.label :email %><br />
+											</div>
+											<div class="field">
+												<%= f.email_field :email, autofocus: true, autocomplete: "email", :class=>"campoT"  %>
+											</div>
+										</div>
+										<div class="form-floating mb-3">
+											<!--
+											<input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+											<label for="inputPassword"> Password </label> -->
+											<div class="label">
+												<%= f.label :password %><br />
+											</div>
+											<div class="field">
+												<%= f.password_field :password, autocomplete: "current-password", :class=>"campoT"  %>
+											</div>
+										</div>
+										<div class="form-check mb-3">
+											<!--
+											<input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
+											<label class="form-check-label" for="inputRememberPassword"> Remember Password </label> -->
+											<% if devise_mapping.rememberable? %>
+												<div class="role">
+													<%= f.check_box :remember_me %>
+													<%= f.label :remember_me %>
+												</div>
+											<% end %>
+										</div>
+										<div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+											<div class="links">
+												<%= render "users/shared/links" %>
+											</div>
+											<!-- <a class="btn btn-primary" href="index.html"> Login </a> -->
+											
+										</div>
+									<!-- /form> -->
+									<div class="card-footer text-center py-3">
+										<div class="actions">
+											<%= f.submit class:"btn btn-signup", value:"Sign in"%> 
+										</div>
+									</div>
 									<% end %>
-								</div>
+								</div>				
 							</div>
 						</div>
 					</div>
-				</div>
 				</div>
 			</main>
 		</div>
