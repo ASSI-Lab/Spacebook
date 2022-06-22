@@ -4077,6 +4077,8 @@ textarea.form-control-lg {
   white-space: nowrap;
 }
 .navbar-nav {
+  width: 3%;       // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
+  margin-left: 7%; // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
   display: flex;
   flex-direction: column;
   padding-left: 0;
@@ -4925,6 +4927,9 @@ textarea.form-control-lg {
 }
 
 .alert {
+  width: 90%;         // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
+  margin-left: 5%;    // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
+  margin-right: 5%;   // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
   position: relative;
   padding: 1rem 1rem;
   margin-bottom: 1rem;
@@ -11428,8 +11433,11 @@ body {
   z-index: 1039;
 }
 .sb-topnav .navbar-brand {
-  width: 225px;
-  margin: 0;
+  // width: 225px;  // ORIGINALE
+  // margin: 0;     // ORIGINALE
+  width: 20%;       // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
+  margin-left: 40%; // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
+  margin-right: 30%; // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
 }
 .sb-topnav.navbar-dark #sidebarToggle {
   color: rgba(255, 255, 255, 0.5);
