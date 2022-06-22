@@ -12,182 +12,111 @@
 </head>
 
 <body>
-	<!-- HEADER -->
-	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-		<!-- Navbar Brand-->
-		<a class="navbar-brand ps-3" href="/home"> SPACEBOOK </a>
-		<!-- Sidebar Toggle-->
-		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-		<!-- Navbar Search -->
-		<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-			<div class="input-group">
-				<input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-				<button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-			</div>
-		</form>
-		<!-- Navbar-->
-		<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-			<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-			<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-				<li><a class="dropdown-item">			
-					<% if !user_signed_in? %>
-							<a class="dropdown-item" href="/personal_area"> Accedi </a>
-							<a class="dropdown-item" href="/users/sign_up"> Registrazione </a>
-					<% else %>
-						Hai fatto l'accesso come: [ <%= current_user.email %> ]
-						<a class="dropdown-item" href="/personal_area"> Area personale </a>
-						<%= button_to 'Logout', destroy_user_session_path, :method => :delete, :class => "btnLogout"%>
-					<% end %>
-				</a></li>
-				
-			</ul>
-			</li>
-		</ul>
-     </nav>
 
-	<div id="layoutSidenav">
-		<div id="layoutSidenav_nav">
-			<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-			<div class="sb-sidenav-menu">
-				<div class="nav">
-					<a class="nav-link" href="/home">
-						<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-						HOME
-					</a>
-					<a class="nav-link" href="/make_reservation">
-						<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-						Effettua prenotazione
-					</a>
-					<a class="nav-link" href="/home"> 	<!-- bottone -->
-						<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-						Prenotazione rapida
-					</a>
-					<% if user_signed_in? && current_user.roles in ["manager"]%>
-						<a class="nav-link" href="/manager_department">
-							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-							Mio dipartimento
-						</a>
-					<% end %>
-					<% if user_signed_in? && current_user.roles in ["admin"]%>
-						<a class="nav-link" href="/management">
-							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-							Gestione sito
-						</a>
-					<% end %>
-					<a class="nav-link" href="informations"> 
-						<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-						Informazioni 
-					</a>
+	<!-- Page content-->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<!-- Introduzione -->
+				<div class="card mb-4">
+					<div class="card-body">
+						<h2 class="card-title"> CIAO AMIO </h2>
+						<p class="card-text">
+							Speriamo ti troverai bene nel nostro sito, siamo super fighi e strabravi perciò vedi di non rompere e non fare danni!
+							Registrati e prenota tutti gli spazi che vuoi in pochi e semplici passi (se non ci riesci hai dei problemi)
+						</p>
+					</div>
 				</div>
-			</div>
-		</nav>
-	</div>
 
-        <!-- Page content-->
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <!-- Introduzione -->
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h2 class="card-title"> CIAO AMIO </h2>
-                            <p class="card-text">
-								Speriamo ti troverai bene nel nostro sito, siamo super fighi e strabravi perciò vedi di non rompere e non fare danni!
-								Registrati e prenota tutti gli spazi che vuoi in pochi e semplici passi (se non ci riesci hai dei problemi)
-							</p>
-                        </div>
-                    </div>
+				<!-- Barra di ricerca per dipartimenti -->
+				<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+					<div class="input-group">
+						<input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+						<button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+					</div>
+				</form>
 
-					<!-- Barra di ricerca per dipartimenti -->
-					<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-						<div class="input-group">
-							<input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-							<button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-						</div>
-					</form>
-
-                    <!-- Lista di tutti i dipartimenti dell'applicazione -->
-                    <div class="row">
-						<% @departments.each do |department| %>
-							<div class="col-sm-6">
-								<!-- DIPARTIMENTO -->
-								<div class="card mb-4">
-									<a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-									<div class="card-body">
-										<h2 class="card-title h4"> <%= department.name %> </h2>
-										<div class="small text-muted"> <%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %> </div> <br>
-										<ul class="list-group list-group-flush">
-											<li class="list-group-item">
-												<label class="label"> Descrizione </label> 
-												<br> 
-												<p class="card-text"> <%= department.description %> </p>
-											</li>
-											<li class="list-group-item"> 
-												<label class="label"> Numero piani - spazi </label> 
-												<br> 
-												<p> <%= department.floors %> - <%= department.number_of_spaces %> </p>
-											</li>
-											<li class="list-group-item"> 
-												<label class="label"> Orari </label> 
-												<br> 
-												<% @week_days.where(department_id: department.id).each do |wd| %>
-													<p> <%= wd.day %> <%= wd.apertura.hour %>:00 - <%= wd.chiusura.hour %>:00 </p>
-												<% end %>
-											</li>
-											<li class="list-group-item"> 
-												<label class="label"> Email manager </label> 
-												<br> 
-												<p> <%= department.manager %> </p>
-											</li>
-											<% if user_signed_in? %>
-												<li class="list-group-item">							
-													<button type="button" class="btnEffettua" onclick="window.location.href='/make_reservation'"> <i class='bi bi-cursor'></i> prenota </button>
-												</li>
-											<% else %>
-												<li class="list-group-item">
-													<label class="label"> Per effettuare le prenotazioni <a href="/users/sign_in"> accedi </a> o <a href="/users/sign_up"> registrati </a> </label> 
-												</li>
+				<!-- Lista di tutti i dipartimenti dell'applicazione -->
+				<div class="row">
+					<% @departments.each do |department| %>
+						<div class="col-sm-6">
+							<!-- DIPARTIMENTO -->
+							<div class="card mb-4">
+								<a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+								<div class="card-body">
+									<h2 class="card-title h4"> <%= department.name %> </h2>
+									<div class="small text-muted"> <%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %> </div> <br>
+									<ul class="list-group list-group-flush">
+										<li class="list-group-item">
+											<label class="label"> Descrizione </label> 
+											<br> 
+											<p class="card-text"> <%= department.description %> </p>
+										</li>
+										<li class="list-group-item"> 
+											<label class="label"> Numero piani - spazi </label> 
+											<br> 
+											<p> <%= department.floors %> - <%= department.number_of_spaces %> </p>
+										</li>
+										<li class="list-group-item"> 
+											<label class="label"> Orari </label> 
+											<br> 
+											<% @week_days.where(department_id: department.id).each do |wd| %>
+												<p> <%= wd.day %> <%= wd.apertura.hour %>:00 - <%= wd.chiusura.hour %>:00 </p>
 											<% end %>
-										</ul>	
-									</div>
+										</li>
+										<li class="list-group-item"> 
+											<label class="label"> Email manager </label> 
+											<br> 
+											<p> <%= department.manager %> </p>
+										</li>
+										<% if user_signed_in? %>
+											<li class="list-group-item">							
+												<button type="button" class="btnEffettua" onclick="window.location.href='/make_reservation'"> <i class='bi bi-cursor'></i> prenota </button>
+											</li>
+										<% else %>
+											<li class="list-group-item">
+												<label class="label"> Per effettuare le prenotazioni <a href="/users/sign_in"> accedi </a> o <a href="/users/sign_up"> registrati </a> </label> 
+											</li>
+										<% end %>
+									</ul>	
 								</div>
 							</div>
-						<% end %>
-                    </div>
-                    <!-- Pagination -->
-                    <nav aria-label="Pagination">
-                        <hr class="my-0" />
-                        <ul class="pagination justify-content-center my-4">
-                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
-                            <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                            <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">15</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">Older</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <!-- Side widgets -->
-                <div class="col-lg-4 sticky-top">
-					<!-- Bottone per la prenotazione rapida -->
-                    <div class="card mb-4">
-                        <div class="card-header"> 
-							<label class="label"> Prenotazione rapida </label> 
-						 	<button type="button" class="btnEffettuaPR"> <i class='bi bi-cursor'></i> prenota </button> </div>
-                        <div class="card-body"> 
-							<p class="card-text"> La tua prenotazione rapida è impostata su [ dipartimento - spazio ] </p>
 						</div>
-                    </div>
+					<% end %>
+				</div>
+				<!-- Pagination -->
+				<nav aria-label="Pagination">
+					<hr class="my-0" />
+					<ul class="pagination justify-content-center my-4">
+						<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
+						<li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
+						<li class="page-item"><a class="page-link" href="#!">2</a></li>
+						<li class="page-item"><a class="page-link" href="#!">3</a></li>
+						<li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
+						<li class="page-item"><a class="page-link" href="#!">15</a></li>
+						<li class="page-item"><a class="page-link" href="#!">Older</a></li>
+					</ul>
+				</nav>
+			</div>
+			<!-- Side widgets -->
+			<div class="col-lg-4 sticky-top">
+				<!-- Bottone per la prenotazione rapida -->
+				<div class="card mb-4">
+					<div class="card-header"> 
+						<label class="label"> Prenotazione rapida </label> 
+						<button type="button" class="btnEffettuaPR"> <i class='bi bi-cursor'></i> prenota </button> </div>
+					<div class="card-body"> 
+						<p class="card-text"> La tua prenotazione rapida è impostata su [ dipartimento - spazio ] </p>
+					</div>
+				</div>
 
-                    <!-- Mappa per geolocalizzazione -->
-                    <div class="card mb-4">
-                        <div class="card-header"> Mappa </div>
-						<img class="card-img-top" src="https://www.ninaedizionishop.it/87/mappa-europa.jpg" alt="..." />
-                    </div>
-                </div>
-            </div>
-        </div>
+				<!-- Mappa per geolocalizzazione -->
+				<div class="card mb-4">
+					<div class="card-header"> Mappa </div>
+					<img class="card-img-top" src="https://www.ninaedizionishop.it/87/mappa-europa.jpg" alt="..." />
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

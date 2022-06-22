@@ -7,153 +7,88 @@
 	<%= csrf_meta_tags %>
 	<%= csp_meta_tag %>
 
-	<%= stylesheet_link_tag 'personal_area', media: 'all', 'data-turbolinks-track': 'reload' %>
+	<!-- <%= stylesheet_link_tag 'personal_area', media: 'all', 'data-turbolinks-track': 'reload' %> -->
+	<%= stylesheet_link_tag 'departments', media: 'all', 'data-turbolinks-track': 'reload' %>
 	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 	<%= javascript_pack_tag 'optimised_session_timeout_poller'%> <!-- INIZIALIIZZA IL TIMER DI INATTIVITÀ -->
 </head>
 
 <body>
 
-	<div class="grid-container-page">	
-		<div class="grid-item-descrizione">
-			<p class="descrizione"> 
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-				Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-				Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-			</p>
-		</div>
-		<div class="grid-item-infoUtente">
-			<div class="card">
-				<div class="card-body">
-					<h6 class="card-title"> Info utente </h6>
-				</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item"> 
-						<label class="label"> Email: <%= current_user.email %> </label>
-					</li>
-					<li class="list-group-item"> 
-						<label class="label"> Password: <%= current_user.password %> </label> 
-						<button class="btnCardPassword"> modifica </button>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<div class="grid-container-cards">
-			<div class="card" id="miePre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/564x/a8/f6/16/a8f616ac07e34955d19b0f3b841464ae.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Le mie prenotazioni </h6>
-					<button class="btnCardSN" onclick="window.location.href='/user_reservations'"> VAI </button>
-				</div>
-			</div>
-			<div class="card" id="spaziPre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/736x/6c/d8/88/6cd888c15ab763b64f63ead68c0360e0.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Spazi preferiti </h6>
-					<button class="btnCardSN" onclick="window.location.href='/favourite_spaces'"> VAI </button>
-				</div>
-			</div>
-			<div class="card" id="nuovaPre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/564x/3f/18/f9/3f18f9877c8676d710990def7a668a76.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Effettua una nuova prenotazione </h6>
-					<button class="btnCardSN" onclick="window.location.href='/make_reservation'"> VAI </button>
-				</div>
-			</div>
-			<div class="card" id="rapidaPre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/564x/0c/86/8e/0c868e529d2caa0a30a6b83616b8acd9.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Effettua prenotazione rapida </h6>
-					<button class="btnCardSN"> VAI </button>
-				</div>
-			</div>
-			<% if current_user.is_manager? %>
-				<div class="card" id="mioDip">
-					<div class="box-img">
-						<img class="cardIMG" src="https://i.pinimg.com/564x/4a/71/d2/4a71d2ab6833fe82829bbd76ce5654cc.jpg">
-					</div>
+	<!-- Page content-->
+	<div class="container">
+		<div class="row">
+			<!-- SINISTRA -->
+			<div class="col-lg-8">
+				<!-- Introduzione -->
+				<div class="card mb-4">
 					<div class="card-body">
-						<h6 class="card-title"> Il mio dipartimento </h6>
-						<button class="btnCardSN" onclick="window.location.href='/manager_department'"> VAI </button>
+						<h2 class="card-title"> Benvenuto nella tua area personale </h2>
+						<p class="card-text">
+							Qui potrai accedere rapidamente ai tuoi spazi preferiti, potrai visualizzare tutte le prenotazioni che hai effettuato,
+							effettuarne di nuove e aggiungere uno spazio per la prenotazione rapida (ti semplificherà la vita quando sarai in ritardo
+							per la lezioni e ti accorgerai all'ultimo di esserti dimenticato di prenotare)
+						</p>
 					</div>
 				</div>
-			<% end %>
-		</div>
-		<div class="grid-container-calendar">
-			<!-- calendario per sincronizzazione (destra) -->
-			<div class="grid-item1-sincro">
-				<label class="labelSincro"> Google Calendar </label>
-				<button class="btnCardDXsincro"> sincronizza </button>
-			</div>
-			<div class="grid-item2-sincro">
-				<img class="imgCalendario" src="https://img.freepik.com/free-vector/modern-2022-new-year-calendar-design-template_1017-34368.jpg?w=2000">
-			</div>
-		</div>
-	</div>
 
-	<!-- <div class="page">
-		<div class="sinistra">
-			<div class="card" id="miePre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/564x/a8/f6/16/a8f616ac07e34955d19b0f3b841464ae.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Le mie prenotazioni </h6>
-					<button class="btnCardSN" onclick="window.location.href='/user_reservations'"> VAI </button>
-				</div>
-			</div>
-			<div class="card" id="spaziPre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/736x/6c/d8/88/6cd888c15ab763b64f63ead68c0360e0.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Spazi preferiti </h6>
-					<button class="btnCardSN" onclick="window.location.href='/favourite_spaces'"> VAI </button>
-				</div>
-			</div>
-			<div class="card" id="nuovaPre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/564x/3f/18/f9/3f18f9877c8676d710990def7a668a76.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Effettua una nuova prenotazione </h6>
-					<button class="btnCardSN" onclick="window.location.href='/make_reservation'"> VAI </button>
-				</div>
-			</div>
-			<div class="card" id="rapidaPre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/564x/0c/86/8e/0c868e529d2caa0a30a6b83616b8acd9.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Effettua prenotazione rapida </h6>
-					<button class="btnCardSN"> VAI </button>
-				</div>
-			</div>
-			<% if current_user.is_manager? %>
-				<div class="card" id="mioDip">
-					<div class="box-img">
-						<img class="cardIMG" src="https://i.pinimg.com/564x/4a/71/d2/4a71d2ab6833fe82829bbd76ce5654cc.jpg">
-						<div class="card-body">
-							<h6 class="card-title"> Il mio dipartimento </h6>
-							<button class="btnCardSN" onclick="window.location.href='/manager_department'"> VAI </button>
+				<!-- Link alle varie pagine -->
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="card bg-dark text-white mb-4">
+							<div class="card-body"> Le mie prenotazioni </div>
+							<div class="card-footer d-flex align-items-center justify-content-between">
+								<a class="small text-white stretched-link" href="/user_reservations"> Visualizza </a>
+								<div class="small text-white"><i class="fas fa-angle-right"></i></div>
+							</div>
 						</div>
 					</div>
-				</div>
-			<% end %>
-		</div>
+					<div class="col-sm-6">
+						<div class="card bg-dark text-white mb-4">
+							<div class="card-body"> Spazi preferiti </div>
+							<div class="card-footer d-flex align-items-center justify-content-between">
+								<a class="small text-white stretched-link" href="/favourite_spaces"> Visualizza </a>
+								<div class="small text-white"><i class="fas fa-angle-right"></i></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="card bg-dark text-white mb-4">
+							<div class="card-body"> Effettua una nuova prenotazione </div>
+							<div class="card-footer d-flex align-items-center justify-content-between">
+								<a class="small text-white stretched-link" href="/make_reservation"> Visualizza </a>
+								<div class="small text-white"><i class="fas fa-angle-right"></i></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="card bg-dark text-white mb-4">
+							<div class="card-body"> Effettua prenotazione rapida </div>
+							<div class="card-footer d-flex align-items-center justify-content-between">
+								<a class="small text-white stretched-link" href="#"> Visualizza </a>
+								<div class="small text-white"><i class="fas fa-angle-right"></i></div>
+							</div>
+						</div>
+					</div>
 
-		<div class="destra">
-			<div class="utente">
-				<div class="card">
+					<% if current_user.roles in ["manager"] %>
+					<div class="col-sm-12">	
+						<div class="card bg-dark text-white mb-4">
+							<div class="card-body"> Il mio dipartimento </div>
+							<div class="card-footer d-flex align-items-center justify-content-between">
+								<a class="small text-white stretched-link" href="/manager_department"> Visualizza </a>
+								<div class="small text-white"><i class="fas fa-angle-right"></i></div>
+							</div>
+						</div>
+					</div>
+					<% end %>
+				</div>
+			</div>
+
+			<!-- DESTRA -->
+			<div class="col-lg-4">
+				<!-- Info utente -->
+				<div class="card mb-4">
 					<div class="card-body">
 						<h6 class="card-title"> Info utente </h6>
 					</div>
@@ -163,114 +98,18 @@
 						</li>
 						<li class="list-group-item"> 
 							<label class="label"> Password: <%= current_user.password %> </label> 
-							<button class="btnCardDXpass"> modifica </button>
+							<button class="btnCardPassword"> modifica </button>
 						</li>
 					</ul>
 				</div>
-			</div>
 
-			<div class="sincro">
-				<td width="30%">
-					<button class="btnCardDXsincro">sincronizza</button> Google calendar<br>
-					<div class="linkMaps">
-						<img class="imgMappa" src="https://i.pinimg.com/564x/9f/67/bd/9f67bd1001890ae854c4524e5968af13.jpg">
-					</div>
-				</td>
-			</div>
-		</div>
-
-	</div> -->
-
-
-	<!--
-	<div class="grid-container-page">
-		<div class="grid-item-descrizione">
-			<p class="descrizione"> 
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-				Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-				Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-			</p>
-		</div>
-
-		<div class="grid-item-infoUtente">
-			<div class="card">
-				<div class="card-body">
-					<h6 class="card-title"> Info utente </h6>
+				<!-- calendario per sincronizzazione -->
+				<div class="card mb-4">
+					<div class="card-header"> Google Calendar  </div>
+					<img class="card-img-top" src="https://img.freepik.com/free-vector/modern-2022-new-year-calendar-design-template_1017-34368.jpg?w=2000" alt="..." />
 				</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item"> 
-						<label class="label"> Email: <%= current_user.email %> </label>
-					</li>
-					<li class="list-group-item"> 
-						<label class="label"> Password: <%= current_user.password %> </label> 
-						<button class="btnCardPassword"> modifica </button>
-					</li>
-				</ul>
-			</div>
-		</div>
-
-		<div class="grid-container-cards">
-			<div class="card" id="miePre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/564x/a8/f6/16/a8f616ac07e34955d19b0f3b841464ae.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Le mie prenotazioni </h6>
-					<button class="btnCardSN" onclick="window.location.href='/user_reservations'"> VAI </button>
-				</div>
-			</div>
-			<div class="card" id="spaziPre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/736x/6c/d8/88/6cd888c15ab763b64f63ead68c0360e0.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Spazi preferiti </h6>
-					<button class="btnCardSN" onclick="window.location.href='/favourite_spaces'"> VAI </button>
-				</div>
-			</div>
-			<div class="card" id="nuovaPre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/564x/3f/18/f9/3f18f9877c8676d710990def7a668a76.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Effettua una nuova prenotazione </h6>
-					<button class="btnCardSN" onclick="window.location.href='/make_reservation'"> VAI </button>
-				</div>
-			</div>
-			<div class="card" id="rapidaPre">
-				<div class="box-img">
-					<img class="cardIMG" src="https://i.pinimg.com/564x/0c/86/8e/0c868e529d2caa0a30a6b83616b8acd9.jpg">
-				</div>
-				<div class="card-body">
-					<h6 class="card-title"> Effettua prenotazione rapida </h6>
-					<button class="btnCardSN"> VAI </button>
-				</div>
-			</div>
-			<% if current_user.is_manager? %>
-				<div class="card" id="mioDip">
-					<div class="box-img">
-						<img class="cardIMG" src="https://i.pinimg.com/564x/4a/71/d2/4a71d2ab6833fe82829bbd76ce5654cc.jpg">
-						<div class="card-body">
-							<h6 class="card-title"> Il mio dipartimento </h6>
-							<button class="btnCardSN" onclick="window.location.href='/manager_department'"> VAI </button>
-						</div>
-					</div>
-				</div>
-			<% end %>
-		</div>
-
-		<div class="grid-container-sincronizzazione">
-			calendario per sincronizzazione (destra) 
-			<div class="grid-item1-sincro">
-				<label class="labelSincro"> Google Calendar </label>
-				<button class="btnCardDXsincro"> sincronizza </button>
-			</div>
-			<div class="grid-item2-sincro">
-				<img class="imgCalendario" src="https://img.freepik.com/free-vector/modern-2022-new-year-calendar-design-template_1017-34368.jpg?w=2000">
 			</div>
 		</div>
 	</div>
--->
 </body>
 </html>
