@@ -65,6 +65,6 @@ class TempSpsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def temp_sp_params
-      params.require(:temp_sp).permit(:temp_dep_id, :dep_name, :typology, :name, :floor, :number_of_seats, :state)
+      params.require(:temp_sp).permit(:temp_dep_id, :dep_name, :typology, :name, :description, :floor, :number_of_seats, :state)
     end
 end

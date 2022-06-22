@@ -7,6 +7,7 @@ class CreateTempSps < ActiveRecord::Migration[6.1]
       t.string :typology
       t.string :name
 
+      t.text :description
       t.integer :floor
       t.integer :number_of_seats
       t.string :state

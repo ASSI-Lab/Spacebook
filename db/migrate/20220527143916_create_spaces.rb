@@ -6,7 +6,8 @@ class CreateSpaces < ActiveRecord::Migration[6.1]
       t.string :dep_name
       t.string :typology
       t.string :name
-     
+
+      t.text :description
       t.integer :floor
       t.integer :number_of_seats
       t.string :state

@@ -26,12 +26,9 @@ class SpacesController < ApplicationController
 
     respond_to do |format|
       if @space.save
-        # format.html { redirect_to space_url(@space), notice: "Space was successfully created." }
-        # format.json { render :show, status: :created, location: @space }
         format.html { redirect_to request.referrer, notice: "Spazio creato correttamente." }
         format.js {render inline: "location.reload();" }
       else
-        #format.html { render :new, status: :unprocessable_entity }
         format.html { redirect_to request.referrer, notice: "Spazio non creato correttamente." }
         format.json { render json: @space.errors, status: :unprocessable_entity }
       end
@@ -42,8 +39,6 @@ class SpacesController < ApplicationController
   def update
     respond_to do |format|
       if @space.update(space_params)
-        # format.html { redirect_to space_url(@space), notice: "Space was successfully updated." }
-        # format.json { render :show, status: :ok, location: @space }
         format.html { redirect_to request.referrer, notice: "Spazio aggiornata correttamente." }
         format.js {render inline: "location.reload();" }
       else
@@ -58,8 +53,6 @@ class SpacesController < ApplicationController
     @space.destroy
 
     respond_to do |format|
-      # format.html { redirect_to spaces_url, notice: "Space was successfully destroyed." }
-      # format.json { head :no_content }
       format.html { redirect_to request.referrer, notice: "Spazio eliminato correttamente." }
       format.js {render inline: "location.reload();" }
     end
@@ -73,6 +66,6 @@ class SpacesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def space_params
-      params.require(:space).permit(:department_id, :dep_name, :typology, :name, :floor, :number_of_seats, :state)
+      params.require(:space).permit(:department_id, :dep_name, :typology, :name, :description, :floor, :number_of_seats, :state)
     end
 end

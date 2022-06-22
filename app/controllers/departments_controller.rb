@@ -12,9 +12,9 @@ class DepartmentsController < ApplicationController
 
   # GET /manager_department | Mostra al manager il dipartimento gestito | accessibile premento il bottone 'il mio dipartimento' nall'area personale
   def manager_department
-    if (current_user.is_manager?)                             # Controlla se l'utente è manager
+    if (current_user.is_manager?) # Controlla se l'utente è manager
       
-      # Crea il dipartimento se è presente un Temporaneo associato nel DB
+      # Crea il dipartimento effettivo con relativi orari, spazi e posti se è presente un dipartimento temporaneo associato a questo manager nel DB
       @temp_dep = TempDep.where(manager: current_user.email)  # Raccoglie l'eventuale dipartimento temporaneo
       if (@temp_dep.count == 1)                               # Controlla se il dipartimento temporaneo esiste
         
@@ -29,12 +29,12 @@ class DepartmentsController < ApplicationController
 
         # Raccoglie gli spazi temporanei relativi al dipartimento temporaneo e con il ciclo crea gli spazi effettivi
         @temp_sps = TempSp.where(temp_dep_id: @temp_dep.id).each do |temp_sp|
-          Space.create(department_id: @department.id, dep_name: temp_sp.dep_name, typology: temp_sp.typology, name: temp_sp.name, floor: temp_sp.floor, number_of_seats: temp_sp.number_of_seats, state: temp_sp.state)
+          Space.create(department_id: @department.id, dep_name: temp_sp.dep_name, typology: temp_sp.typology, name: temp_sp.name, description: temp_sp.description, floor: temp_sp.floor, number_of_seats: temp_sp.number_of_seats, state: temp_sp.state)
         end
         
         @temp_dep.destroy                                       # Elimina il dipartimento temporaneo e i relativi orari e spazi temporanei
 
-        # Creazione dei posti
+        # Creazione dei posti settimanali per ogni orario prenotabile
         @week_days = WeekDay.where(department_id: @department.id) # Raccoglie gli orari del dipartimento
         @spaces = Space.where(department_id: @department.id)      # Raccoglie gli spazi del dipartimento
         
@@ -120,7 +120,7 @@ class DepartmentsController < ApplicationController
         @reservations = Reservation.where(department_id: ((@department).first).id)   # e le prenotazioni del dipartimento trovato
       end # A questo punto si aprirà la view '/manager_department' che lavorerà con questi dati.
 
-    else # Se l'user non è manager
+    else                          # Se l'user non è manager
       redirect_back(fallback_location: root_path)                                             # Reindirizza alla pagina home ((???))
       flash[:alert] = "Attenzione: Non sei autorizzato a visualizzare questa pagina!"         # Notifica l'utente
     end

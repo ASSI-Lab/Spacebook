@@ -43,7 +43,7 @@ dep_set = [
      floors: 4, number_of_spaces: 20, slot: 11}
 ]
 
-# Creazione dei dipartimenti temporanei
+# Creazione dei dipartimenti
 dep_set.each do |dep|
   Department.create(dep)
 end
@@ -85,29 +85,29 @@ wd_set = [
 
 ]
 
-# Creazione degli orari temporanei
+# Creazione degli orari
 wd_set.each do |wd|
     WeekDay.create(wd)
 end
 
 
 # Insieme dei dati per creare gli spazi
-temp_sp_set = [
-    {department_id: Department.where(name: "Ed.M.Polo Fra").first.id, dep_name: "Ed.M.Polo Fra", typology: "Isola", name: "D", floor: 1, number_of_seats: 2, state: "Abilitato"},
-    {department_id: Department.where(name: "Ed.M.Polo Fra").first.id, dep_name: "Ed.M.Polo Fra", typology: "Aula", name: "106", floor: 1, number_of_seats: 4, state: "Abilitato"},
+sp_set = [
+    {department_id: Department.where(name: "Ed.M.Polo Fra").first.id, dep_name: "Ed.M.Polo Fra", typology: "Isola", name: "D", description: "Prese di corrente inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
+    {department_id: Department.where(name: "Ed.M.Polo Fra").first.id, dep_name: "Ed.M.Polo Fra", typology: "Aula", name: "106", description: "Prese di corrente inutili", floor: 1, number_of_seats: 4, state: "Abilitato"},
 
-    {department_id: Department.where(name: "Ed.M.Polo Matt").first.id, dep_name: "Ed.M.Polo Matt", typology: "Isola", name: "D", floor: 1, number_of_seats: 2, state: "Abilitato"},
-    {department_id: Department.where(name: "Ed.M.Polo Matt").first.id, dep_name: "Ed.M.Polo Matt", typology: "Aula", name: "106", floor: 1, number_of_seats: 4, state: "Abilitato"},
+    {department_id: Department.where(name: "Ed.M.Polo Matt").first.id, dep_name: "Ed.M.Polo Matt", typology: "Isola", name: "D", description: "Prese di corrente inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
+    {department_id: Department.where(name: "Ed.M.Polo Matt").first.id, dep_name: "Ed.M.Polo Matt", typology: "Aula", name: "106", description: "Prese di corrente inutili", floor: 1, number_of_seats: 4, state: "Abilitato"},
 
-    {department_id: Department.where(name: "Ed.M.Polo Mic").first.id, dep_name: "Ed.M.Polo Mic", typology: "Isola", name: "D", floor: 1, number_of_seats: 2, state: "Abilitato"},
-    {department_id: Department.where(name: "Ed.M.Polo Mic").first.id, dep_name: "Ed.M.Polo Mic", typology: "Aula", name: "106", floor: 1, number_of_seats: 4, state: "Abilitato"},
+    {department_id: Department.where(name: "Ed.M.Polo Mic").first.id, dep_name: "Ed.M.Polo Mic", typology: "Isola", name: "D", description: "Prese di corrente inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
+    {department_id: Department.where(name: "Ed.M.Polo Mic").first.id, dep_name: "Ed.M.Polo Mic", typology: "Aula", name: "106", description: "Prese di corrente inutili", floor: 1, number_of_seats: 4, state: "Abilitato"},
 
-    {department_id: Department.where(name: "Ed.M.Polo Don").first.id, dep_name: "Ed.M.Polo Don", typology: "Isola", name: "D", floor: 1, number_of_seats: 2, state: "Abilitato"},
-    {department_id: Department.where(name: "Ed.M.Polo Don").first.id, dep_name: "Ed.M.Polo Don", typology: "Aula", name: "106", floor: 1, number_of_seats: 4, state: "Abilitato"},
+    {department_id: Department.where(name: "Ed.M.Polo Don").first.id, dep_name: "Ed.M.Polo Don", typology: "Isola", name: "D", description: "Prese di corrente inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
+    {department_id: Department.where(name: "Ed.M.Polo Don").first.id, dep_name: "Ed.M.Polo Don", typology: "Aula", name: "106", description: "Prese di corrente inutili", floor: 1, number_of_seats: 4, state: "Abilitato"},
 ]
 
-# Creazione degli spazi temporanei
-temp_sp_set.each do |sp|
+# Creazione degli spazi
+sp_set.each do |sp|
     Space.create(sp)
 end
 
