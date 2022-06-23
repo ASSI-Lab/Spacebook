@@ -16,6 +16,7 @@ class CreateReservations < ActiveRecord::Migration[6.1]
       t.datetime :end_date
       
       t.string :state
+      t.string :is_sync
 
       t.timestamps
     end
