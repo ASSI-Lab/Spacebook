@@ -26,6 +26,14 @@
               <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, :class=>"campoT" %>
             </div>
 
+            <!-- Campo inserito automaticamente -->
+            <div class="label", style='display:none'>
+              <%= form.label 'E-mail del manager' %>
+            </div>
+            <div class="field", style='display:none'>
+              <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, :class=>"campoT"%>
+            </div>
+
             <!-- Campi inseriti dal manager -->
             <table class = "table table-striped table-bordered">
               <head>
@@ -34,19 +42,12 @@
               <body>
                 <tr>
                   <td>
-                    
+
                     <div class="label">
                       <%= form.label 'Nome del dipartimento' %>
                     </div>
                     <div class="field">
                       <%= form.text_field :name, :class=>"campoT"%>
-                    </div>
-
-                    <div class="label">
-                      <%= form.label 'E-mail del manager' %>
-                    </div>
-                    <div class="field">
-                      <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, :class=>"campoT"%>
                     </div>
 
                     <div class="label">
@@ -170,385 +171,401 @@
         </tr>
     </head>
 
-    <% if (TempWeekDay.where(temp_dep_id: mydep.id)).count != 7 %>
+    <% @twd = (TempWeekDay.where(temp_dep_id: mydep.id)) %>
+    <% if @twd.count != 7 %>
         <body> <!-- Mostra i form per l'inserimento degli orari -->
-            <tr>
-                <td colspan="7"><b> Inserite i dati di un solo giorno e cliccate l''Imposta orario' relativo. Fatelo per tutti gli orari e vi manderà alla creazione degli spazi </b></td>
-            </tr>
-            <tr>
-                <td><b>Lunedì</b></td>
-                <td><b>Martedì</b></td>
-                <td><b>Mercoledì</b></td>
-                <td><b>Giovedì</b></td>
-                <td><b>Venerdì</b></td>
-                <td><b>Sabato</b></td>
-                <td><b>Domenica</b></td>
-            </tr>
-            <tr>
-                <td> <!-- Lunedì -->
-                    <%= form_with(model: @temp_week_day) do |form| %>
-                        <% if @temp_week_day.errors.any? %>
-                            <div id="error_explanation">
-                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+            <% if @twd.count == 0 %>
+                <tr>
+                    <td colspan="1">Imposta gli orari di apertura e chiusura per: <b>Lunedì</b></td>
+                    <td colspan="6"> <!-- Lunedì -->
+                        <%= form_with(model: @temp_week_day) do |form| %>
+                            <% if @temp_week_day.errors.any? %>
+                                <div id="error_explanation">
+                                <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
 
-                            <ul>
-                                <% @temp_week_day.errors.each do |error| %>
-                                <li><%= error.full_message %></li>
-                                <% end %>
-                            </ul>
+                                <ul>
+                                    <% @temp_week_day.errors.each do |error| %>
+                                    <li><%= error.full_message %></li>
+                                    <% end %>
+                                </ul>
+                                </div>
+                            <% end %>
+
+                            <div class="field", style='display:none'>
+                                <%= form.label "Temp Dep Id" %>
+                                <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
+                            </div>
+
+                            <div class="field", style='display:none'>
+                                <%= form.label :dep_name %>
+                                <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
+                            </div>
+
+                            <div class="field", style='display:none'>
+                                <%= form.label :day %>
+                                <%= form.text_field :day, value: "Lunedì", required: true, readonly: true, :class=>"campoT"%>
+                            </div>
+
+                            <div class="field">
+                                <%= form.label :state %>
+                                <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
+                            </div>
+
+                            <div class="field">
+                                <%= form.label :apertura %>
+                                <%= form.time_select :apertura, :class=>"campoT" %>
+                            </div>
+
+                            <div class="field">
+                                <%= form.label :chiusura %>
+                                <%= form.time_select :chiusura, :class=>"campoT" %>
+                            </div>
+
+                            <br><br><br><br>
+
+                            <div class="actions">
+                                <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
                             </div>
                         <% end %>
+                    </td>
+                </tr>
+            <% elsif @twd.count == 1 %>
+                <tr>
+                    <td colspan="1">Imposta gli orari di apertura e chiusura per: <b>Martedì</b></td>
+                    <td colspan="6"> <!-- Martedì -->
+                        <%= form_with(model: @temp_week_day) do |form| %>
+                            <% if @temp_week_day.errors.any? %>
+                                <div id="error_explanation">
+                                <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label "Temp Dep Id" %>
-                            <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
-                        </div>
+                                <ul>
+                                    <% @temp_week_day.errors.each do |error| %>
+                                    <li><%= error.full_message %></li>
+                                    <% end %>
+                                </ul>
+                                </div>
+                            <% end %>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :dep_name %>
-                            <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label "Temp Dep Id" %>
+                                <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :day %>
-                            <%= form.text_field :day, value: "Lunedì", required: true, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :dep_name %>
+                                <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :state %>
-                            <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :day %>
+                                <%= form.text_field :day, value: "Martedì", required: true, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :apertura %>
-                            <%= form.time_select :apertura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :state %>
+                                <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :chiusura %>
-                            <%= form.time_select :chiusura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :apertura %>
+                                <%= form.time_select :apertura, :class=>"campoT" %>
+                            </div>
 
-                        <br><br><br><br>
+                            <div class="field">
+                                <%= form.label :chiusura %>
+                                <%= form.time_select :chiusura, :class=>"campoT" %>
+                            </div>
 
-                        <div class="actions">
-                            <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
-                        </div>
-                    <% end %>
-                </td>
-                <td> <!-- Martedì -->
-                    <%= form_with(model: @temp_week_day) do |form| %>
-                        <% if @temp_week_day.errors.any? %>
-                            <div id="error_explanation">
-                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+                            <br><br><br><br>
 
-                            <ul>
-                                <% @temp_week_day.errors.each do |error| %>
-                                <li><%= error.full_message %></li>
-                                <% end %>
-                            </ul>
+                            <div class="actions">
+                                <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
                             </div>
                         <% end %>
+                    </td>
+                </tr>
+            <% elsif @twd.count == 2 %>
+                <tr>
+                    <td colspan="1">Imposta gli orari di apertura e chiusura per: <b>Mercoledì</b></td>
+                    <td colspan="6"> <!-- Mercoledì -->
+                        <%= form_with(model: @temp_week_day) do |form| %>
+                            <% if @temp_week_day.errors.any? %>
+                                <div id="error_explanation">
+                                <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label "Temp Dep Id" %>
-                            <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
-                        </div>
+                                <ul>
+                                    <% @temp_week_day.errors.each do |error| %>
+                                    <li><%= error.full_message %></li>
+                                    <% end %>
+                                </ul>
+                                </div>
+                            <% end %>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :dep_name %>
-                            <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label "Temp Dep Id" %>
+                                <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :day %>
-                            <%= form.text_field :day, value: "Martedì", required: true, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :dep_name %>
+                                <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :state %>
-                            <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :day %>
+                                <%= form.text_field :day, value: "Mercoledì", required: true, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :apertura %>
-                            <%= form.time_select :apertura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :state %>
+                                <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :chiusura %>
-                            <%= form.time_select :chiusura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :apertura %>
+                                <%= form.time_select :apertura, :class=>"campoT" %>
+                            </div>
 
-                        <br><br><br><br>
+                            <div class="field">
+                                <%= form.label :chiusura %>
+                                <%= form.time_select :chiusura, :class=>"campoT" %>
+                            </div>
 
-                        <div class="actions">
-                            <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
-                        </div>
-                    <% end %>
-                </td>
-                <td> <!-- Mercoledì -->
-                    <%= form_with(model: @temp_week_day) do |form| %>
-                        <% if @temp_week_day.errors.any? %>
-                            <div id="error_explanation">
-                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+                            <br><br><br><br>
 
-                            <ul>
-                                <% @temp_week_day.errors.each do |error| %>
-                                <li><%= error.full_message %></li>
-                                <% end %>
-                            </ul>
+                            <div class="actions">
+                                <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
                             </div>
                         <% end %>
+                    </td>
+                </tr>
+            <% elsif @twd.count == 3 %>
+                <tr>
+                    <td colspan="1">Imposta gli orari di apertura e chiusura per: <b>Giovedì</b></td>
+                    <td colspan="6"> <!-- Giovedì -->
+                        <%= form_with(model: @temp_week_day) do |form| %>
+                            <% if @temp_week_day.errors.any? %>
+                                <div id="error_explanation">
+                                <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label "Temp Dep Id" %>
-                            <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
-                        </div>
+                                <ul>
+                                    <% @temp_week_day.errors.each do |error| %>
+                                    <li><%= error.full_message %></li>
+                                    <% end %>
+                                </ul>
+                                </div>
+                            <% end %>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :dep_name %>
-                            <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label "Temp Dep Id" %>
+                                <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :day %>
-                            <%= form.text_field :day, value: "Mercoledì", required: true, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :dep_name %>
+                                <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :state %>
-                            <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :day %>
+                                <%= form.text_field :day, value: "Giovedì", required: true, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :apertura %>
-                            <%= form.time_select :apertura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :state %>
+                                <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :chiusura %>
-                            <%= form.time_select :chiusura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :apertura %>
+                                <%= form.time_select :apertura, :class=>"campoT" %>
+                            </div>
 
-                        <br><br><br><br>
+                            <div class="field">
+                                <%= form.label :chiusura %>
+                                <%= form.time_select :chiusura, :class=>"campoT" %>
+                            </div>
 
-                        <div class="actions">
-                            <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
-                        </div>
-                    <% end %>
-                </td>
-                <td> <!-- Giovedì -->
-                    <%= form_with(model: @temp_week_day) do |form| %>
-                        <% if @temp_week_day.errors.any? %>
-                            <div id="error_explanation">
-                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+                            <br><br><br><br>
 
-                            <ul>
-                                <% @temp_week_day.errors.each do |error| %>
-                                <li><%= error.full_message %></li>
-                                <% end %>
-                            </ul>
+                            <div class="actions">
+                                <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
                             </div>
                         <% end %>
+                    </td>
+                </tr>
+            <% elsif @twd.count == 4 %>
+                <tr>
+                    <td colspan="1">Imposta gli orari di apertura e chiusura per: <b>Venerdì</b></td>
+                    <td colspan="6"> <!-- Venerdì -->
+                        <%= form_with(model: @temp_week_day) do |form| %>
+                            <% if @temp_week_day.errors.any? %>
+                                <div id="error_explanation">
+                                <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label "Temp Dep Id" %>
-                            <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
-                        </div>
+                                <ul>
+                                    <% @temp_week_day.errors.each do |error| %>
+                                    <li><%= error.full_message %></li>
+                                    <% end %>
+                                </ul>
+                                </div>
+                            <% end %>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :dep_name %>
-                            <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label "Temp Dep Id" %>
+                                <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :day %>
-                            <%= form.text_field :day, value: "Giovedì", required: true, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :dep_name %>
+                                <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :state %>
-                            <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :day %>
+                                <%= form.text_field :day, value: "Venerdì", required: true, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :apertura %>
-                            <%= form.time_select :apertura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :state %>
+                                <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :chiusura %>
-                            <%= form.time_select :chiusura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :apertura %>
+                                <%= form.time_select :apertura, :class=>"campoT" %>
+                            </div>
 
-                        <br><br><br><br>
+                            <div class="field">
+                                <%= form.label :chiusura %>
+                                <%= form.time_select :chiusura, :class=>"campoT" %>
+                            </div>
 
-                        <div class="actions">
-                            <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
-                        </div>
-                    <% end %>
-                </td>
-                <td> <!-- Venerdì -->
-                    <%= form_with(model: @temp_week_day) do |form| %>
-                        <% if @temp_week_day.errors.any? %>
-                            <div id="error_explanation">
-                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+                            <br><br><br><br>
 
-                            <ul>
-                                <% @temp_week_day.errors.each do |error| %>
-                                <li><%= error.full_message %></li>
-                                <% end %>
-                            </ul>
+                            <div class="actions">
+                                <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
                             </div>
                         <% end %>
+                    </td>
+                </tr>
+            <% elsif @twd.count == 5 %>
+                <tr>
+                    <td colspan="1">Imposta gli orari di apertura e chiusura per: <b>Sabato</b></td>
+                    <td colspan="6"> <!-- Sabato -->
+                        <%= form_with(model: @temp_week_day) do |form| %>
+                            <% if @temp_week_day.errors.any? %>
+                                <div id="error_explanation">
+                                <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label "Temp Dep Id" %>
-                            <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
-                        </div>
+                                <ul>
+                                    <% @temp_week_day.errors.each do |error| %>
+                                    <li><%= error.full_message %></li>
+                                    <% end %>
+                                </ul>
+                                </div>
+                            <% end %>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :dep_name %>
-                            <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label "Temp Dep Id" %>
+                                <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :day %>
-                            <%= form.text_field :day, value: "Venerdì", required: true, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :dep_name %>
+                                <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :state %>
-                            <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :day %>
+                                <%= form.text_field :day, value: "Sabato", required: true, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :apertura %>
-                            <%= form.time_select :apertura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :state %>
+                                <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :chiusura %>
-                            <%= form.time_select :chiusura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :apertura %>
+                                <%= form.time_select :apertura, :class=>"campoT" %>
+                            </div>
 
-                        <br><br><br><br>
+                            <div class="field">
+                                <%= form.label :chiusura %>
+                                <%= form.time_select :chiusura, :class=>"campoT" %>
+                            </div>
 
-                        <div class="actions">
-                            <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
-                        </div>
-                    <% end %>
-                </td>
-                <td> <!-- Sabato -->
-                    <%= form_with(model: @temp_week_day) do |form| %>
-                        <% if @temp_week_day.errors.any? %>
-                            <div id="error_explanation">
-                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+                            <br><br><br><br>
 
-                            <ul>
-                                <% @temp_week_day.errors.each do |error| %>
-                                <li><%= error.full_message %></li>
-                                <% end %>
-                            </ul>
+                            <div class="actions">
+                                <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
                             </div>
                         <% end %>
+                    </td>
+                </tr>
+            <% elsif @twd.count == 6 %>
+                <tr>
+                    <td colspan="1">Imposta gli orari di apertura e chiusura per: <b>Domenica</b></td>
+                    <td colspan="6"> <!-- Domenica -->
+                        <%= form_with(model: @temp_week_day) do |form| %>
+                            <% if @temp_week_day.errors.any? %>
+                                <div id="error_explanation">
+                                <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label "Temp Dep Id" %>
-                            <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
-                        </div>
+                                <ul>
+                                    <% @temp_week_day.errors.each do |error| %>
+                                    <li><%= error.full_message %></li>
+                                    <% end %>
+                                </ul>
+                                </div>
+                            <% end %>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :dep_name %>
-                            <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label "Temp Dep Id" %>
+                                <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field", style='display:none'>
-                            <%= form.label :day %>
-                            <%= form.text_field :day, value: "Sabato", required: true, readonly: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :dep_name %>
+                                <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :state %>
-                            <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
-                        </div>
+                            <div class="field", style='display:none'>
+                                <%= form.label :day %>
+                                <%= form.text_field :day, value: "Domenica", required: true, readonly: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :apertura %>
-                            <%= form.time_select :apertura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :state %>
+                                <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
+                            </div>
 
-                        <div class="field">
-                            <%= form.label :chiusura %>
-                            <%= form.time_select :chiusura, :class=>"campoT" %>
-                        </div>
+                            <div class="field">
+                                <%= form.label :apertura %>
+                                <%= form.time_select :apertura, :class=>"campoT" %>
+                            </div>
 
-                        <br><br><br><br>
+                            <div class="field">
+                                <%= form.label :chiusura %>
+                                <%= form.time_select :chiusura, :class=>"campoT" %>
+                            </div>
 
-                        <div class="actions">
-                            <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
-                        </div>
-                    <% end %>
-                </td>
-                <td> <!-- Domenica -->
-                    <%= form_with(model: @temp_week_day) do |form| %>
-                        <% if @temp_week_day.errors.any? %>
-                            <div id="error_explanation">
-                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+                            <br><br><br><br>
 
-                            <ul>
-                                <% @temp_week_day.errors.each do |error| %>
-                                <li><%= error.full_message %></li>
-                                <% end %>
-                            </ul>
+                            <div class="actions">
+                                <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
                             </div>
                         <% end %>
-
-                        <div class="field", style='display:none'>
-                            <%= form.label "Temp Dep Id" %>
-                            <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :class=>"campoT"%>
-                        </div>
-
-                        <div class="field", style='display:none'>
-                            <%= form.label :dep_name %>
-                            <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :class=>"campoT"%>
-                        </div>
-
-                        <div class="field", style='display:none'>
-                            <%= form.label :day %>
-                            <%= form.text_field :day, value: "Domenica", required: true, readonly: true, :class=>"campoT"%>
-                        </div>
-
-                        <div class="field">
-                            <%= form.label :state %>
-                            <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true, :class=>"campoT"%>
-                        </div>
-
-                        <div class="field">
-                            <%= form.label :apertura %>
-                            <%= form.time_select :apertura, :class=>"campoT" %>
-                        </div>
-
-                        <div class="field">
-                            <%= form.label :chiusura %>
-                            <%= form.time_select :chiusura, :class=>"campoT" %>
-                        </div>
-
-                        <br><br><br><br>
-
-                        <div class="actions">
-                            <%= form.submit class:"btn btn-signup", value: 'Imposta orario'%>
-                        </div>
-                    <% end %>
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            <% end %>
         </body>
     <% else %>
         <body> <!-- Mostra gli orari inseriti, il form di inserimento degli spazi e gli spazi gia inseriti -->
 
             <tr> <!-- Mostra gli orari inseriti -->
-                <% (TempWeekDay.where(temp_dep_id: mydep.id)).each do |twd| %>
+                <% @twd.each do |twd| %>
                     <td width="14%">
                         <b><%= twd.day %></b> <br>
                         <% if twd.state == "Aperto" %>
@@ -640,14 +657,14 @@
                     </table>
 
                     <!-- Campo inserito automaticamente -->
-                    <div class="role">
+                    <div class="role", style='display:none'>
                         <%= form.label 'Disponibilità' %>
                     </div>
                     <div class="field", style='display:none'>
                         <%= form.text_field :state, value: "Abilitato", required: true%>
                     </div>
 
-                    <!-- Tasto per la creazione --><br>
+                    <!-- Tasto per la creazione -->
                     <div class="actions">
                         <%= form.submit class:"btn btn-signup", value: 'Inserisci spazio'%>
                     </div>
@@ -669,7 +686,7 @@
                         </tr>
                     </head>
                     <body>
-                        <% (TempSp.where(temp_dep_id: (TempDep.where(user_id: current_user.id)).first.id)).each do |jcs| %>
+                        <% TempSp.where(temp_dep_id: (mydep.id)).each do |jcs| %>
                         <tr>
                             <td><%= jcs.typology %></td>
                             <td><%= jcs.name %></td>
@@ -685,9 +702,9 @@
 
             </tr>
             <tr>
-                <td colspan="7"><br><br><br><br>
+                <td colspan="7">
                     <div class="actions">
-                        <button class="btn btn-signup" onclick="window.location.href='/manager_department'">Conferma la registrazione del dipartimento e dei relativi spazi</button>
+                        <%= button_to 'Conferma la registrazione del dipartimento e dei relativi spazi', '/manager_department', method: :get, data: { confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in queste tabelle?' } %>
                     </div>
                 </td>
             </tr>
