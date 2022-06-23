@@ -3364,13 +3364,14 @@ textarea.form-control-lg {
 }
 
 .btn-outline-info {
-  color: #0dcaf0;
-  border-color: #0dcaf0;
+  color: #0059ff;          // MODIFICATO DA ME PRIMA ERA #0dcaf0
+  border-color: #0059ff;   // MODIFICATO DA ME PRIMA ERA #0dcaf0
+  width: 100%;
 }
 .btn-outline-info:hover {
   color: #000;
-  background-color: #0dcaf0;
-  border-color: #0dcaf0;
+  background-color: #0059ff;
+  border-color: #0059ff;
 }
 .btn-check:focus + .btn-outline-info, .btn-outline-info:focus {
   box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.5);
@@ -4597,7 +4598,7 @@ textarea.form-control-lg {
 
 .card-footer {
   padding: 0.5rem 1rem;
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(255, 255, 255, 0.03);  // MODIFICATO DA ME PRIMA ERA NERO
   border-top: 1px solid rgba(0, 0, 0, 0.125);
 }
 .card-footer:last-child {
@@ -11433,11 +11434,11 @@ body {
   z-index: 1039;
 }
 .sb-topnav .navbar-brand {
-  // width: 225px;  // ORIGINALE
-  // margin: 0;     // ORIGINALE
-  width: 20%;       // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
-  margin-left: 40%; // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
-  margin-right: 30%; // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
+  // width: 225px;    // ORIGINALE
+  // margin: 0;       // ORIGINALE
+  width: 20%;         // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
+  margin-left: 43%;   // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
+  margin-right: 27%;  // MODIFICATO DA ME PRIMA NON ERANO PRESENTI
 }
 .sb-topnav.navbar-dark #sidebarToggle {
   color: rgba(255, 255, 255, 0.5);

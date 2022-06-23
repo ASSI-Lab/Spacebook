@@ -5,6 +5,7 @@ class ManagementController < ApplicationController
     if(current_user.is_admin?)                                                        # Blocca l'accesso alla pagina se non si è amministratori 
       @users = User.all
       @departments = Department.all
+      @week_days = WeekDay.all
       @reservations = Reservation.all
     else
       redirect_back(fallback_location: root_path)                                           
