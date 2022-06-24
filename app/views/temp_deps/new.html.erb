@@ -11,703 +11,712 @@
 
 	<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
 </head>
 
-<body>
-
-	<!-- Page content-->
-	<div class="container">
-        <% if (TempDep.where(manager: current_user.email).count == 0) %>
-            <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione del dipartimento -->
-                <div class="card-header"><h3 class="text-center font-weight-light my-4"> Registra il tuo dipartimento </h3></div>
-                    <div class="card-body">
-                        <%= form_with(model: @temp_dep) do |form| %>
-                            <% if @temp_dep.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
-                                <div id="error_explanation">
-                                    <h2><%= pluralize(@temp_dep.errors.count, "error") %> prohibited this department from being saved:</h2>
-                                    <ul>
-                                        <% @temp_dep.errors.each do |error| %>
-                                            <li><%= error.full_message %></li>
-                                        <% end %>
-                                    </ul>
-                                </div>
-                            <% end %>
-
-                            <!-- Campi inseriti automaticamente -->
-                            <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, :style=>'display:none' %>
-                            <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, :style=>'display:none'%>
-
-                            <!-- Campi inseriti dal manager -->
-                            <div class="form-floating mb-3">                            
-                                <%= form.text_field :name, :class=>"form-control", :id=>"depName", :placeholder=>"plh"%>
-                                <label for="depName"> Nome del dipartimento </label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
-                                <label for="numPiani"> Numero di piani </label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <%= form.number_field :number_of_spaces, :class=>"form-control", :id=>"numSpazi", :placeholder=>"plh"%>
-                                <label for="numSpazi"> Numero di spazi </label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <%= form.number_field :slot, :class=>"form-control", :id=>"slot", :placeholder=>"plh"%>
-                                <label for="slot"> Slot di ore minime consecutive prenotabili </label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <%= form.text_field :via, :class=>"form-control", :id=>"via", :placeholder=>"plh"%>
-                                <label for="via"> Via, Viale, Piazza... </label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <%= form.text_field :civico, :class=>"form-control", :id=>"civico", :placeholder=>"plh"%>
-                                <label for="civico"> n° civico </label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <%= form.number_field :cap, :class=>"form-control", :id=>"cap", :placeholder=>"plh"%>
-                                <label for="cap"> Cap </label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <%= form.text_field :citta, :class=>"form-control", :id=>"citta", :placeholder=>"plh"%>
-                                <label for="citta"> Città </label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <%= form.text_field :provincia, :class=>"form-control", :id=>"provincia", :placeholder=>"plh"%>
-                                <label for="provincia"> Provincia </label>
-                            </div>
-
-                            <div class="form-floating mb-3">
-                                <div class="label">
-                                    <%= form.label 'Descrizione del dipartimento' %>
-                                </div>
-                                <div class="field"> 
-                                    <%= form.text_area :description, :class=>"form-control", rows: 5, :style=>"width:100%" %>
-                                </div>
-                            </div>
-
-                            <!-- Tasto per la creazione -->
-                            <div class="actions">
-                                <%= form.submit class:"btn btn-outline-info", value: 'Continua'%>
-                            </div>
-
-                        <% end %>
-                    </div>
-                </div>
-            </div>
-        <% else %>
-            <% mydep = (TempDep.where(user_id: current_user.id)).first %>
-            <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il dipartimento appena creato -->
-                <div class="card-header"> <h3 class="text-center font-weight-light my-4"> Il tuo dipartimento </h3></div>
-                    <div class="card-body">
-                        <h2 class="card-title h4"> <%= mydep.name %> </h2>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <label class="label"> Descrizione </label> 
-                                <br> 
-                                <p class="card-text"> <%= mydep.description %> </p>
-                            </li>
-                            <li class="list-group-item">
-                                <label class="label"> Posizione </label> 
-                                <br> 
-                                <p class="card-text"> <%= mydep.via %>, <%= mydep.civico %>, <%= mydep.cap %>, <%= mydep.citta %>, <%= mydep.provincia %> </p>
-                            </li>
-                            <li class="list-group-item"> 
-                                <label class="label"> Numero piani </label> 
-                                <br> 
-                                <p> <%= mydep.floors %> </p>
-                            </li>
-                            <li class="list-group-item"> 
-                                <label class="label"> Numero spazi </label> 
-                                <br> 
-                                <p> <%= mydep.number_of_spaces %> </p>
-                            </li>
-                            <li class="list-group-item"> 
-                                <%= button_to 'Elimina', mydep, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, :class=>'btn btn-outline-info' %>
-                            </li>
-                        </ul>	
-                    </div>
-                </div>
-            </div>
-
-            <% @twd = (TempWeekDay.where(temp_dep_id: mydep.id)) %>
-            <% if @twd.count != 7 %>    <!-- Mostra i form per l'inserimento degli orari -->
-                <body> 
-                    <% if @twd.count == 0 %>
-                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del LUNEDÌ -->
-                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Lunedì </b> </h3></div>
-                                <div class="card-body">
-                                    <%= form_with(model: @temp_week_day) do |form| %>
-                                        <% if @temp_week_day.errors.any? %>
-                                            <div id="error_explanation">
-                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
-
-                                            <ul>
-                                                <% @temp_week_day.errors.each do |error| %>
-                                                <li><%= error.full_message %></li>
+<body class="bg-primary">
+	<div id="layoutAuthentication">
+		<div id="layoutAuthentication_content">
+			<main>
+                <!-- Page content-->
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5">
+                            <% if (TempDep.where(manager: current_user.email).count == 0) %>
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione del dipartimento -->
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4"> Registra il tuo dipartimento </h3></div>
+                                        <div class="card-body">
+                                            <%= form_with(model: @temp_dep) do |form| %>
+                                                <% if @temp_dep.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
+                                                    <div id="error_explanation">
+                                                        <h2><%= pluralize(@temp_dep.errors.count, "error") %> prohibited this department from being saved:</h2>
+                                                        <ul>
+                                                            <% @temp_dep.errors.each do |error| %>
+                                                                <li><%= error.full_message %></li>
+                                                            <% end %>
+                                                        </ul>
+                                                    </div>
                                                 <% end %>
-                                            </ul>
-                                            </div>
-                                        <% end %>
 
-                                        <!-- Campi inseriti automaticamente -->
-                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :day, value: "Lunedì", required: true, readonly: true, :style=>'display:none'%>
- 
-                                        <!-- Campi inseriti dal manager -->
-                                        <table style="text-align:center" width="100%">
-                                            <tr>
-                                                <td colspan="2">
-                                                    <div class="field">
-                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="apertura"> Apertura </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="chiusura"> Chiusura </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :apertura, :id=>"apertura"%>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                                <!-- Campi inseriti automaticamente -->
+                                                <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, :style=>'display:none' %>
+                                                <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, :style=>'display:none'%>
 
-                                        <div class="actions">
-                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
-                                        </div>
-                                    <% end %>
-                                </div>
-                            </div>
-                        </div> 
-                    <% elsif @twd.count == 1 %>
-                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del MARTEDÌ -->
-                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Martedì </b> </h3></div>
-                                <div class="card-body">
-                                    <%= form_with(model: @temp_week_day) do |form| %>
-                                        <% if @temp_week_day.errors.any? %>
-                                            <div id="error_explanation">
-                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+                                                <!-- Campi inseriti dal manager -->
+                                                <div class="form-floating mb-3">                            
+                                                    <%= form.text_field :name, :class=>"form-control", :id=>"depName", :placeholder=>"plh"%>
+                                                    <label for="depName"> Nome del dipartimento </label>
+                                                </div>
 
-                                            <ul>
-                                                <% @temp_week_day.errors.each do |error| %>
-                                                <li><%= error.full_message %></li>
-                                                <% end %>
-                                            </ul>
-                                            </div>
-                                        <% end %>
+                                                <div class="form-floating mb-3">
+                                                    <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
+                                                    <label for="numPiani"> Numero di piani </label>
+                                                </div>
 
-                                        <!-- Campi inseriti automaticamente -->
-                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :day, value: "Martedì", required: true, readonly: true, :style=>'display:none'%>
- 
-                                        <!-- Campi inseriti dal manager -->
-                                        <table style="text-align:center" width="100%">
-                                            <tr>
-                                                <td colspan="2">
-                                                    <div class="field">
-                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="apertura"> Apertura </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="chiusura"> Chiusura </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :apertura, :id=>"apertura"%>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                                <div class="form-floating mb-3">
+                                                    <%= form.number_field :number_of_spaces, :class=>"form-control", :id=>"numSpazi", :placeholder=>"plh"%>
+                                                    <label for="numSpazi"> Numero di spazi </label>
+                                                </div>
 
-                                        <div class="actions">
-                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
-                                        </div>
-                                    <% end %>
-                                </div>
-                            </div>
-                        </div> 
-                    <% elsif @twd.count == 2 %>
-                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del MERCOLEDÌ -->
-                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Mercoledì </b> </h3></div>
-                                <div class="card-body">
-                                    <%= form_with(model: @temp_week_day) do |form| %>
-                                        <% if @temp_week_day.errors.any? %>
-                                            <div id="error_explanation">
-                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+                                                <div class="form-floating mb-3">
+                                                    <%= form.number_field :slot, :class=>"form-control", :id=>"slot", :placeholder=>"plh"%>
+                                                    <label for="slot"> Slot di ore minime consecutive prenotabili </label>
+                                                </div>
 
-                                            <ul>
-                                                <% @temp_week_day.errors.each do |error| %>
-                                                <li><%= error.full_message %></li>
-                                                <% end %>
-                                            </ul>
-                                            </div>
-                                        <% end %>
+                                                <div class="form-floating mb-3">
+                                                    <%= form.text_field :via, :class=>"form-control", :id=>"via", :placeholder=>"plh"%>
+                                                    <label for="via"> Via, Viale, Piazza... </label>
+                                                </div>
 
-                                        <!-- Campi inseriti automaticamente -->
-                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :day, value: "Mercoledì", required: true, readonly: true, :style=>'display:none'%>
- 
-                                        <!-- Campi inseriti dal manager -->
-                                        <table style="text-align:center" width="100%">
-                                            <tr>
-                                                <td colspan="2">
-                                                    <div class="field">
-                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="apertura"> Apertura </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="chiusura"> Chiusura </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :apertura, :id=>"apertura"%>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                                <div class="form-floating mb-3">
+                                                    <%= form.text_field :civico, :class=>"form-control", :id=>"civico", :placeholder=>"plh"%>
+                                                    <label for="civico"> n° civico </label>
+                                                </div>
 
-                                        <div class="actions">
-                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
-                                        </div>
-                                    <% end %>
-                                </div>
-                            </div>
-                        </div> 
-                    <% elsif @twd.count == 3 %>
-                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del GIOVEDÌ -->
-                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Giovedì </b> </h3></div>
-                                <div class="card-body">
-                                    <%= form_with(model: @temp_week_day) do |form| %>
-                                        <% if @temp_week_day.errors.any? %>
-                                            <div id="error_explanation">
-                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+                                                <div class="form-floating mb-3">
+                                                    <%= form.number_field :cap, :class=>"form-control", :id=>"cap", :placeholder=>"plh"%>
+                                                    <label for="cap"> Cap </label>
+                                                </div>
 
-                                            <ul>
-                                                <% @temp_week_day.errors.each do |error| %>
-                                                <li><%= error.full_message %></li>
-                                                <% end %>
-                                            </ul>
-                                            </div>
-                                        <% end %>
+                                                <div class="form-floating mb-3">
+                                                    <%= form.text_field :citta, :class=>"form-control", :id=>"citta", :placeholder=>"plh"%>
+                                                    <label for="citta"> Città </label>
+                                                </div>
 
-                                        <!-- Campi inseriti automaticamente -->
-                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :day, value: "Giovedì", required: true, readonly: true, :style=>'display:none'%>
- 
-                                        <!-- Campi inseriti dal manager -->
-                                        <table style="text-align:center" width="100%">
-                                            <tr>
-                                                <td colspan="2">
-                                                    <div class="field">
-                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="apertura"> Apertura </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="chiusura"> Chiusura </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :apertura, :id=>"apertura"%>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                                <div class="form-floating mb-3">
+                                                    <%= form.text_field :provincia, :class=>"form-control", :id=>"provincia", :placeholder=>"plh"%>
+                                                    <label for="provincia"> Provincia </label>
+                                                </div>
 
-                                        <div class="actions">
-                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
-                                        </div>
-                                    <% end %>
-                                </div>
-                            </div>
-                        </div> 
-                    <% elsif @twd.count == 4 %>
-                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del VENERDÌ -->
-                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Venerdì </b> </h3></div>
-                                <div class="card-body">
-                                    <%= form_with(model: @temp_week_day) do |form| %>
-                                        <% if @temp_week_day.errors.any? %>
-                                            <div id="error_explanation">
-                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+                                                <div class="form-floating mb-3">
+                                                    <div class="label">
+                                                        <%= form.label 'Descrizione del dipartimento' %>
+                                                    </div>
+                                                    <div class="field"> 
+                                                        <%= form.text_area :description, :class=>"form-control", rows: 5, :style=>"width:100%" %>
+                                                    </div>
+                                                </div>
 
-                                            <ul>
-                                                <% @temp_week_day.errors.each do |error| %>
-                                                <li><%= error.full_message %></li>
-                                                <% end %>
-                                            </ul>
-                                            </div>
-                                        <% end %>
+                                                <!-- Tasto per la creazione -->
+                                                <div class="actions">
+                                                    <%= form.submit class:"btn btn-outline-info", value: 'Continua'%>
+                                                </div>
 
-                                        <!-- Campi inseriti automaticamente -->
-                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :day, value: "Venerdì", required: true, readonly: true, :style=>'display:none'%>
- 
-                                        <!-- Campi inseriti dal manager -->
-                                        <table style="text-align:center" width="100%">
-                                            <tr>
-                                                <td colspan="2">
-                                                    <div class="field">
-                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="apertura"> Apertura </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="chiusura"> Chiusura </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :apertura, :id=>"apertura"%>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                        <div class="actions">
-                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
-                                        </div>
-                                    <% end %>
-                                </div>
-                            </div>
-                        </div> 
-                    <% elsif @twd.count == 5 %>
-                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del SABATO -->
-                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Sabato </b> </h3></div>
-                                <div class="card-body">
-                                    <%= form_with(model: @temp_week_day) do |form| %>
-                                        <% if @temp_week_day.errors.any? %>
-                                            <div id="error_explanation">
-                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
-
-                                            <ul>
-                                                <% @temp_week_day.errors.each do |error| %>
-                                                <li><%= error.full_message %></li>
-                                                <% end %>
-                                            </ul>
-                                            </div>
-                                        <% end %>
-
-                                        <!-- Campi inseriti automaticamente -->
-                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :day, value: "Sabato", required: true, readonly: true, :style=>'display:none'%>
- 
-                                        <!-- Campi inseriti dal manager -->
-                                        <table style="text-align:center" width="100%">
-                                            <tr>
-                                                <td colspan="2">
-                                                    <div class="field">
-                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="apertura"> Apertura </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="chiusura"> Chiusura </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :apertura, :id=>"apertura"%>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                        <div class="actions">
-                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
-                                        </div>
-                                    <% end %>
-                                </div>
-                            </div>
-                        </div> 
-                    <% elsif @twd.count == 6 %>
-                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del DOMENICA -->
-                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Domenica </b> </h3></div>
-                                <div class="card-body">
-                                    <%= form_with(model: @temp_week_day) do |form| %>
-                                        <% if @temp_week_day.errors.any? %>
-                                            <div id="error_explanation">
-                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
-
-                                            <ul>
-                                                <% @temp_week_day.errors.each do |error| %>
-                                                <li><%= error.full_message %></li>
-                                                <% end %>
-                                            </ul>
-                                            </div>
-                                        <% end %>
-
-                                        <!-- Campi inseriti automaticamente -->
-                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
-                                        <%= form.text_field :day, value: "Domenica", required: true, readonly: true, :style=>'display:none'%>
- 
-                                        <!-- Campi inseriti dal manager -->
-                                        <table style="text-align:center" width="100%">
-                                            <tr>
-                                                <td colspan="2">
-                                                    <div class="field">
-                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="apertura"> Apertura </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <label for="chiusura"> Chiusura </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :apertura, :id=>"apertura"%>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="field">
-                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                        <div class="actions">
-                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
-                                        </div>
-                                    <% end %>
-                                </div>
-                            </div>
-                        </div> 
-                    <% end %>
-                </body>
-            <% else %>
-
-                <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra gli orari del dipartimento -->
-                    <div class="card-header"> <h3 class="text-center font-weight-light my-4"> Orari del dipartimento </h3></div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <table class="table">
-                                        <tr>
-                                            <% @twd.each do |twd| %>
-                                                <td>
-                                                    <b><%= twd.day %></b> <br>
-                                                    <% if twd.state == "Aperto" %>
-                                                        Apertura <%= twd.apertura.strftime('%H:%M') %> <br>
-                                                        Chiusura <%= twd.chiusura.strftime('%H:%M') %> <br>
-                                                    <% else %>
-                                                        Chiuso
-                                                    <% end %>
-                                                </td>
                                             <% end %>
-                                        </tr>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% else %>
+                                <% mydep = (TempDep.where(user_id: current_user.id)).first %>
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il dipartimento appena creato -->
+                                    <div class="card-header"> <h3 class="text-center font-weight-light my-4"> Il tuo dipartimento </h3></div>
+                                        <div class="card-body">
+                                            <h2 class="card-title h4"> <%= mydep.name %> </h2>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    <label class="label"> Descrizione </label> 
+                                                    <br> 
+                                                    <p class="card-text"> <%= mydep.description %> </p>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <label class="label"> Posizione </label> 
+                                                    <br> 
+                                                    <p class="card-text"> <%= mydep.via %>, <%= mydep.civico %>, <%= mydep.cap %>, <%= mydep.citta %>, <%= mydep.provincia %> </p>
+                                                </li>
+                                                <li class="list-group-item"> 
+                                                    <label class="label"> Numero piani </label> 
+                                                    <br> 
+                                                    <p> <%= mydep.floors %> </p>
+                                                </li>
+                                                <li class="list-group-item"> 
+                                                    <label class="label"> Numero spazi </label> 
+                                                    <br> 
+                                                    <p> <%= mydep.number_of_spaces %> </p>
+                                                </li>
+                                                <li class="list-group-item"> 
+                                                    <%= button_to 'Elimina', mydep, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, :class=>'btn btn-outline-info' %>
+                                                </li>
+                                            </ul>	
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <% @twd = (TempWeekDay.where(temp_dep_id: mydep.id)) %>
+                                <% if @twd.count != 7 %>    <!-- Mostra i form per l'inserimento degli orari --> 
+                                    <% if @twd.count == 0 %>
+                                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del LUNEDÌ -->
+                                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Lunedì </b> </h3></div>
+                                                <div class="card-body">
+                                                    <%= form_with(model: @temp_week_day) do |form| %>
+                                                        <% if @temp_week_day.errors.any? %>
+                                                            <div id="error_explanation">
+                                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+
+                                                            <ul>
+                                                                <% @temp_week_day.errors.each do |error| %>
+                                                                <li><%= error.full_message %></li>
+                                                                <% end %>
+                                                            </ul>
+                                                            </div>
+                                                        <% end %>
+
+                                                        <!-- Campi inseriti automaticamente -->
+                                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :day, value: "Lunedì", required: true, readonly: true, :style=>'display:none'%>
+                
+                                                        <!-- Campi inseriti dal manager -->
+                                                        <table style="text-align:center" width="100%">
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <div class="field">
+                                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="apertura"> Apertura </label>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="chiusura"> Chiusura </label>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :apertura, :id=>"apertura"%>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <div class="actions">
+                                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
+                                                        </div>
+                                                    <% end %>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    <% elsif @twd.count == 1 %>
+                                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del MARTEDÌ -->
+                                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Martedì </b> </h3></div>
+                                                <div class="card-body">
+                                                    <%= form_with(model: @temp_week_day) do |form| %>
+                                                        <% if @temp_week_day.errors.any? %>
+                                                            <div id="error_explanation">
+                                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+
+                                                            <ul>
+                                                                <% @temp_week_day.errors.each do |error| %>
+                                                                <li><%= error.full_message %></li>
+                                                                <% end %>
+                                                            </ul>
+                                                            </div>
+                                                        <% end %>
+
+                                                        <!-- Campi inseriti automaticamente -->
+                                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :day, value: "Martedì", required: true, readonly: true, :style=>'display:none'%>
+                
+                                                        <!-- Campi inseriti dal manager -->
+                                                        <table style="text-align:center" width="100%">
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <div class="field">
+                                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="apertura"> Apertura </label>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="chiusura"> Chiusura </label>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :apertura, :id=>"apertura"%>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <div class="actions">
+                                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
+                                                        </div>
+                                                    <% end %>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    <% elsif @twd.count == 2 %>
+                                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del MERCOLEDÌ -->
+                                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Mercoledì </b> </h3></div>
+                                                <div class="card-body">
+                                                    <%= form_with(model: @temp_week_day) do |form| %>
+                                                        <% if @temp_week_day.errors.any? %>
+                                                            <div id="error_explanation">
+                                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+
+                                                            <ul>
+                                                                <% @temp_week_day.errors.each do |error| %>
+                                                                <li><%= error.full_message %></li>
+                                                                <% end %>
+                                                            </ul>
+                                                            </div>
+                                                        <% end %>
+
+                                                        <!-- Campi inseriti automaticamente -->
+                                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :day, value: "Mercoledì", required: true, readonly: true, :style=>'display:none'%>
+                
+                                                        <!-- Campi inseriti dal manager -->
+                                                        <table style="text-align:center" width="100%">
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <div class="field">
+                                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="apertura"> Apertura </label>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="chiusura"> Chiusura </label>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :apertura, :id=>"apertura"%>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <div class="actions">
+                                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
+                                                        </div>
+                                                    <% end %>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    <% elsif @twd.count == 3 %>
+                                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del GIOVEDÌ -->
+                                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Giovedì </b> </h3></div>
+                                                <div class="card-body">
+                                                    <%= form_with(model: @temp_week_day) do |form| %>
+                                                        <% if @temp_week_day.errors.any? %>
+                                                            <div id="error_explanation">
+                                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+
+                                                            <ul>
+                                                                <% @temp_week_day.errors.each do |error| %>
+                                                                <li><%= error.full_message %></li>
+                                                                <% end %>
+                                                            </ul>
+                                                            </div>
+                                                        <% end %>
+
+                                                        <!-- Campi inseriti automaticamente -->
+                                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :day, value: "Giovedì", required: true, readonly: true, :style=>'display:none'%>
+                
+                                                        <!-- Campi inseriti dal manager -->
+                                                        <table style="text-align:center" width="100%">
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <div class="field">
+                                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="apertura"> Apertura </label>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="chiusura"> Chiusura </label>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :apertura, :id=>"apertura"%>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <div class="actions">
+                                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
+                                                        </div>
+                                                    <% end %>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    <% elsif @twd.count == 4 %>
+                                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del VENERDÌ -->
+                                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Venerdì </b> </h3></div>
+                                                <div class="card-body">
+                                                    <%= form_with(model: @temp_week_day) do |form| %>
+                                                        <% if @temp_week_day.errors.any? %>
+                                                            <div id="error_explanation">
+                                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+
+                                                            <ul>
+                                                                <% @temp_week_day.errors.each do |error| %>
+                                                                <li><%= error.full_message %></li>
+                                                                <% end %>
+                                                            </ul>
+                                                            </div>
+                                                        <% end %>
+
+                                                        <!-- Campi inseriti automaticamente -->
+                                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :day, value: "Venerdì", required: true, readonly: true, :style=>'display:none'%>
+                
+                                                        <!-- Campi inseriti dal manager -->
+                                                        <table style="text-align:center" width="100%">
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <div class="field">
+                                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="apertura"> Apertura </label>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="chiusura"> Chiusura </label>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :apertura, :id=>"apertura"%>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <div class="actions">
+                                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
+                                                        </div>
+                                                    <% end %>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    <% elsif @twd.count == 5 %>
+                                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del SABATO -->
+                                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Sabato </b> </h3></div>
+                                                <div class="card-body">
+                                                    <%= form_with(model: @temp_week_day) do |form| %>
+                                                        <% if @temp_week_day.errors.any? %>
+                                                            <div id="error_explanation">
+                                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+
+                                                            <ul>
+                                                                <% @temp_week_day.errors.each do |error| %>
+                                                                <li><%= error.full_message %></li>
+                                                                <% end %>
+                                                            </ul>
+                                                            </div>
+                                                        <% end %>
+
+                                                        <!-- Campi inseriti automaticamente -->
+                                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :day, value: "Sabato", required: true, readonly: true, :style=>'display:none'%>
+                
+                                                        <!-- Campi inseriti dal manager -->
+                                                        <table style="text-align:center" width="100%">
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <div class="field">
+                                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="apertura"> Apertura </label>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="chiusura"> Chiusura </label>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :apertura, :id=>"apertura"%>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <div class="actions">
+                                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
+                                                        </div>
+                                                    <% end %>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    <% elsif @twd.count == 6 %>
+                                        <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra il form di registrazione degli orari del DOMENICA -->
+                                            <div class="card-header"><h3 class="text-center font-weight-light my-4"> Imposta gli orari per: <b> Domenica </b> </h3></div>
+                                                <div class="card-body">
+                                                    <%= form_with(model: @temp_week_day) do |form| %>
+                                                        <% if @temp_week_day.errors.any? %>
+                                                            <div id="error_explanation">
+                                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this @temp_week_day from being saved:</h2>
+
+                                                            <ul>
+                                                                <% @temp_week_day.errors.each do |error| %>
+                                                                <li><%= error.full_message %></li>
+                                                                <% end %>
+                                                            </ul>
+                                                            </div>
+                                                        <% end %>
+
+                                                        <!-- Campi inseriti automaticamente -->
+                                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :day, value: "Domenica", required: true, readonly: true, :style=>'display:none'%>
+                
+                                                        <!-- Campi inseriti dal manager -->
+                                                        <table style="text-align:center" width="100%">
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <div class="field">
+                                                                        <%= form.select :state, options_for_select([["Chiuso"], ["Aperto"]]), required: true%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="apertura"> Apertura </label>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <label for="chiusura"> Chiusura </label>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :apertura, :id=>"apertura"%>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="field">
+                                                                        <%= form.time_select :chiusura, :id=>"chiusura"%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <div class="actions">
+                                                            <%= form.submit class:"btn btn-outline-info", value: 'Imposta orario'%>
+                                                        </div>
+                                                    <% end %>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    <% end %>
+                                <% else %>
+
+                                    <div class="card shadow-lg border-0 rounded-lg mt-5">   <!-- Mostra gli orari del dipartimento -->
+                                        <div class="card-header"> <h3 class="text-center font-weight-light my-4"> Orari del dipartimento </h3></div>
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item">
+                                                        <table class="table">
+                                                            <tr>
+                                                                <% @twd.each do |twd| %>
+                                                                    <td>
+                                                                        <b><%= twd.day %></b> <br>
+                                                                        <% if twd.state == "Aperto" %>
+                                                                            Apertura <%= twd.apertura.strftime('%H:%M') %> <br>
+                                                                            Chiusura <%= twd.chiusura.strftime('%H:%M') %> <br>
+                                                                        <% else %>
+                                                                            Chiuso
+                                                                        <% end %>
+                                                                    </td>
+                                                                <% end %>
+                                                            </tr>
+                                                        </table>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Form di inserimento degli spazi -->
+                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div class="card-header"><h3 class="text-center font-weight-light my-4"> Registra gli spazi </h3></div>
+                                            <div class="card-body">
+                                                <%= form_with(model: @temp_sp) do |form| %>
+                                                    <% if @temp_sp.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
+                                                        <div id="error_explanation">
+                                                        <h2><%= pluralize(@temp_sp.errors.count, "error") %> prohibited this space from being saved:</h2>
+
+                                                        <ul>
+                                                            <% @temp_sp.errors.each do |error| %>
+                                                                <li><%= error.full_message %></li>
+                                                            <% end %>
+                                                        </ul>
+                                                        </div>
+                                                    <% end %>
+
+                                                    <!-- Campo inserito automaticamente -->
+                                                    <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none' %>
+                                                    <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none' %>
+                                                    <%= form.text_field :state, value: "Abilitato", required: true, :style=>'display:none' %>
+
+                                                    <!-- Campi inseriti dal manager -->
+                                                    <div class="form-floating mb-3">
+                                                        <div class="label">
+                                                            <%= form.label 'Tipologia dello spazio' %>
+                                                        </div>
+                                                        <div class="field"> 
+                                                            <%= form.select :typology, options_for_select([["Isola"], ["Aula"], ["Laboratiorio"], ["Biblioteca"]]), required: true, :id=>"tipSpazio" %>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-floating mb-3">                            
+                                                        <%= form.text_field :name, :class=>"form-control", :id=>"spazioName", :placeholder=>"plh"%>
+                                                        <label for="spazioName"> Nome dello spazio </label>
+                                                    </div>
+
+                                                    <div class="form-floating mb-3">                            
+                                                        <%= form.number_field :floor, :class=>"form-control", :id=>"piano", :placeholder=>"plh"%>
+                                                        <label for="piano"> Piano al quale si trova </label>
+                                                    </div>
+
+                                                    <div class="form-floating mb-3">                            
+                                                        <%= form.number_field :number_of_seats, :class=>"form-control", :id=>"numPosti", :placeholder=>"plh"%>
+                                                        <label for="numPosti"> numero di posti prenotabili </label>
+                                                    </div>
+
+                                                    <!-- Tasto per la creazione -->
+                                                    <div class="actions">
+                                                        <%= form.submit class:"btn btn-outline-info", value: 'Inserisci spazio'%>
+                                                    </div>
+                                                <% end %>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Mostra gli spazi creati fino ad ora e permette di eliminarli --> 
+                                    <table class = "table table-striped table-bordered"> 
+                                        <head>
+                                            <tr><td colspan="6" style="text-align:center"><h2>Spazi creati</h2></td></tr>
+                                            <tr class="thead">
+                                            <th>Tipologia</th>
+                                            <th>Nome</th>
+                                            <th>Piano</th>
+                                            <th>Numero di posti</th>
+                                            <th>Disponibilità</th>
+                                            <th>Elimina</th>
+                                            </tr>
+                                        </head>
+                                        <body>
+                                            <% TempSp.where(temp_dep_id: (mydep.id)).each do |jcs| %>
+                                            <tr>
+                                                <td><%= jcs.typology %></td>
+                                                <td><%= jcs.name %></td>
+                                                <td><%= jcs.floor %></td>
+                                                <td><%= jcs.number_of_seats %></td>
+                                                <td><%= jcs.state %></td>
+                                                <th><%= button_to 'X', jcs, method: :delete, data: { confirm: 'Sicuro?' } ,  :class => "btnLogout"%></th>
+                                            </tr>
+                                            <% end %>
+                                        </body>
                                     </table>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Mostra gli orari inseriti, il form di inserimento degli spazi e gli spazi gia inseriti -->
-                        
-                <div class="card shadow-lg border-0 rounded-lg mt-5">  <!-- Form di inserimento degli spazi -->
-                    <div class="card-header"><h3 class="text-center font-weight-light my-4"> Registra gli spazi </h3></div>
-                        <div class="card-body">
-                            <%= form_with(model: @temp_sp) do |form| %>
-                                <% if @temp_sp.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
-                                    <div id="error_explanation">
-                                    <h2><%= pluralize(@temp_sp.errors.count, "error") %> prohibited this space from being saved:</h2>
-
-                                    <ul>
-                                        <% @temp_sp.errors.each do |error| %>
-                                            <li><%= error.full_message %></li>
-                                        <% end %>
-                                    </ul>
+                                    <!-- Mostra il tasto per la conferma dei dati temporanei inseriti e l'avvio della creazione degli oggetti effettivi -->
+                                    <div class="actions">
+                                        <%= button_to 'Conferma la registrazione del dipartimento e dei relativi spazi', '/manager_department', method: :get, data: { confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in questa schermata?' } %>
                                     </div>
+
                                 <% end %>
-
-                                <!-- Campo inserito automaticamente -->
-                                <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none' %>
-                                <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none' %>
-                                <%= form.text_field :state, value: "Abilitato", required: true, :style=>'display:none' %>
-
-                                <!-- Campi inseriti dal manager -->
-                                <div class="form-floating mb-3">
-                                    <div class="label">
-                                        <%= form.label 'Tipologia dello spazio' %>
-                                    </div>
-                                    <div class="field"> 
-                                        <%= form.select :typology, options_for_select([["Isola"], ["Aula"], ["Laboratiorio"], ["Biblioteca"]]), required: true, :id=>"tipSpazio" %>
-                                    </div>
-                                </div>
-
-                                <div class="form-floating mb-3">                            
-                                    <%= form.text_field :name, :class=>"form-control", :id=>"spazioName", :placeholder=>"plh"%>
-                                    <label for="spazioName"> Nome dello spazio </label>
-                                </div>
-
-                                <div class="form-floating mb-3">                            
-                                    <%= form.number_field :floor, :class=>"form-control", :id=>"piano", :placeholder=>"plh"%>
-                                    <label for="piano"> Piano al quale si trova </label>
-                                </div>
-
-                                <div class="form-floating mb-3">                            
-                                    <%= form.number_field :number_of_seats, :class=>"form-control", :id=>"numPosti", :placeholder=>"plh"%>
-                                    <label for="numPosti"> numero di posti prenotabili </label>
-                                </div>
-
-                                <!-- Tasto per la creazione -->
-                                <div class="actions">
-                                    <%= form.submit class:"btn btn-outline-info", value: 'Inserisci spazio'%>
-                                </div>
                             <% end %>
                         </div>
                     </div>
                 </div>
-
-                <!-- Mostra gli spazi creati fino ad ora e permette di eliminarli --> 
-                <table class = "table table-striped table-bordered"> 
-                    <head>
-                        <tr><td colspan="6" style="text-align:center"><h2>Spazi creati</h2></td></tr>
-                        <tr class="thead">
-                        <th>Tipologia</th>
-                        <th>Nome</th>
-                        <th>Piano</th>
-                        <th>Numero di posti</th>
-                        <th>Disponibilità</th>
-                        <th>Elimina</th>
-                        </tr>
-                    </head>
-                    <body>
-                        <% TempSp.where(temp_dep_id: (mydep.id)).each do |jcs| %>
-                        <tr>
-                            <td><%= jcs.typology %></td>
-                            <td><%= jcs.name %></td>
-                            <td><%= jcs.floor %></td>
-                            <td><%= jcs.number_of_seats %></td>
-                            <td><%= jcs.state %></td>
-                            <th><%= button_to 'X', jcs, method: :delete, data: { confirm: 'Sicuro?' } ,  :class => "btnLogout"%></th>
-                        </tr>
-                        <% end %>
-                    </body>
-                </table>
-
-                <!-- Mostra il tasto per la conferma dei dati temporanei inseriti e l'avvio della creazione degli oggetti effettivi -->
-                <div class="actions">
-                    <%= button_to 'Conferma la registrazione del dipartimento e dei relativi spazi', '/manager_department', method: :get, data: { confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in queste tabelle?' } %>
-                </div>
-
-            <% end %>
-        <% end %>
+            </main>
+        </div>
     </div>
 </body>
 </html>
