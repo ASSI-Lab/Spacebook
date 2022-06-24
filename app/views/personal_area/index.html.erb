@@ -103,10 +103,10 @@
 					</ul>
 				</div>
 
-				<!-- calendario per sincronizzazione -->
+				<!-- calendario per sincronizzazione AL MOMENTO SE SI È COLLEGATI TRAMITE GOOGLE IL CALENDARIO VIENE FORMATO CON I PROSSIMI 10 EVENTI ALL'INTERNO-->
 				<div class="card mb-4">
 					<div class="card-header"> Google Calendar  </div>
-					<% if current_user.access_token!=nil%>
+					<% if current_user.access_token!=nil%><!-- SE IL TOKEN È PRESENTE VIENE INVIATA LA RICHIESTA A CALENDAR -->
 						<% @hash=load_events %>
 						<%= month_calendar do |date| %>
 							<%= date.day %>
@@ -114,7 +114,7 @@
 								<%= @hash[date.to_s] %>
 							</div>
 						<% end %>
-					<% else %>
+					<% else %><!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI-->
 						<%= month_calendar do |date| %>
 							<%= date.day %>
 						<% end %>
