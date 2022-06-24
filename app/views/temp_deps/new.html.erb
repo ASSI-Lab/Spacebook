@@ -9,7 +9,7 @@
 	<%= csrf_meta_tags %>
 	<%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'management', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>  <!-- con management funziona bene ... -->
 
 	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
@@ -709,7 +709,7 @@
                                                                 <td><%= jcs.floor %></td>
                                                                 <td><%= jcs.number_of_seats %></td>
                                                                 <td><%= jcs.state %></td>
-                                                                <th><%= button_to 'X', jcs, method: :delete, data: { confirm: 'Sicuro?' } ,  :class => "btnLogout"%></th>
+                                                                <th><%= button_to 'X', jcs, method: :delete, data: { confirm: 'Sicuro?' } ,  :class => "btn btn-outline-info"%></th>
                                                             </tr>
                                                             <% end %>
                                                         </tbody>

@@ -1,4 +1,5 @@
 class TempDepsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_temp_dep, only: %i[ show edit update destroy ]
 
   # GET /temp_deps or /temp_deps.json

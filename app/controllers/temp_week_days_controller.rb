@@ -1,4 +1,5 @@
 class TempWeekDaysController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_temp_week_day, only: %i[ show edit update destroy ]
 
   # GET /temp_week_days or /temp_week_days.json

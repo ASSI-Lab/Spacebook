@@ -1,4 +1,5 @@
 class TempSpsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_temp_sp, only: %i[ show edit update destroy ]
 
   # GET /temp_sps or /temp_sps.json
