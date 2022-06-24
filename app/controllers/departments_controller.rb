@@ -117,7 +117,7 @@ class DepartmentsController < ApplicationController
       else
         @week_days = WeekDay.where(department_id: ((@department).first).id)           # In caso positivo invece raccoglie gli orari,
         @spaces = Space.where(department_id: ((@department).first).id)                # gli spazi
-        @reservations = Reservation.where(department_id: ((@department).first).id)   # e le prenotazioni del dipartimento trovato
+        @reservations = Reservation.where(department_id: ((@department).first).id)    # e le prenotazioni del dipartimento trovato
       end # A questo punto si aprirà la view '/manager_department' che lavorerà con questi dati.
 
     else                          # Se l'user non è manager

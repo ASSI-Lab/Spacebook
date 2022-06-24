@@ -88,136 +88,157 @@
 	<div id="layoutSidenav_content">
 		<main>
 			<div class="container-fluid px-4">
-				<!-- IL MIO DIPARTIMENTO -->
-				<div class="card mb-4">
-					<div class="card-header">
-						<i class="fas fa-table me-1"></i>
-						Il mio dipartimento
-					</div>
-					<div class="card-body">
-						<table id="datatablesMioDipartimento" class="table table-responsive table-striped table-bordered table-hover">
-							<thead>
-							
-								<tr>
-									<th> Nome </th>
-									<th> Indirizzo </th>
-									<th> Descrizione </th>
-									<th> Numero di piani </th>
-									<th> Numero di spazi </th>
-									<th> Slot prenotabili </th>
-									<th> Opzioni </th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td> <%= (@department.first).name %> </td>
-									<td> <%= (@department.first).via+','+(@department.first).civico+','+(@department.first).cap+','+(@department.first).citta+','+(@department.first).provincia %> </td>
-									<td> <%= (@department.first).description %> </td>
-									<td> <%= (@department.first).floors %> </td>
-									<td> <%= (@department.first).number_of_spaces %> </td>
-									<td> <%= (@department.first).slot %>h </td>
-									<th> 
-										<%= button_to 'Prenota', '/make_reservation', method: :get ,  :class => "btnLogout" %>
-										<%= button_to 'Aggiorna', edit_department_path(@department.first), method: :get ,  :class => "btnLogout" %>
-										<%= button_to 'Elimina', @department.first, method: :delete, data: { confirm: 'Sicuro?' } ,  :class => "btnLogout" %>
-									 </th>
-								</tr>
-							</tbody>
-						</table>
+			<div class="row">
+				<div class="col-xl-6">
+					<!-- IL MIO DIPARTIMENTO -->
+					<div class="card shadow-lg border-0 rounded-lg mt-5">
+						<div class="card-header"> <h3 class="text-center font-weight-light my-4"> Il tuo dipartimento </h3></div>
+						<div class="card-body">
+							<h2 class="card-title h4"> <%= (@department.first).name %> </h2>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item">
+									<label class="label"> Descrizione </label> 
+									<br> 
+									<p class="card-text"> 
+										<textarea rows="7" cols="35"> <%= (@department.first).description %> </textarea>
+									</p>
+								</li>
+								<li class="list-group-item">
+									<label class="label"> Posizione </label> 
+									<br> 
+									<p class="card-text"> <%= (@department.first).via %>, <%= (@department.first).civico %>, <%= (@department.first).cap %>, <%= (@department.first).citta %>, <%= (@department.first).provincia %> </p>
+								</li>
+								<li class="list-group-item"> 
+									<label class="label"> Numero piani </label> 
+									<br> 
+									<p> <%= (@department.first).floors %> </p>
+								</li>
+								<li class="list-group-item"> 
+									<label class="label"> Numero spazi </label> 
+									<br> 
+									<p> <%= (@department.first).number_of_spaces %> </p>
+								</li>
+								<li class="list-group-item"> 
+									<div class="row">
+										<div class="col-lg-4">
+											<%= button_to 'Prenota', '/make_reservation', method: :get, :class=>"btn btn-outline-info" %>
+										</div>
+										<div class="col-lg-4">
+											<%= button_to 'Aggiorna', edit_department_path(@department.first), method: :get, :class=>"btn btn-outline-info" %>
+										</div>
+										<div class="col-lg-4">
+											<%= button_to 'Elimina', @department.first, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, :class=>"btn btn-outline-info" %>
+										</div>
+									</div>
+								</li>
+							</ul>	
+						</div>
 					</div>
 				</div>
-
+			</div>
 				<!-- SPAZI DEL DIPARTIMENTO -->
 				<div class="row">
                     <div class="col-xl-6">
-						<div class="card mb-4">
+						<div class="card shadow-lg border-0 rounded-lg mt-5">
+							<div class="card-body">
+								<div class="card">
+									<div class="card-header">
+										<i class="fas fa-table me-1"></i>
+										Spazi del dipartimento
+									</div>
+									<div class="card-body">
+										<table id="datatablesSpazi" class="table table-responsive table-striped table-bordered table-hover">
+											<thead>
+												<tr>
+													<th> Tipologia </th>
+													<th> Nome </th>
+													<th> Descrizione </th>
+													<th> Piano </th>
+													<th> Numero di posti </th>
+													<th> Disponibilità </th>
+													<th> Opzioni </th>
+												</tr>
+											</thead>
+											<tbody>
+												<% @spaces.each do |space| %>
+													<tr>
+														<td> <%= space.typology %> </td>
+														<td> <%= space.name %> </td>
+														<td> <%= space.description %> </td>
+														<td> <%= space.floor %> </td>
+														<td> <%= space.number_of_seats %> </td>
+														<td> <%= space.state %> </td>
+														<th> 
+															<% if space.state == 'Abilitato'%>
+																<button class="btnLogout" >Disabilita</button>
+															<% else %>
+																<button class="btnLogout">Abilita</button>
+															<% end %>
+															<%= button_to 'Elimina', space, method: :delete, data: { confirm: 'Sicuro?' },  :class => "btnLogout" %>
+														</th>
+													</tr>
+												<% end %>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6">
+						<div class="card shadow-lg border-0 rounded-lg mt-5">
+							<div class="card-body">
+								<div class="card">
+									<div class="card-header">
+										<i class="fas fa-chart-area me-1"></i>
+										Area Chart Example
+									</div>
+									<div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- PRENOTAZIONI DEL DIPARTIMENTO -->
+				<div class="card shadow-lg border-0 rounded-lg mt-5">
+					<div class="card-body">
+						<div class="card">
 							<div class="card-header">
-								<i class="fas fa-table me-1"></i>
-								Spazi del dipartimento
+								<i class="fas fa-chart-bar me-1"></i>
+								Prenotazioni
 							</div>
 							<div class="card-body">
-								<table id="datatablesSpazi" class="table table-responsive table-striped table-bordered table-hover">
+								<table id="datatablesPrenotazioni" class="table table-responsive table-striped table-bordered table-hover">
 									<thead>
 										<tr>
+											<th> Utente </th>
+											<th> Dipartimento </th>
 											<th> Tipologia </th>
-											<th> Nome </th>
-											<th> Descrizione </th>
+											<th> Spazio </th>
 											<th> Piano </th>
-											<th> Numero di posti </th>
-											<th> Disponibilità </th>
+											<th> Posto </th>
+											<th> Stato </th>
 											<th> Opzioni </th>
 										</tr>
 									</thead>
 									<tbody>
-										<% @spaces.each do |space| %>
+										<% @reservations.each do |reservation| %>
 											<tr>
-												<td> <%= space.typology %> </td>
-												<td> <%= space.name %> </td>
-												<td> <%= space.description %> </td>
-												<td> <%= space.floor %> </td>
-												<td> <%= space.number_of_seats %> </td>
-												<td> <%= space.state %> </td>
-												<th> 
-													<% if space.state == 'Abilitato'%>
-														<button class="btnLogout" >Disabilita</button>
-													<% else %>
-														<button class="btnLogout">Abilita</button>
-													<% end %>
-													<%= button_to 'Elimina', space, method: :delete, data: { confirm: 'Sicuro?' },  :class => "btnLogout" %>
-												</th>
+												<td><%= reservation.email %></td>
+												<td><%= reservation.dep_name %></td>
+												<td><%= reservation.typology %></td>
+												<td><%= reservation.space_name %></td>
+												<td><%= reservation.floor %></td>
+												<td><%= reservation.seat_num %></td>
+												<td><%= reservation.state %></td>
+												<td><%= button_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btnDestroy" %></td>
 											</tr>
 										<% end %>
 									</tbody>
 								</table>
 							</div>
 						</div>
-					</div>
-					<div class="col-xl-6">
-						<div class="card mb-4">
-							<div class="card-header">
-								<i class="fas fa-chart-area me-1"></i>
-								Area Chart Example
-							</div>
-							<div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-						</div>
-					</div>
-					</div>
-				
-				<!-- PRENOTAZIONI DEL DIPARTIMENTO -->
-				<div class="card mb-4">
-					<div class="card-header">
-						<i class="fas fa-chart-bar me-1"></i>
-						Prenotazioni
-					</div>
-					<div class="card-body">
-						<table id="datatablesPrenotazioni" class="table table-responsive table-striped table-bordered table-hover">
-							<thead>
-								<tr>
-									<th> Utente </th>
-									<th> Dipartimento </th>
-									<th> Tipologia </th>
-									<th> Spazio </th>
-									<th> Piano </th>
-									<th> Posto </th>
-									<th> Stato </th>
-									<th> Opzioni </th>
-								</tr>
-							</thead>
-							<tbody>
-								<% @reservations.each do |reservation| %>
-									<tr>
-										<td><%= reservation.email %></td>
-										<td><%= reservation.dep_name %></td>
-										<td><%= reservation.typology %></td>
-										<td><%= reservation.space_name %></td>
-										<td><%= reservation.floor %></td>
-										<td><%= reservation.seat_num %></td>
-										<td><%= reservation.state %></td>
-										<td><%= button_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btnDestroy" %></td>
-									</tr>
-								<% end %>
-							</tbody>
-						</table>
 					</div>
 				</div>
 			</div>
