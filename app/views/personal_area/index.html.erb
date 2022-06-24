@@ -106,7 +106,19 @@
 				<!-- calendario per sincronizzazione -->
 				<div class="card mb-4">
 					<div class="card-header"> Google Calendar  </div>
-					<img class="card-img-top" src="https://img.freepik.com/free-vector/modern-2022-new-year-calendar-design-template_1017-34368.jpg?w=2000" alt="..." />
+					<% if current_user.access_token!=nil%>
+						<% @hash=load_events %>
+						<%= month_calendar do |date| %>
+							<%= date.day %>
+							<div>
+								<%= @hash[date.to_s] %>
+							</div>
+						<% end %>
+					<% else %>
+						<%= month_calendar do |date| %>
+							<%= date.day %>
+						<% end %>
+					<% end %>
 				</div>
 			</div>
 		</div>

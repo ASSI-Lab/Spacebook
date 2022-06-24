@@ -28,11 +28,11 @@ class TasksController < ApplicationController
   def show
     begin
       client = get_google_calendar_client current_user # INIZIALIZZO CLIENT GOOGLE CALENDAR
-      @result = client.list_events(CALENDAR_ID,
-                                    max_results: 10,
-                                    single_events: true,
-                                    order_by: 'startTime',
-                                    time_min: Time.now.iso8601)
+      @result = client.list_events(CALENDAR_ID,max_results: 10,single_events: true,order_by: 'startTime',time_min: Time.now.iso8601)
+      @hash = {}
+      @result.items.each do |event|
+        @hash[event.start.date_time.strftime("%Y-%m-%d").to_s]=event.summary
+      end
       client
       flash.now[:notice] = 'Eventi caricati con successo.'
     rescue => exception

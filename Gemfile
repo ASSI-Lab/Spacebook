@@ -64,3 +64,4 @@ gem 'google-api-client'
 gem 'google-apis-calendar_v3'
 gem 'googleauth'
 gem 'redis'
+gem "simple_calendar", "~> 2.4"

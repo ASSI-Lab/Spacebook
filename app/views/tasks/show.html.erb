@@ -8,12 +8,14 @@
     </tr>
     </thead>
     <tbody>
-    <% @result.items.each do |event| %>
-        <tr>
-          <td class=""><%= event.start.date_time || event.start.date %></td>
-          <td class=""><%= event.summary %></td>
-        </tr>
+    <div>
+    <%= month_calendar do |date| %>
+      <%= date.day %>
+        <div>
+              <%= @hash[date.to_s] %>
+        </div>
     <% end %>
+    </div>
     </tbody>
   </table>
 </section>
