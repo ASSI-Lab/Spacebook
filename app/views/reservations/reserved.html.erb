@@ -1,46 +1,85 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="UTF-8">
+   	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<title> prenotazioni - Spacebook </title>
+	<%= csrf_meta_tags %>
+	<%= csp_meta_tag %>
+	<%= stylesheet_link_tag 'reservations', media: 'all', 'data-turbolinks-track': 'reload' %>
+	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+	<script>
+		$(document).ready(function() {
+			$('#datatablesDipartimenti').DataTable();
+			$('#datatablesUtenti').DataTable();
+			$('#datatablesPrenotazioni').DataTable();
+		} );
+	</script>
+
+</head>
+
+<body>
+
 <p id="notice"><%= notice %></p>
 
-<h1>Ecco le tue prenotazioni</h1>
 
-<table class = "table table-striped table-bordered">
-  <thead class="thead">
-    <tr>
-      <th>Dipartimento</th>
-      <th>Tipologia</th>
-      <th>Spazio</th>
-      <th>Piano</th>
-      <th>Posto</th>
-      <th>data inizio</th>
-      <th>data fine</th>
-      <th>Stato</th>
-      <th>Sincronizzato</th>
-      <th>Opzioni</th>
-    </tr>
-  </thead>
+<div class="sb-nav-fixed">
+	<div id="layoutSidenav_content">
+		<main>
+			<div class="container-fluid px-4">
+				<div class="card mb-4">
+					<div class="card-header">
+						<i class="fas fa-table me-1"></i>
+						Ecco le tue prenotazioni
+					</div>
+					<div class="card-body">
+						<table id="datatablesDipartimenti" class="table table-responsive table-striped table-bordered table-hover">
+							<thead>
+                <tr>
+                <th>Dipartimento</th>
+                <th>Tipologia</th>
+                <th>Spazio</th>
+                <th>Piano</th>
+                <th>Posto</th>
+                <th>data inizio</th>
+                <th>data fine</th>
+                <th>Stato</th>
+                <th>Sincronizzato</th>
+                <th>Opzioni</th>
+                </tr>
+              </thead>
 
-  <tbody>
-    <% @reservations.each do |reservation| %>
-      <tr>
-        <td><%= reservation.dep_name %></td>
-        <td><%= reservation.typology %></td>
-        <td><%= reservation.space_name %></td>
-        <td><%= reservation.floor %></td>
-        <td><%= reservation.seat_num %></td>
-        <td><%= reservation.start_date %></td>
-        <td><%= reservation.end_date %></td>
-        <td><%= reservation.state %></td>
-        <td><%= reservation.is_sync %></td>
-        <td><%= button_to 'Rimuovi', reservation, method: :delete, data: { confirm: 'Are you sure?' },  :class => "btnLogout" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br/>
-<br/>
-<br/>
-<br/>
-
-<div class = "actions" >
-<button  class="btn btn-signup" onclick="window.location.href='/make_reservation'">Effettua una nuova prenotazione</button>
+              <tbody>
+              <% @reservations.each do |reservation| %>
+                <tr>
+                  <td><%= reservation.dep_name %></td>
+                  <td><%= reservation.typology %></td>
+                  <td><%= reservation.space_name %></td>
+                  <td><%= reservation.floor %></td>
+                  <td><%= reservation.seat_num %></td>
+                  <td><%= reservation.start_date %></td>
+                  <td><%= reservation.end_date %></td>
+                  <td><%= reservation.state %></td>
+                  <td><%= reservation.is_sync %></td>
+                  <td><%= button_to 'Rimuovi', reservation, method: :delete, data: { confirm: 'Are you sure?' },  :class => "btnLogout" %></td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </div>
+
+
+    <div class = "actions" >
+    <button  class="btn btn-signup" onclick="window.location.href='/make_reservation'">Effettua una nuova prenotazione</button>
+    </div>
+
+
+    </body>
+    </html>
+
