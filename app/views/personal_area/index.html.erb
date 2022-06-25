@@ -111,7 +111,10 @@
 						<%= month_calendar do |date| %>
 							<%= date.day %>
 							<div>
-								<%= @hash[date.to_s] %>
+							<% if @hash[date.to_s]!=nil %>
+								<font size="-2"><%= @hash[date.to_s][0]%></font>
+								<font size="-3" color="blue"><%= @hash[date.to_s][1]%></font>	
+							<% end %>
 							</div>
 						<% end %>
 					<% else %><!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI-->
