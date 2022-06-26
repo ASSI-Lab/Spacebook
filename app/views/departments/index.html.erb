@@ -2,16 +2,9 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-	<meta charset="UTF-8">
-   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<%= csrf_meta_tags %>
-	<%= csp_meta_tag %>
 
 	<title> Home - Spacebook </title>
 
-	<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 
 <body>
@@ -89,7 +82,7 @@
 												<td width="39%"> <!-- Icona interattiva con menu dropdown per visualizzare gli orari -->
 													<div class="dropdown">
 														<div class="dropdown-toggle" id="orariDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-clock"></i></div>
-														<ul class="dropdown-menu dropdown-menu-end">
+														<ul class="dropdown-menu dropdown-menu-end" id="orariDropdownMenu">
 															<!-- Raccoglie tutti gli orari del dipartimento e li inserisce nel dropdown -->
 															<% @week_days.where(department_id: department.id).each do |wd| %>
 																<li>

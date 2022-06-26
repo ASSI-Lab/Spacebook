@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2022_06_20_203544) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.string "state"
+    t.string "is_sync"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["department_id"], name: "index_reservations_on_department_id"
@@ -108,6 +109,7 @@ ActiveRecord::Schema.define(version: 2022_06_20_203544) do
     t.string "dep_name"
     t.string "typology"
     t.string "name"
+    t.text "description"
     t.integer "floor"
     t.integer "number_of_seats"
     t.string "state"
@@ -157,6 +159,7 @@ ActiveRecord::Schema.define(version: 2022_06_20_203544) do
     t.string "dep_name"
     t.string "typology"
     t.string "name"
+    t.text "description"
     t.integer "floor"
     t.integer "number_of_seats"
     t.string "state"

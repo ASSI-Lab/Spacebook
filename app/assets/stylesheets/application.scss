@@ -3592,6 +3592,11 @@ textarea.form-control-lg {
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
 }
+
+#orariDropdownMenu {       // dropDownmenu degli orari delle card dei dipartimenti della home
+  width: 230px !important;
+}
+
 .dropdown-menu[data-bs-popper] {
   top: 100%;
   left: 0;
