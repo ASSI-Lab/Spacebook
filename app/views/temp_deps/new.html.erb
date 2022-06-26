@@ -1,13 +1,14 @@
-<!-- Pagina per la creazione del dipartimento e dei relativi spazi da parte del manager che vi accede (solo un manager può accedervi) -->
-
+<!-- Pagina per la creazione del dipartimento, degli spazi e dei posti relativi (solo un manager può accedervi) -->
 <!DOCTYPE html>
 <html lang="it">
 <head>
 	<meta charset="UTF-8">
    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title> Crea dipartimento - Spacebook </title>
+
 	<%= csrf_meta_tags %>
 	<%= csp_meta_tag %>
+
+    <title> Registra il tuo dipartimento - Spacebook </title>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>  <!-- con management funziona bene ... -->
 
@@ -117,38 +118,6 @@
                                 </div>
                             <% else %>
                                 <% mydep = (TempDep.where(user_id: current_user.id)).first %>
-                                <!-- Mostra il dipartimento appena creato -->
-                                <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"> <h3 class="text-center font-weight-light my-4"> Il tuo dipartimento </h3></div>
-                                    <div class="card-body">
-                                        <h2 class="card-title h4"> <%= mydep.name %> </h2>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">
-                                                <label class="label"> Descrizione </label> 
-                                                <br> 
-                                                <p class="card-text"> <%= mydep.description %> </p>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <label class="label"> Posizione </label> 
-                                                <br> 
-                                                <p class="card-text"> <%= mydep.via %>, <%= mydep.civico %>, <%= mydep.cap %>, <%= mydep.citta %>, <%= mydep.provincia %> </p>
-                                            </li>
-                                            <li class="list-group-item"> 
-                                                <label class="label"> Numero piani </label> 
-                                                <br> 
-                                                <p> <%= mydep.floors %> </p>
-                                            </li>
-                                            <li class="list-group-item"> 
-                                                <label class="label"> Numero spazi </label> 
-                                                <br> 
-                                                <p> <%= mydep.number_of_spaces %> </p>
-                                            </li>
-                                            <li class="list-group-item"> 
-                                                <%= button_to 'Elimina', mydep, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, :class=>'btn btn-outline-info' %>
-                                            </li>
-                                        </ul>	
-                                    </div>
-                                </div>
 
                                 <% @twd = (TempWeekDay.where(temp_dep_id: mydep.id)) %>
                                 <% if @twd.count != 7 %>    <!-- Mostra i form per l'inserimento degli orari --> 
@@ -595,31 +564,6 @@
                                         </div> 
                                     <% end %>
                                 <% else %>
-                                    <!-- Mostra gli orari del dipartimento -->
-                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                        <div class="card-header"> <h3 class="text-center font-weight-light my-4"> Orari del dipartimento </h3></div>
-                                        <div class="card-body">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">
-                                                    <table class="table">
-                                                        <tr>
-                                                            <% @twd.each do |twd| %>
-                                                                <td>
-                                                                    <b><%= twd.day %></b> <br>
-                                                                    <% if twd.state == "Aperto" %>
-                                                                        Apertura <%= twd.apertura.strftime('%H:%M') %> <br>
-                                                                        Chiusura <%= twd.chiusura.strftime('%H:%M') %> <br>
-                                                                    <% else %>
-                                                                        Chiuso
-                                                                    <% end %>
-                                                                </td>
-                                                            <% end %>
-                                                        </tr>
-                                                    </table>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
 
                                     <div class="row">
                                         <div class="col-lg-4">  <!-- Form di inserimento degli spazi -->
@@ -698,19 +642,85 @@
                                                                 <th>Piano</th>
                                                                 <th>Numero di posti</th>
                                                                 <th>Disponibilità</th>
-                                                                <th>Elimina</th>
+                                                                <th colspan="3">Opzioni</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <% TempSp.where(temp_dep_id: (mydep.id)).each do |jcs| %>
-                                                            <tr>
-                                                                <td><%= jcs.typology %></td>
-                                                                <td><%= jcs.name %></td>
-                                                                <td><%= jcs.floor %></td>
-                                                                <td><%= jcs.number_of_seats %></td>
-                                                                <td><%= jcs.state %></td>
-                                                                <th><%= button_to 'X', jcs, method: :delete, data: { confirm: 'Sicuro?' } ,  :class => "btn btn-outline-info"%></th>
-                                                            </tr>
+                                                                <tr>
+                                                                    <td><%= jcs.typology %></td>
+                                                                    <td><%= jcs.name %></td>
+                                                                    <td><%= jcs.floor %></td>
+                                                                    <td><%= jcs.number_of_seats %></td>
+                                                                    <td><%= jcs.state %></td>
+                                                                    <!-- Tasto per la modifica traite modal dello spazio inserito-->
+                                                                    <th><button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempSpID<%= jcs.id %>">Modifica <i class="bi bi-pen"></i></button></th>
+                                                                        <!-- Modal di modifica -->
+                                                                        <div class="modal fade" id="tempSpID<%= jcs.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="staticBackdropLabel"> modificalo spazio "<%= jcs.typology %>: <%= jcs.name %>" </h5>
+                                                                                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <%= form_with(model: jcs) do |form| %>
+                                                                                            <% if jcs.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
+                                                                                                <div id="error_explanation">
+                                                                                                <h2><%= pluralize(jcs.errors.count, "error") %> prohibited this space from being saved:</h2>
+
+                                                                                                <ul>
+                                                                                                    <% jcs.errors.each do |error| %>
+                                                                                                        <li><%= error.full_message %></li>
+                                                                                                    <% end %>
+                                                                                                </ul>
+                                                                                                </div>
+                                                                                            <% end %>
+
+                                                                                            <!-- Campi inseriti dal manager -->
+                                                                                            <div class="form-floating mb-3">
+                                                                                                <div class="field">
+                                                                                                    Seleziona la tipologia corretta dello spazio: 
+                                                                                                    <%= form.select :typology, options_for_select([["Isola"], ["Aula"], ["Laboratiorio"], ["Biblioteca"]]), required: true, :id=>"tipSpazio" %>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-floating mb-3">                            
+                                                                                                <%= form.text_field :name, :class=>"form-control", :id=>"spazioName", :placeholder=>"plh"%>
+                                                                                                <label for="spazioName"> Nome dello spazio </label>
+                                                                                            </div>
+
+                                                                                            <div class="form-floating mb-3">                            
+                                                                                                <%= form.number_field :floor, :class=>"form-control", :id=>"piano", :placeholder=>"plh"%>
+                                                                                                <label for="piano"> Piano al quale si trova </label>
+                                                                                            </div>
+
+                                                                                            <div class="form-floating mb-3">                            
+                                                                                                <%= form.number_field :number_of_seats, :class=>"form-control", :id=>"numPosti", :placeholder=>"plh"%>
+                                                                                                <label for="numPosti"> Numero di posti prenotabili </label>
+                                                                                            </div>
+
+                                                                                            <div class="form-floating mb-3">
+                                                                                                <div class="label">
+                                                                                                    <%= form.label 'Descrizione del dipartimento' %>
+                                                                                                </div>
+                                                                                                <div class="field"> 
+                                                                                                    <%= form.text_area :description, :class=>"form-control", rows: 5, :style=>"width:100%" %>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <!-- Tasto per la creazione -->
+                                                                                            <div class="actions">
+                                                                                                <%= form.submit class:"btn btn-outline-info", value: 'Aggiorna lo spazio'%>
+                                                                                            </div>
+                                                                                        <% end %>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    <!-- Tasto per la rimozioe dello spazio inserito -->
+                                                                    <th><%= link_to '', jcs, method: :delete, data: { confirm: 'Sicuro?' }, :class => "btn btn-outline-info bi bi-trash"%></th>
+                                                                </tr>
                                                             <% end %>
                                                         </tbody>
                                                     </table>
@@ -719,15 +729,186 @@
                                         </div>
                                     </div>
 
-                                    <!-- Mostra il tasto per la conferma dei dati temporanei inseriti e l'avvio della creazione degli oggetti effettivi -->
+                                    <!-- Mostra gli orari del dipartimento -->
                                     <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div class="card-header"> <h5 class="text-center font-weight-light my-4"> Orari del dipartimento </h5></div>
                                         <div class="card-body">
-                                            <div class="actions">
-                                                <%= button_to 'Conferma la registrazione del dipartimento e i relativi spazi', '/manager_department', method: :get, data: { confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in questa schermata?' }, :class=>"btn btn-outline-info" %>
-                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <% @twd.each do |twd| %>
+                                                                <td>
+                                                                    <b><%= twd.day %></b> <br>
+                                                                    <% if twd.state == "Aperto" %>
+                                                                        <%= twd.apertura.strftime('%H:%M') %> <br>
+                                                                        <%= twd.chiusura.strftime('%H:%M') %> <br>
+                                                                    <% else %>
+                                                                        Chiuso
+                                                                    <% end %>
+                                                                </td>
+                                                            <% end %>
+                                                        </tr>
+                                                    </table>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
+
                                 <% end %>
+
+                                <!-- Mostra il dipartimento appena creato -->
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header">
+                                        <h3 class="text-center font-weight-light mt-4 mb-2"> <%= mydep.name %> </h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">
+                                                <!-- Tabella che mostra la descrizione tramite modal -->
+                                                <table width="100%" style="max-width: 450px">
+                                                    <tr>
+                                                        <!-- Descrizione -->
+                                                        <td width="22%">
+                                                            <label class="label"><h6> Descrizione </h6></label>
+                                                        </td>
+                                                        <td> <!-- Icona interattiva per visualizzare il modal della descrizione -->
+                                                            <div type="button" data-bs-toggle="modal" data-bs-target="#depID<%= mydep.id %>"><i class="bi bi-card-text"></i></div>
+
+                                                            <!-- Modal della descrizione -->
+                                                            <div class="modal fade" id="depID<%= mydep.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="staticBackdropLabel"> <%= mydep.name %> - Descrizione</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <%= mydep.description %>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <label class="label"><h6> Posizione: </h6></label> <%= mydep.via %>, <%= mydep.civico %>, <%= mydep.cap %>, <%= mydep.citta %>, <%= mydep.provincia %>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <label class="label"><h6> Numero piani: </h6></label> <%= mydep.floors %>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <label class="label"><h6> Spazi disponibili: </h6></label> <%= mydep.number_of_spaces %>
+                                            </li>
+
+                                            <li class="list-group-item"> 
+                                                <!-- Tasto per la modifica traite modal del dipartimento inserito e per l'annullamento della procedura di registrazione -->
+                                                <table>
+                                                    <tr>
+                                                        <td><button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempSpID<%= mydep.id %>">Modifica <i class="bi bi-pen"></i></button></td>
+                                                        <td><%= button_to 'Annulla la registrazione del dipartimento e i relativi spazi', mydep, method: :delete, data: { confirm: 'Sicuro di voler annullare la procedura? Dovrai comunque registrare il tuo dipartimento al prossimo accesso.' }, :class=>"btn btn-outline-info" %></td>
+                                                    </tr>
+                                                </table>
+                                                <!-- Modal di modifica -->
+                                                <div class="modal fade" id="tempSpID<%= mydep.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <%= form_with(model: mydep) do |form| %>
+                                                                    <% if mydep.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
+                                                                        <div id="error_explanation">
+                                                                        <h2><%= pluralize(mydep.errors.count, "error") %> prohibited this space from being saved:</h2>
+
+                                                                        <ul>
+                                                                            <% mydep.errors.each do |error| %>
+                                                                                <li><%= error.full_message %></li>
+                                                                            <% end %>
+                                                                        </ul>
+                                                                        </div>
+                                                                    <% end %>
+
+                                                                    <div class="form-floating mb-3">                            
+                                                                        <%= form.text_field :name, :class=>"form-control", :id=>"depName", :placeholder=>"plh"%>
+                                                                        <label for="depName"> Nome del dipartimento </label>
+                                                                    </div>
+
+                                                                    <div class="form-floating mb-3">
+                                                                        <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
+                                                                        <label for="numPiani"> Numero di piani </label>
+                                                                    </div>
+
+                                                                    <div class="form-floating mb-3">
+                                                                        <%= form.number_field :number_of_spaces, :class=>"form-control", :id=>"numSpazi", :placeholder=>"plh"%>
+                                                                        <label for="numSpazi"> Numero di spazi </label>
+                                                                    </div>
+
+                                                                    <div class="form-floating mb-3">
+                                                                        <%= form.number_field :slot, :class=>"form-control", :id=>"slot", :placeholder=>"plh"%>
+                                                                        <label for="slot"> Slot di ore minime consecutive prenotabili </label>
+                                                                    </div>
+
+                                                                    <div class="form-floating mb-3">
+                                                                        <%= form.text_field :via, :class=>"form-control", :id=>"via", :placeholder=>"plh"%>
+                                                                        <label for="via"> Via, Viale, Piazza... </label>
+                                                                    </div>
+
+                                                                    <div class="form-floating mb-3">
+                                                                        <%= form.text_field :civico, :class=>"form-control", :id=>"civico", :placeholder=>"plh"%>
+                                                                        <label for="civico"> n° civico </label>
+                                                                    </div>
+
+                                                                    <div class="form-floating mb-3">
+                                                                        <%= form.number_field :cap, :class=>"form-control", :id=>"cap", :placeholder=>"plh"%>
+                                                                        <label for="cap"> Cap </label>
+                                                                    </div>
+
+                                                                    <div class="form-floating mb-3">
+                                                                        <%= form.text_field :citta, :class=>"form-control", :id=>"citta", :placeholder=>"plh"%>
+                                                                        <label for="citta"> Città </label>
+                                                                    </div>
+
+                                                                    <div class="form-floating mb-3">
+                                                                        <%= form.text_field :provincia, :class=>"form-control", :id=>"provincia", :placeholder=>"plh"%>
+                                                                        <label for="provincia"> Provincia </label>
+                                                                    </div>
+
+                                                                    <div class="form-floating mb-3">
+                                                                        <div class="label">
+                                                                            <%= form.label 'Descrizione del dipartimento' %>
+                                                                        </div>
+                                                                        <div class="field"> 
+                                                                            <%= form.text_area :description, :class=>"form-control", rows: 3, :style=>"width:100%" %>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Tasto per aggiornare o per annullare -->
+                                                                    <div class="actions">
+                                                                        <%= form.submit class:"btn btn-outline-info", value: 'Aggiorna'%>
+                                                                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
+                                                                    </div>
+                                                                <% end %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                        </ul>	
+                                    </div>
+                                </div>
+
+                                <!-- Mostra il tasto per la conferma dei dati temporanei inseriti e l'avvio della creazione degli oggetti effettivi -->
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-body">
+                                        <%= button_to 'Conferma la registrazione del dipartimento e i relativi spazi', '/manager_department', method: :get, data: { confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in questa schermata?' }, :class=>"btn btn-outline-info" %>
+                                    </div>
+                                </div>
+
                             <% end %>
                         </div>
                     </div>

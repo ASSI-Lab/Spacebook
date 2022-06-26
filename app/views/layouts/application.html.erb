@@ -1,154 +1,144 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="it">
+    <head>
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
 		<%= csrf_meta_tags %>
 		<%= csp_meta_tag %>
 
 		<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 		<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-    	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
 		<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+		<link href="css/styles.css" rel="stylesheet" />
 		<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <!-- <script src="assets/demo/chart-area-demo.js"></script> -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-		<!-- <script src="js/scripts.js"></script> -->
 
-		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-		<!-- <script src="js/datatables-simple-demo.js"></script> -->
+    </head>
+    <body class="sb-nav-fixed">
 
-		<link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-		<script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-		<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <!-- Controlla se l'utente ha effettuato l'accesso, se è manager e se non ha ancora un dipartimento creato -->
+        <% if user_signed_in? and current_user.is_manager? and !current_page?('/make_department') and (Department.where(manager: current_user.email).count == 0) %> 
+            <!-- In caso positivo viene reindirizzato di forza alla pagina '/make_department' tramite la funzione sotto riportata -->
+            <% require_department %> <!-- Si veda 'application_controller.rb' per il corpo della funzione -->
+        <% end %>
 
-		<link rel = "stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
-		<script src = "https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-		<script src = "https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+        <!-- Header del sito -->
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark ">
 
-	</head>
+            <a class="navbar-brand ms-auto me-0" href="/home"><h1> S P A C E B O O K </h1></a> <!-- Brand -->
 
-	<!-- CONTROLLA SE L'UTENTE HA EFFETTUATO IL LOGIN, SE E' MANAGER E SE HA CREATO UN DIPARTIMENTO -->
-	<% if user_signed_in? and current_user.is_manager? and !current_page?('/make_department') and (Department.where(manager: current_user.email).count == 0) %> 
-		<% require_department %>	<!-- IMPONE LA CREAZIONE DEL DIPARTIEMNTO (per esaminare la funzione si veda application_controller ) -->
-	<% end %>
-
-	<!-- HEADER -->
-	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-		<!-- Sidebar Toggle
-		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button> -->
-		<!-- Navbar Brand -->
-		<a class="navbar-brand" href="/home"> <h1> S P A C E B O O K </h1> </a>
-		<!-- Navbar Search 
-		<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-			<div class="input-group">
-				<input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-				<button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-			</div>
-		</form> -->
-		<!-- Navbar-->
-		<ul class="navbar-nav">
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-					<li>
-						<a class="dropdown-item">
-							<% if !user_signed_in? %>
-									<a class="dropdown-item" href="/users/sign_in"> Accedi </a>
-									<a class="dropdown-item" href="/users/sign_up"> Registrati </a>
-							<% else %>
-								<%= current_user.email %>
-								<a class="dropdown-item" href="/personal_area"> Area personale </a>
-								<%= button_to 'Logout', destroy_user_session_path, :method => :delete, :class => "btnLogout" %>
-							<% end %>
-						</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</nav>
-
-	<% if !current_page?('/users/sign_up') and !current_page?('/users/sign_in') and !current_page?('/make_department') %>
-		<div id="layoutSidenav">
-			<div id="layoutSidenav_nav">
-				<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-				<div class="sb-sidenav-menu">
-					<div class="nav">
-						<a class="nav-link" href="/home">
-							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-							HOME
-						</a>
-						<a class="nav-link" href="/make_reservation">
-							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-							Effettua prenotazione
-						</a>
-						<a class="nav-link" href="/home"> 	<!-- bottone -->
-							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-							Prenotazione rapida
-						</a>
-						<% if user_signed_in? && current_user.roles in ["manager"]%>
-							<a class="nav-link" href="/manager_department">
-								<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-								Mio dipartimento
-							</a>
+            <ul class="navbar-nav ms-auto me-lg-4"> <!-- Dropdown dell'utente -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+						<% if !user_signed_in? %>
+							<li><a class="dropdown-item" href="/users/sign_in">Accedi</a></li>
+							<li><a class="dropdown-item" href="/users/sign_up">Registrati</a></li>
+						<% else %>
+							<li><p class="px-3"><%= current_user.email %></p></li>
+							<li><hr class="dropdown-divider" /></li>
+							<li><a class="dropdown-item" href="/personal_area">Area personale</a></li>
+							<li><%= button_to 'Esci', destroy_user_session_path, method: :delete, :class => "dropdown-item" %></li>
 						<% end %>
-						<% if user_signed_in? && current_user.roles in ["admin"]%>
-							<a class="nav-link" href="/management">
-								<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-								Gestione sito
-							</a>
-						<% end %>
-						<a class="nav-link" href="informations"> 
-							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-							Informazioni 
-						</a>
-						<% flash.each do |type, msg| %>
-							<div class="alert alert-info"> <%= msg %> </div>
-						<% end %>
-					</div>
-				</div>
-			</nav>
-		</div>
-	<% end %>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
 
-	<!-- <p class="notice"><%= notice %></p> -->
-	<!-- <p class="alert"><%= alert %></p> -->
-	
-	<!-- MOSTRA I MESSAGGI MARCATI COME FLASH UTILIZZANDO UNA CLASSE DI BOOTSTRAP
-	<% flash.each do |type, msg| %> 
-		<div class="alert alert-info">
-			<%= msg %>
-		</div>
-	<% end %> -->
+        <!-- Controlla se la pagina corrente è tra quelle nella condizione -->
+        <% if !current_page?("/users/sign_up") and !current_page?("/users/sign_in") and !current_page?("/make_department")%>
+            <div id="layoutSidenav"> <!-- In caso negativo mostra sia la barra laterale del sito, sia lo yeld della pagina corrente, sia il footer -->
+                <div id="layoutSidenav_nav">      <!-- Barra laterale -->
+                    <nav class="sb-sidenav accordion sb-sidenav-dark pt-4" id="sidenavAccordion"> 
+                        <div class="sb-sidenav-menu pt-4">
+                            <div class="nav">
 
-	<body>
-		<div class="sb-nav-fixed">
-			<%= yield %>
-		</div>
-	</body>
+                                <a class="nav-link" href="/home">
+                                    <div class="sb-nav-link-icon"><i class="bi bi-house-fill"></i></div>
+                                    HOME
+                                </a>
 
-	<br><br>
+                                <a class="nav-link" href="/make_reservation">
+                                    <div class="sb-nav-link-icon"><i class="bi bi-card-list"></i></div>
+                                    Effettua prenotazione
+                                </a>
 
-<!-- FOOTER
-	<footer class="py-5 bg-light mt-auto">
-		<div class="container-fluid px-4">
-			<div class="d-flex align-items-center justify-content-between small">
-				<div class="text-muted">Copyright &copy; Your Website 2022</div>
-				<div>
-					<a href="#">Privacy Policy</a>
-					&middot;
-					<a href="#">Terms &amp; Conditions</a>
-					<br>
-					<% if user_signed_in? %>
-						Hai fatto l'accesso come: [ <%= current_user.email %> ]
-					<% end %>
-					Qui puoi richiedere <a class="info"> informazioni </a> !
-				</div>
-			</div>
-		</div>
-	</footer>
- -->
+                                <a class="nav-link" href="/home"> 	<!-- bottone da impementare o da rimuovere se si usa quello nella Home -->
+                                    <div class="sb-nav-link-icon"><i class="bi bi-speedometer"></i></div>
+                                    Prenotazione rapida
+                                </a>
+
+                                <!-- Controlla il ruolo dell'utente e ne visualizza le rispettive funzionalità -->
+                                <% if user_signed_in? && current_user.roles in ["manager"]%>
+                                    <a class="nav-link" href="/manager_department">
+                                        <div class="sb-nav-link-icon"><i class="bi bi-building"></i></div>
+                                        Mio dipartimento
+                                    </a>
+                                <% elsif user_signed_in? && current_user.roles in ["admin"]%>
+                                    <a class="nav-link" href="/management">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                        Gestione sito
+                                    </a>
+                                <% end %>
+
+                                <a class="nav-link" href="/informations"> 
+                                    <div class="sb-nav-link-icon"><i class="bi bi-info-circle"></i></div>
+                                    Informazioni 
+                                </a>
+
+                                <!-- Cattura i messaggi di notifica e li stampa nella barra laterale -->
+                                <% flash.each do |type, msg| %>
+                                    <div class="alert alert-primary mx-2"> <b><%= msg %></b> </div>
+                                <% end %>
+
+                            </div>
+                        </div>
+                        <div class="sb-sidenav-footer">
+                            <% if user_signed_in? %>
+                                <div class="small">Logged in as:</div>
+                                <%= current_user.email %>
+                            <% else %>
+                                <div class="small"> Non hai ancora effettuato l'accesso </div>
+                            <% end %>
+                        </div>
+                    </nav>
+                </div>
+                <div id="layoutSidenav_content"> <!-- Corpo della pagina corrente -->
+                    <main>
+                        <div class="container-fluid px-4 pt-4">
+                            <%= yield %>
+                        </div>
+                    </main>
+
+                    <footer class="py-4 bg-light mt-auto">
+                        <div class="container-fluid px-4">
+                            <div class="d-flex align-items-center justify-content-between small">
+                                <div class="text-muted">Copyright &copy; Your Website 2022</div>
+                                <div>
+                                    <a href="#">Privacy Policy</a>
+                                    &middot;
+                                    <a href="#">Terms &amp; Conditions</a>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        <% else %>                   <!-- In caso positivo mostra solo lo yeld della pagina corrente -->
+            <%= yield %>
+        <% end %>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+    </body>
 </html>
