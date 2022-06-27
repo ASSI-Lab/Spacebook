@@ -27,33 +27,92 @@
         <% require_department %> <!-- Si veda 'application_controller.rb' per il corpo della funzione -->
     <% end %>
 
+    <!-- Cattura i messaggi di notifica e li mostra nel modal delle notifiche flash -->
+    <% @flash_messages = [] %>
+    <% flash.each do |type, msg| %>
+        <% @flash_messages.concat([msg]) %>
+    <% end %>
+
     <!-- Header del sito -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark ">
-
-        <a class="navbar-brand ms-auto me-0" href="/home"><h1> S P A C E B O O K </h1></a> <!-- Brand -->
-
-        <ul class="navbar-nav ms-auto me-lg-4"> <!-- Dropdown dell'utente -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end px-2" aria-labelledby="navbarDropdown">
-                    <% if !user_signed_in? %>
-                        <li><a class="dropdown-item" href="/users/sign_in">Accedi</a></li>
-                        <li><a class="dropdown-item" href="/users/sign_up">Registrati</a></li>
+        <table width="100%">
+            <tr>
+                <!-- "Serve per centrare il titolo" -->
+                <td width="15%" ></td>
+                <!-- Brand -->
+                <td width="70%">
+                    <a class="navbar-brand text-center" href="/home"><h1> S P A C E B O O K </h1></a>
+                </td>
+                <!-- Icona interattiva per visualizzare le notifiche flash da spacebook -->
+                <td width="10%" style="text-align:right">
+                    <% if @flash_messages.size != 0%>
+                        <span class="badge rounded-pill bg-danger"> <%= @flash_messages.size %> </span>
+                        <div class="btn btn-outline-info bi bi-chat-text" type="button" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal"></div>
                     <% else %>
-                        <li><p class="dropdown-item px-0"><%= current_user.email %></p></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="/personal_area">Area personale</a></li>
-                        <li><%= button_to 'Esci', destroy_user_session_path, method: :delete, :class => "dropdown-item" %></li>
+                        <div class="btn btn-outline-info bi bi-chat" type="button" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal"></div>
                     <% end %>
-                </ul>
-            </li>
-        </ul>
+                </td>
+                <!-- Icona interattiva per visualizzare il modal dell'utente -->
+                <td width="5%" style="text-align:right">
+                    <% if user_signed_in?%>
+                        <div class="btn btn-outline-info bi bi-person-fill me-lg-4" type="button" data-bs-toggle="modal" id="userNavModalButton" data-bs-target="#userNavModal"></div>
+                    <% else %>
+                        <div class="btn btn-outline-info bi bi-person me-lg-4" type="button" data-bs-toggle="modal" id="userNavModalButton" data-bs-target="#userNavModal"></div>
+                    <% end %>
+                </td>
+            </tr>
+        </table>
     </nav>
+
+    <!-- Modal dell'utente -->
+    <div class="modal fade" id="userNavModal" data-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="userNavModalLabel" aria-hidden="true">
+        <div class="modal-dialog" id="userNavModalDialog">
+            <div class="modal-content">
+                <% if !user_signed_in? %>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel"> Non hai ancora effettuato l'accesso </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <a class="dropdown-item" href="/users/sign_in">Accedi</a>
+                        <a class="dropdown-item" href="/users/sign_up">Registrati</a>
+                    </div>
+                <% else %>
+                    <div class="modal-header">
+                        <h5 class="modal-title px-2" id="staticBackdropLabel"> Utente: <%= current_user.email %> </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <a class="dropdown-item" href="/personal_area">Area personale</a>
+                        <!-- <hr class="dropdown-divider" /> -->
+                        <%= button_to 'Esci', destroy_user_session_path, method: :delete, :class => "dropdown-item" %>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <!-- Modal delle notifiche flash -->
+    <div class="modal fade" id="flashNavModal" data-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="flashNavModalLabel" aria-hidden="true">
+        <div class="modal-dialog" id="flashNavModalDialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title px-2" id="staticBackdropLabel"> <%= @flash_messages.size %> messaggi da Spacebook </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <% @flash_messages.each do |msg| %>
+                        <%= msg %><br>
+                        <hr class="dropdown-divider" />
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Controlla se la pagina corrente è tra quelle nella condizione -->
     <% if !current_page?("/users/sign_up") and !current_page?("/users/sign_in") and !current_page?("/make_department")%>
-        <div id="layoutSidenav"> <!-- In caso negativo mostra sia la barra laterale del sito, sia lo yeld della pagina corrente, sia il footer -->
-            <div id="layoutSidenav_nav">      <!-- Barra laterale -->
+        <div id="layoutSidenav">             <!-- In caso negativo mostra sia la barra laterale del sito, sia lo yeld della pagina corrente, sia il footer -->
+            <div id="layoutSidenav_nav">     <!-- Barra laterale -->
                 <nav class="sb-sidenav accordion sb-sidenav-dark pt-4" id="sidenavAccordion"> 
                     <div class="sb-sidenav-menu pt-4">
                         <div class="nav">
@@ -91,21 +150,9 @@
                                 Informazioni 
                             </a>
 
-                            <!-- Cattura i messaggi di notifica e li stampa nella barra laterale -->
-                            <% flash.each do |type, msg| %>
-                                <div class="alert alert-primary mx-2"> <b><%= msg %></b> </div>
-                            <% end %>
-
                         </div>
                     </div>
-                    <div class="sb-sidenav-footer">
-                        <% if user_signed_in? %>
-                            <div class="small">Logged in as:</div>
-                            <%= current_user.email %>
-                        <% else %>
-                            <div class="small"> Non hai ancora effettuato l'accesso </div>
-                        <% end %>
-                    </div>
+                    <!-- <div class="sb-sidenav-footer"></div> -->
                 </nav>
             </div>
             <div id="layoutSidenav_content"> <!-- Corpo della pagina corrente -->
@@ -129,7 +176,7 @@
                 </footer>
             </div>
         </div>
-    <% else %>                   <!-- In caso positivo mostra solo lo yeld della pagina corrente -->
+    <% else %>                               <!-- In caso positivo mostra solo lo yeld della pagina corrente -->
         <%= yield %>
     <% end %>
 

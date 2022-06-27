@@ -39,7 +39,7 @@ class SpacesController < ApplicationController
   def update
     respond_to do |format|
       if @space.update(space_params)
-        format.html { redirect_to request.referrer, notice: "Spazio aggiornata correttamente." }
+        format.html { redirect_to request.referrer, notice: "Spazio aggiornato correttamente." }
         format.js {render inline: "location.reload();" }
       else
         format.html { render :edit, status: :unprocessable_entity }

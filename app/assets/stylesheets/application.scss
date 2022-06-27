@@ -3374,6 +3374,29 @@ textarea.form-control-lg {
   background-color: #0dcaf0;
   border-color: #0dcaf0;
 }
+#userNavModalButton {  // Messo da me
+  color: grey;
+  border-color: grey;
+
+}
+#userNavModalButton:hover {  // Messo da me
+  color: grey;
+  background-color: rgb(29, 31, 34);
+  border-color: white;
+
+}
+#flashNavModalButton {  // Messo da me
+  color: grey;
+  border-color: grey;
+
+}
+#flashNavModalButton:hover {  // Messo da me
+  color: grey;
+  background-color: rgb(29, 31, 34);
+  border-color: white;
+
+}
+
 .btn-check:focus + .btn-outline-info, .btn-outline-info:focus {
   box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.5);
 }
@@ -3595,6 +3618,10 @@ textarea.form-control-lg {
 
 #orariDropdownMenu {       // dropDownmenu degli orari delle card dei dipartimenti della home
   width: 230px !important;
+}
+
+#userNavDropdownMenu {     // dropDownmenu dell'user nella navbar del brand
+  width: auto !important;
 }
 
 .dropdown-menu[data-bs-popper] {
@@ -5515,6 +5542,16 @@ textarea.form-control-lg {
   outline: 0;
 }
 
+#userNavModalDialog {  // Messo da me
+  margin-top: 4%;
+  margin-right: 1%;
+}
+
+#flashNavModalDialog {  // Messo da me
+  margin-top: 4%;
+  margin-right: 5%;
+}
+
 .modal-dialog {
   position: relative;
   width: auto;
@@ -5580,8 +5617,9 @@ textarea.form-control-lg {
   opacity: 0;
 }
 .modal-backdrop.show {
-  opacity: 0.5;
+  opacity: 0.1;         // Originale: 0.5;
 }
+
 
 .modal-header {
   display: flex;

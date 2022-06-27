@@ -630,6 +630,7 @@
                                                                 <th>Nome</th>
                                                                 <th>Piano</th>
                                                                 <th>Numero di posti</th>
+                                                                <th>Descrizione</th>
                                                                 <th>Disponibilità</th>
                                                                 <th colspan="3">Opzioni</th>
                                                             </tr>
@@ -641,6 +642,23 @@
                                                                     <td><%= jcs.name %></td>
                                                                     <td><%= jcs.floor %></td>
                                                                     <td><%= jcs.number_of_seats %></td>
+                                                                    <td>
+                                                                        <div type="button" data-bs-toggle="modal" data-bs-target="#depID<%= jcs.id %>"><i class="bi bi-card-text"></i></div>
+                                                                        <!-- Modal della descrizione -->
+                                                                        <div class="modal fade" id="depID<%= jcs.id %>" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="staticBackdropLabel"> <%= jcs.name %> - Descrizione</h5>
+                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <%= jcs.description %>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
                                                                     <td><%= jcs.state %></td>
                                                                     <!-- Tasto per la modifica traite modal dello spazio inserito-->
                                                                     <th><button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempSpID<%= jcs.id %>">Modifica <i class="bi bi-pen"></i></button></th>
@@ -670,7 +688,7 @@
                                                                                             <div class="form-floating mb-3">
                                                                                                 <div class="field">
                                                                                                     Seleziona la tipologia corretta dello spazio: 
-                                                                                                    <%= form.select :typology, options_for_select([["Isola"], ["Aula"], ["Laboratiorio"], ["Biblioteca"]]), required: true, :id=>"tipSpazio" %>
+                                                                                                    <%= form.select :typology, options_for_select([[jcs.typology, selected: true, hidden: true],["Isola"], ["Aula"], ["Laboratiorio"], ["Biblioteca"]]), required: true, :id=>"tipSpazio" %>
                                                                                                 </div>
                                                                                             </div>
 
@@ -691,7 +709,7 @@
 
                                                                                             <div class="form-floating mb-3">
                                                                                                 <div class="label">
-                                                                                                    <%= form.label 'Descrizione del dipartimento' %>
+                                                                                                    <%= form.label 'Descrizione dello spazio' %>
                                                                                                 </div>
                                                                                                 <div class="field"> 
                                                                                                     <%= form.text_area :description, :class=>"form-control", rows: 5, :style=>"width:100%" %>
@@ -765,7 +783,7 @@
                                                             <div type="button" data-bs-toggle="modal" data-bs-target="#depID<%= mydep.id %>"><i class="bi bi-card-text"></i></div>
 
                                                             <!-- Modal della descrizione -->
-                                                            <div class="modal fade" id="depID<%= mydep.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                            <div class="modal fade" id="depID<%= mydep.id %>" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">

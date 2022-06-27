@@ -1,0 +1,158 @@
+<!-- Pagina Home -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+
+	<title> Home - Spacebook </title>
+
+</head>
+
+<body>
+	<div class="row">
+		<!-- Zona centrale del sito -->
+		<div class="col-xl-8">
+			<!-- Descrizione del sito e barra di ricerca -->
+			<div class="row">
+				
+				<!-- Introduzione -->
+				<div class="card shadow-lg border-0 rounded-lg">
+					<div class="card-body">
+						<h2 class="font-weight-light mt-3 mb-4"> Benvenuto </h2>
+						<p class="card-text">
+							Speriamo ti troverai bene nel nostro sito, siamo super fighi e strabravi perciò vedi di non rompere e non fare danni!
+							Registrati e prenota tutti gli spazi che vuoi in pochi e semplici passi (se non ci riesci hai dei problemi)
+						</p>
+					</div>
+				</div>
+
+				<!-- Barra di ricerca per dipartimenti -->
+				<div class="col-xl-6">
+					<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0 py-4">
+						<div class="input-group">
+							<input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+							<button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+			
+			<!-- Lista di tutti i dipartimenti dell'applicazione -->
+			<div class="row">
+				<% @departments.each do |department| %>
+					<div class="col-sm-6">
+						<!-- Card che mostra il dipartimento corrente -->
+						<div class="card shadow-lg border-0 rounded-lg mt-5">
+							<div class="card-header">
+								<h3 class="font-weight-light mt-4 mb-2"> <%= department.name %> </h3>
+								<div class="small text-muted"> <%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %> </div>
+							</div>
+							<div class="card-body">
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item">
+										<!-- Tabella che mostra la descrizione tramite modal e gli orari tramite dropdown -->
+										<table width="100%" style="max-width: 450px">
+											<tr>
+												<!-- Descrizione -->
+												<td width="22%">
+													<label class="label"><h6> Descrizione </h6></label>
+												</td>
+												<td width="28%"> 
+													<!-- Icona interattiva per visualizzare il modal della descrizione -->
+													<div type="button" data-bs-toggle="modal" data-bs-target="#depID<%= department.id %>"><i class="bi bi-card-text"></i></div>
+													<!-- Modal della descrizione -->
+													<div class="modal fade" id="depID<%= department.id %>" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+														<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<h5 class="modal-title" id="staticBackdropLabel"> <%= department.name %> - Descrizione</h5>
+																	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+																</div>
+																<div class="modal-body">
+																	<%= department.description %>
+																</div>
+															</div>
+														</div>
+													</div>
+												</td>
+												<!-- Orari -->
+												<td width="11%">
+													<label class="label"><h6>Orari</h6></label>
+												</td>
+												<td width="39%"> <!-- Icona interattiva con menu dropdown per visualizzare gli orari -->
+													<div class="dropdown">
+														<div class="dropdown-toggle" id="orariDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-clock"></i></div>
+														<ul class="dropdown-menu dropdown-menu-end" id="orariDropdownMenu">
+															<!-- Raccoglie tutti gli orari del dipartimento e li inserisce nel dropdown -->
+															<% @week_days.where(department_id: department.id).each do |wd| %>
+																<li>
+																	<div class="row">
+																		<div class="col-sm-5">
+																			<b><%= wd.day %></b>
+																		</div>
+																		<div class="col-sm-7">
+																			<%= wd.apertura.strftime('%H:%M') %>-<%= wd.chiusura.strftime('%H:%M') %>
+																		</div>
+																	</div>
+																</li>
+															<% end %>
+														</ul>
+													</div>
+												</td>
+											</tr>
+										</table>
+									</li>
+
+									<li class="list-group-item">
+										<label class="label"><h6> Numero piani: </h6></label> <%= department.floors %>
+									</li>
+
+									<li class="list-group-item">
+										<label class="label"><h6> Spazi disponibili: </h6></label> <%= department.number_of_spaces %>
+									</li>
+
+									<li class="list-group-item"> 
+										<label class="label"><h6> Email del manager </h6></label> <br>
+										<%= department.manager %>
+									</li>
+
+									<% if user_signed_in? %>
+										<li class="list-group-item">							
+											<button class="btn btn-outline-info" onclick="window.location.href='/make_reservation'"> <i class='bi bi-cursor'></i> prenota </button>
+										</li>
+									<% else %>
+										<li class="list-group-item">
+											<label class="label h6"> Per effettuare le prenotazioni <a href="/users/sign_in"> accedi </a> o <a href="/users/sign_up"> registrati </a> </label> 
+										</li>
+									<% end %>
+
+								</ul>	
+							</div>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		</div>
+
+		<!-- Zona destra del sito -->
+		<div class="col-xl-4 sticky-top">
+			<!-- Bottone per la prenotazione rapida -->
+			<div class="card mb-4">
+				<div class="card-header"> 
+					<label class="label"> Prenotazione rapida </label> 
+					<button type="button" class="btnEffettuaPR"> <i class='bi bi-cursor'></i> prenota </button> </div>
+				<div class="card-body"> 
+					<p class="card-text"> La tua prenotazione rapida è impostata su [ dipartimento - spazio ] </p>
+				</div>
+			</div>
+
+			<!-- Mappa per geolocalizzazione -->
+			<div class="card mb-4">
+				<div class="card-header"> Mappa </div>
+				<img class="card-img-top" src="https://www.ninaedizionishop.it/87/mappa-europa.jpg" alt="..." />
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
