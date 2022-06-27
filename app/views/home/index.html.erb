@@ -57,15 +57,14 @@
 												<td width="22%">
 													<label class="label"><h6> Descrizione </h6></label>
 												</td>
-												<td width="28%"> 
-													<!-- Icona interattiva per visualizzare il modal della descrizione -->
+												<td width="28%"> <!-- Icona interattiva per visualizzare il modal della descrizione -->
 													<div type="button" data-bs-toggle="modal" data-bs-target="#depID<%= department.id %>"><i class="bi bi-card-text"></i></div>
 													<!-- Modal della descrizione -->
-													<div class="modal fade" id="depID<%= department.id %>" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+													<div class="modal fade" id="depID<%= department.id %>" tabindex="-1" aria-labelledby="depDescHomeModalTitle" aria-hidden="true">
 														<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 															<div class="modal-content">
 																<div class="modal-header">
-																	<h5 class="modal-title" id="staticBackdropLabel"> <%= department.name %> - Descrizione</h5>
+																	<h5 class="modal-title" id="depDescHomeModalTitle"> <%= department.name %> - Descrizione</h5>
 																	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 																</div>
 																<div class="modal-body">
@@ -103,25 +102,25 @@
 										</table>
 									</li>
 
-									<li class="list-group-item">
+									<li class="list-group-item pt-3">
 										<label class="label"><h6> Numero piani: </h6></label> <%= department.floors %>
 									</li>
 
-									<li class="list-group-item">
+									<li class="list-group-item pt-3">
 										<label class="label"><h6> Spazi disponibili: </h6></label> <%= department.number_of_spaces %>
 									</li>
 
-									<li class="list-group-item"> 
+									<li class="list-group-item pt-3"> 
 										<label class="label"><h6> Email del manager </h6></label> <br>
 										<%= department.manager %>
 									</li>
 
 									<% if user_signed_in? %>
-										<li class="list-group-item">							
+										<li class="list-group-item pt-3">							
 											<button class="btn btn-outline-info" onclick="window.location.href='/make_reservation'"> <i class='bi bi-cursor'></i> prenota </button>
 										</li>
 									<% else %>
-										<li class="list-group-item">
+										<li class="list-group-item pt-3">
 											<label class="label h6"> Per effettuare le prenotazioni <a href="/users/sign_in"> accedi </a> o <a href="/users/sign_up"> registrati </a> </label> 
 										</li>
 									<% end %>

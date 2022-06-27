@@ -5,18 +5,24 @@
 
     <title> Registra il tuo dipartimento - Spacebook </title>
 
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+
     <script>
-		$(document).ready(function() {
-			$('#datatablesSpaziCreati').DataTable();
-		} );
-	</script>
+        window.addEventListener('DOMContentLoaded', event => {
+            const datatablesSimple = document.getElementById('datatableSpaziCreati');
+            if (datatablesSimple) {
+                new simpleDatatables.DataTable(datatablesSimple);
+            }
+        });
+    </script>
 
 </head>
 
 <body class="bg-primary">
-	<div id="layoutAuthentication">
-		<div id="layoutAuthentication_content">
-			<main>
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
                 <!-- Page content-->
                 <div class="container">
                     <div class="row justify-content-center mt-5">
@@ -607,7 +613,7 @@
                                                                 <%= form.label 'Descrizione del dipartimento' %>
                                                             </div>
                                                             <div class="field"> 
-                                                                <%= form.text_area :description, :class=>"form-control", rows: 5, :style=>"width:100%" %>
+                                                                <%= form.text_area :description, :class=>"form-control", rows: 3, :style=>"width:100%" %>
                                                             </div>
                                                         </div>
 
@@ -623,7 +629,7 @@
                                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                                 <div class="card-header"><h3 class="text-center font-weight-light my-4"> Lista spazi inseriti </h3></div>
                                                 <div class="card-body">
-                                                    <table id="datatablesSpaziCreati" class="table table-responsive table-striped table-bordered table-hover"> 
+                                                    <table id="datatableSpaziCreati" class="display table table-responsive table-striped table-bordered table-hover"> 
                                                         <thead>
                                                             <tr>
                                                                 <th>Tipologia</th>
@@ -631,7 +637,6 @@
                                                                 <th>Piano</th>
                                                                 <th>Numero di posti</th>
                                                                 <th>Descrizione</th>
-                                                                <th>Disponibilità</th>
                                                                 <th colspan="3">Opzioni</th>
                                                             </tr>
                                                         </thead>
@@ -642,8 +647,8 @@
                                                                     <td><%= jcs.name %></td>
                                                                     <td><%= jcs.floor %></td>
                                                                     <td><%= jcs.number_of_seats %></td>
-                                                                    <td>
-                                                                        <div type="button" data-bs-toggle="modal" data-bs-target="#depID<%= jcs.id %>"><i class="bi bi-card-text"></i></div>
+                                                                    <td><!-- Icona interattiva per la descrizione -->
+                                                                        <div class="bi bi-card-text" type="button" data-bs-toggle="modal" data-bs-target="#depID<%= jcs.id %>"></div>
                                                                         <!-- Modal della descrizione -->
                                                                         <div class="modal fade" id="depID<%= jcs.id %>" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -659,9 +664,10 @@
                                                                             </div>
                                                                         </div>
                                                                     </td>
-                                                                    <td><%= jcs.state %></td>
-                                                                    <!-- Tasto per la modifica traite modal dello spazio inserito-->
-                                                                    <th><button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempSpID<%= jcs.id %>">Modifica <i class="bi bi-pen"></i></button></th>
+                                                                    <th><!-- Tasto per la modifica traite modal dello spazio inserito-->
+                                                                        <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempSpID<%= jcs.id %>">
+                                                                            Modifica <i class="bi bi-pen"></i>
+                                                                        </button>
                                                                         <!-- Modal di modifica -->
                                                                         <div class="modal fade" id="tempSpID<%= jcs.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
@@ -725,6 +731,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+                                                                    </th>
                                                                     <!-- Tasto per la rimozioe dello spazio inserito -->
                                                                     <th><%= link_to '', jcs, method: :delete, data: { confirm: 'Sicuro?' }, :class => "btn btn-outline-info bi bi-trash"%></th>
                                                                 </tr>
@@ -814,7 +821,7 @@
                                             </li>
 
                                             <li class="list-group-item"> 
-                                                <!-- Tasto per la modifica traite modal del dipartimento inserito e per l'annullamento della procedura di registrazione -->
+                                                <!-- Tasto per la modifica traite modal del dipartimento inserito e tasto per l'annullamento della procedura di registrazione -->
                                                 <table>
                                                     <tr>
                                                         <td><button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempSpID<%= mydep.id %>">Modifica <i class="bi bi-pen"></i></button></td>

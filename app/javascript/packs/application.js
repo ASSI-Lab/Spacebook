@@ -8,6 +8,7 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import '../../assets/js/bootstrap_js_files'
+import '../../assets/js/sidenav_toggle.js'
 import 'jquery'
 
 Rails.start()
