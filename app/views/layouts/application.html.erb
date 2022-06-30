@@ -43,9 +43,10 @@
                 </td>
                 <!-- Icona interattiva per visualizzare le notifiche flash da spacebook -->
                 <td width="10%" style="text-align:right">
-                    <% if @flash_messages.size != 0%>
-                        <span class="badge rounded-pill bg-danger"> <%= @flash_messages.size %> </span>
-                        <div class="btn btn-outline-info bi bi-chat-text" type="button" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal"></div>
+                    <% if @flash_messages.size != 0 %>
+                        <div class="btn btn-outline-info" type="button" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal">
+                            <i class="bi bi-chat-text-fill" style="color: red"></i>
+                        </div>
                     <% else %>
                         <div class="btn btn-outline-info bi bi-chat" type="button" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal"></div>
                     <% end %>
@@ -53,9 +54,9 @@
                 <!-- Icona interattiva per visualizzare il modal dell'utente -->
                 <td width="5%" style="text-align:right">
                     <% if user_signed_in?%>
-                        <div class="btn btn-outline-info bi bi-person-fill me-lg-4" type="button" data-bs-toggle="modal" id="userNavModalButton" data-bs-target="#userNavModal"></div>
+                        <div class="btn btn-outline-info bi bi-person-fill me-4" type="button" data-bs-toggle="modal" id="userNavModalButton" data-bs-target="#userNavModal"></div>
                     <% else %>
-                        <div class="btn btn-outline-info bi bi-person me-lg-4" type="button" data-bs-toggle="modal" id="userNavModalButton" data-bs-target="#userNavModal"></div>
+                        <div class="btn btn-outline-info bi bi-person me-4" type="button" data-bs-toggle="modal" id="userNavModalButton" data-bs-target="#userNavModal"></div>
                     <% end %>
                 </td>
             </tr>
@@ -72,8 +73,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <a class="dropdown-item" href="/users/sign_in">Accedi</a>
-                        <a class="dropdown-item" href="/users/sign_up">Registrati</a>
+                        <button onclick="window.location.href='/users/sign_in'" class="dropdown-item"> Accedi </button>
+                        <button onclick="window.location.href='/users/sign_up'" class="dropdown-item"> Registrati </button>
                     </div>
                 <% else %>
                     <div class="modal-header">
@@ -81,7 +82,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <a class="dropdown-item" href="/personal_area">Area personale</a>
                         <button onclick="window.location.href='/personal_area'" class="dropdown-item">Area personale</button>
                         <%= button_to 'Esci', destroy_user_session_path, method: :delete, :class => "dropdown-item" %>
                     </div>
@@ -169,7 +169,7 @@
                 </footer>
             </div>
         </div>
-    <% else %>                               <!-- In caso positivo mostra solo lo yeld della pagina corrente -->
+    <% else %>                               <!-- In caso positivo mostra solo lo yield della pagina corrente -->
         <%= yield %>
     <% end %>
 
