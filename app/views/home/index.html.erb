@@ -33,8 +33,12 @@
 				<div class="col-xl-6">
 					<form class="d-none d-md-inline-block form-inline mt-3 mb-1">
 						<div class="input-group">
-							<input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-							<button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+							<table width="100%" class="rounded btn-outline-info">
+								<tr>
+									<td width="90%"><input type="text" class="form-control btn-outline-info" placeholder="Trova un dipartimento..." id="depSearchHome"/></td>
+									<td width="10%"><button class="btn btn-info bi bi-search" id="btnNavbarSearch" type="button"></button></td>
+								</tr>
+							</table>
 						</div>
 					</form>
 				</div>
@@ -65,7 +69,8 @@
 							</div>
 							<div class="card-body">
 								<ul class="list-group list-group-flush">
-									<li class="list-group-item pt-0">	<!-- Descrizione -->
+									<!-- Descrizione -->
+									<li class="list-group-item pt-0">
 										<!-- Icona interattiva per visualizzare il collapse della descrizione -->
 										<label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= department.id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Descrizione <i class="bi bi-card-text"></i> </label> 
 										<!-- Collapse della descrizione -->
@@ -74,7 +79,8 @@
 										</div>
 									</li>
 
-									<li class="list-group-item pt-3">	<!-- Orari -->
+									<!-- Orari -->
+									<li class="list-group-item pt-3">
 										<!-- Icona interattiva per visualizzare il collapse degli orari -->
 										<label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= department.id %>OrariCollapse" aria-expanded="false" aria-controls="collapseExample"> Orari <i class="bi bi-clock"></i> </label> 
 										<!-- Collapse degli orari -->
@@ -117,21 +123,40 @@
 		<div class="col-xl-4">
 			<!-- Bottone per la prenotazione rapida -->
 			<div class="card shadow-lg border-0 rounded-lg mt-0">
-				<div class="card-header"> 
-					<label class="label"> Prenotazione rapida </label> 
-					<button type="button" class="btnEffettuaPR"> <i class='bi bi-cursor'></i> prenota </button> </div>
-				<div class="card-body"> 
-					<p class="card-text"> La tua prenotazione rapida è impostata su [ dipartimento - spazio ] </p>
+				<div class="card-header">
+					<table>
+						<tr>
+							<td width="90%">
+								<h3 class="font-weight-light mt-4 mb-2"> Prenotazione rapida </h3>
+								<div class="small text-muted"> Verrà prenotato il primo orario disponibile in data odierna per lo spazio sotto riportato </div>
+							</td>
+							<td width="10%">
+								<button class="btn btn-outline-info"> <i class='bi bi-cursor'></i><br> prenota </button> </div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="card-body">
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item pt-3">
+							<label class="label h5"> Dipartimento: </label> <%= "@quick_reservation.dep_name" %>
+						</li>
+						<li class="list-group-item pt-3">
+							<label class="label h5"> Tipologi - Spazio: </label> <%= "@quick_reservation.typology - @quick_reservation.space_name" %>
+						</li>
+					</ul>
 				</div>
 			</div>
 
 			<!-- Mappa per geolocalizzazione -->
-			<div class="card shadow-lg border-0 rounded-lg mt-5">
-				<div class="card-header"> Mappa </div>
-				<img class="card-img-top" src="https://www.ninaedizionishop.it/87/mappa-europa.jpg" alt="..." />
+			<div class="shadow-lg border-0 rounded-lg mt-5">
+				<div class="card-header text-center h3"> Mappa </div>
+				<div class="card-body text-center">
+					<img class="card-img-top" src="https://www.ninaedizionishop.it/87/mappa-europa.jpg" alt="..." />
+				</div>
 			</div>
-		</div>
 
+		</div>
 	</div>
 </body>
 </html>

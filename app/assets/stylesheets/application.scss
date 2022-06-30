@@ -2690,6 +2690,17 @@ textarea.form-control-lg {
     transition: none;
   }
 }
+@media (max-width: 1300px) {
+  .form-floating > label {
+    font-size: 9px;
+  }
+}
+@media (max-width: 650px) {
+  .form-floating > label {
+    font-size: 7px;
+  }
+}
+
 .form-floating > .form-control, .form-floating > .dataTable-input {
   padding: 1rem 0.75rem;
 }
@@ -3375,32 +3386,25 @@ textarea.form-control-lg {
   background-color: #0dcaf0;
   border-color: #0dcaf0;
 }
-#userNavModalButton { //mdm
+
+#userNavModalButton, #flashNavModalButton, #sidebarToggle, #homeBtnWhenNoSidenav { //mdm
   color: grey;
   border-color: grey;
 }
-#userNavModalButton:hover { //mdm
+#userNavModalButton:hover, #flashNavModalButton:hover, #sidebarToggle:hover, #homeBtnWhenNoSidenav:hover { //mdm
   color: grey;
   background-color: rgb(29, 31, 34);
   border-color: white;
 }
-#flashNavModalButton { //mdm
+
+#depSearchHome { //mdm
   color: grey;
+  border-color: #0dcaf0;
+}
+#depSearchHome:hover { //mdm
+  color: grey;
+  background-color: white;
   border-color: grey;
-}
-#flashNavModalButton:hover { //mdm
-  color: grey;
-  background-color: rgb(29, 31, 34);
-  border-color: white;
-}
-#sidebarToggle { //mdm
-  color: grey;
-  border-color: grey;
-}
-#sidebarToggle:hover { //mdm
-  color: grey;
-  background-color: rgb(29, 31, 34);
-  border-color: white;
 }
 
 .btn-check:focus + .btn-outline-info, .btn-outline-info:focus {
@@ -3620,14 +3624,6 @@ textarea.form-control-lg {
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
-}
-
-#orariDropdownMenu {       // dropDownmenu degli orari delle card dei dipartimenti della home
-  width: 230px !important;
-}
-
-#userNavDropdownMenu {     // dropDownmenu dell'user nella navbar del brand
-  width: auto !important;
 }
 
 .dropdown-menu[data-bs-popper] {
@@ -4669,6 +4665,12 @@ textarea.form-control-lg {
 .card-img-top,
 .card-img-bottom {
   width: 100%;
+}
+#depFloorMapCarouselImgTop { // mdm
+  height: 235px;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .card-img,
@@ -11753,4 +11755,76 @@ body {
   width: 20px !important;
   font-size: 0.75rem;
   border-radius: 0.25rem !important;
+}
+
+// mdm da quì in poi
+
+.dataTables_wrapper > .row > .col-sm-7 > .dataTables_paginate > .pagination > .paginate_button {
+  display: contents;
+}
+.dataTables_wrapper > .row > .col-sm-7 > .dataTables_paginate > .pagination > .paginate_button:hover {
+  display: contents;
+}
+
+.paginate_button > a {
+  margin: 1px 2px 1px 2px;
+  height: 100%;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #0dcaf0;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  border-color: #0dcaf0;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.paginate_button > a:hover {
+  color: #000;
+  background-color: #0dcaf0;
+  border-color: #0dcaf0;
+}
+.paginate_button.disabled > a {
+  pointer-events: none;
+  opacity: 0.30;
+}
+
+.dataTables_wrapper > .row > .col-sm-6 > .dataTables_legth > label > #datatableSpaziCreati_length {
+
+}
+
+div.dataTables_wrapper div.dataTables_length select {
+  text-align: center !important;
+  width: fit-content !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 0.25rem !important;
+
+}
+
+table.dataTable thead>tr>th.sorting:before, table.dataTable thead>tr>th.sorting_asc:before, table.dataTable thead>tr>th.sorting_desc:before, table.dataTable thead>tr>th.sorting_asc_disabled:before, table.dataTable thead>tr>th.sorting_desc_disabled:before, table.dataTable thead>tr>td.sorting:before, table.dataTable thead>tr>td.sorting_asc:before, table.dataTable thead>tr>td.sorting_desc:before, table.dataTable thead>tr>td.sorting_asc_disabled:before, table.dataTable thead>tr>td.sorting_desc_disabled:before,
+table.dataTable thead>tr>th.sorting:after, table.dataTable thead>tr>th.sorting_asc:after, table.dataTable thead>tr>th.sorting_desc:after, table.dataTable thead>tr>th.sorting_asc_disabled:after, table.dataTable thead>tr>th.sorting_desc_disabled:after, table.dataTable thead>tr>td.sorting:after, table.dataTable thead>tr>td.sorting_asc:after, table.dataTable thead>tr>td.sorting_desc:after, table.dataTable thead>tr>td.sorting_asc_disabled:after, table.dataTable thead>tr>td.sorting_desc_disabled:after {
+  padding: 3px;
+  color: #0dcaf0;
+  border: 1px solid transparent;
+  border-color: #0dcaf0;
+  border-radius: 0.15rem;
+
+}
+
+#datatableSpaziCreati_filter > .bi:hover {
+  color: #000;
+  background-color: #0dcaf0;
+  border-color: #0dcaf0;
 }

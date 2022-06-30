@@ -33,30 +33,37 @@
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark ">
         <table width="100%">
             <tr>
-                <!-- "Icona per il toggle della sidenav" -->
-                <td width="15%" >
-                    <button class="btn btn-outline-info bi bi-arrow-left-right ms-3" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+                <!-- Icone alternate per sidenav e home -->
+                <td width="6%" style="text-align:left">
+                    <% if !current_page?("/users/sign_up") and !current_page?("/users/sign_in") and !current_page?("/make_department")%>
+                        <!-- Icona per il toggle della sidenav -->
+                        <div class="btn btn-outline-info bi bi-arrow-left-right ms-3" id="sidebarToggle"></div>
+                    <% else %>
+                        <!-- Icona per il reindirizzamento alla home in assenza della sidenav -->
+                        <div class="btn btn-outline-info bi bi-house-fill ms-3" id="homeBtnWhenNoSidenav" onclick="window.location.href='/home'"></div>
+                    <% end %>
                 </td>
                 <!-- Brand -->
-                <td width="70%">
+                <td width="88%">
                     <a class="navbar-brand text-center"><h1> S P A C E B O O K </h1></a>
                 </td>
                 <!-- Icona interattiva per visualizzare le notifiche flash da spacebook -->
-                <td width="10%" style="text-align:right">
-                    <% if @flash_messages.size != 0 %>
-                        <div class="btn btn-outline-info" type="button" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal">
-                            <i class="bi bi-chat-text-fill" style="color: red"></i>
+                <td width="3%" style="text-align:right">
+                    <% if @flash_messages.size != 0%>
+                        <div class="btn btn-outline-info bi bi-chat-text-fill me-3" type="button" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal">
+                            <!-- Badge con il numero di messaggi -->
+                            <span class="position-absolute badge rounded-pill bg-danger mt-1"><%= @flash_messages.size %></span>
                         </div>
                     <% else %>
-                        <div class="btn btn-outline-info bi bi-chat" type="button" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal"></div>
+                        <div class="btn btn-outline-info bi bi-chat me-3" type="button" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal"></div>
                     <% end %>
                 </td>
                 <!-- Icona interattiva per visualizzare il modal dell'utente -->
-                <td width="5%" style="text-align:right">
+                <td width="3%" style="text-align:right">
                     <% if user_signed_in?%>
-                        <div class="btn btn-outline-info bi bi-person-fill me-4" type="button" data-bs-toggle="modal" id="userNavModalButton" data-bs-target="#userNavModal"></div>
+                        <div class="btn btn-outline-info bi bi-person-fill me-3" type="button" data-bs-toggle="modal" id="userNavModalButton" data-bs-target="#userNavModal"></div>
                     <% else %>
-                        <div class="btn btn-outline-info bi bi-person me-4" type="button" data-bs-toggle="modal" id="userNavModalButton" data-bs-target="#userNavModal"></div>
+                        <div class="btn btn-outline-info bi bi-person me-3" type="button" data-bs-toggle="modal" id="userNavModalButton" data-bs-target="#userNavModal"></div>
                     <% end %>
                 </td>
             </tr>
@@ -116,36 +123,38 @@
                         <div class="nav">
 
                             <a class="nav-link" onclick="window.location.href='/home'">
-                                <div class="sb-nav-link-icon"><i class="bi bi-house-fill"></i></div>
+                                <div class="sb-nav-link-icon bi bi-house-fill"></div>
                                 HOME
                             </a>
 
                             <a class="nav-link" onclick="window.location.href='/make_reservation'">
-                                <div class="sb-nav-link-icon"><i class="bi bi-card-list"></i></div>
+                                <div class="sb-nav-link-icon bi bi-card-list"></div>
                                 Effettua prenotazione
                             </a>
 
                             <!-- Controlla il ruolo dell'utente e ne visualizza le rispettive funzionalità -->
                             <% if user_signed_in? && current_user.roles in ["manager"]%>
                                 <a class="nav-link" onclick="window.location.href='/manager_department'">
-                                    <div class="sb-nav-link-icon"><i class="bi bi-building"></i></div>
+                                    <div class="sb-nav-link-icon bi bi-building"></div>
                                     Mio dipartimento
                                 </a>
                             <% elsif user_signed_in? && current_user.roles in ["admin"]%>
                                 <a class="nav-link" onclick="window.location.href='/management'">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                    <div class="sb-nav-link-icon fas fa-tachometer-alt"></div>
                                     Gestione sito
                                 </a>
                             <% end %>
 
                             <a class="nav-link" onclick="window.location.href='/informations'"> 
-                                <div class="sb-nav-link-icon"><i class="bi bi-info-circle"></i></div>
+                                <div class="sb-nav-link-icon bi-info-circle"></div>
                                 Informazioni 
                             </a>
 
                         </div>
                     </div>
-                    <!-- <div class="sb-sidenav-footer"></div> -->
+                    <div class="sb-sidenav-footer">
+                        <div class="text-muted"> Copyright &copy; Spacebook </div>
+                    </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content"> <!-- Corpo della pagina corrente -->
@@ -155,11 +164,10 @@
                     </div>
                 </main>
 
-                <footer class="py-4 bg-light mt-auto">
+                <footer class="py-4 bg-light mt-4">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
-                            <div>
+                            <div class="ms-auto">
                                 <a href="#">Privacy Policy</a>
                                 &middot;
                                 <a href="#">Terms &amp; Conditions</a>
