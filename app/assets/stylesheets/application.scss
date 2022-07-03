@@ -3997,6 +3997,7 @@ textarea.form-control-lg {
 }
 
 .nav-link {
+  cursor: pointer; // mdm
   display: block;
   padding: 0.5rem 1rem;
   color: #0d6efd;
@@ -11759,20 +11760,94 @@ body {
 
 // mdm da quì in poi
 
-.dataTables_wrapper > .row > .col-sm-7 > .dataTables_paginate > .pagination > .paginate_button {
-  display: contents;
+// Datatables Length
+.dataTables_length > label {
+  display: flex;
 }
-.dataTables_wrapper > .row > .col-sm-7 > .dataTables_paginate > .pagination > .paginate_button:hover {
-  display: contents;
+.dataTables_length > label > label {
+  margin-top: 6px;
+}
+.dataTables_length > label > .form-control {
+  text-align: center !important;
+  width: fit-content !important;
+  padding: 0px !important;
+  margin: 1px 3px 1px 3px !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 0.25rem !important;
 }
 
+// Datatables Filter
+.dataTables_filter > label {
+  display: flex;
+  justify-content: right;
+}
+.dataTables_filter > label > label {
+  margin-top: 6px;
+}
+.dataTables_filter > label > .form-control {
+  width: fit-content !important;
+  padding: 0px !important;
+  margin: 1px 3px 1px 3px !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 0.25rem !important;
+}
+
+// Datatables 
+.display.table-responsive.table-striped.table-hover {
+  margin-top: 0px !important;
+}
+
+// Datatables Sorting arrows
+.sorting::before,
+.sorting::after {
+  padding: 3px;
+  color: #0dcaf0;
+  border: 1px solid transparent;
+  border-radius: 0.15rem;
+  border-color: #0dcaf0;
+}
+.sorting:hover::before,
+.sorting:hover::after {
+  opacity: 60% !important;
+}
+.sorting.sorting_asc:hover::before,
+.sorting.sorting_desc:hover::after {
+  color: #000 !important;
+  background-color: #0dcaf0 !important;
+  border-color: #0dcaf0 !important;
+}
+.sorting.sorting_asc:hover::after,
+.sorting.sorting_desc:hover::before {
+  color: #0dcaf0;
+  background-color: white;
+  opacity: 13% !important;
+}
+
+// Datatables Pagination
+.dataTables_paginate {
+  width: 100% !important;
+}
+.pagination {
+  width: auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-bottom: 0px;
+  justify-content: center;
+}
+.paginate_button {
+  display: contents !important;
+}
 .paginate_button > a {
-  margin: 1px 2px 1px 2px;
-  height: 100%;
+  padding-left: 0.9%;
+  padding-right: 0.9%;
+  margin: 2px 2px 2px 2px;
+  width: fit-content;
+  min-width: 25px;
+  max-width: 100%;
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;
-  color: #0dcaf0;
+  color: #000;
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
@@ -11782,49 +11857,32 @@ body {
       -ms-user-select: none;
           user-select: none;
   background-color: transparent;
-  border: 1px solid transparent;
-  padding: 0.375rem 0.75rem;
   font-size: 1rem;
-  border-color: #0dcaf0;
-  border-radius: 0.25rem;
+  border: 1px solid transparent;
+  border-radius: 50%;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-.paginate_button > a:hover {
+.paginate_button.previous > a:hover {
+  color: #0dcaf0;
+  border-color: transparent !important;
+}
+.paginate_button.active > a {
+  color: #0dcaf0;
+  border-color: #0dcaf0;
+}
+.paginate_button.active > a:hover {
   color: #000;
   background-color: #0dcaf0;
+}
+.paginate_button.next > a:hover {
+  color: #0dcaf0;
+  border-color: transparent !important;
+}
+.paginate_button > a:hover {
+  color: #0dcaf0;
   border-color: #0dcaf0;
 }
 .paginate_button.disabled > a {
   pointer-events: none;
   opacity: 0.30;
-}
-
-.dataTables_wrapper > .row > .col-sm-6 > .dataTables_legth > label > #datatableSpaziCreati_length {
-
-}
-
-div.dataTables_wrapper div.dataTables_length select {
-  text-align: center !important;
-  width: fit-content !important;
-  padding: 0px !important;
-  margin: 0px !important;
-  border: 1px solid #ced4da !important;
-  border-radius: 0.25rem !important;
-
-}
-
-table.dataTable thead>tr>th.sorting:before, table.dataTable thead>tr>th.sorting_asc:before, table.dataTable thead>tr>th.sorting_desc:before, table.dataTable thead>tr>th.sorting_asc_disabled:before, table.dataTable thead>tr>th.sorting_desc_disabled:before, table.dataTable thead>tr>td.sorting:before, table.dataTable thead>tr>td.sorting_asc:before, table.dataTable thead>tr>td.sorting_desc:before, table.dataTable thead>tr>td.sorting_asc_disabled:before, table.dataTable thead>tr>td.sorting_desc_disabled:before,
-table.dataTable thead>tr>th.sorting:after, table.dataTable thead>tr>th.sorting_asc:after, table.dataTable thead>tr>th.sorting_desc:after, table.dataTable thead>tr>th.sorting_asc_disabled:after, table.dataTable thead>tr>th.sorting_desc_disabled:after, table.dataTable thead>tr>td.sorting:after, table.dataTable thead>tr>td.sorting_asc:after, table.dataTable thead>tr>td.sorting_desc:after, table.dataTable thead>tr>td.sorting_asc_disabled:after, table.dataTable thead>tr>td.sorting_desc_disabled:after {
-  padding: 3px;
-  color: #0dcaf0;
-  border: 1px solid transparent;
-  border-color: #0dcaf0;
-  border-radius: 0.15rem;
-
-}
-
-#datatableSpaziCreati_filter > .bi:hover {
-  color: #000;
-  background-color: #0dcaf0;
-  border-color: #0dcaf0;
 }

@@ -101,13 +101,20 @@
         <div class="modal-dialog" id="flashNavModalDialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title px-2" id="staticBackdropLabel"> <%= @flash_messages.size %> messaggi da Spacebook </h5>
+                    <% if @flash_messages.size != 0 %>
+                        <h5 class="modal-title px-2" id="staticBackdropLabel"> <%= @flash_messages.size %> messaggi da Spacebook </h5>
+                    <% else %>
+                        <h5 class="modal-title px-2" id="staticBackdropLabel"> Non ci sono messaggi da Spacebook </h5>
+                    <% end %>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <% @flash_messages.each do |msg| %>
                         <%= msg %><br>
                         <hr class="dropdown-divider" />
+                    <% end %>
+                    <% if @flash_messages.size != 0 %>
+                            <button onclick='window.location.reload();' class="btn btn-outline-info text-center bi bi-check" witdh='100%'> Svuota messaggi </button>
                     <% end %>
                 </div>
             </div>
@@ -140,7 +147,7 @@
                                 </a>
                             <% elsif user_signed_in? && current_user.roles in ["admin"]%>
                                 <a class="nav-link" onclick="window.location.href='/management'">
-                                    <div class="sb-nav-link-icon fas fa-tachometer-alt"></div>
+                                    <div class="sb-nav-link-icon bi bi-gear-wide-connected"></div>
                                     Gestione sito
                                 </a>
                             <% end %>
@@ -152,7 +159,7 @@
 
                         </div>
                     </div>
-                    <div class="sb-sidenav-footer">
+                    <div class="sb-sidenav-footer py-4 mt-4 small">
                         <div class="text-muted"> Copyright &copy; Spacebook </div>
                     </div>
                 </nav>
@@ -164,7 +171,15 @@
                     </div>
                 </main>
 
-                <footer class="py-4 bg-light mt-4">
+                <footer class="container-fluid px-4 py-4 mt-4 bg-dark d-flex justify-content-between small">
+                    <div class="ms-auto">
+                        <label class="text-muted"> Se non vi piace scuro don't worry è una prova cambiate bg-dark con bg-light nel footer in application.html </label>
+                        <a href="#">Privacy Policy</a> &middot; <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </footer>
+
+                <!-- FOOTER VECCHIO PER ORA MANTENIAMOLO -->
+                <%# <footer class="py-4 bg-light mt-4">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
                             <div class="ms-auto">
@@ -174,7 +189,7 @@
                             </div>
                         </div>
                     </div>
-                </footer>
+                </footer> %>
             </div>
         </div>
     <% else %>                               <!-- In caso positivo mostra solo lo yield della pagina corrente -->
