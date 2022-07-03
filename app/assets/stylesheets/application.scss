@@ -11838,12 +11838,12 @@ body {
   display: contents !important;
 }
 .paginate_button > a {
-  padding-left: 0.9%;
-  padding-right: 0.9%;
-  margin: 2px 2px 2px 2px;
-  width: fit-content;
-  min-width: 25px;
-  max-width: 100%;
+  padding-bottom: 5px;
+  padding-top: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
+  width: 30px;
+  height: 30px;
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;
@@ -11859,10 +11859,11 @@ body {
   background-color: transparent;
   font-size: 1rem;
   border: 1px solid transparent;
-  border-radius: 50%;
+  border-radius: 100%;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-.paginate_button.previous > a:hover {
+.paginate_button.previous > a:hover,
+.paginate_button.next > a:hover {
   color: #0dcaf0;
   border-color: transparent !important;
 }
@@ -11873,10 +11874,6 @@ body {
 .paginate_button.active > a:hover {
   color: #000;
   background-color: #0dcaf0;
-}
-.paginate_button.next > a:hover {
-  color: #0dcaf0;
-  border-color: transparent !important;
 }
 .paginate_button > a:hover {
   color: #0dcaf0;
