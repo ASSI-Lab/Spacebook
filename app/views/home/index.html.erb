@@ -122,30 +122,25 @@
 		<!-- Zona destra del sito -->
 		<div class="col-xl-4">
 			<!-- Bottone per la prenotazione rapida -->
-			<div class="card shadow-lg border-0 rounded-lg mt-0">
+			<div class="card bg-dark text-white mb-4">
 				<div class="card-header">
 					<table>
 						<tr>
 							<td width="90%">
-								<h3 class="font-weight-light mt-4 mb-2"> Prenotazione rapida </h3>
+								<h4 class="font-weight-light"> Prenotazione rapida </h4>
 								<div class="small text-muted"> Verrà prenotato il primo orario disponibile in data odierna per lo spazio sotto riportato </div>
 							</td>
 							<td width="10%">
-								<button class="btn btn-outline-info"> <i class='bi bi-cursor'></i><br> prenota </button> </div>
+								<button class="btn btn-sm btn-outline-info"> <i class='bi bi-cursor'></i><br> prenota </button> </div>
 							</td>
 						</tr>
 					</table>
 				</div>
-				<div class="card-body">
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item pt-3">
-							<label class="label h5"> Dipartimento: </label> <%= "@quick_reservation.dep_name" %>
-						</li>
-						<li class="list-group-item pt-3">
-							<label class="label h5"> Tipologi - Spazio: </label> <%= "@quick_reservation.typology - @quick_reservation.space_name" %>
-						</li>
-					</ul>
-				</div>
+				<li class="list-group-item bg-dark text-white">
+					<label class="label h5"> Dipartimento: </label> <%= "@quick_reservation.dep_name" %>
+					<br>
+					<label class="label h5"> Tipologia - Spazio: </label> <%= "@quick_reservation.typology - @quick_reservation.space_name" %>
+				</li>
 			</div>
 
 			<!-- Mappa per geolocalizzazione -->

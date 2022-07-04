@@ -1,75 +1,75 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-	<meta charset="UTF-8">
-   	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-	<title> Spazi Preferiti - Spacebook </title>
-	<%= csrf_meta_tags %>
-	<%= csp_meta_tag %>
-	<%= stylesheet_link_tag 'favourite_spaces', media: 'all', 'data-turbolinks-track': 'reload' %>
-	<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-	<script>
-		$(document).ready(function() {
-			$('#datatablesDipartimenti').DataTable();
-			$('#datatablesUtenti').DataTable();
-			$('#datatablesPrenotazioni').DataTable();
-		} );
-	</script>
+	<title> Spazi Preferiti - Spacebook </title>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
+
+    <script>
+        $(document).ready(function () {
+            $('#datatableSpaziPreferiti').DataTable({
+                dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
+                scrollX: true,
+                filter: 'false',
+                pagingType: "simple_numbers",
+                pageLength: 10,
+                language: {
+                    lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> spazi preferiti contemporaneamente </h6></label>',
+                    zeroRecords: 'Nessuno spazio preferito',
+                    paginate: {
+                        first:    '<i class="bi bi-caret-left-fill"></i>',
+                        previous: '<i class="bi bi-arrow-left-circle"></i>',
+                        next:     '<i class="bi bi-arrow-right-circle"></i>',
+                        last:     '<i class="bi bi-caret-right-fill"></i>'
+                    }
+                }
+            });
+        });
+    </script>
 
 </head>
 
 <body>
 
-<p id="notice"><%= notice %></p>
-
-
-
-<div class="sb-nav-fixed">
-	<div id="layoutSidenav_content">
-		<main>
-			<div class="container-fluid px-4">
-				<div class="card mb-4">
-					<div class="card-header">
-						<i class="fas fa-table me-1"></i>
-						Favourite Spaces
-					</div>
-					<div class="card-body">
-						<table id="datatablesDipartimenti" class="table table-responsive table-striped table-bordered table-hover">
-							<thead>
-	
-                <tr>
-                  <th>Email</th>
-                  <th>Department</th>
-                  <th>Typology</th>
-                  <th>Space</th>
-                  <th colspan="3"></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <% @favourite_spaces.each do |favourite_space| %>
-                  <tr>
-                    <td><%= favourite_space.email %></td>
-                    <td><%= favourite_space.department %></td>
-                    <td><%= favourite_space.typology %></td>
-                    <td><%= favourite_space.space %></td>
-                    <td><%= link_to 'Show', favourite_space %></td>
-                    <td><%= link_to 'Edit', edit_favourite_space_path(favourite_space) %></td>
-                    <td><%= link_to 'Destroy', favourite_space, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-		</main>
+<div class="row mt-4">
+	<div class="col">
+		<div class="card shadow-lg border-0 rounded-lg">
+			<div class="card-header text-center">
+				<h3 class="font-weight-light my-3"> Spazi preferiti </h3>
+			</div>
+			<div class="card-body">
+				<table id="datatableSpaziPreferiti" class="display table-responsive table-striped table-hover" width="100%">
+					<thead>
+						<tr>
+							<th>Email</th>
+							<th>Dipartimento</th>
+							<th>Tipologia</th>
+							<th>Spazio</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @favourite_spaces.each do |favourite_space| %>
+							<tr>
+								<td><%= favourite_space.email %></td>
+								<td><%= favourite_space.department %></td>
+								<td><%= favourite_space.typology %></td>
+								<td><%= favourite_space.space %></td>
+								<td><%= link_to 'Show', favourite_space %></td>
+								<td><%= link_to 'Edit', edit_favourite_space_path(favourite_space) %></td>
+								<td><%= link_to 'Destroy', favourite_space, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>
-
-<!-- <%= button_to 'New Favourite Space', new_favourite_space_path %> -->
-
 
 </body>
 </html>

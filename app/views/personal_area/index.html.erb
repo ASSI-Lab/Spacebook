@@ -9,110 +9,67 @@
 </head>
 
 <body>
-
-	<!-- Page content-->
-	<div class="container">
-		<div class="row">
-			<!-- SINISTRA -->
-			<div class="col-lg-8">
-				<!-- Introduzione -->
-				<div class="card mb-4">
-					<div class="card-body">
-						<h2 class="card-title"> Benvenuto nella tua area personale </h2>
-						<p class="card-text">
-							Qui potrai accedere rapidamente ai tuoi spazi preferiti, potrai visualizzare tutte le prenotazioni che hai effettuato,
-							effettuarne di nuove e aggiungere uno spazio per la prenotazione rapida (ti semplificherà la vita quando sarai in ritardo
-							per la lezioni e ti accorgerai all'ultimo di esserti dimenticato di prenotare)
-						</p>
-					</div>
-				</div>
-
-				<!-- Link alle varie pagine -->
-				<div class="row">
-					<div class="col-sm-6">
-						<div class="card bg-dark text-white mb-4">
-							<div class="card-body"> Le mie prenotazioni </div>
-							<div class="card-footer d-flex align-items-center justify-content-between">
-								<a class="small text-white stretched-link" href="/user_reservations"> Visualizza </a>
-								<div class="small text-white"><i class="fas fa-angle-right"></i></div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="card bg-dark text-white mb-4">
-							<div class="card-body"> Spazi preferiti </div>
-							<div class="card-footer d-flex align-items-center justify-content-between">
-								<a class="small text-white stretched-link" href="/favourite_spaces"> Visualizza </a>
-								<div class="small text-white"><i class="fas fa-angle-right"></i></div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="card bg-dark text-white mb-4">
-							<div class="card-body"> Effettua una nuova prenotazione </div>
-							<div class="card-footer d-flex align-items-center justify-content-between">
-								<a class="small text-white stretched-link" href="/make_reservation"> Visualizza </a>
-								<div class="small text-white"><i class="fas fa-angle-right"></i></div>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="card bg-dark text-white mb-4">
-							<div class="card-body"> Effettua prenotazione rapida </div>
-							<div class="card-footer d-flex align-items-center justify-content-between">
-								<a class="small text-white stretched-link" href="#"> Visualizza </a>
-								<div class="small text-white"><i class="fas fa-angle-right"></i></div>
-							</div>
-						</div>
-					</div>
-
-					<% if current_user.roles in ["manager"] %>
-					<div class="col-sm-12">	
-						<div class="card bg-dark text-white mb-4">
-							<div class="card-body"> Il mio dipartimento </div>
-							<div class="card-footer d-flex align-items-center justify-content-between">
-								<a class="small text-white stretched-link" href="/manager_department"> Visualizza </a>
-								<div class="small text-white"><i class="fas fa-angle-right"></i></div>
-							</div>
-						</div>
-					</div>
-					<% end %>
+	<div class="row">
+		<!-- Introduzione -->
+		<div class="col-xl-7">
+			<div class="card shadow-lg border-0 rounded-lg" style="height:100%">
+				<div class="card-body">
+					<h2 class="font-weight-light mt-2 mb-2"> Benvenuto nella tua area personale </h2>
+					<p class="card-text">
+						Qui potrai accedere rapidamente ai tuoi spazi preferiti, potrai visualizzare tutte le prenotazioni che hai effettuato,
+						effettuarne di nuove e aggiungere uno spazio per la prenotazione rapida
+					</p>
 				</div>
 			</div>
+		</div>
 
-			<!-- DESTRA -->
-			<div class="col-lg-4">
+		<div class="col-xl-5">
+			<div class="row">
 				<!-- Info utente -->
-				<div class="card mb-4">
-					<div class="card-body">
-						<h6 class="card-title"> Info utente </h6>
+				<div class="col-xl-8">
+					<div class="card bg-dark text-white mb-1" style="height:100%">
+						<div class="card-header h4"> Info utente </div>
+						<li class="list-group-item bg-dark text-white"> 
+							<label class="label h5"> Email: </label> <%= current_user.email %>
+							<br>
+							<label class="label h5"> Password: </label> <%= current_user.password %>
+							<button class="btn btn-sm btn-outline-info" id="updatePsw"> <i class="bi bi-pen"></i> </button>
+						</li>
 					</div>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item"> 
-							<label class="label"> Email: <%= current_user.email %> </label>
-						</li>
-						<li class="list-group-item"> 
-							<label class="label"> Password: <%= current_user.password %> </label> 
-							<button class="btnCardPassword"> modifica </button>
-						</li>
-					</ul>
 				</div>
 
-				<!-- calendario per sincronizzazione AL MOMENTO SE SI È COLLEGATI TRAMITE GOOGLE IL CALENDARIO VIENE FORMATO CON I PROSSIMI 10 EVENTI ALL'INTERNO-->
-				<div class="card mb-4">
-					<div class="card-header"> Google Calendar  </div>
-					<% if current_user.access_token!=nil%><!-- SE IL TOKEN È PRESENTE VIENE INVIATA LA RICHIESTA A CALENDAR -->
+				<div class="col-xl-4">
+					<div class="card bg-dark text-white mb-0" style="height:100%">
+						<div class="card-body">
+							<p class="card-text h5"> Effettua prenotazione rapida </p>
+							<a class="small text-white stretched-link" href="#"> </a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+
+	<div class="row mt-4">
+		<!-- Calendario per sincronizzazione AL MOMENTO SE SI È COLLEGATI TRAMITE GOOGLE IL CALENDARIO VIENE FORMATO CON I PROSSIMI 10 EVENTI ALL'INTERNO -->
+		<div class="col-lg-7">
+			<div class="card shadow-lg border-0 rounded-lg">
+				<div class="card-header"> 
+					<h4 class="card-title"> Google Calendar </h4>
+				</div>
+				<div class="card-body px-3">
+					<% if current_user.access_token!=nil%>		<!-- SE IL TOKEN È PRESENTE VIENE INVIATA LA RICHIESTA A CALENDAR -->
 						<% @hash=load_events %>
 						<%= month_calendar do |date| %>
 							<%= date.day %>
 							<div>
-							<% if @hash[date.to_s]!=nil %>
-								<font size="-2"><%= @hash[date.to_s][0]%></font>
-								<font size="-3" color="blue"><%= @hash[date.to_s][1]%></font>	
-							<% end %>
+								<% if @hash[date.to_s]!=nil %>
+									<font size="-2"><%= @hash[date.to_s][0]%></font>
+									<font size="-3" color="blue"><%= @hash[date.to_s][1]%></font>	
+								<% end %>
 							</div>
 						<% end %>
-					<% else %><!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI-->
+					<% else %>		<!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI -->
 						<%= month_calendar do |date| %>
 							<%= date.day %>
 						<% end %>
@@ -120,6 +77,62 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Link alle varie pagine -->
+		<div class="col-lg-5">
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="card bg-dark text-white mb-4">
+						<img class="card-img-top" src="https://i.pinimg.com/736x/fc/e0/f6/fce0f6027d2fcbbd232fddcd71873f03.jpg">
+						<div class="card-body">
+							<p class="card-text h5"> Le mie prenotazioni </p>
+							<a class="small text-white stretched-link" href="/user_reservations"> </a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="card bg-dark text-white mb-4">
+						<img class="card-img-top" src="https://i.pinimg.com/236x/cf/5d/07/cf5d0716d2637b82379e7765d76b3351.jpg">
+						<div class="card-body">
+							<p class="card-text h5"> Spazi preferiti </p>
+							<a class="small text-white stretched-link" href="/favourite_spaces"> </a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="card bg-dark text-white mb-4">
+						<img class="card-img-top" src="https://i.pinimg.com/236x/0e/f9/98/0ef9986934af8b20c2540db89dd04dad.jpg">
+						<div class="card-body">
+							<p class="card-text h5"> Nuova prenotazione </p>
+							<a class="small text-white stretched-link" href="/make_reservation"> </a>
+						</div>
+					</div>
+				</div>
+
+				<% if current_user.roles in ["manager"] %>
+					<div class="col-sm-12">
+						<div class="card bg-dark text-white mb-4">
+							<img class="card-img-top" src="https://i.pinimg.com/564x/9c/1f/b9/9c1fb9d95b28c2718d924738f8fd5feb.jpg">
+							<div class="card-body">
+								<p class="card-text h5"> Il mio dipartimento </p>
+								<a class="small text-white stretched-link" href="/manager_department"> </a>
+							</div>
+						</div>
+					</div>
+				<% elsif current_user.roles in ["admin"] %>
+					<div class="col-sm-12">
+						<div class="card bg-dark text-white mb-4">
+							<img class="card-img-top" src="https://i.pinimg.com/236x/a8/56/2d/a8562db482364133bad63dc0752960fa.jpg">
+							<div class="card-body">
+								<p class="card-text h5"> Gestione sito </p>
+								<a class="small text-white stretched-link" href="/management"> </a>
+							</div>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		</div>
 	</div>
+
 </body>
 </html>
