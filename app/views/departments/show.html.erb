@@ -1,70 +1,142 @@
 <!-- Permetta all'admin di visualizzare il singolo dipartimento selezionato ed i vari spazi associati -->
 
-<p id="notice"><%= notice %></p>
+<!DOCTYPE html>
+<html lang="it">
+<head>
 
-<table style="text-align:center">
-  <head> 
-      <tr>
-        <td colspan="2">
-          <table border = "1" width="100%"> <!-- Mostra il dipartimento selezionato -->
-            <head>
-              <tr>
-                <td colspan="10">
-                  <h2 style="text-align:center"> Dipartimento: <%= @department.id %><br> Manager: <%= @department.user_id %> </h2>
-                </td>
-              </tr>
-              <tr style="background-color:lightgrey">
-                <th>Nome dipartimento</th>
-                <th>E-mail manager</th>
-                <th>Indirizzo</th>
-                <th>Descrizione</th>
-                <th>Numero di piani</th>
-                <th>Numero di spazi</th>
-                <th>Slot prenotabili</th>
-              </tr>
-            </head>
-            <body>
-              <tr>
-                <td><%= @department.name %></td>
-                <td><%= @department.manager %></td>
-                <td><%= @department.via+','+@department.civico+','+@department.cap+','+@department.citta+','+@department.provincia %></td>
-                <td><%= @department.description %></td>
-                <td><%= @department.floors %></td>
-                <td><%= @department.number_of_spaces %></td>
-                <td><%= @department.slot %>h</td>
-              </tr>
-            </body>
-          </table>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <table border = "1" width="100%"> <!-- Mostra gli spazi relativi al dipartimento -->
-            <head>
-              <tr><th colspan="6"><b>Spazi relativi al dipartimento</b></th></tr>
-              <tr style="background-color:lightgrey">
-                <th>id</th>
-                <th>Tipologia</th>
-                <th>Nome</th>
-                <th>Piano</th>
-                <th>Numero di posti</th>
-                <th>Disponibilità</th>
-              </tr>
-            </head>
-            <body>
-              <% @spaces.each do |space| %>
-                <tr>
-                  <td><%= space.id %></td>
-                  <td><%= space.typology %></td>
-                  <td><%= space.name %></td>
-                  <td><%= space.floor %></td>
-                  <td><%= space.number_of_seats %></td>
-                  <td><%= space.state %></td>
-                </tr>
-              <% end %>
-            </body>
-          </table>
-        </td>
-      </tr>
-  </head>
-</table>
+	<title> Dipartimento selezionato - Spacebook </title>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
+
+    <script>
+        $(document).ready(function () {
+            $('#datatableSpazi').DataTable({
+                dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
+                scrollX: true,
+                filter: 'false',
+                pagingType: "simple_numbers",
+                pageLength: 10,
+                language: {
+                    lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> spazi del dipartimento </h6></label>',
+                    zeroRecords: 'Nessuno spazio',
+                    paginate: {
+                        first:    '<i class="bi bi-caret-left-fill"></i>',
+                        previous: '<i class="bi bi-arrow-left-circle"></i>',
+                        next:     '<i class="bi bi-arrow-right-circle"></i>',
+                        last:     '<i class="bi bi-caret-right-fill"></i>'
+                    }
+                }
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+	<div class="row">
+		<!-- Card del dipartimento -->
+		<div class="col-xl-5">
+			<div class="card shadow-lg border-0 rounded-lg">
+				<div class="card-header"> 
+					<h3 class="font-weight-light my-3"> <%= @department.name %> (ID: <%= @department.id %>) </h3>
+						<div class="small text-muted"> <%= @department.manager %> (ID: <%= @department.user_id %>) </div>
+				</div>
+				<div class="card-body">
+					<ul class="list-group list-group-flush">
+						<!-- Descrizione -->
+						<li class="list-group-item pt-0">
+							<!-- Icona interattiva per visualizzare il collapse della descrizione -->
+							<label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= @department.id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Descrizione <i class="bi bi-card-text"></i> </label> 
+							<!-- Collapse della descrizione -->
+							<div class="collapse" id="dep<%= @department.id %>DescCollapse">
+								<%= @department.description %>
+							</div>
+						</li>
+						
+						<!-- Dati + orari -->
+						<li class="list-group-item"> 
+							<table width="100%">
+								<tr>
+									<td width="55%" class="ms-0 ps-0"> <!-- Dati -->
+										<ul class="list-group list-group-flush">
+											<li class="list-group-item ms-0 ps-0">
+												<label class="label h5"> Posizione </label><br>
+												<%= @department.via %>, <%= @department.civico %>, <%= @department.cap %>, <%= @department.citta %>, <%= @department.provincia %>
+											</li>
+											<li class="list-group-item ms-0 ps-0"> 
+												<label class="label h5"> Numero piani: </label><br>
+												<%= @department.floors %>
+											</li>
+											<li class="list-group-item ms-0 ps-0"> 
+												<label class="label h5"> Numero spazi: </label><br>
+												<%= @department.number_of_spaces %>
+											</li>
+										</ul>
+									</td>
+									<td width="45%" class="ps-3 pt-2"> <!-- Orari -->
+										<label class="label h5"> Orari <i class="bi bi-clock"></i> </label> 
+										<!-- Raccoglie tutti gli orari del dipartimento -->
+										<% @week_days.where(department_id: @department.id).each do |wd| %>
+											<div class="row">
+												<div class="col-sm-5">
+													<h6><%= wd.day %></h6>
+												</div>
+												<div class="col-sm-7">
+													<% if wd.state == "Aperto" %>
+														<%= wd.apertura.strftime('%H:%M') %>-<%= wd.chiusura.strftime('%H:%M') %>
+													<% else %>
+														<%= wd.state %>
+													<% end %>
+												</div>
+											</div>
+										<% end %>
+									</td>
+								</tr>
+							</table>
+						</li>
+					</ul>	
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-7">
+		<!-- Mostra la tabella con gli spazi relativi al dipartimento selezionato -->
+			<div class="card shadow-lg border-0 rounded-lg">
+				<div class="card-header text-center">
+					<h3 class="font-weight-light my-3"> Spazi </h3>
+				</div>
+				<div class="card-body">
+					<table id="datatableSpazi" class="display table-responsive table-striped table-hover" width="100%">
+						<thead>
+							<tr>
+								<th>id</th>
+								<th>Tipologia</th>
+								<th>Nome</th>
+								<th>Piano</th>
+								<th>Numero di posti</th>
+								<th>Disponibilità</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @spaces.each do |space| %>
+								<tr>
+									<td><%= space.id %></td>
+									<td><%= space.typology %></td>
+									<td><%= space.name %></td>
+									<td><%= space.floor %></td>
+									<td><%= space.number_of_seats %></td>
+									<td><%= space.state %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>

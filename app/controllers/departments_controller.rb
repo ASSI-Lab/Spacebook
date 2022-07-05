@@ -129,6 +129,7 @@ class DepartmentsController < ApplicationController
   # GET /departments/1 or /departments/1.json | Mostra all'admin il singolo dipartimento
   def show
     @spaces = Space.where(department_id: @department.id)
+    @week_days = WeekDay.where(department_id: @department.id)
   end
 
   # GET /departments/new | Mostra al manager la pagina di creazione dei dipartimenti e degli spazi con i relativi form
