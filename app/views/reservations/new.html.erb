@@ -262,6 +262,10 @@
 						</div>
 					</div>
 					<div class="row mt-4">
+						<div class="form-check form-switch">
+                            <%= form.check_box(("calendar_check"), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
+                            <label class="h6" for="calendar_check"> Sincronizza prenotazione su Calendar </label>
+                        </div>
 						<div class="action">
 							<!-- Invia i dati per gli orari selezionati alla funzione per la creazione -->
 							<%= form.submit class:"btn btn-outline-info", value: 'Prenota gli orari selezionati'%>

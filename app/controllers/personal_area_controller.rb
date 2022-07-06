@@ -34,7 +34,7 @@ class PersonalAreaController < ApplicationController
           flash[:error] = "Il tuo token è scaduto. Per favore esegui nuovamente l'accesso con Google."
           redirect_to :back
         end
-        @result = client.list_events(CALENDAR_ID,max_results: 10,single_events: true,order_by: 'startTime',time_min: Time.now.iso8601)# LEGGO I PROSSIMI 10 EVENTI SUL CALENDAR
+        @result = client.list_events(CALENDAR_ID,max_results: 1000,single_events: true,order_by: 'startTime',time_min: Time.now.iso8601)# LEGGO I PROSSIMI 10 EVENTI SUL CALENDAR
         @hash = {}# HASH CHE CONTERRÀ TUTTI GLI EVENTI DEL CALENDAR
         @result.items.each do |event|
           x=[event.summary, event.start.date_time.strftime("%H:%M")]
