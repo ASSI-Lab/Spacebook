@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 2022_06_20_203544) do
     t.text "description"
     t.integer "floors"
     t.integer "number_of_spaces"
-    t.integer "slot"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["manager"], name: "department_manager_index", unique: true
@@ -145,7 +144,6 @@ ActiveRecord::Schema.define(version: 2022_06_20_203544) do
     t.text "description"
     t.integer "floors"
     t.integer "number_of_spaces"
-    t.integer "slot"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["manager"], name: "temp_dep_manager_index", unique: true

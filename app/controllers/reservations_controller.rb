@@ -7,14 +7,32 @@ class ReservationsController < ApplicationController
     @reservations = Reservation.all
   end
 
+  # Raccoglie il dipartimento selezionato dall'utente e ne carica i dati e reindirizza a '/make_rexservation'
+  def set_department
+    respond_to do |format|
+      format.html { render :new, locals: { department: params } }
+    end
+  end
+
+  # Raccoglie le prenotazioni richieste dall'utente e ne genera le prenotazioni del dipartimento e reindirizza a '/user_reservation'
+  def make_res
+    params.each do |check|
+      if !(check[0]=="authenticity_token" or check[0]=="commit" or check[0]=="controller" or check[0]=="action") and (check[1] == "1")
+        seat = Seat.find(check[0])
+        space = Space.find(seat.space_id)
+        department = Department.find(space.department_id)
+        Reservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, seat_id: seat.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name, floor: space.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Active", is_sync: 0)
+        seat.update(state: "Reserved")
+      end
+    end
+    respond_to do |format|
+      format.html { render :reserved, locals: { make_res_parameters: params } }
+    end
+  end
+
   # GET /reservations/1 or /reservations/1.json
   def show
     authorize! :show, @reservation, :message => "Attenzione: Non sei autorizzato a visualizzare la prenotazione."
-  end
-
-  # GET /reserved
-  def reserved
-    @reservations = Reservation.where(email: current_user.email)
   end
 
   # GET /reservations/new
@@ -63,6 +81,7 @@ class ReservationsController < ApplicationController
   # DELETE /reservations/1 or /reservations/1.json
   def destroy
     authorize! :destroy, @reservation, :message => "Attenzione: Non sei autorizzato ad eliminare la prenotazione."
+    Seat.find(@reservation.seat_id).update(state: "Active")
     @reservation.destroy
 
     respond_to do |format|

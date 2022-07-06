@@ -16,7 +16,6 @@ class CreateTempDeps < ActiveRecord::Migration[6.1]
       t.text :description
       t.integer :floors
       t.integer :number_of_spaces
-      t.integer :slot
 
       t.timestamps
     end

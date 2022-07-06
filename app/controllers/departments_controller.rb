@@ -17,11 +17,11 @@ class DepartmentsController < ApplicationController
       # Crea il dipartimento effettivo con relativi orari, spazi e posti se è presente un dipartimento temporaneo associato a questo manager nel DB
       @temp_dep = TempDep.where(manager: current_user.email)  # Raccoglie l'eventuale dipartimento temporaneo
       if (@temp_dep.count == 1)                               # Controlla se il dipartimento temporaneo esiste
-        
+
         # Inizializza il dipartimento temporaneo e crea il dipartimento effettivo con i dati di quello temporaneo
         @temp_dep = @temp_dep.first
-        @department = Department.create(user_id: current_user.id, name: @temp_dep.name, manager: @temp_dep.manager, via: @temp_dep.via, civico: @temp_dep.civico, cap: @temp_dep.cap, citta: @temp_dep.citta, provincia: @temp_dep.provincia, description: @temp_dep.description, floors: @temp_dep.floors, number_of_spaces: @temp_dep.number_of_spaces, slot: @temp_dep.slot)
-        
+        @department = Department.create(user_id: current_user.id, name: @temp_dep.name, manager: @temp_dep.manager, via: @temp_dep.via, civico: @temp_dep.civico, cap: @temp_dep.cap, citta: @temp_dep.citta, provincia: @temp_dep.provincia, description: @temp_dep.description, floors: @temp_dep.floors, number_of_spaces: @temp_dep.number_of_spaces)
+
         # Raccoglie gli orari temporanei relativi al dipartimento temporaneo e con il ciclo crea gli orari effettivi
         @temp_week_day = TempWeekDay.where(temp_dep_id: @temp_dep.id).each do |twd|
           WeekDay.create(department_id: @department.id, dep_name: @department.name, day: twd.day, state:twd.state, apertura: twd.apertura, chiusura: twd.chiusura)
@@ -31,13 +31,13 @@ class DepartmentsController < ApplicationController
         @temp_sps = TempSp.where(temp_dep_id: @temp_dep.id).each do |temp_sp|
           Space.create(department_id: @department.id, dep_name: temp_sp.dep_name, typology: temp_sp.typology, name: temp_sp.name, description: temp_sp.description, floor: temp_sp.floor, number_of_seats: temp_sp.number_of_seats, state: temp_sp.state)
         end
-        
+
         @temp_dep.destroy                                       # Elimina il dipartimento temporaneo e i relativi orari e spazi temporanei
 
         # Creazione dei posti settimanali per ogni orario prenotabile
         @week_days = WeekDay.where(department_id: @department.id) # Raccoglie gli orari del dipartimento
         @spaces = Space.where(department_id: @department.id)      # Raccoglie gli spazi del dipartimento
-        
+
         # Per ogni spazio
         @spaces.each do |sp|
           # Per ogni giorno della settimana
@@ -93,11 +93,11 @@ class DepartmentsController < ApplicationController
                 end
               end
               
-              # Per ogni slot di ore minime consecutive
-              ((wd.chiusura.hour-wd.apertura.hour)-(@department.slot-1)).times do |h| # Es. (20:00 - 08:00) = 12 quanti slot da 11h minime consecutive rientrano nelle 12 ore? 2... quello dalle 08:00 alle 19:00 e quello dalle 08:00 alle 20:00
+              # Per ogni slot da un ora contenuto negli orari di (1)
+              ((wd.chiusura.hour-wd.apertura.hour)).times do |h|
                 
-                @start_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h,0,0)                # Il giorno + L'orario d'inizio del posto
-                @end_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h+@department.slot,0,0) # Il giorno + L'orario di fine del posto
+                @start_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h,0,0) # La data + L'orario d'inizio del posto
+                @end_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h+1,0,0) # La data + L'orario di fine del posto
                 
                 # Per ogni posto dello spazio
                 sp.number_of_seats.times do |pos| # Crea i posti relativi ad una settimana dal momento della creazione
@@ -191,6 +191,6 @@ class DepartmentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def department_params
-      params.require(:department).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :description, :floors, :number_of_spaces, :slot)
+      params.require(:department).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :description, :floors, :number_of_spaces)
     end
 end

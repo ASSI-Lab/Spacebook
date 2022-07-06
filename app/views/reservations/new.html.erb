@@ -1,141 +1,275 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
+<head>
 
-<head></head>
+  <title> Effettua prenotazioni - Spacebook </title>
+
+</head>
 
 <body>
 
-<div class="Box">
+	<div class="row">
+		<div class="form-floating mb-3">
+			<!-- Form per selezionare il dipartimento da prenotare -->
+			<%= form_with url: set_department_path, local: true, method: :post do |form| %>
+				<div class="form-floating mb-3">
+					<%= form.select(:name, Department.all.collect {|dep| [ dep.name ] }, {}, {class: "form-select", id: "depName"}) %>
+					<label for="depName"> Seleziona il dipartimento per il quale vuoi prenotare </label>
+				</div>
+				<div class="action">
+					<%= form.submit class:"btn btn-outline-info", value: 'Continua'%>
+				</div>
+			<% end %>
+		</div>
 
-<h1>New Reservation</h1>
+		<!-- Solo se il dipartimento è stato selezionato, effettua il render dei suoi dati e dele tabelle relative ai posti prenotabili -->
+		<% if local_assigns.has_key? :department %>
+			<div class="col-lg-9">
+				<div class="row">
+					<div class="col-lg-8">
+						<% @department = Department.where(name: department[:name]).first %>
+						<!-- Mostra il dipartimento su cui prenotare -->
+						<div class="card shadow-lg border-0 rounded-lg">
+							<div class="card-header"> 
+								<h3 class="font-weight-light my-3"> <%= (@department).name %> </h3>
+							</div>
+							<div class="card-body">
+								<ul class="list-group list-group-flush">
+									<!-- Descrizione -->
+									<li class="list-group-item pt-0">
+										<!-- Icona interattiva per visualizzare il collapse della descrizione -->
+										<label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= (@department).id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Descrizione <i class="bi bi-card-text"></i> </label> 
+										<!-- Collapse della descrizione -->
+										<div class="collapse" id="dep<%= (@department).id %>DescCollapse">
+											<%= (@department).description %>
+										</div>
+									</li>
+									
+									<!-- Dati + orari -->
+									<li class="list-group-item"> 
+										<table width="100%">
+											<tr>
+												<td width="55%" class="ms-0 ps-0"> <!-- Dati -->
+													<ul class="list-group list-group-flush">
+														<li class="list-group-item ms-0 ps-0">
+															<label class="label h5"> Posizione </label><br>
+															<%= (@department).via %>, <%= (@department).civico %>, <%= (@department).cap %>, <%= (@department).citta %>, <%= (@department).provincia %>
+														</li>
+														<li class="list-group-item ms-0 ps-0"> 
+															<label class="label h5"> Numero piani </label><br>
+															<%= (@department).floors %>
+														</li>
+														<li class="list-group-item ms-0 ps-0"> 
+															<label class="label h5"> Numero spazi </label><br>
+															<%= (@department).number_of_spaces %>
+														</li>
+													</ul>
+												</td>
+												<td width="45%" class="ps-3 pt-2"> <!-- Orari -->
+													<label class="label h5"> Orari <i class="bi bi-clock"></i> </label> 
+													<!-- Raccoglie tutti gli orari del dipartimento -->
+													<% WeekDay.where(department_id: (@department).id).each do |wd| %>
+														<div class="row">
+															<div class="col-sm-5">
+																<h6><%= wd.day %></h6>
+															</div>
+															<div class="col-sm-7">
+																<% if wd.state == "Aperto" %>
+																	<%= wd.apertura.strftime('%H:%M') %>-<%= wd.chiusura.strftime('%H:%M') %>
+																<% else %>
+																	<%= wd.state %>
+																<% end %>
+															</div>
+														</div>
+													<% end %>
+												</td>
+											</tr>
+										</table>
+									</li>
+								</ul>	
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Form per selezionare gli spazi e gli orari da prenotare -->
+				<%= form_with url: make_res_path, local: true, method: :post do |form| %>
+					<% @spaces = Space.where(department_id: @department.id).order(:typology) %>
+					<div class="row mt-4">
+						<div class="col-lg-12">
+							<div class="card shadow-lg border-0 rounded-lg">
+								<div class="card-header"> 
+									<h3 class="font-weight-light my-3"> Seleziona gli spazi che vuoi prenotare </h3>
+								</div>
+							<div class="card-body">
+								<% @spaces.each do |sp| %>
+									<div class="row">
+										<div class="col-lg-2">
+											<!-- Icona interattiva per visualizzare la tabella dello spazio -->
+											<label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= (sp).id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> <%= sp.typology %> - <%= sp.name %> </label> 
+										</div>
+										<div class="col-lg-10">
+											<!-- Raccoglie gli orari del dipartimento dello spazio corrente -->
+											<% @week_days = WeekDay.where(department_id: @department.id) %>
+											<!-- Inizializza il minimo orario di apertura ed il massimo orario di chiusura della settimana -->
+											<% @max = 0 %><% @min = 24 %>
+											<% @week_days.where(state: "Aperto").each do |wd| %>
+												<% @min = (@min > wd.apertura.hour)? wd.apertura.hour : @min %>
+												<% @max = (@max < wd.chiusura.hour)? wd.chiusura.hour : @max %>
+											<% end %>
+											<!-- Raccoglie i posti dello spazio corrente -->
+											<% @seats = Seat.where(space_id: sp.id) %>
+											<!-- La data di oggi -->
+											<% @today = (Date.today) %>
+											<!-- Array per l'inserimento dei giorni in italiano nella tabella -->
+											<% @days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"] %>
 
-<%= form_with(model: @reservation) do |form| %>
-  <% if @reservation.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@reservation.errors.count, "error") %> prohibited this reservation from being saved:</h2>
+											<!-- Collapse della tabella -->
+											<div class="collapse" id="dep<%= (sp).id %>DescCollapse">
+												<table class="table-bordered rounded" width="100%">
+													<thead>
+														<tr> <!-- Header che imposta la stringa come 'wday mday-mon-year' -->
+															<td class="text-center"><h6> Orari </h6></td>
+															<td class="text-center"><h6> <%= @days[(@today+0).wday - 1] %> <%= (@today+0).mday %>-<%= (@today+0).mon %>-<%= (@today+0).year %> </h6></td>
+															<td class="text-center"><h6> <%= @days[(@today+1).wday - 1] %> <%= (@today+1).mday %>-<%= (@today+1).mon %>-<%= (@today+1).year %> </h6></td>
+															<td class="text-center"><h6> <%= @days[(@today+2).wday - 1] %> <%= (@today+2).mday %>-<%= (@today+2).mon %>-<%= (@today+2).year %> </h6></td>
+															<td class="text-center"><h6> <%= @days[(@today+3).wday - 1] %> <%= (@today+3).mday %>-<%= (@today+3).mon %>-<%= (@today+3).year %> </h6></td>
+															<td class="text-center"><h6> <%= @days[(@today+4).wday - 1] %> <%= (@today+4).mday %>-<%= (@today+4).mon %>-<%= (@today+4).year %> </h6></td>
+															<td class="text-center"><h6> <%= @days[(@today+5).wday - 1] %> <%= (@today+5).mday %>-<%= (@today+5).mon %>-<%= (@today+5).year %> </h6></td>
+															<td class="text-center"><h6> <%= @days[(@today+6).wday - 1] %> <%= (@today+6).mday %>-<%= (@today+6).mon %>-<%= (@today+6).year %> </h6></td>
+														</tr>
+													</thead>
+													<tbody>
+														<!-- Per ogni ora tra l'apertura e la chiusura -->
+														<% (@max-@min).times do |h| %>
+															<tr>
+																<!-- Inizializza le variabili per il calcolo dei posti liberi e dell'id da prenotare per ogni giorno della settimana -->
+																<% day_1_num_seats = 0 %><% first_active_seat_1 = 0 %>
+																<% day_2_num_seats = 0 %><% first_active_seat_2 = 0 %>
+																<% day_3_num_seats = 0 %><% first_active_seat_3 = 0 %>
+																<% day_4_num_seats = 0 %><% first_active_seat_4 = 0 %>
+																<% day_5_num_seats = 0 %><% first_active_seat_5 = 0 %>
+																<% day_6_num_seats = 0 %><% first_active_seat_6 = 0 %>
+																<% day_7_num_seats = 0 %><% first_active_seat_7 = 0 %>
 
-      <ul>
-        <% @reservation.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-  
-  
-  <div class="label">
-    <%= form.label :user_id %>
-  </div>
-  <div class="field">
-    <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, :class=>"campoT"%>
-  </div>
+																<% (@seats.where(state: "Active").order(:position, :start_date)).each do |a_seats| %>
+																	<% fasd = a_seats.start_date %>
+																	<% if fasd.hour == @min+h and (fasd.year == (@today+0).year and fasd.mon == (@today+0).mon and fasd.mday == (@today+0).mday) %>
+																		<% day_1_num_seats += 1 %>
+																		<% first_active_seat_1 = (first_active_seat_1 == 0)? a_seats.id : first_active_seat_1 %>
+																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+1).year and fasd.mon == (@today+1).mon and fasd.mday == (@today+1).mday) %>
+																		<% day_2_num_seats += 1 %>
+																		<% first_active_seat_2 = (first_active_seat_2 == 0)? a_seats.id : first_active_seat_2 %>
+																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+2).year and fasd.mon == (@today+2).mon and fasd.mday == (@today+2).mday) %>
+																		<% day_3_num_seats += 1 %>
+																		<% first_active_seat_3 = (first_active_seat_3 == 0)? a_seats.id : first_active_seat_3 %>
+																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+3).year and fasd.mon == (@today+3).mon and fasd.mday == (@today+3).mday) %>
+																		<% day_4_num_seats += 1 %>
+																		<% first_active_seat_4 = (first_active_seat_4 == 0)? a_seats.id : first_active_seat_4 %>
+																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+4).year and fasd.mon == (@today+4).mon and fasd.mday == (@today+4).mday) %>
+																		<% day_5_num_seats += 1 %>
+																		<% first_active_seat_5 = (first_active_seat_5 == 0)? a_seats.id : first_active_seat_5 %>
+																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+5).year and fasd.mon == (@today+5).mon and fasd.mday == (@today+5).mday) %>
+																		<% day_6_num_seats += 1 %>
+																		<% first_active_seat_6 = (first_active_seat_6 == 0)? a_seats.id : first_active_seat_6 %>
+																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+6).year and fasd.mon == (@today+6).mon and fasd.mday == (@today+6).mday) %>
+																		<% day_7_num_seats += 1 %>
+																		<% first_active_seat_7 = (first_active_seat_7 == 0)? a_seats.id : first_active_seat_7 %>
+																	<% end %>
+																<% end %>
 
-  <div class="label">
-    <%= form.label :department_id %>
-  </div>
-  <div class="field">
-    <%= form.number_field :department_id , :class=>"campoT"%>
-  </div>
+																<!-- Inserisce l'orario della riga nel primo td e i dati opportuni nei 7 td dei giorni della settimana -->
+																<td class="text-center"> <%= @min+h %>:00 - <%=@min+h+1%>:00 </td>
+																<td class="text-center">
+																	<% if @week_days.where(day: @days[(@today-1+1).wday-1]).first.state == "Chiuso" %>
+																		<label class="h6"> Chiuso </label>
+																	<% else %>
+																		<div class="form-check form-switch">
+																			<%= form.check_box((first_active_seat_1.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
+																			<label class="h6" for="<%= first_active_seat_1 %>"> <%= day_1_num_seats %> </label>
+																		</div>
+																	<% end %>
+																</td>
+																<td class="text-center">
+																	<% if @week_days.where(day: @days[(@today-1+2).wday-1]).first.state == "Chiuso" %>
+																		<label class="h6"> Chiuso </label>
+																	<% else %>
+																		<div class="form-check form-switch">
+																			<%= form.check_box((first_active_seat_2.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
+																			<label class="h6" for="<%= first_active_seat_2 %>"> <%= day_2_num_seats %> </label>
+																		</div>
+																	<% end %>
+																</td>
+																<td class="text-center">
+																	<% if @week_days.where(day: @days[(@today-1+3).wday-1]).first.state == "Chiuso" %>
+																		<label class="h6"> Chiuso </label>
+																	<% else %>
+																		<div class="form-check form-switch">
+																			<%= form.check_box((first_active_seat_3.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
+																			<label class="h6" for="<%= first_active_seat_3 %>"> <%= day_3_num_seats %> </label>
+																		</div>
+																	<% end %>
+																</td>
+																<td class="text-center">
+																	<% if @week_days.where(day: @days[(@today-1+4).wday-1]).first.state == "Chiuso" %>
+																		<label class="h6"> Chiuso </label>
+																	<% else %>
+																		<div class="form-check form-switch">
+																			<%= form.check_box((first_active_seat_4.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
+																			<label class="h6" for="<%= first_active_seat_4 %>"> <%= day_4_num_seats %> </label>
+																		</div>
+																	<% end %>
+																</td>
+																<td class="text-center">
+																	<% if @week_days.where(day: @days[(@today-1+5).wday-1]).first.state == "Chiuso" %>
+																		<label class="h6"> Chiuso </label>
+																	<% else %>
+																		<div class="form-check form-switch">
+																			<%= form.check_box((first_active_seat_5.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
+																			<label class="h6" for="<%= first_active_seat_5 %>"> <%= day_5_num_seats %> </label>
+																		</div>
+																	<% end %>
+																</td>
+																<td class="text-center">
+																	<% if @week_days.where(day: @days[(@today-1+6).wday-1]).first.state == "Chiuso" %>
+																		<label class="h6"> Chiuso </label>
+																	<% else %>
+																		<div class="form-check form-switch">
+																			<%= form.check_box((first_active_seat_6.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
+																			<label class="h6" for="<%= first_active_seat_6 %>"> <%= day_6_num_seats %> </label>
+																		</div>
+																	<% end %>
+																</td>
+																<td class="text-center">
+																	<% if @week_days.where(day: @days[(@today-1+7).wday-1]).first.state == "Chiuso" %>
+																		<label class="h6"> Chiuso </label>
+																	<% else %>
+																		<div class="form-check form-switch">
+																			<%= form.check_box((first_active_seat_7.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
+																			<label class="h6" for="<%= first_active_seat_7 %>"> <%= day_7_num_seats %> </label>
+																		</div>
+																	<% end %>
+																</td>
+															</tr>
+														<% end %>
+													</tbody>
+												</table>
+											</div>
 
-  <div class="label">
-    <%= form.label :space_id %>
-  </div>
-  <div class="field">
-    <%= form.number_field :space_id , :class=>"campoT"%>
-  </div>
-
-  <div class="label">
-    <%= form.label :seat_id %>
-  </div>
-  <div class="field">
-    <%= form.number_field :seat_id , :class=>"campoT"%>
-  </div>
-
-  <div class="label">
-    <%= form.label :email %>
-  </div>
-  <div class="field">
-    <%= form.text_field :email, required: true, value:current_user.email, readonly: true, size: 30, :class=>"campoT" %>
-  </div>
-
-  <div class="label">
-    <%= form.label :dep_name %>
-  </div>
-  <div class="field">
-    <%= form.text_field :dep_name, required: true, size: 30 , :class=>"campoT"%>
-  </div>
-
-  <div class="label">
-    <%= form.label :typology %>
-  </div>
-  <div class="field">
-    <%= form.text_field :typology, :class=>"campoT" %>
-  </div>
-
-  <div class="label">
-    <%= form.label :space_name %>
-  </div>
-  <div class="field">
-    <%= form.text_field :space_name, :class=>"campoT" %>
-  </div>
-
-  <div class="label">
-    <%= form.label :floor %>
-  </div>
-  <div class="field">
-    <%= form.number_field :floor , :class=>"campoT"%>
-  </div>
-
-  <div class="label">
-    <%= form.label :seat_num %>
-  </div>
-  <div class="field">
-  <%= form.number_field :seat_num , :class=>"campoT"%>
-  </div>
-
-  <div class="label">
-    <%= form.label :start_date %>
-    <%= form.time_select :start_date %>
-  </div>
-
-  <div class="label">
-    <%= form.label :end_date %>
-    <%= form.time_select :end_date %>
-  </div>
-
-  <div class="label">
-    <%= form.label :is_sync %>
-    <%= form.text_field :is_sync %>
-  </div>
-
-  <br/>
-  <br/>
-  
-  <div class="role" >
-    <%= form.label 'Dopo la conferma la prenotazione sarà'%>
-    <%= form.text_field :state, value:'valida', readonly: true %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit class:"btn btn-signup" %>
-  </div>
-<% end %>
-
-<br>
-<br/>
-<br/>
-<br/>
-
-<div class = "actions" >
-<button class="btn btn-signup", onclick="window.location.href='/user_reservations'">Le mie prenotazioni</button>
-</div>
-
-
-</div>
-
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+										</div>
+									</div>
+								<% end %>
+							</div>
+						</div>
+					</div>
+					<div class="row mt-4">
+						<div class="action">
+							<!-- Invia i dati per gli orari selezionati alla funzione per la creazione -->
+							<%= form.submit class:"btn btn-outline-info", value: 'Prenota gli orari selezionati'%>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		<% end %>
+	</div>
 </body>
+</html>

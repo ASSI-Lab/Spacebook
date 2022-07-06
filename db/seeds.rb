@@ -23,22 +23,22 @@ dep_set = [
     {user_id: @fra_man.id, name: "Dipartimento di Francesco", manager: @fra_man.email, 
      via: "Viale del test :)", civico: "10", cap: "69420", citta: "Roma", provincia: "RM", 
      description: "Per gestire o testare questo dipartimento accedi come 'fra.manager@gmail.com'", 
-     floors: 4, number_of_spaces: 20, slot: 11},
+     floors: 4, number_of_spaces: 20},
     
     {user_id: @mat_man.id, name: "Dipartimento di Matteo", manager: @mat_man.email, 
      via: "Viale del test :)", civico: "20", cap: "69420", citta: "Roma", provincia: "RM", 
      description: "Per gestire o testare questo dipartimento accedi come 'matteo.manager@gmail.com'", 
-     floors: 4, number_of_spaces: 20, slot: 11},
+     floors: 4, number_of_spaces: 20},
     
     {user_id: @mic_man.id, name: "Dipartimento di Michela", manager: @mic_man.email, 
      via: "Viale del test :)", civico: "30", cap: "69420", citta: "Roma", provincia: "RM", 
      description: "Per gestire o testare questo dipartimento accedi come 'michela.manager@gmail.com'", 
-     floors: 4, number_of_spaces: 20, slot: 11},
+     floors: 4, number_of_spaces: 20},
     
     {user_id: @don_man.id, name: "Dipartimento di Donia", manager: @don_man.email, 
      via: "Viale del test :)", civico: "40", cap: "69420", citta: "Roma", provincia: "RM", 
      description: "Per gestire o testare questo dipartimento accedi come 'donia.manager@gmail.com'", 
-     floors: 4, number_of_spaces: 20, slot: 11}
+     floors: 4, number_of_spaces: 20}
 ]
 
 # Creazione dei dipartimenti e dei relativi orari, spazi e posti
@@ -125,13 +125,12 @@ dep_set.each do |dep|
                         @date = @monday + 6
                     end
                 end
-                
-                # Per ogni 'slot di ore minime consecutive' contenuto negli orari di (1)
-                ((wd.chiusura.hour-wd.apertura.hour)-(@curr_dep.slot-1)).times do |h| # Es. (20:00 - 08:00) = 12. Quanti slot da 11h minime consecutive rientrano nelle 12 ore? 2... quello dalle 08:00 alle 19:00 e quello dalle 09:00 alle 20:00
-                
-                    @start_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h,0,0)                # Data e orario d'inizio del posto
-                    @end_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h+@curr_dep.slot,0,0)   # Data e orario di fine del posto
-                    
+
+                # Per ogni slot da un ora contenuto negli orari di (1)
+                ((wd.chiusura.hour-wd.apertura.hour)).times do |h|
+                    @start_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h,0,0)    # Data e orario d'inizio del posto
+                    @end_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h+1,0,0)    # Data e orario di fine del posto
+
                     # Per ogni posto dello spazio
                     sp.number_of_seats.times do |pos| # Crea i posti relativi ad una settimana dal momento della creazione
                         Seat.create(space_id: sp.id, dep_name: @curr_dep.name, typology: sp.typology, space_name: sp.name, position: pos+1, start_date: @start_date, end_date: @end_date, state: "Active")

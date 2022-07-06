@@ -73,6 +73,6 @@ class TempDepsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def temp_dep_params
-      params.require(:temp_dep).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :description, :floors, :number_of_spaces, :slot)
+      params.require(:temp_dep).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :description, :floors, :number_of_spaces)
     end
 end

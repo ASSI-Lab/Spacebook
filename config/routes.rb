@@ -36,6 +36,8 @@ Rails.application.routes.draw do
 
   # Pagina principale per prenotare
   get "/make_reservation", to: "reservations#new"
+  post '/make_reservation', to: 'reservations#set_department', as: 'set_department'
+  post '/user_reservations', to: 'reservations#make_res', as: 'make_res'
 
   get "/tasks", to:"tasks#index"
 

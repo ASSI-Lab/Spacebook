@@ -8,7 +8,7 @@
                 <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
             </div>
             <div class="modal-body">
-                    <%= form_with(model: mydep) do |form| %>
+                <%= form_with(model: mydep) do |form| %>
                     <% if mydep.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
                         <div id="error_explanation">
                             <h2><%= pluralize(mydep.errors.count, "error") %> prohibited this department from being saved:</h2>
@@ -68,22 +68,16 @@
                         Dati relativi alle prenotazioni
                     </div>
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-floating mb-3">
                                 <%= form.number_field :number_of_spaces, :class=>"form-control", :id=>"numSpazi", :placeholder=>"plh"%>
                                 <label for="numSpazi"> Numero di spazi prenotabili </label>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-floating mb-3">
                                 <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
                                 <label for="numPiani"> Numero dei piani dell'edificio </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-floating mb-3">
-                                <%= form.number_field :slot, :class=>"form-control", :id=>"slot", :placeholder=>"plh"%>
-                                <label for="slot"> Slot di ore minime consecutive prenotabili </label>
                             </div>
                         </div>
                     </div>

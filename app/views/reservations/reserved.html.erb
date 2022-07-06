@@ -35,7 +35,6 @@
 </head>
 
 <body>
-
 	<div class="row mt-4">
 		<div class="col">
 			<div class="card shadow-lg border-0 rounded-lg">
@@ -51,23 +50,23 @@
 								<th>Spazio</th>
 								<th>Piano</th>
 								<th>Posto</th>
-								<th>data inizio</th>
-								<th>data fine</th>
+								<th>Data</th>
+								<th>Orario</th>
 								<th>Stato</th>
 								<th>Sincronizzato</th>
 								<th>Opzioni</th>
 							</tr>
 						</thead>
 						<tbody>
-							<% @reservations.each do |reservation| %>
+							<% Reservation.where(email: current_user.email).each do |reservation| %>
 								<tr>
 									<td><%= reservation.dep_name %></td>
 									<td><%= reservation.typology %></td>
 									<td><%= reservation.space_name %></td>
 									<td><%= reservation.floor %></td>
 									<td><%= reservation.seat_num %></td>
-									<td><%= reservation.start_date %></td>
-									<td><%= reservation.end_date %></td>
+									<td><%= reservation.start_date.mday %>-<%= reservation.start_date.mon %>-<%= reservation.start_date.year %></td>
+									<td><%= reservation.start_date.strftime('%H:%M') %> - <%= reservation.end_date.strftime('%H:%M') %> </td>
 									<td><%= reservation.state %></td>
 									<td><%= reservation.is_sync %></td>
 									<td><%= button_to 'Rimuovi', reservation, method: :delete, data: { confirm: 'Are you sure?' },  :class => "btn btn-outline-info" %></td>

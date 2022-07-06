@@ -12,19 +12,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
 
-    <!-- Per ora da mantenere -->
-    <%# <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.semanticui.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.semanticui.min.css">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.semanticui.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.semanticui.min.js"></script> %>
-
     <script>
         $(document).ready(function () {
-            $('#datatableSpaziCreati').DataTable({
+            $('#datatableTempSpCreati').DataTable({
                 dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
                 scrollY: 481,
                 scrollX: true,
@@ -124,22 +114,16 @@
                                                 Dati relativi alle prenotazioni
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <div class="form-floating mb-3">
                                                         <%= form.number_field :number_of_spaces, :class=>"form-control", :id=>"numSpazi", :placeholder=>"plh"%>
                                                         <label for="numSpazi"> Numero di spazi prenotabili </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <div class="form-floating mb-3">
                                                         <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
                                                         <label for="numPiani"> Numero dei piani dell'edificio </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="form-floating mb-3">
-                                                        <%= form.number_field :slot, :class=>"form-control", :id=>"slot", :placeholder=>"plh"%>
-                                                        <label for="slot"> Slot di ore minime consecutive prenotabili </label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -423,7 +407,7 @@
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <!-- Spazi inseriti -->
-                                                    <table id="datatableSpaziCreati" class="display table-responsive table-striped table-hover" width="100%"> 
+                                                    <table id="datatableTempSpCreati" class="display table-responsive table-striped table-hover" width="100%"> 
                                                         <thead>
                                                             <tr>
                                                                 <td width="14%"><label class="h6 my-1">Tipologia</label></td>
