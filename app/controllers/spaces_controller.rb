@@ -2,24 +2,6 @@ class SpacesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_space, only: %i[ show edit update destroy ]
 
-  # GET /spaces or /spaces.json
-  def index
-    @spaces = Space.all
-  end
-
-  # GET /spaces/1 or /spaces/1.json
-  def show
-  end
-
-  # GET /spaces/new
-  def new
-    @space = Space.new
-  end
-
-  # GET /spaces/1/edit
-  def edit
-  end
-
   # POST /spaces or /spaces.json
   def create
     @space = Space.new(space_params)

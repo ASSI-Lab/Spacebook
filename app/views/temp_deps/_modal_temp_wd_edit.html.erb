@@ -1,0 +1,58 @@
+
+
+<div class="modal fade" id="tempWDID<%= twd.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel"> Modifica gil orari per "<%= twd.day %>" </h5>
+                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
+            </div>
+            <div class="modal-body">
+                <%= form_with(model: twd) do |form| %>
+                    <% if twd.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
+                        <div id="error_explanation">
+                        <h2><%= pluralize(twd.errors.count, "error") %> prohibited this space from being saved:</h2>
+
+                        <ul>
+                            <% twd.errors.each do |error| %>
+                                <li><%= error.full_message %></li>
+                            <% end %>
+                        </ul>
+                        </div>
+                    <% end %>
+
+                    <!-- Campi inseriti dal manager -->
+                    <table class="text-center" width="100%">
+                        <tr>
+                            <td colspan="2">
+                                <div class="form-floating mb-3">
+                                    <%= form.select( :state, [[twd.state, selected: true, hidden: true], ["Aperto"], ["Chiuso"]], {}, {class: "form-select", id: "twState"})%>
+                                    <label for="twdState"> Se selezioni 'Chiuso' puoi lasciare degli orari casuali </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="form-floating mb-3">
+                                    <h6> Apertura </h6>
+                                    <%= form.time_select( :apertura, {}, { class: "form-control text-center mx-auto py-0", style: "width:50%; height:auto;"} ) %>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-floating mb-3">
+                                    <h6 for="chiusura"> Chiusura </h6>
+                                    <%= form.time_select( :chiusura, {}, { class: "form-control text-center mx-auto py-0", style: "width:50%; height:auto;"} ) %>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Tasto per la creazione -->
+                    <div class="actions">
+                        <%= form.submit class:"btn btn-outline-info", value: "Aggiorna l'orario per #{twd.day}", style: "width:100%"%>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>

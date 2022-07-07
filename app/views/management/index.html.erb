@@ -70,113 +70,108 @@
 
 
 <body>
-
-<div class="row">
-	<div class="col">
-		<div class="card shadow-lg border-0 rounded-lg">
-			<div class="card-header text-center">
-				<h3 class="font-weight-light my-3"> Dipartimenti </h3>
-			</div>
-			<div class="card-body">
-				<table id="datatableDipartimenti" class="display table-responsive table-striped table-hover" width="100%">
-					<thead>
-						<tr>
-							<th> Nome </th>
-							<th> Email del manager </th>
-							<th> Indirizzo </th>
-							<th> Numero di piani </th> 
-							<th> Numero di spazi </th>
-							<th> Grandezza degli slot prenotabili </th>
-							<th> Opzioni </th>
-						</tr>
-					</thead>
-					<tbody>
-						<% @departments.each do |department| %>
-						<tr>
-							<td><%= department.name %></td>
-							<td><%= department.manager %></td>
-							<td><%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
-							<td><%= department.floors %></td>
-							<td><%= department.number_of_spaces %></td>
-							<td><%= department.slot %>h</td>
-							<td>
-							<%= button_to 'Elimina', department, method: :delete, data: { confirm: 'Are you sure?'}, :class => "btn btn-sm btn-outline-info" %>
-							<%= button_to 'Mostra', department, method: :get, :class => "btn btn-sm btn-outline-info" %>
-							</td>
-						</tr>
-						<% end %>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="row mt-4">
-	<div class="col-xl-4">
-		<div class="card shadow-lg border-0 rounded-lg">
-			<div class="card-header text-center">
-				<h3 class="font-weight-light my-3"> Utenti </h3>
-			</div>
-			<div class="card-body">
-				<table id="datatableUtenti" class="display table-responsive table-striped table-hover" width="100%">
-					<thead>
-						<th> Email </th>
-						<th> Ruolo </th>
-						<th> Opzioni </th>
-					</thead>
-					<tbody>
-						<% @users.each do |user| %>
+	<div class="row">
+		<div class="col">
+			<div class="card shadow-lg border-0 rounded-lg">
+				<div class="card-header text-center">
+					<h3 class="font-weight-light my-3"> Dipartimenti </h3>
+				</div>
+				<div class="card-body">
+					<table id="datatableDipartimenti" class="display table-responsive table-striped table-hover" width="100%">
+						<thead>
 							<tr>
-								<td><%= user.email %></td>
-								<td><%= user.roles %></td>
-								<td> <button class="btn btn-sm btn-outline-info"> Sospendi </button> </td>
+								<th> Nome </th>
+								<th> Email del manager </th>
+								<th> Indirizzo </th>
+								<th> Numero di piani </th> 
+								<th> Numero di spazi </th>
+								<th colspan="2"> Opzioni </th>
 							</tr>
-						<% end %>
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							<% @departments.each do |department| %>
+								<tr>
+									<td><%= department.name %></td>
+									<td><%= department.manager %></td>
+									<td><%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
+									<td><%= department.floors %></td>
+									<td><%= department.number_of_spaces %></td>
+									<td>
+										<%= button_to 'Mostra', department, method: :get, :class => "btn btn-sm btn-outline-info" %>
+										<%= button_to 'Elimina', department, method: :delete, data: { confirm: 'Are you sure?'}, :class => "btn btn-sm btn-outline-info" %>
+									</td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-8">
-		<div class="card shadow-lg border-0 rounded-lg">
-			<div class="card-header text-center">
-				<h3 class="font-weight-light my-3"> Prenotazioni </h3>
-			</div>
-			<div class="card-body">
-				<table id="datatablePrenotazioni" class="display table-responsive table-striped table-hover" width="100%">
-					<thead>
-						<tr>
-							<th> Utente </th>
-							<th> Dipartimento </th>
-							<th> Tipologia </th>
-							<th> Spazio </th>
-							<th> Piano </th>
-							<th> Posto </th>
-							<th> Stato </th>
+
+	<div class="row mt-4">
+		<div class="col-xl-4">
+			<div class="card shadow-lg border-0 rounded-lg">
+				<div class="card-header text-center">
+					<h3 class="font-weight-light my-3"> Utenti </h3>
+				</div>
+				<div class="card-body">
+					<table id="datatableUtenti" class="display table-responsive table-striped table-hover" width="100%">
+						<thead>
+							<th> Email </th>
+							<th> Ruolo </th>
 							<th> Opzioni </th>
-						</tr>
-					</thead>
-					<tbody>
-						<% @reservations.each do |reservation| %>
+						</thead>
+						<tbody>
+							<% @users.each do |user| %>
+								<tr>
+									<td><%= user.email %></td>
+									<td><%= user.roles %></td>
+									<td> <button class="btn btn-sm btn-outline-info"> Sospendi </button> </td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-8">
+			<div class="card shadow-lg border-0 rounded-lg">
+				<div class="card-header text-center">
+					<h3 class="font-weight-light my-3"> Prenotazioni </h3>
+				</div>
+				<div class="card-body">
+					<table id="datatablePrenotazioni" class="display table-responsive table-striped table-hover" width="100%">
+						<thead>
 							<tr>
-								<td><%= reservation.email %></td>
-								<td><%= reservation.dep_name %></td>
-								<td><%= reservation.typology %></td>
-								<td><%= reservation.space_name %></td>
-								<td><%= reservation.floor %></td>
-								<td><%= reservation.seat_num %></td>
-								<td><%= reservation.state %></td>
-								<td><%= button_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-sm btn-outline-info" %></td>
+								<th> Utente </th>
+								<th> Dipartimento </th>
+								<th> Tipologia </th>
+								<th> Spazio </th>
+								<th> Piano </th>
+								<th> Posto </th>
+								<th> Stato </th>
+								<th> Opzioni </th>
 							</tr>
-						<% end %>
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							<% @reservations.each do |reservation| %>
+								<tr>
+									<td><%= reservation.email %></td>
+									<td><%= reservation.dep_name %></td>
+									<td><%= reservation.typology %></td>
+									<td><%= reservation.space_name %></td>
+									<td><%= reservation.floor %></td>
+									<td><%= reservation.seat_num %></td>
+									<td><%= reservation.state %></td>
+									<td><%= button_to 'Elimina', reservation, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-sm btn-outline-info" %></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-
-
 </body>
 </html>

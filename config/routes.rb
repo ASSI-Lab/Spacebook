@@ -19,22 +19,23 @@ Rails.application.routes.draw do
 
   root "home#index"
 
-  # View senza modello, consultare le relative view e controller.
+  # Generali
   get "/home", to: "home#index"
   get "/personal_area", to: "personal_area#index"
-  get "/manager_department", to: "departments#manager_department"
-  get "/management", to: "management#index"
   get "/informations", to: "informations#index"
 
   # Accessibili dall'area personale utente
   get "/user_reservations", to: "reservations#reserved"
   get "/favourite_spaces", to: "favourite_spaces#index"
 
-  # View riguardanti solo il manager
-  get "/make_department", to: "temp_deps#new"
-  get "/edit_department", to: "departments#edit"
+  # Admin
+  get "/management", to: "management#index"
 
-  # Pagina principale per prenotare
+  # Dipartimenti
+  get "/make_department", to: "temp_deps#new"
+  get "/manager_department", to: "departments#manager_department"
+
+  # Prenotazioni
   get "/make_reservation", to: "reservations#new"
   post '/make_reservation', to: 'reservations#set_department', as: 'set_department'
   post '/user_reservations', to: 'reservations#make_res', as: 'make_res'

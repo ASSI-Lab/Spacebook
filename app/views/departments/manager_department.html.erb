@@ -78,7 +78,7 @@
 							<td width="12%">
 								<!-- Tasto per l'update -->
 								<button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempSpID<%= @department.first.id %>"> Aggiorna </button>
-								<%= render 'modal_edit', mydep: @department.first %>
+								<%= render 'modal_dep_edit', mydep: @department.first %>
 							</td>
 							<td width="12%">
 								<!-- Tasto per l'eliminazione -->
@@ -209,7 +209,6 @@
 								<th width="14%">Piano</th>
 								<th width="14%">Posti</th>
 								<th width="14%">Descrizione</th>
-								<th width="14%">Modifica</th>
 								<th width="14%">Rimuovi</th>
 							</tr>
 						</thead>
@@ -224,84 +223,7 @@
 										<!-- Icona interattiva per la descrizione -->
 										<button style="width:100%" class="btn btn-sm btn-outline-info bi bi-card-text" data-bs-toggle="modal" data-bs-target="#depID<%= space.id %>"></button>
 										<!-- Modal della descrizione -->
-										<div class="modal fade" id="depID<%= space.id %>" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-											<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" id="staticBackdropLabel"> <%= space.typology %> <%= space.name %> - Descrizione</h5>
-														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-													</div>
-													<div class="modal-body">
-														<%= space.description %>
-													</div>
-												</div>
-											</div>
-										</div>
-									</td>
-									<td>
-										<!-- Tasto per la modifica traite modal dello spazio inserito-->
-										<button style="width:100%" class="btn btn-sm btn-outline-info bi bi-pen" data-bs-toggle="modal" data-bs-target="#tempSpID<%= space.id %>"></button>
-										<!-- Modal di modifica -->
-										<div class="modal fade" id="tempSpID<%= space.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-											<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" id="staticBackdropLabel"> modifica lo spazio "<%= space.typology %>: <%= space.name %>" </h5>
-														<button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
-													</div>
-													<div class="modal-body">
-														<%= form_with(model: space) do |form| %>
-															<% if space.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
-																<div id="error_explanation">
-																<h2><%= pluralize(space.errors.count, "error") %> prohibited this space from being saved:</h2>
-
-																<ul>
-																	<% space.errors.each do |error| %>
-																		<li><%= error.full_message %></li>
-																	<% end %>
-																</ul>
-																</div>
-															<% end %>
-
-															<!-- Campi inseriti dal manager -->
-															<div class="form-floating mb-3">
-																<%= form.select( :typology, [[space.typology, selected: true, hidden: true],["Aula"], ["Isola"], ["Biblioteca"], ["Laboratiorio"]], {}, {class: "form-select", id: "tipSpazio"}) %>
-																<label for="tipSpazio"> Seleziona la tipologia corretta dello spazio </label>
-															</div>
-
-															<div class="form-floating mb-3">                            
-																<%= form.text_field :name, :class=>"form-control", :id=>"spazioName", :placeholder=>"plh"%>
-																<label for="spazioName"> Nome dello spazio </label>
-															</div>
-
-															<div class="form-floating mb-3">                            
-																<%= form.number_field :floor, :class=>"form-control", :id=>"piano", :placeholder=>"plh"%>
-																<label for="piano"> Piano al quale si trova </label>
-															</div>
-
-															<div class="form-floating mb-3">                            
-																<%= form.number_field :number_of_seats, :class=>"form-control", :id=>"numPosti", :placeholder=>"plh"%>
-																<label for="numPosti"> Numero di posti prenotabili </label>
-															</div>
-
-															<div class="form-floating mb-3">
-																<div class="label">
-																	<%= form.label 'Descrizione dello spazio' %>
-																</div>
-																<div class="field"> 
-																	<%= form.text_area :description, :class=>"form-control", rows: 5, :style=>"width:100%" %>
-																</div>
-															</div>
-
-															<!-- Tasto per l'update -->
-															<div class="actions">
-																<%= form.submit class:"btn btn-outline-info", value: 'Aggiorna lo spazio'%>
-															</div>
-														<% end %>
-													</div>
-												</div>
-											</div>
-										</div>
+										<%= render 'modal_sp_desc', space: space %>
 									</td>
 									<td>
 										<!-- Tasto per la rimozioe dello spazio inserito -->

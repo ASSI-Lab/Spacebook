@@ -2,24 +2,6 @@ class TempWeekDaysController < ApplicationController
   before_action :authenticate_user!
   before_action :set_temp_week_day, only: %i[ show edit update destroy ]
 
-  # GET /temp_week_days or /temp_week_days.json
-  def index
-    @temp_week_days = TempWeekDay.all
-  end
-
-  # GET /temp_week_days/1 or /temp_week_days/1.json
-  def show
-  end
-
-  # GET /temp_week_days/new
-  def new
-    @temp_week_day = TempWeekDay.new
-  end
-
-  # GET /temp_week_days/1/edit
-  def edit
-  end
-
   # POST /temp_week_days or /temp_week_days.json
   def create
     @temp_week_day = TempWeekDay.new(temp_week_day_params)

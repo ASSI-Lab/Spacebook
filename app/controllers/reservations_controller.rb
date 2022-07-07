@@ -2,29 +2,51 @@ class ReservationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_reservation, only: %i[ show edit update destroy ]
 
-  # GET /reservations or /reservations.json
-  def index
-    @reservations = Reservation.all
-  end
-
-  # Raccoglie il dipartimento selezionato dall'utente e ne carica i dati e reindirizza a '/make_rexservation'
+  # Raccoglie il dipartimento selezionato dall'utente, aggiorna i posti relativi nel db con date e orari corretti, ne carica i dati e reindirizza a '/make_rexservation'
   def set_department
+    spaces = Space.where(dep_name: params[:name])
+    # Aggiorna i posti del dipartimento ogni volta che un utente lo seleziona per effettuare una prenotazione
+    spaces.each do |sp|
+      Seat.where(space_id: sp.id).each do |seat|
+        if ( seat.start_date.strftime("%Y%m%d%T") <= DateTime.now.strftime("%Y%m%d%T") )
+          # Se il posto è di oggi ma l'orario è passato basta mettere expired nello stato dello spazio
+          if ( seat.start_date.strftime("%Y%m%d") == DateTime.now.strftime("%Y%m%d") )
+            seat.update(state: "Expired")
+          # Se invece non è di oggi ma di un giorno precedente
+          else
+            # Crea il nuovo posto nel giorno corretto della settimana
+            Seat.create(space_id: seat.space_id, dep_name: seat.dep_name, typology: seat.typology, space_name: seat.space_name, position: seat.position, start_date: seat.start_date+(604800), end_date: seat.end_date+(604800), state: "Active")
+            # Distrugge il posto vecchio
+            seat.destroy
+          end
+        end
+      end
+    end
     respond_to do |format|
-      format.html { render :new, locals: { department: params } }
+      format.html { render :new, locals: { department: params, spaces: spaces} }
     end
   end
 
   # Raccoglie le prenotazioni richieste dall'utente e ne genera le prenotazioni del dipartimento e reindirizza a '/user_reservation'
   def make_res
-    sync_calendar = params["calendar_check"] # RECUPERO IL VALORE DELLA CHECKBOX DI SINCRONIZZAZIONE
+    # Raccoglie lo stato della check di calendar (Spuntata o meno)
+    sync_calendar = params["calendar_check"]
+    # Per ognuno degli orari selezionati
     params.each do |check|
       if !(check[0]=="authenticity_token" or check[0]=="commit" or check[0]=="controller" or check[0]=="action" or check[0]=="calendar_check") and (check[1] == "1")
-        seat = Seat.find(check[0])
-        space = Space.find(seat.space_id)
-        department = Department.find(space.department_id)
+        seat = Seat.find(check[0])                        # Raccoglie il posto relativo
+        space = Space.find(seat.space_id)                 # Raccoglie lo spazio relativo
+        department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
+
+        # Crea la prenotazione con i dati sopra raccolti
         jcr = Reservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, seat_id: seat.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name, floor: space.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Active")
+
+        # Modifica il posto per renderlo occupato
         seat.update(state: "Reserved")
-        if sync_calendar=="1" # CONTROLLO SE LA SPUNTA PER LA SINCRONIZZAZIONE È PRESENTE
+
+        # Controllo se l'utente ha spuntato o meno la check di calendar
+        if sync_calendar=="1" # In caso positivo inizializzo con i dati opportuni la variabile res e chiamo sync_event
+
           res={}
           res["res_id"]=jcr.id
           res["name_dip"]=department.name
@@ -33,28 +55,15 @@ class ReservationsController < ApplicationController
           res["place"]=department.via.concat(", ",department.civico,", ",department.cap,", ",department.citta,", ",department.provincia)
           res["start_date"]=seat.start_date
           res["end_date"]=seat.end_date
-          sync_event res # INVIO L'HASH APPENA CREATO PER L'INVIO A GOOGLE CALENDAR
+
+          # INVIO L'HASH APPENA CREATO PER L'INVIO A GOOGLE CALENDAR
+          sync_event res 
         end 
       end
     end
     respond_to do |format|
       format.html { render :reserved, locals: { make_res_parameters: params } }
     end
-  end
-
-  # GET /reservations/1 or /reservations/1.json
-  def show
-    authorize! :show, @reservation, :message => "Attenzione: Non sei autorizzato a visualizzare la prenotazione."
-  end
-
-  # GET /reservations/new
-  def new
-    @reservation = Reservation.new
-  end
-
-  # GET /reservations/1/edit
-  def edit
-    authorize! :edit, @reservation, :message => "Attenzione: Non sei autorizzato a modificare la prenotazione."
   end
 
   # POST /reservations or /reservations.json
@@ -93,7 +102,10 @@ class ReservationsController < ApplicationController
   # DELETE /reservations/1 or /reservations/1.json
   def destroy
     authorize! :destroy, @reservation, :message => "Attenzione: Non sei autorizzato ad eliminare la prenotazione."
-    Seat.find(@reservation.seat_id).update(state: "Active")
+    if ( @reservation.start_date.strftime("%Y-%m-%d %T") > DateTime.now.strftime("%Y-%m-%d %T") )
+      Seat.find(@reservation.seat_id).update(state: "Active")
+    end
+
     @reservation.destroy
 
     respond_to do |format|
@@ -104,11 +116,13 @@ class ReservationsController < ApplicationController
 
   def sync_event res
     begin
-      client = get_google_calendar_client current_user          # INIZIALIZZO SERVIZIO CALENDAR
-      event = get_event res                                    # FORMATTO PER RICHIESTA API CALENDAR
-      client.insert_event('primary', event)                     # INSERISCO L'EVENTO CREATO SU CALENDAR
+      client = get_google_calendar_client current_user # INIZIALIZZO SERVIZIO CALENDAR
+      event = get_event res                            # FORMATTO PER RICHIESTA API CALENDAR
+      client.insert_event('primary', event)            # INSERISCO L'EVENTO CREATO SU CALENDAR
       result = client.list_events("primary",max_results: 1000,single_events: true,order_by: 'startTime',time_min: Time.now.iso8601) # CARICO GLI EVENTI DI CALENDAR
-      result.items.each do |e| # CERCO L'EVENTO CORRISPONDENTE A QUELLO APPENA CREATO
+
+      # CERCO L'EVENTO CORRISPONDENTE A QUELLO APPENA CREATO
+      result.items.each do |e|
         if (e.summary==event.summary && e.start.date_time==res["start_date"].rfc3339)
           Reservation.find(res["res_id"]).update({is_sync: e.id}) # INSERISCO L'EVENT ID NEL DB
         end
@@ -122,7 +136,9 @@ class ReservationsController < ApplicationController
   def get_google_calendar_client current_user
     client = Google::Apis::CalendarV3::CalendarService.new
     return unless (current_user.present? && current_user.access_token.present? && current_user.refresh_token.present?) # CONTROLLO PRESENZA TOKEN
-    secrets = Google::APIClient::ClientSecrets.new({# FORMATTO I DATI UTENTE E APPLICAZIONE PER LA RICHIESTA DEL TOKEN A GOOGLE
+
+    # FORMATTO I DATI UTENTE E APPLICAZIONE PER LA RICHIESTA DEL TOKEN A GOOGLE
+    secrets = Google::APIClient::ClientSecrets.new({
       "web" => {
         "access_token" => current_user.access_token,
         "refresh_token" => current_user.refresh_token,
@@ -131,12 +147,15 @@ class ReservationsController < ApplicationController
       }
     })
     begin
-      client.authorization = secrets.to_authorization     # INVIO LA RICHIESTA FORMATTATA A GOOGLE API AUTHORIZER
+      client.authorization = secrets.to_authorization   # INVIO LA RICHIESTA FORMATTATA A GOOGLE API AUTHORIZER
       client.authorization.grant_type = "refresh_token"
 
-      if !current_user.present?# IN CASO DI NON VALIDITÀ DELLA SESSIONE UTENTE CHIEDO IL REFRESH DEL TOKEN
+      # IN CASO DI NON VALIDITÀ DELLA SESSIONE UTENTE CHIEDO IL REFRESH DEL TOKEN
+      if !current_user.present?
         client.authorization.refresh!
-        current_user.update_attributes(# AGGIORNO I DATI UTENTE DEL DB CON IL NUOVO TOKEN
+
+        # AGGIORNO I DATI UTENTE DEL DB CON IL NUOVO TOKEN
+        current_user.update_attributes(
           access_token: client.authorization.access_token,
           refresh_token: client.authorization.refresh_token,
           expires_at: client.authorization.expires_at.to_i
@@ -149,7 +168,8 @@ class ReservationsController < ApplicationController
     client
   end
 
-  def get_event res   # FORMATTO I DATI RACCOLTI PER L'INVIO A GOOGLE CALENDAR API
+  # FORMATTO I DATI RACCOLTI PER L'INVIO A GOOGLE CALENDAR API
+  def get_event res
     event = Google::Apis::CalendarV3::Event.new(
     summary: res["name_dip"].concat(" ",res["space"]," ",res["seat"]),
     location: res["place"],

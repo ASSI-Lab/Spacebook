@@ -7,7 +7,6 @@
 </head>
 
 <body>
-
 	<div class="row">
 		<div class="form-floating mb-3">
 			<!-- Form per selezionare il dipartimento da prenotare -->
@@ -93,7 +92,6 @@
 				</div>
 				<!-- Form per selezionare gli spazi e gli orari da prenotare -->
 				<%= form_with url: make_res_path, local: true, method: :post do |form| %>
-					<% @spaces = Space.where(department_id: @department.id).order(:typology) %>
 					<div class="row mt-4">
 						<div class="col-lg-12">
 							<div class="card shadow-lg border-0 rounded-lg">
@@ -101,154 +99,140 @@
 									<h3 class="font-weight-light my-3"> Seleziona gli spazi che vuoi prenotare </h3>
 								</div>
 							<div class="card-body">
-								<% @spaces.each do |sp| %>
+								<% spaces.each do |sp| %>
 									<div class="row">
 										<div class="col-lg-2">
 											<!-- Icona interattiva per visualizzare la tabella dello spazio -->
 											<label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= (sp).id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> <%= sp.typology %> - <%= sp.name %> </label> 
 										</div>
-										<div class="col-lg-10">
-											<!-- Raccoglie gli orari del dipartimento dello spazio corrente -->
-											<% @week_days = WeekDay.where(department_id: @department.id) %>
-											<!-- Inizializza il minimo orario di apertura ed il massimo orario di chiusura della settimana -->
-											<% @max = 0 %><% @min = 24 %>
-											<% @week_days.where(state: "Aperto").each do |wd| %>
-												<% @min = (@min > wd.apertura.hour)? wd.apertura.hour : @min %>
-												<% @max = (@max < wd.chiusura.hour)? wd.chiusura.hour : @max %>
-											<% end %>
-											<!-- Raccoglie i posti dello spazio corrente -->
-											<% @seats = Seat.where(space_id: sp.id) %>
-											<!-- La data di oggi -->
-											<% @today = (Date.today) %>
-											<!-- Array per l'inserimento dei giorni in italiano nella tabella -->
-											<% @days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"] %>
+										<div class="col-lg-10"> <%
+											# Raccoglie gli orari del dipartimento dello spazio corrente
+											@week_days = WeekDay.where(department_id: @department.id)
+											# Inizializza il minimo orario di apertura ed il massimo orario di chiusura della settimana
+											@week_days.where(state: "Aperto").each do |wd|
+												@min = @min? ((@min > wd.apertura.hour)? wd.apertura.hour : @min) : wd.apertura.hour
+												@max = @max? ((@max < wd.chiusura.hour)? wd.chiusura.hour : @max) : wd.chiusura.hour
+											end
+											# Raccoglie i posti dello spazio corrente
+											@seats = Seat.where(space_id: sp.id)
+											# La data di oggi
+											@today = (Date.today)
+											# Array per l'inserimento dei giorni in italiano nella tabella
+											@days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"] %>
 
 											<!-- Collapse della tabella -->
 											<div class="collapse" id="dep<%= (sp).id %>DescCollapse">
-												<table class="table-bordered rounded" width="100%">
-													<thead>
-														<tr> <!-- Header che imposta la stringa come 'wday mday-mon-year' -->
-															<td class="text-center"><h6> Orari </h6></td>
-															<td class="text-center"><h6> <%= @days[(@today+0).wday - 1] %> <%= (@today+0).mday %>-<%= (@today+0).mon %>-<%= (@today+0).year %> </h6></td>
-															<td class="text-center"><h6> <%= @days[(@today+1).wday - 1] %> <%= (@today+1).mday %>-<%= (@today+1).mon %>-<%= (@today+1).year %> </h6></td>
-															<td class="text-center"><h6> <%= @days[(@today+2).wday - 1] %> <%= (@today+2).mday %>-<%= (@today+2).mon %>-<%= (@today+2).year %> </h6></td>
-															<td class="text-center"><h6> <%= @days[(@today+3).wday - 1] %> <%= (@today+3).mday %>-<%= (@today+3).mon %>-<%= (@today+3).year %> </h6></td>
-															<td class="text-center"><h6> <%= @days[(@today+4).wday - 1] %> <%= (@today+4).mday %>-<%= (@today+4).mon %>-<%= (@today+4).year %> </h6></td>
-															<td class="text-center"><h6> <%= @days[(@today+5).wday - 1] %> <%= (@today+5).mday %>-<%= (@today+5).mon %>-<%= (@today+5).year %> </h6></td>
-															<td class="text-center"><h6> <%= @days[(@today+6).wday - 1] %> <%= (@today+6).mday %>-<%= (@today+6).mon %>-<%= (@today+6).year %> </h6></td>
+												<table class="table-bordered" width="100%">
+													<thead> <!-- Header che mostra il giorno della settimana e la data nel formato 'giorno-mese-anno' -->
+														<tr>
+															<td class="text-center"> Orari </td>
+															<td class="text-center"><%= @days[(@today+0).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+0).mday %> / <%= (@today+0).mon %> / <%= (@today+0).year %></td>
+															<td class="text-center"><%= @days[(@today+1).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+1).mday %> / <%= (@today+1).mon %> / <%= (@today+1).year %></td>
+															<td class="text-center"><%= @days[(@today+2).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+2).mday %> / <%= (@today+2).mon %> / <%= (@today+2).year %></td>
+															<td class="text-center"><%= @days[(@today+3).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+3).mday %> / <%= (@today+3).mon %> / <%= (@today+3).year %></td>
+															<td class="text-center"><%= @days[(@today+4).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+4).mday %> / <%= (@today+4).mon %> / <%= (@today+4).year %></td>
+															<td class="text-center"><%= @days[(@today+5).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+5).mday %> / <%= (@today+5).mon %> / <%= (@today+5).year %></td>
+															<td class="text-center"><%= @days[(@today+6).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+6).mday %> / <%= (@today+6).mon %> / <%= (@today+6).year %></td>
 														</tr>
 													</thead>
-													<tbody>
+													<tbody> <!-- Body che mostra gli orari e le check per prenotare -->
 														<!-- Per ogni ora tra l'apertura e la chiusura -->
 														<% (@max-@min).times do |h| %>
-															<tr>
-																<!-- Inizializza le variabili per il calcolo dei posti liberi e dell'id da prenotare per ogni giorno della settimana -->
-																<% day_1_num_seats = 0 %><% first_active_seat_1 = 0 %>
-																<% day_2_num_seats = 0 %><% first_active_seat_2 = 0 %>
-																<% day_3_num_seats = 0 %><% first_active_seat_3 = 0 %>
-																<% day_4_num_seats = 0 %><% first_active_seat_4 = 0 %>
-																<% day_5_num_seats = 0 %><% first_active_seat_5 = 0 %>
-																<% day_6_num_seats = 0 %><% first_active_seat_6 = 0 %>
-																<% day_7_num_seats = 0 %><% first_active_seat_7 = 0 %>
+															<tr><%
+																reserved_seats_id = Reservation.where(user_id: current_user.id).collect {|res| [ res.seat_id ] } # id dei posti delle prenotazioni dell'utente corrente
+																reserved_seats = [0, 0, 0, 0, 0, 0, 0]                                                           # Array per tenere memoria se il posto è prenotato dall'utente corrente o meno
+																num_seats_per_day = [0, 0, 0, 0, 0, 0, 0]                                                        # Array per tenere memoria del numero di posti liberi per ogni giorno
+																first_active_seat_id = [0, 0, 0, 0, 0, 0, 0]                                                     # Array per tenere memoria dell'id da prenotare nelle celle selezionate
 
-																<% (@seats.where(state: "Active").order(:position, :start_date)).each do |a_seats| %>
-																	<% fasd = a_seats.start_date %>
-																	<% if fasd.hour == @min+h and (fasd.year == (@today+0).year and fasd.mon == (@today+0).mon and fasd.mday == (@today+0).mday) %>
-																		<% day_1_num_seats += 1 %>
-																		<% first_active_seat_1 = (first_active_seat_1 == 0)? a_seats.id : first_active_seat_1 %>
-																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+1).year and fasd.mon == (@today+1).mon and fasd.mday == (@today+1).mday) %>
-																		<% day_2_num_seats += 1 %>
-																		<% first_active_seat_2 = (first_active_seat_2 == 0)? a_seats.id : first_active_seat_2 %>
-																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+2).year and fasd.mon == (@today+2).mon and fasd.mday == (@today+2).mday) %>
-																		<% day_3_num_seats += 1 %>
-																		<% first_active_seat_3 = (first_active_seat_3 == 0)? a_seats.id : first_active_seat_3 %>
-																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+3).year and fasd.mon == (@today+3).mon and fasd.mday == (@today+3).mday) %>
-																		<% day_4_num_seats += 1 %>
-																		<% first_active_seat_4 = (first_active_seat_4 == 0)? a_seats.id : first_active_seat_4 %>
-																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+4).year and fasd.mon == (@today+4).mon and fasd.mday == (@today+4).mday) %>
-																		<% day_5_num_seats += 1 %>
-																		<% first_active_seat_5 = (first_active_seat_5 == 0)? a_seats.id : first_active_seat_5 %>
-																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+5).year and fasd.mon == (@today+5).mon and fasd.mday == (@today+5).mday) %>
-																		<% day_6_num_seats += 1 %>
-																		<% first_active_seat_6 = (first_active_seat_6 == 0)? a_seats.id : first_active_seat_6 %>
-																	<% elsif fasd.hour == @min+h and (fasd.year == (@today+6).year and fasd.mon == (@today+6).mon and fasd.mday == (@today+6).mday) %>
-																		<% day_7_num_seats += 1 %>
-																		<% first_active_seat_7 = (first_active_seat_7 == 0)? a_seats.id : first_active_seat_7 %>
-																	<% end %>
-																<% end %>
+																# Inizializza le variabili sopra riportate per il completamento della tabella
+																(@seats.order(:position, :start_date)).each do |seat|
+																	seat_s_d = seat.start_date
+																	if (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+0).strftime("%Y%m%d"))
+																		if seat.state == "Expired" 
+																			first_active_seat_id[0] = -1 
+																		else
+																			if seat.state == "Reserved"
+																				reserved_seats[0] = (seat.id in reserved_seats_id)? 1 : 0;
+																			else
+																				num_seats_per_day[0] += 1
+																				first_active_seat_id[0] = (first_active_seat_id[0] == 0)? seat.id : first_active_seat_id[0]
+																			end
+																		end
+																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+1).strftime("%Y%m%d"))
+																		if seat.state == "Reserved"
+																			reserved_seats[1] = (seat.id in reserved_seats_id)? 1 : 0;
+																		else
+																			num_seats_per_day[1] += 1
+																			first_active_seat_id[1] = (first_active_seat_id[1] == 0)? seat.id : first_active_seat_id[1]
+																		end
+																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+2).strftime("%Y%m%d"))
+																		if seat.state == "Reserved"
+																			reserved_seats[2] = (seat.id in reserved_seats_id)? 1 : 0;
+																		else
+																			num_seats_per_day[2] += 1
+																			first_active_seat_id[2] = (first_active_seat_id[2] == 0)? seat.id : first_active_seat_id[2]
+																		end
+																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+3).strftime("%Y%m%d"))
+																		if seat.state == "Reserved"
+																			reserved_seats[3] = (seat.id in reserved_seats_id)? 1 : 0;
+																		else
+																			num_seats_per_day[3] += 1
+																			first_active_seat_id[3] = (first_active_seat_id[3] == 0)? seat.id : first_active_seat_id[3]
+																		end
+																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+4).strftime("%Y%m%d"))
+																		if seat.state == "Reserved"
+																			reserved_seats[4] = (seat.id in reserved_seats_id)? 1 : 0;
+																		else
+																			num_seats_per_day[4] += 1
+																			first_active_seat_id[4] = (first_active_seat_id[4] == 0)? seat.id : first_active_seat_id[4]
+																		end
+																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+5).strftime("%Y%m%d"))
+																		if seat.state == "Reserved"
+																			reserved_seats[5] = (seat.id in reserved_seats_id)? 1 : 0;
+																		else
+																			num_seats_per_day[5] += 1
+																			first_active_seat_id[5] = (first_active_seat_id[5] == 0)? seat.id : first_active_seat_id[5]
+																		end
+																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+6).strftime("%Y%m%d"))
+																		if seat.state == "Reserved"
+																			reserved_seats[6] = (seat.id in reserved_seats_id)? 1 : 0;
+																		else
+																			num_seats_per_day[6] += 1
+																			first_active_seat_id[6] = (first_active_seat_id[6] == 0)? seat.id : first_active_seat_id[6]
+																		end
+																	end
+																end %>
 
-																<!-- Inserisce l'orario della riga nel primo td e i dati opportuni nei 7 td dei giorni della settimana -->
+																<!-- Inserisce l'orario di riferimento della riga nel primo td -->
 																<td class="text-center"> <%= @min+h %>:00 - <%=@min+h+1%>:00 </td>
-																<td class="text-center">
-																	<% if @week_days.where(day: @days[(@today-1+1).wday-1]).first.state == "Chiuso" %>
-																		<label class="h6"> Chiuso </label>
-																	<% else %>
-																		<div class="form-check form-switch">
-																			<%= form.check_box((first_active_seat_1.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
-																			<label class="h6" for="<%= first_active_seat_1 %>"> <%= day_1_num_seats %> </label>
-																		</div>
-																	<% end %>
-																</td>
-																<td class="text-center">
-																	<% if @week_days.where(day: @days[(@today-1+2).wday-1]).first.state == "Chiuso" %>
-																		<label class="h6"> Chiuso </label>
-																	<% else %>
-																		<div class="form-check form-switch">
-																			<%= form.check_box((first_active_seat_2.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
-																			<label class="h6" for="<%= first_active_seat_2 %>"> <%= day_2_num_seats %> </label>
-																		</div>
-																	<% end %>
-																</td>
-																<td class="text-center">
-																	<% if @week_days.where(day: @days[(@today-1+3).wday-1]).first.state == "Chiuso" %>
-																		<label class="h6"> Chiuso </label>
-																	<% else %>
-																		<div class="form-check form-switch">
-																			<%= form.check_box((first_active_seat_3.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
-																			<label class="h6" for="<%= first_active_seat_3 %>"> <%= day_3_num_seats %> </label>
-																		</div>
-																	<% end %>
-																</td>
-																<td class="text-center">
-																	<% if @week_days.where(day: @days[(@today-1+4).wday-1]).first.state == "Chiuso" %>
-																		<label class="h6"> Chiuso </label>
-																	<% else %>
-																		<div class="form-check form-switch">
-																			<%= form.check_box((first_active_seat_4.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
-																			<label class="h6" for="<%= first_active_seat_4 %>"> <%= day_4_num_seats %> </label>
-																		</div>
-																	<% end %>
-																</td>
-																<td class="text-center">
-																	<% if @week_days.where(day: @days[(@today-1+5).wday-1]).first.state == "Chiuso" %>
-																		<label class="h6"> Chiuso </label>
-																	<% else %>
-																		<div class="form-check form-switch">
-																			<%= form.check_box((first_active_seat_5.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
-																			<label class="h6" for="<%= first_active_seat_5 %>"> <%= day_5_num_seats %> </label>
-																		</div>
-																	<% end %>
-																</td>
-																<td class="text-center">
-																	<% if @week_days.where(day: @days[(@today-1+6).wday-1]).first.state == "Chiuso" %>
-																		<label class="h6"> Chiuso </label>
-																	<% else %>
-																		<div class="form-check form-switch">
-																			<%= form.check_box((first_active_seat_6.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
-																			<label class="h6" for="<%= first_active_seat_6 %>"> <%= day_6_num_seats %> </label>
-																		</div>
-																	<% end %>
-																</td>
-																<td class="text-center">
-																	<% if @week_days.where(day: @days[(@today-1+7).wday-1]).first.state == "Chiuso" %>
-																		<label class="h6"> Chiuso </label>
-																	<% else %>
-																		<div class="form-check form-switch">
-																			<%= form.check_box((first_active_seat_7.to_s), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
-																			<label class="h6" for="<%= first_active_seat_7 %>"> <%= day_7_num_seats %> </label>
-																		</div>
-																	<% end %>
-																</td>
+																<!-- Inserisce i dati opportuni a seconda dei casi nei 7 td dei giorni della settimana -->
+																<% 7.times do |d_number| %>
+																	<td class="text-center">
+																		<!-- Controlla se è chiuso -->
+																		<% if @week_days.where(day: @days[(@today+d_number).wday-1]).first.state == "Chiuso" or (@min+h >= @week_days.where(day: @days[(@today+d_number).wday-1]).first.chiusura.hour) %>
+																			Chiuso
+																		<% else %>
+																			<!-- Controlla se ormai è un orario oltrepassato e quindi non più prenotabile -->
+																			<% if first_active_seat_id[d_number] == -1 %>
+																				<i class="bi bi-clock" style="color: grey"> Scaduto </i>
+																			<% else %>
+																				<!-- Controlla se l'utente corrente ha gia prenotato questo orario -->
+																				<% if reserved_seats[d_number] == 1 %>
+																					<i class="bi bi-check-circle" style="color: green"> Prenotato </i>
+																				<!-- Controlla se i posti in quell'orario sono al completo -->
+																				<% elsif num_seats_per_day[d_number] == 0 %>
+																					<i class="bi bi-x-circle" style="color: red"> Completo </i>
+																				<!-- Se non ci troviamo in nessuno dei casi precedenti scrive il numero di posti disponibili e Mostra lo switch per prenotare -->
+																				<% else %>
+																					<div class="form-check form-switch ms-auto me-auto mx-1 my-1 px-0" style="width:fit-content">
+																						<%= form.check_box((first_active_seat_id[d_number].to_s), { class: "form-check-input mx-0 px-0", type: "checkbox"}) %>
+																						<label class="h6 my-0 mx-1" for="<%= first_active_seat_id[d_number] %>"> <%= num_seats_per_day[d_number] %> </label>
+																					</div>
+																				<% end %>
+																			<% end %>
+																		<% end %>
+																	</td>
+																<% end %>
 															</tr>
 														<% end %>
 													</tbody>
@@ -262,10 +246,10 @@
 						</div>
 					</div>
 					<div class="row mt-4">
-						<div class="form-check form-switch">
-                            <%= form.check_box(("calendar_check"), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
-                            <label class="h6" for="calendar_check"> Sincronizza prenotazione su Calendar </label>
-                        </div>
+						<div class="form-check form-switch ms-auto me-auto mx-1 my-1 px-0">
+							<%= form.check_box(("calendar_check"), { class: "form-check-input mx-0 px-0", type: "checkbox" }) %>
+							<label class="h6 my-0 mx-1" for="calendar_check"> Sincronizza prenotazione su Calendar </label>
+						</div>
 						<div class="action">
 							<!-- Invia i dati per gli orari selezionati alla funzione per la creazione -->
 							<%= form.submit class:"btn btn-outline-info", value: 'Prenota gli orari selezionati'%>

@@ -186,67 +186,7 @@
                                                                                 </td>
                                                                                 <td>
                                                                                     <!-- Modal per l'inserimento -->
-                                                                                    <div class="modal fade" id="tempWDID<%= table_day %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                                                                            <div class="modal-content">
-                                                                                                <div class="modal-header">
-                                                                                                    <h5 class="modal-title" id="staticBackdropLabel"> Modifica gil orari per "<%= table_day %>" </h5>
-                                                                                                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
-                                                                                                </div>
-                                                                                                <div class="modal-body">
-                                                                                                    <%= form_with(model: @temp_week_day) do |form| %>
-                                                                                                        <% if @temp_week_day.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
-                                                                                                            <div id="error_explanation">
-                                                                                                            <h2><%= pluralize(@temp_week_day.errors.count, "error") %> prohibited this space from being saved:</h2>
-
-                                                                                                            <ul>
-                                                                                                                <% @temp_week_day.errors.each do |error| %>
-                                                                                                                    <li><%= error.full_message %></li>
-                                                                                                                <% end %>
-                                                                                                            </ul>
-                                                                                                            </div>
-                                                                                                        <% end %>
-
-                                                                                                        <!-- Campi inseriti automaticamente -->
-                                                                                                        <%= form.number_field :temp_dep_id, required: true, value: mydep.id, readonly: true, :style=>'display:none'%>
-                                                                                                        <%= form.text_field :dep_name, required: true, value: mydep.name, readonly: true, :style=>'display:none'%>
-                                                                                                        <%= form.text_field :day, value: table_day, required: true, readonly: true, :style=>'display:none'%>
-
-                                                                                                        <!-- Campi inseriti dal manager -->
-                                                                                                        <table class="text-center" width="100%">
-                                                                                                            <tr>
-                                                                                                                <td colspan="2">
-                                                                                                                    <div class="form-floating mb-3">
-                                                                                                                        <%= form.select( :state, [["Chiuso"], ["Aperto"]], {}, {class: "form-select", id: "twdState"})%>
-                                                                                                                        <label for="twdState"> <%= table_day %> </label>
-                                                                                                                    </div>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                            <tr>
-                                                                                                                <td>
-                                                                                                                    <div class="form-floating mb-3">
-                                                                                                                        <h6> Apertura </h6>
-                                                                                                                        <%= form.time_select( :apertura, {}, { class: "form-control text-center mx-auto py-0", style: "width:50%; height:auto;"} ) %>
-                                                                                                                    </div>
-                                                                                                                </td>
-                                                                                                                <td>
-                                                                                                                    <div class="form-floating mb-3">
-                                                                                                                        <h6> Chiusura </h6>
-                                                                                                                        <%= form.time_select( :chiusura, {}, { class: "form-control text-center mx-auto py-0", style: "width:50%; height:auto;"} ) %>
-                                                                                                                    </div>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                        </table>
-
-                                                                                                        <!-- Tasto per la creazione -->
-                                                                                                        <div class="actions">
-                                                                                                            <%= form.submit class:"btn btn-outline-info", value: "Imposta", style: "width:100%"%>
-                                                                                                        </div>
-                                                                                                    <% end %>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                    <%= render 'modal_temp_wd_new', temp_week_day: @temp_week_day, mydep: mydep, table_day: table_day %>
                                                                                 </td>
                                                                             </tr>
                                                                         <!-- In caso contrario mostra gli orari per quel giorno e ne genera il modal di modifica -->
@@ -270,62 +210,7 @@
                                                                                     <!-- tasto per la modifica tramite modal degli orari -->
                                                                                     <div type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempWDID<%= @current_table_day_alredy_in.first.id %>" id="tempWDUpdateBtn"> Modifica <i class="bi bi-pen"></i></i></div>
                                                                                     <!-- Modal di modifica -->
-                                                                                    <div class="modal fade" id="tempWDID<%= @current_table_day_alredy_in.first.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                                                                            <div class="modal-content">
-                                                                                                <div class="modal-header">
-                                                                                                    <h5 class="modal-title" id="staticBackdropLabel"> Modifica gil orari per "<%= @current_table_day_alredy_in.first.day %>" </h5>
-                                                                                                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
-                                                                                                </div>
-                                                                                                <div class="modal-body">
-                                                                                                    <%= form_with(model: @current_table_day_alredy_in.first) do |form| %>
-                                                                                                        <% if @current_table_day_alredy_in.first.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
-                                                                                                            <div id="error_explanation">
-                                                                                                            <h2><%= pluralize(@current_table_day_alredy_in.first.errors.count, "error") %> prohibited this space from being saved:</h2>
-
-                                                                                                            <ul>
-                                                                                                                <% @current_table_day_alredy_in.first.errors.each do |error| %>
-                                                                                                                    <li><%= error.full_message %></li>
-                                                                                                                <% end %>
-                                                                                                            </ul>
-                                                                                                            </div>
-                                                                                                        <% end %>
-
-                                                                                                        <!-- Campi inseriti dal manager -->
-                                                                                                        <table class="text-center" width="100%">
-                                                                                                            <tr>
-                                                                                                                <td colspan="2">
-                                                                                                                    <div class="form-floating mb-3">
-                                                                                                                        <%= form.select( :state, [[@current_table_day_alredy_in.first.state, selected: true, hidden: true], ["Aperto"], ["Chiuso"]], {}, {class: "form-select", id: "twState"})%>
-                                                                                                                        <label for="twdState"> Se selezioni 'Chiuso' puoi lasciare degli orari casuali </label>
-                                                                                                                    </div>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                            <tr>
-                                                                                                                <td>
-                                                                                                                    <div class="form-floating mb-3">
-                                                                                                                        <h6> Apertura </h6>
-                                                                                                                        <%= form.time_select( :apertura, {}, { class: "form-control text-center mx-auto py-0", style: "width:50%; height:auto;"} ) %>
-                                                                                                                    </div>
-                                                                                                                </td>
-                                                                                                                <td>
-                                                                                                                    <div class="form-floating mb-3">
-                                                                                                                        <h6 for="chiusura"> Chiusura </h6>
-                                                                                                                        <%= form.time_select( :chiusura, {}, { class: "form-control text-center mx-auto py-0", style: "width:50%; height:auto;"} ) %>
-                                                                                                                    </div>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                        </table>
-
-                                                                                                        <!-- Tasto per la creazione -->
-                                                                                                        <div class="actions">
-                                                                                                            <%= form.submit class:"btn btn-outline-info", value: "Aggiorna l'orario per #{@current_table_day_alredy_in.first.day}", style: "width:100%"%>
-                                                                                                        </div>
-                                                                                                    <% end %>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                    <%= render 'modal_temp_wd_edit', twd: @current_table_day_alredy_in.first %>
                                                                                 </td>
                                                                             </tr>
                                                                         <% end %>
@@ -341,7 +226,7 @@
                                 <% else %>
 
                                     <!-- Form di inserimento degli spazi + Spazi inseriti -->
-                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card shadow-lg border-0 rounded-lg mt-4">
                                         <div class="card-header text-center">
                                             <label class="font-weight-light h4 my-4"> Registra gli spazi prenotabili del tuo dipartimento </label>
                                         </div>
@@ -349,7 +234,6 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <h6 class="mt-1  mb-3"> Compila il form con i dati richiesti </h6>
-                                                    <!-- <div class="small text-muted mb-2"> Inserisci tutti gli spazi prenotabili. <br> Una volta terminato potrai ricontrollare gli inserimenti tramite la tabella adiacente e in caso di un errore potrai apportare modifice direttamente dalla tabella. </div> -->
                                                     <!-- Form di inserimento degli spazi -->
                                                     <%= form_with(model: @temp_sp) do |form| %>
                                                         <% if @temp_sp.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
@@ -392,7 +276,7 @@
 
                                                         <div class="form-floating mb-3">
                                                             <div class="label">
-                                                                <%= form.label 'Descrizione del dipartimento' %>
+                                                                <%= form.label 'Descrizione dello spazio' %>
                                                             </div>
                                                             <div class="field"> 
                                                                 <%= form.text_area :description, :class=>"form-control", rows: 8, :style=>"width:100%" %>
@@ -430,84 +314,13 @@
                                                                         <!-- Icona interattiva per la descrizione -->
                                                                         <button style="width:100%" class="btn btn-sm btn-outline-info bi bi-card-text" data-bs-toggle="modal" data-bs-target="#depID<%= jcs.id %>"></button>
                                                                         <!-- Modal della descrizione -->
-                                                                        <div class="modal fade" id="depID<%= jcs.id %>" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                                                                <div class="modal-content">
-                                                                                    <div class="modal-header">
-                                                                                        <h5 class="modal-title" id="staticBackdropLabel"> <%= jcs.typology %> <%= jcs.name %> - Descrizione</h5>
-                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                    </div>
-                                                                                    <div class="modal-body">
-                                                                                        <%= jcs.description %>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                                        <%= render 'modal_temp_sp_desc', jcs: jcs %>
                                                                     </td>
                                                                     <td>
                                                                         <!-- Tasto per la modifica traite modal dello spazio inserito-->
                                                                         <button style="width:100%" class="btn btn-sm btn-outline-info bi bi-pen" data-bs-toggle="modal" data-bs-target="#tempSpID<%= jcs.id %>"></button>
                                                                         <!-- Modal di modifica -->
-                                                                        <div class="modal fade" id="tempSpID<%= jcs.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-                                                                                <div class="modal-content">
-                                                                                    <div class="modal-header">
-                                                                                        <h5 class="modal-title" id="staticBackdropLabel"> modifica lo spazio "<%= jcs.typology %>: <%= jcs.name %>" </h5>
-                                                                                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
-                                                                                    </div>
-                                                                                    <div class="modal-body">
-                                                                                        <%= form_with(model: jcs) do |form| %>
-                                                                                            <% if jcs.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
-                                                                                                <div id="error_explanation">
-                                                                                                <h2><%= pluralize(jcs.errors.count, "error") %> prohibited this space from being saved:</h2>
-
-                                                                                                <ul>
-                                                                                                    <% jcs.errors.each do |error| %>
-                                                                                                        <li><%= error.full_message %></li>
-                                                                                                    <% end %>
-                                                                                                </ul>
-                                                                                                </div>
-                                                                                            <% end %>
-
-                                                                                            <!-- Campi inseriti dal manager -->
-                                                                                            <div class="form-floating mb-3">
-                                                                                                <%= form.select( :typology, [[jcs.typology, selected: true, hidden: true],["Aula"], ["Isola"], ["Biblioteca"], ["Laboratiorio"]], {}, {class: "form-select", id: "tipSpazio"}) %>
-                                                                                                <label for="tipSpazio"> Seleziona la tipologia corretta dello spazio </label>
-                                                                                            </div>
-
-                                                                                            <div class="form-floating mb-3">                            
-                                                                                                <%= form.text_field :name, :class=>"form-control", :id=>"spazioName", :placeholder=>"plh"%>
-                                                                                                <label for="spazioName"> Nome dello spazio </label>
-                                                                                            </div>
-
-                                                                                            <div class="form-floating mb-3">                            
-                                                                                                <%= form.number_field :floor, :class=>"form-control", :id=>"piano", :placeholder=>"plh"%>
-                                                                                                <label for="piano"> Piano al quale si trova </label>
-                                                                                            </div>
-
-                                                                                            <div class="form-floating mb-3">                            
-                                                                                                <%= form.number_field :number_of_seats, :class=>"form-control", :id=>"numPosti", :placeholder=>"plh"%>
-                                                                                                <label for="numPosti"> Numero di posti prenotabili </label>
-                                                                                            </div>
-
-                                                                                            <div class="form-floating mb-3">
-                                                                                                <div class="label">
-                                                                                                    <%= form.label 'Descrizione dello spazio' %>
-                                                                                                </div>
-                                                                                                <div class="field"> 
-                                                                                                    <%= form.text_area :description, :class=>"form-control", rows: 5, :style=>"width:100%" %>
-                                                                                                </div>
-                                                                                            </div>
-
-                                                                                            <!-- Tasto per l'update -->
-                                                                                            <div class="actions">
-                                                                                                <%= form.submit class:"btn btn-outline-info", value: 'Aggiorna lo spazio'%>
-                                                                                            </div>
-                                                                                        <% end %>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                                        <%= render 'modal_temp_sp_edit', jcs: jcs %>
                                                                     </td>
                                                                     <td>
                                                                         <!-- Tasto per la rimozioe dello spazio inserito -->
@@ -534,7 +347,7 @@
                                     </div>
 
                                     <!-- Mostra gli orari del dipartimento -->
-                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card shadow-lg border-0 rounded-lg mt-4">
                                         <div class="card-header text-center">
                                             <label class="font-weight-light h4 mt-4 mb-0"> Orari del dipartimento </label>
                                             <div class="small text-muted"> Clicca sulla pennina relativa ad uno dei giorni per modificarli </div>
@@ -549,62 +362,7 @@
                                                                 <!-- Icona interattiva per la modifica tramite modal degli orari -->
                                                                 <label class="label h6" data-bs-toggle="modal" data-bs-target="#tempWDID<%= twd.id %>"> <%= twd.day %> <i class="bi bi-pen btn btn-sm btn-outline-info px-1 py-0"></i> </label>
                                                                 <!-- Modal di modifica -->
-                                                                <div class="modal fade" id="tempWDID<%= twd.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="staticBackdropLabel"> Modifica gil orari per "<%= twd.day %>" </h5>
-                                                                                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                <%= form_with(model: twd) do |form| %>
-                                                                                    <% if twd.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
-                                                                                        <div id="error_explanation">
-                                                                                        <h2><%= pluralize(twd.errors.count, "error") %> prohibited this space from being saved:</h2>
-
-                                                                                        <ul>
-                                                                                            <% twd.errors.each do |error| %>
-                                                                                                <li><%= error.full_message %></li>
-                                                                                            <% end %>
-                                                                                        </ul>
-                                                                                        </div>
-                                                                                    <% end %>
-
-                                                                                    <!-- Campi inseriti dal manager -->
-                                                                                    <table class="text-center" width="100%">
-                                                                                        <tr>
-                                                                                            <td colspan="2">
-                                                                                                <div class="form-floating mb-3">
-                                                                                                    <%= form.select( :state, [[twd.state, selected: true, hidden: true], ["Aperto"], ["Chiuso"]], {}, {class: "form-select", id: "twState"})%>
-                                                                                                    <label for="twdState"> Se selezioni 'Chiuso' puoi lasciare degli orari casuali </label>
-                                                                                                </div>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td>
-                                                                                                <div class="form-floating mb-3">
-                                                                                                    <h6> Apertura </h6>
-                                                                                                    <%= form.time_select( :apertura, {}, { class: "form-control text-center mx-auto py-0", style: "width:50%; height:auto;"} ) %>
-                                                                                                </div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <div class="form-floating mb-3">
-                                                                                                    <h6 for="chiusura"> Chiusura </h6>
-                                                                                                    <%= form.time_select( :chiusura, {}, { class: "form-control text-center mx-auto py-0", style: "width:50%; height:auto;"} ) %>
-                                                                                                </div>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </table>
-
-                                                                                    <!-- Tasto per l'update' -->
-                                                                                    <div class="actions">
-                                                                                        <%= form.submit class:"btn btn-outline-info", value: "Aggiorna l'orario per #{twd.day}", style: "width:100%"%>
-                                                                                    </div>
-                                                                                <% end %>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                <%= render 'modal_temp_wd_edit', twd: twd %>
                                                                 <br>
                                                                 <% if twd.state == "Aperto" %>
                                                                     <%= twd.apertura.strftime('%H:%M') %>-<%= twd.chiusura.strftime('%H:%M') %>
@@ -622,151 +380,25 @@
                                 <% end %>
 
                                 <!-- Mostra il dipartimento appena creato -->
-                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card shadow-lg border-0 rounded-lg mt-4">
                                     <div class="card-header text-center">
                                         <label class="label h4 font-weight-light mt-4 mb-2" data-bs-toggle="modal" data-bs-target="#tempSpID<%= mydep.id %>"> <%= mydep.name %> <i class="bi bi-pen btn btn-sm btn-outline-info px-1 py-0"></i></label>
                                         <!-- Modal di modifica -->
-                                        <div class="modal fade" id="tempSpID<%= mydep.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel"> Modifica "<%= mydep.name %>" </h5>
-                                                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                         <%= form_with(model: mydep) do |form| %>
-                                                            <% if mydep.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
-                                                                <div id="error_explanation">
-                                                                    <h2><%= pluralize(mydep.errors.count, "error") %> prohibited this department from being saved:</h2>
-                                                                    <ul>
-                                                                        <% mydep.errors.each do |error| %>
-                                                                            <li><%= error.full_message %></li>
-                                                                        <% end %>
-                                                                    </ul>
-                                                                </div>
-                                                            <% end %>
-
-                                                            <!-- Campi inseriti dal manager -->
-                                                            <div class="label h6"> 
-                                                                Dati del dipartimento
-                                                            </div>
-                                                            <div class="form-floating mb-3">                            
-                                                                <%= form.text_field :name, :class=>"form-control", :id=>"depName", :placeholder=>"plh"%>
-                                                                <label for="depName"> Nome </label>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-sm-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <%= form.text_field :via, :class=>"form-control", :id=>"via", :placeholder=>"plh"%>
-                                                                        <label for="via"> Via, Viale, Piazza... </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-floating mb-3">
-                                                                        <%= form.text_field :civico, :class=>"form-control", :id=>"civico", :placeholder=>"plh"%>
-                                                                        <label for="civico"> n° civico </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-floating mb-3">
-                                                                        <%= form.text_field :cap, :class=>"form-control", :id=>"cap", :placeholder=>"plh"%>
-                                                                        <label for="cap"> Cap </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    <div class="form-floating mb-3">
-                                                                        <%= form.text_field :citta, :class=>"form-control", :id=>"citta", :placeholder=>"plh"%>
-                                                                        <label for="citta"> Città </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <div class="form-floating mb-3">
-                                                                        <%= form.text_field :provincia, :class=>"form-control", :id=>"provincia", :placeholder=>"plh"%>
-                                                                        <label for="provincia"> Provincia </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <br>
-
-                                                            <div class="label h6"> 
-                                                                Dati relativi alle prenotazioni
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-floating mb-3">
-                                                                        <%= form.number_field :number_of_spaces, :class=>"form-control", :id=>"numSpazi", :placeholder=>"plh"%>
-                                                                        <label for="numSpazi"> Numero di spazi prenotabili </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-floating mb-3">
-                                                                        <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
-                                                                        <label for="numPiani"> Numero dei piani dell'edificio </label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-floating mb-3">
-                                                                        <%= form.number_field :slot, :class=>"form-control", :id=>"slot", :placeholder=>"plh"%>
-                                                                        <label for="slot"> Slot di ore minime consecutive prenotabili </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <br>
-
-                                                            <div class="form-floating mb-3">
-                                                                <div class="label h6">
-                                                                    <%= form.label 'Descrizione del dipartimento' %>
-                                                                </div>
-                                                                <div class="field"> 
-                                                                    <%= form.text_area :description, :class=>"form-control", rows: 5, :style=>"width:100%" %>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Tasto per aggiornare o per annullare -->
-                                                            <div class="actions">
-                                                                <%= form.submit class:"btn btn-outline-info", value: 'Aggiorna'%>
-                                                            </div>
-
-                                                        <% end %>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div style="text-align:left">
+                                            <%= render 'modal_temp_dep_edit', mydep: mydep %>
                                         </div>
                                         <div class="small text-muted"> Clicca sulla pennina per cambiare i dati </div>
                                     </div>
                                     <div class="card-body">
                                         <ul class="list-group list-group-flush">
+                                            <!-- Descrizione -->
                                             <li class="list-group-item">
-                                                <!-- Tabella che mostra la descrizione tramite modal -->
-                                                <table width="100%" style="max-width: 450px">
-                                                    <tr>
-                                                        <!-- Descrizione -->
-                                                        <td width="22%">
-                                                            <label class="label"><h6> Descrizione </h6></label>
-                                                        </td>
-                                                        <td>
-                                                            <!-- Icona interattiva per visualizzare il modal della descrizione -->
-                                                            <div type="button" data-bs-toggle="modal" data-bs-target="#depID<%= mydep.id %>"><i class="bi bi-card-text"></i></div>
-                                                            <!-- Modal della descrizione -->
-                                                            <div class="modal fade" id="depID<%= mydep.id %>" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="staticBackdropLabel"> <%= mydep.name %> - Descrizione</h5>
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <%= mydep.description %>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                <!-- Icona interattiva per visualizzare il collapse della descrizione -->
+                                                <label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= (mydep).id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Descrizione <i class="bi bi-card-text"></i> </label> 
+                                                <!-- Collapse della descrizione -->
+                                                <div class="collapse" id="dep<%= (mydep).id %>DescCollapse">
+                                                    <%= (mydep).description %>
+                                                </div>
                                             </li>
 
                                             <li class="list-group-item">
@@ -781,17 +413,17 @@
                                                 <label class="label"><h6> Spazi disponibili: </h6></label> <%= mydep.number_of_spaces %>
                                             </li>
 
-                                            <!-- Tasto per la modifica traite modal del dipartimento inserito e tasto per l'annullamento della procedura di registrazione -->
+                                            <!-- Tasto per l'annullamento della procedura di registrazione -->
                                             <li class="list-group-item"> 
                                                 <%= button_to 'Annulla la registrazione del dipartimento e i relativi spazi', mydep, method: :delete, data: { confirm: 'Sicuro di voler annullare la procedura? Dovrai comunque registrare il tuo dipartimento al prossimo accesso.' }, :class=>"btn btn-outline-info", :style=>"width:100%" %>
                                             </li>
 
-                                        </ul>	
+                                        </ul>
                                     </div>
                                 </div>
 
                                 <!-- Mostra il tasto per la conferma dei dati temporanei inseriti e l'avvio della creazione degli oggetti effettivi -->
-                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card shadow-lg border-0 rounded-lg mt-4">
                                     <div class="card-body">
                                         <%= button_to 'Conferma la registrazione del dipartimento e i relativi spazi', '/manager_department', method: :get, data: { confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in questa schermata?' }, :class=>"btn btn-outline-info", :style=>"width:100%" %>
                                     </div>

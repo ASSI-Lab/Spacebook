@@ -1,0 +1,27 @@
+<!-- Modal per l'utente visualizzabile premendo sull'apposita icona nella top-bar -->
+
+<div class="modal fade" id="userNavModal" tabindex="-1" aria-labelledby="userNavModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="userNavModalDialog">
+        <div class="modal-content">
+            <% if !user_signed_in? %>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel"> Non hai ancora effettuato l'accesso </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <button onclick="window.location.href='/users/sign_in'" class="dropdown-item"> Accedi </button>
+                    <button onclick="window.location.href='/users/sign_up'" class="dropdown-item"> Registrati </button>
+                </div>
+            <% else %>
+                <div class="modal-header">
+                    <h5 class="modal-title px-2" id="staticBackdropLabel"> Utente: <%= current_user.email %> </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <button onclick="window.location.href='/personal_area'" class="dropdown-item">Area personale</button>
+                    <%= button_to 'Esci', destroy_user_session_path, method: :delete, :class => "dropdown-item" %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>

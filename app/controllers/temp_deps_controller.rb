@@ -2,15 +2,6 @@ class TempDepsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_temp_dep, only: %i[ show edit update destroy ]
 
-  # GET /temp_deps or /temp_deps.json
-  def index
-    @temp_deps = TempDep.all
-  end
-
-  # GET /temp_deps/1 or /temp_deps/1.json
-  def show
-  end
-
   # GET /temp_deps/new
   def new
     if (Department.where(manager: current_user.email).count == 1)
@@ -21,10 +12,6 @@ class TempDepsController < ApplicationController
       @temp_week_day = TempWeekDay.new
       @temp_sp = TempSp.new
     end
-  end
-
-  # GET /temp_deps/1/edit
-  def edit
   end
 
   # POST /temp_deps or /temp_deps.json

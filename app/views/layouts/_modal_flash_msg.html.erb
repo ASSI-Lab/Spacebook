@@ -1,0 +1,25 @@
+<!-- Modal per le notifiche flash visualizzabile premendo sull'apposita icona nella top-bar -->
+
+<div class="modal fade" id="flashNavModal" tabindex="-1" aria-labelledby="flashNavModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="flashNavModalDialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <% if flash_messages.size != 0 %>
+                    <h5 class="modal-title px-2" id="staticBackdropLabel"> <%= flash_messages.size %> messaggi da Spacebook </h5>
+                <% else %>
+                    <h5 class="modal-title px-2" id="staticBackdropLabel"> Non ci sono messaggi da Spacebook </h5>
+                <% end %>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <% flash_messages.each do |msg| %>
+                    <%= msg %><br>
+                    <hr class="dropdown-divider" />
+                <% end %>
+                <% if flash_messages.size != 0 %>
+                        <button onclick='window.location.reload();' class="btn btn-outline-info text-center bi bi-check" witdh='100%'> Svuota messaggi </button>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>

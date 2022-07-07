@@ -2,24 +2,6 @@ class SeatsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_seat, only: %i[ show edit update destroy ]
 
-  # GET /seats or /seats.json
-  def index
-    @seats = Seat.all
-  end
-
-  # GET /seats/1 or /seats/1.json
-  def show
-  end
-
-  # GET /seats/new
-  def new
-    @seat = Seat.new
-  end
-
-  # GET /seats/1/edit
-  def edit
-  end
-
   # POST /seats or /seats.json
   def create
     @seat = Seat.new(seat_params)

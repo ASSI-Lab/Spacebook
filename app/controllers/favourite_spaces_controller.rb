@@ -4,20 +4,7 @@ class FavouriteSpacesController < ApplicationController
 
   # GET /favourite_spaces or /favourite_spaces.json
   def index
-    @favourite_spaces = FavouriteSpace.all
-  end
-
-  # GET /favourite_spaces/1 or /favourite_spaces/1.json
-  def show
-  end
-
-  # GET /favourite_spaces/new
-  def new
-    @favourite_space = FavouriteSpace.new
-  end
-
-  # GET /favourite_spaces/1/edit
-  def edit
+    @favourite_spaces = FavouriteSpace.where(user_id: current_user.id)
   end
 
   # POST /favourite_spaces or /favourite_spaces.json

@@ -2,24 +2,6 @@ class TempSpsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_temp_sp, only: %i[ show edit update destroy ]
 
-  # GET /temp_sps or /temp_sps.json
-  def index
-    @temp_sps = TempSp.all
-  end
-
-  # GET /temp_sps/1 or /temp_sps/1.json
-  def show
-  end
-
-  # GET /temp_sps/new
-  def new
-    @temp_sp = TempSp.new
-  end
-
-  # GET /temp_sps/1/edit
-  def edit
-  end
-
   # POST /temp_sps or /temp_sps.json
   def create
     @temp_sp = TempSp.new(temp_sp_params)

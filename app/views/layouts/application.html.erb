@@ -24,9 +24,9 @@
     <% end %>
 
     <!-- Cattura i messaggi di notifica e li mostra nel modal delle notifiche flash -->
-    <% @flash_messages = [] %>
+    <% flash_messages = [] %>
     <% flash.each do |type, msg| %>
-        <% @flash_messages.concat([msg]) %>
+        <% flash_messages.concat([msg]) %>
     <% end %>
 
     <!-- Header del sito -->
@@ -49,10 +49,10 @@
                 </td>
                 <!-- Icona interattiva per visualizzare le notifiche flash da spacebook -->
                 <td width="3%" style="text-align:right">
-                    <% if @flash_messages.size != 0%>
+                    <% if flash_messages.size != 0%>
                         <div class="btn btn-outline-info bi bi-chat-text-fill me-3" type="button" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal">
                             <!-- Badge con il numero di messaggi -->
-                            <span class="position-absolute badge rounded-pill bg-danger mt-1"><%= @flash_messages.size %></span>
+                            <span class="position-absolute badge rounded-pill bg-danger mt-1"><%= flash_messages.size %></span>
                         </div>
                     <% else %>
                         <div class="btn btn-outline-info bi bi-chat me-3" type="button" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal"></div>
@@ -70,56 +70,10 @@
         </table>
     </nav>
 
-    <!-- Modal dell'utente -->
-    <div class="modal fade" id="userNavModal" tabindex="-1" aria-labelledby="userNavModalLabel" aria-hidden="true">
-        <div class="modal-dialog" id="userNavModalDialog">
-            <div class="modal-content">
-                <% if !user_signed_in? %>
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel"> Non hai ancora effettuato l'accesso </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <button onclick="window.location.href='/users/sign_in'" class="dropdown-item"> Accedi </button>
-                        <button onclick="window.location.href='/users/sign_up'" class="dropdown-item"> Registrati </button>
-                    </div>
-                <% else %>
-                    <div class="modal-header">
-                        <h5 class="modal-title px-2" id="staticBackdropLabel"> Utente: <%= current_user.email %> </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <button onclick="window.location.href='/personal_area'" class="dropdown-item">Area personale</button>
-                        <%= button_to 'Esci', destroy_user_session_path, method: :delete, :class => "dropdown-item" %>
-                    </div>
-                <% end %>
-            </div>
-        </div>
-    </div>
     <!-- Modal delle notifiche flash -->
-    <div class="modal fade" id="flashNavModal" tabindex="-1" aria-labelledby="flashNavModalLabel" aria-hidden="true">
-        <div class="modal-dialog" id="flashNavModalDialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <% if @flash_messages.size != 0 %>
-                        <h5 class="modal-title px-2" id="staticBackdropLabel"> <%= @flash_messages.size %> messaggi da Spacebook </h5>
-                    <% else %>
-                        <h5 class="modal-title px-2" id="staticBackdropLabel"> Non ci sono messaggi da Spacebook </h5>
-                    <% end %>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <% @flash_messages.each do |msg| %>
-                        <%= msg %><br>
-                        <hr class="dropdown-divider" />
-                    <% end %>
-                    <% if @flash_messages.size != 0 %>
-                            <button onclick='window.location.reload();' class="btn btn-outline-info text-center bi bi-check" witdh='100%'> Svuota messaggi </button>
-                    <% end %>
-                </div>
-            </div>
-        </div>
-    </div>
+    <%= render 'layouts/modal_flash_msg', flash_messages: flash_messages %>
+    <!-- Modal dell'utente -->
+    <%= render 'layouts/modal_user' %>
 
     <!-- Controlla se la pagina corrente è tra quelle nella condizione -->
     <% if !current_page?("/users/sign_up") and !current_page?("/users/sign_in") and !current_page?("/make_department")%>

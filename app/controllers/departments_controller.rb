@@ -5,11 +5,6 @@ class DepartmentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_department, only: %i[ show edit update destroy ]
 
-  # GET /departments or /departments.json
-  def index
-    @departments = Department.all
-  end
-
   # GET /manager_department | Mostra al manager il dipartimento gestito | accessibile premento il bottone 'il mio dipartimento' nall'area personale
   def manager_department
     if (current_user.is_manager?) # Controlla se l'utente è manager
@@ -130,16 +125,6 @@ class DepartmentsController < ApplicationController
   def show
     @spaces = Space.where(department_id: @department.id)
     @week_days = WeekDay.where(department_id: @department.id)
-  end
-
-  # GET /departments/new | Mostra al manager la pagina di creazione dei dipartimenti e degli spazi con i relativi form
-  def new
-    @department = Department.new
-    authorize! :new, @department, :message => "Attenzione: Non sei autorizzato a creare un dipartimento."
-  end
-
-  # GET /departments/1/edit
-  def edit
   end
 
   # POST /departments or /departments.json

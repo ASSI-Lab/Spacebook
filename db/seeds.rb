@@ -51,7 +51,7 @@ dep_set.each do |dep|
         {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Martedì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
         {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Mercoledì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
         {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Giovedì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Venerdì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
+        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Venerdì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,13,0,0)},
         {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Sabato", state: "Chiuso", apertura: DateTime.new(2000,3,9,0,0,0), chiusura: DateTime.new(2000,3,9,0,0,0)},
         {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Domenica", state: "Chiuso", apertura: DateTime.new(2000,3,9,0,0,0), chiusura: DateTime.new(2000,3,9,0,0,0)},
     ]
@@ -64,7 +64,7 @@ dep_set.each do |dep|
     # Insieme dei dati per creare gli spazi
     sp_set = [
         {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, typology: "Isola", name: "D", description: "Prese di corrente inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, typology: "Aula", name: "106", description: "Prese di corrente inutili", floor: 1, number_of_seats: 4, state: "Abilitato"},
+        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, typology: "Aula", name: "106", description: "Microfono non funzionante", floor: 1, number_of_seats: 4, state: "Abilitato"},
     ]
 
     # Creazione degli spazi

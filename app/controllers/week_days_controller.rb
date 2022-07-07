@@ -1,24 +1,6 @@
 class WeekDaysController < ApplicationController
   before_action :set_week_day, only: %i[ show edit update destroy ]
 
-  # GET /week_days or /week_days.json
-  def index
-    @week_days = WeekDay.all
-  end
-
-  # GET /week_days/1 or /week_days/1.json
-  def show
-  end
-
-  # GET /week_days/new
-  def new
-    @week_day = WeekDay.new
-  end
-
-  # GET /week_days/1/edit
-  def edit
-  end
-
   # POST /week_days or /week_days.json
   def create
     @week_day = WeekDay.new(week_day_params)
