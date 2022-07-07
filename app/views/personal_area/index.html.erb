@@ -4,8 +4,6 @@
 
 	<title> Area personale - Spacebook </title>
 
-	<%= javascript_pack_tag 'optimised_session_timeout_poller'%> <!-- INIZIALIIZZA IL TIMER DI INATTIVITÀ -->
-
 </head>
 
 <body>
@@ -61,14 +59,20 @@
 				<div class="card-body px-3">
 					<% if current_user.access_token!=nil%> <!-- SE IL TOKEN È PRESENTE VIENE INVIATA LA RICHIESTA A CALENDAR -->
 						<% @hash=load_events %>
-						<%= month_calendar do |date| %>
-							<%= date.day %>
-							<div>
-								<% if @hash[date.to_s]!=nil %>
-									<font size="-2"><%= @hash[date.to_s][0]%></font>
-									<font size="-3" color="blue"><%= @hash[date.to_s][1]%></font>	
-								<% end %>
-							</div>
+						<% if @hash!=nil %>
+							<%= month_calendar do |date| %>
+								<%= date.day %>
+								<div>
+									<% if @hash[date.to_s]!=nil %>
+										<font size="-2"><%= @hash[date.to_s][0]%></font>
+										<font size="-3" color="blue"><%= @hash[date.to_s][1]%></font>	
+									<% end %>
+								</div>
+							<% end %>
+						<% else %>
+							<%= month_calendar do |date| %><!-- SE IL CALENDAR DELL'UTENTE NON PRESENTA EVENTI CREA CALENDARIO VUOTO -->
+								<%= date.day %>
+							<% end %>
 						<% end %>
 					<% else %>                             <!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI -->
 						<%= month_calendar do |date| %>

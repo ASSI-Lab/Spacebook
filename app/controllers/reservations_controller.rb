@@ -140,37 +140,21 @@ class ReservationsController < ApplicationController
 
   def get_google_calendar_client current_user
     client = Google::Apis::CalendarV3::CalendarService.new
-    return unless (current_user.present? && current_user.access_token.present? && current_user.refresh_token.present?) # CONTROLLO PRESENZA TOKEN
-
-    # FORMATTO I DATI UTENTE E APPLICAZIONE PER LA RICHIESTA DEL TOKEN A GOOGLE
-    secrets = Google::APIClient::ClientSecrets.new({
-      "web" => {
-        "access_token" => current_user.access_token,
-        "refresh_token" => current_user.refresh_token,
-        "client_id" => ENV["GOOGLE_CLIENT_ID"],
-        "client_secret" => ENV["GOOGLE_CLIENT_SECRET"]
-      }
-    })
-    begin
-      client.authorization = secrets.to_authorization   # INVIO LA RICHIESTA FORMATTATA A GOOGLE API AUTHORIZER
-      client.authorization.grant_type = "refresh_token"
-
-      # IN CASO DI NON VALIDITÀ DELLA SESSIONE UTENTE CHIEDO IL REFRESH DEL TOKEN
-      if !current_user.present?
-        client.authorization.refresh!
-
-        # AGGIORNO I DATI UTENTE DEL DB CON IL NUOVO TOKEN
-        current_user.update_attributes(
-          access_token: client.authorization.access_token,
-          refresh_token: client.authorization.refresh_token,
-          expires_at: client.authorization.expires_at.to_i
-        )
-      end
-    rescue => e
-      flash[:error] = "Il tuo token è scaduto. Per favore esegui nuovamente l'accesso con Google."
-      redirect_to :back
+    client_authorization = Signet::OAuth2::Client.new
+    client_authorization.client_id = ENV["GOOGLE_CLIENT_ID"]
+    client_authorization.client_secret = ENV["GOOGLE_CLIENT_SECRET"]
+    client_authorization.access_token = current_user.access_token
+    client_authorization.refresh_token = current_user.refresh_token
+    client_authorization.expires_at = current_user.expires_at
+    
+    if current_user.expires_at <= Time.now.to_i
+      redirect_to "/session_timeout"
     end
-    client
+    
+    client.authorization = client_authorization
+    client.authorization.grant_type = "refresh_token"
+    
+    return client
   end
 
   # FORMATTO I DATI RACCOLTI PER L'INVIO A GOOGLE CALENDAR API
