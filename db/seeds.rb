@@ -2,7 +2,7 @@
 #
 # 1) rake db:drop    (Elimina il db)
 # 2) rake db:migrate (Genera lo schema e le tabelle vuote del nostro db tramite le migrazioni)
-# 3) rake db:seed    (Popola il db con i dati nel seed. Ci mette circa 5 secondi con questi dati)
+# 3) rake db:seed    (Popola il db con i dati nel seed. Ci mette circa 16 secondi con questi dati)
 #
 # Se volete cambiare alcuni dati nel seed assicuratevi che siano della giusta tipologia relativa al campo che state inserendo
 
