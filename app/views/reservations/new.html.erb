@@ -2,7 +2,28 @@
 <html lang="it">
 <head>
 
-  <title> Effettua prenotazioni - Spacebook </title>
+  	<title> Effettua prenotazioni - Spacebook </title>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
+
+	<script>
+        $(document).ready(function () {
+            $('#datatableSpazi').DataTable({
+                dom: '<"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"><"row"<"col"<"dropdown-divider">>>',
+                scrollX: true,
+                filter: 'false',
+                pageLength: 24,
+				ordering: false,
+                language: {
+                    zeroRecords: 'Nessuno spazio prenotabile'
+                }
+            })
+        });
+    </script>
 
 </head>
 
@@ -23,9 +44,9 @@
 
 		<!-- Solo se il dipartimento è stato selezionato, effettua il render dei suoi dati e dele tabelle relative ai posti prenotabili -->
 		<% if local_assigns.has_key? :department %>
-			<div class="col-lg-9">
+			<div class="col">
 				<div class="row">
-					<div class="col-lg-8">
+					<div class="col-lg-6">
 						<% @department = Department.where(name: department[:name]).first %>
 						<!-- Mostra il dipartimento su cui prenotare -->
 						<div class="card shadow-lg border-0 rounded-lg">
@@ -93,155 +114,155 @@
 				<!-- Form per selezionare gli spazi e gli orari da prenotare -->
 				<%= form_with url: make_res_path, local: true, method: :post do |form| %>
 					<div class="row mt-4">
-						<div class="col-lg-12">
+						<div class="col-lg-9">
 							<div class="card shadow-lg border-0 rounded-lg">
 								<div class="card-header"> 
 									<h3 class="font-weight-light my-3"> Seleziona gli spazi che vuoi prenotare </h3>
 								</div>
-							<div class="card-body">
-								<% spaces.each do |sp| %>
-									<div class="row">
-										<div class="col-lg-2">
-											<!-- Icona interattiva per visualizzare la tabella dello spazio -->
-											<label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= (sp).id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> <%= sp.typology %> - <%= sp.name %> </label> 
-										</div>
-										<div class="col-lg-10"> <%
-											# Raccoglie gli orari del dipartimento dello spazio corrente
-											@week_days = WeekDay.where(department_id: @department.id)
-											# Inizializza il minimo orario di apertura ed il massimo orario di chiusura della settimana
-											@week_days.where(state: "Aperto").each do |wd|
-												@min = @min? ((@min > wd.apertura.hour)? wd.apertura.hour : @min) : wd.apertura.hour
-												@max = @max? ((@max < wd.chiusura.hour)? wd.chiusura.hour : @max) : wd.chiusura.hour
-											end
-											# Raccoglie i posti dello spazio corrente
-											@seats = Seat.where(space_id: sp.id)
-											# La data di oggi
-											@today = (Date.today)
-											# Array per l'inserimento dei giorni in italiano nella tabella
-											@days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"] %>
+								<div class="card-body">
+									<% spaces.each do |sp| %>
+										<div class="row">
+											<div class="col-lg-2">
+												<!-- Icona interattiva per visualizzare la tabella dello spazio -->
+												<label class="label h5" data-bs-toggle="collapse" data-bs-target="#sp<%= (sp).id %>ResTableCollapse" aria-expanded="false" aria-controls="collapseExample"> <%= sp.typology %> - <%= sp.name %> </label> 
+											</div>
+											<div class="col-lg-10"> <%
+												# Raccoglie gli orari del dipartimento dello spazio corrente
+												@week_days = WeekDay.where(department_id: @department.id)
+												# Inizializza il minimo orario di apertura ed il massimo orario di chiusura della settimana
+												@week_days.where(state: "Aperto").each do |wd|
+													@min = @min? ((@min > wd.apertura.hour)? wd.apertura.hour : @min) : wd.apertura.hour
+													@max = @max? ((@max < wd.chiusura.hour)? wd.chiusura.hour : @max) : wd.chiusura.hour
+												end
+												# Raccoglie i posti dello spazio corrente
+												@seats = Seat.where(space_id: sp.id)
+												# La data di oggi
+												@today = (Date.today)
+												# Array per l'inserimento dei giorni in italiano nella tabella
+												@days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"] %>
 
-											<!-- Collapse della tabella -->
-											<div class="collapse" id="dep<%= (sp).id %>DescCollapse">
-												<table class="table-bordered" width="100%">
-													<thead> <!-- Header che mostra il giorno della settimana e la data nel formato 'giorno-mese-anno' -->
-														<tr>
-															<td class="text-center"> Orari </td>
-															<td class="text-center"><%= @days[(@today+0).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+0).mday %> / <%= (@today+0).mon %> / <%= (@today+0).year %></td>
-															<td class="text-center"><%= @days[(@today+1).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+1).mday %> / <%= (@today+1).mon %> / <%= (@today+1).year %></td>
-															<td class="text-center"><%= @days[(@today+2).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+2).mday %> / <%= (@today+2).mon %> / <%= (@today+2).year %></td>
-															<td class="text-center"><%= @days[(@today+3).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+3).mday %> / <%= (@today+3).mon %> / <%= (@today+3).year %></td>
-															<td class="text-center"><%= @days[(@today+4).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+4).mday %> / <%= (@today+4).mon %> / <%= (@today+4).year %></td>
-															<td class="text-center"><%= @days[(@today+5).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+5).mday %> / <%= (@today+5).mon %> / <%= (@today+5).year %></td>
-															<td class="text-center"><%= @days[(@today+6).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+6).mday %> / <%= (@today+6).mon %> / <%= (@today+6).year %></td>
-														</tr>
-													</thead>
-													<tbody> <!-- Body che mostra gli orari e le check per prenotare -->
-														<!-- Per ogni ora tra l'apertura e la chiusura -->
-														<% (@max-@min).times do |h| %>
-															<tr><%
-																reserved_seats_id = Reservation.where(user_id: current_user.id).collect {|res| [ res.seat_id ] } # id dei posti delle prenotazioni dell'utente corrente
-																reserved_seats = [0, 0, 0, 0, 0, 0, 0]                                                           # Array per tenere memoria se il posto è prenotato dall'utente corrente o meno
-																num_seats_per_day = [0, 0, 0, 0, 0, 0, 0]                                                        # Array per tenere memoria del numero di posti liberi per ogni giorno
-																first_active_seat_id = [0, 0, 0, 0, 0, 0, 0]                                                     # Array per tenere memoria dell'id da prenotare nelle celle selezionate
+												<!-- Collapse della tabella -->
+												<div class="collapse" id="sp<%= (sp).id %>ResTableCollapse">
+													<table class="table-bordered" width="100%">
+														<thead> <!-- Header che mostra il giorno della settimana e la data nel formato 'giorno-mese-anno' -->
+															<tr>
+																<td class="text-center"> Orari </td>
+																<td class="text-center"><%= @days[(@today+0).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+0).mday %> / <%= (@today+0).mon %> / <%= (@today+0).year %></td>
+																<td class="text-center"><%= @days[(@today+1).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+1).mday %> / <%= (@today+1).mon %> / <%= (@today+1).year %></td>
+																<td class="text-center"><%= @days[(@today+2).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+2).mday %> / <%= (@today+2).mon %> / <%= (@today+2).year %></td>
+																<td class="text-center"><%= @days[(@today+3).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+3).mday %> / <%= (@today+3).mon %> / <%= (@today+3).year %></td>
+																<td class="text-center"><%= @days[(@today+4).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+4).mday %> / <%= (@today+4).mon %> / <%= (@today+4).year %></td>
+																<td class="text-center"><%= @days[(@today+5).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+5).mday %> / <%= (@today+5).mon %> / <%= (@today+5).year %></td>
+																<td class="text-center"><%= @days[(@today+6).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+6).mday %> / <%= (@today+6).mon %> / <%= (@today+6).year %></td>
+															</tr>
+														</thead>
+														<tbody> <!-- Body che mostra gli orari e le check per prenotare -->
+															<!-- Per ogni ora tra l'apertura e la chiusura -->
+															<% (@max-@min).times do |h| %>
+																<tr><%
+																	reserved_seats_id = Reservation.where(user_id: current_user.id).collect {|res| [ res.seat_id ] } # id dei posti delle prenotazioni dell'utente corrente
+																	reserved_seats = [0, 0, 0, 0, 0, 0, 0]                                                           # Array per tenere memoria se il posto è prenotato dall'utente corrente o meno
+																	num_seats_per_day = [0, 0, 0, 0, 0, 0, 0]                                                        # Array per tenere memoria del numero di posti liberi per ogni giorno
+																	first_active_seat_id = [0, 0, 0, 0, 0, 0, 0]                                                     # Array per tenere memoria dell'id da prenotare nelle celle selezionate
 
-																# Inizializza le variabili sopra riportate per il completamento della tabella
-																(@seats.order(:position, :start_date)).each do |seat|
-																	seat_s_d = seat.start_date
-																	if (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+0).strftime("%Y%m%d"))
-																		if seat.state == "Expired" 
-																			first_active_seat_id[0] = -1 
-																		else
-																			if seat.state == "Reserved"
-																				reserved_seats[0] = (seat.id in reserved_seats_id)? 1 : 0;
+																	# Inizializza le variabili sopra riportate per il completamento della tabella
+																	(@seats.order(:position, :start_date)).each do |seat|
+																		seat_s_d = seat.start_date
+																		if (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+0).strftime("%Y%m%d"))
+																			if seat.state == "Expired" 
+																				first_active_seat_id[0] = -1 
 																			else
-																				num_seats_per_day[0] += 1
-																				first_active_seat_id[0] = (first_active_seat_id[0] == 0)? seat.id : first_active_seat_id[0]
+																				if seat.state == "Reserved"
+																					reserved_seats[0] = (seat.id in reserved_seats_id)? 1 : 0;
+																				else
+																					num_seats_per_day[0] += 1
+																					first_active_seat_id[0] = (first_active_seat_id[0] == 0)? seat.id : first_active_seat_id[0]
+																				end
+																			end
+																		elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+1).strftime("%Y%m%d"))
+																			if seat.state == "Reserved"
+																				reserved_seats[1] = (seat.id in reserved_seats_id)? 1 : 0;
+																			else
+																				num_seats_per_day[1] += 1
+																				first_active_seat_id[1] = (first_active_seat_id[1] == 0)? seat.id : first_active_seat_id[1]
+																			end
+																		elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+2).strftime("%Y%m%d"))
+																			if seat.state == "Reserved"
+																				reserved_seats[2] = (seat.id in reserved_seats_id)? 1 : 0;
+																			else
+																				num_seats_per_day[2] += 1
+																				first_active_seat_id[2] = (first_active_seat_id[2] == 0)? seat.id : first_active_seat_id[2]
+																			end
+																		elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+3).strftime("%Y%m%d"))
+																			if seat.state == "Reserved"
+																				reserved_seats[3] = (seat.id in reserved_seats_id)? 1 : 0;
+																			else
+																				num_seats_per_day[3] += 1
+																				first_active_seat_id[3] = (first_active_seat_id[3] == 0)? seat.id : first_active_seat_id[3]
+																			end
+																		elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+4).strftime("%Y%m%d"))
+																			if seat.state == "Reserved"
+																				reserved_seats[4] = (seat.id in reserved_seats_id)? 1 : 0;
+																			else
+																				num_seats_per_day[4] += 1
+																				first_active_seat_id[4] = (first_active_seat_id[4] == 0)? seat.id : first_active_seat_id[4]
+																			end
+																		elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+5).strftime("%Y%m%d"))
+																			if seat.state == "Reserved"
+																				reserved_seats[5] = (seat.id in reserved_seats_id)? 1 : 0;
+																			else
+																				num_seats_per_day[5] += 1
+																				first_active_seat_id[5] = (first_active_seat_id[5] == 0)? seat.id : first_active_seat_id[5]
+																			end
+																		elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+6).strftime("%Y%m%d"))
+																			if seat.state == "Reserved"
+																				reserved_seats[6] = (seat.id in reserved_seats_id)? 1 : 0;
+																			else
+																				num_seats_per_day[6] += 1
+																				first_active_seat_id[6] = (first_active_seat_id[6] == 0)? seat.id : first_active_seat_id[6]
 																			end
 																		end
-																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+1).strftime("%Y%m%d"))
-																		if seat.state == "Reserved"
-																			reserved_seats[1] = (seat.id in reserved_seats_id)? 1 : 0;
-																		else
-																			num_seats_per_day[1] += 1
-																			first_active_seat_id[1] = (first_active_seat_id[1] == 0)? seat.id : first_active_seat_id[1]
-																		end
-																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+2).strftime("%Y%m%d"))
-																		if seat.state == "Reserved"
-																			reserved_seats[2] = (seat.id in reserved_seats_id)? 1 : 0;
-																		else
-																			num_seats_per_day[2] += 1
-																			first_active_seat_id[2] = (first_active_seat_id[2] == 0)? seat.id : first_active_seat_id[2]
-																		end
-																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+3).strftime("%Y%m%d"))
-																		if seat.state == "Reserved"
-																			reserved_seats[3] = (seat.id in reserved_seats_id)? 1 : 0;
-																		else
-																			num_seats_per_day[3] += 1
-																			first_active_seat_id[3] = (first_active_seat_id[3] == 0)? seat.id : first_active_seat_id[3]
-																		end
-																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+4).strftime("%Y%m%d"))
-																		if seat.state == "Reserved"
-																			reserved_seats[4] = (seat.id in reserved_seats_id)? 1 : 0;
-																		else
-																			num_seats_per_day[4] += 1
-																			first_active_seat_id[4] = (first_active_seat_id[4] == 0)? seat.id : first_active_seat_id[4]
-																		end
-																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+5).strftime("%Y%m%d"))
-																		if seat.state == "Reserved"
-																			reserved_seats[5] = (seat.id in reserved_seats_id)? 1 : 0;
-																		else
-																			num_seats_per_day[5] += 1
-																			first_active_seat_id[5] = (first_active_seat_id[5] == 0)? seat.id : first_active_seat_id[5]
-																		end
-																	elsif (seat_s_d.hour == @min+h) and (seat_s_d.strftime("%Y%m%d") == (@today+6).strftime("%Y%m%d"))
-																		if seat.state == "Reserved"
-																			reserved_seats[6] = (seat.id in reserved_seats_id)? 1 : 0;
-																		else
-																			num_seats_per_day[6] += 1
-																			first_active_seat_id[6] = (first_active_seat_id[6] == 0)? seat.id : first_active_seat_id[6]
-																		end
-																	end
-																end %>
+																	end %>
 
-																<!-- Inserisce l'orario di riferimento della riga nel primo td -->
-																<td class="text-center"> <%= @min+h %>:00 - <%=@min+h+1%>:00 </td>
-																<!-- Inserisce i dati opportuni a seconda dei casi nei 7 td dei giorni della settimana -->
-																<% 7.times do |d_number| %>
-																	<td class="text-center">
-																		<!-- Controlla se è chiuso -->
-																		<% if @week_days.where(day: @days[(@today+d_number).wday-1]).first.state == "Chiuso" or (@min+h >= @week_days.where(day: @days[(@today+d_number).wday-1]).first.chiusura.hour) %>
-																			Chiuso
-																		<% else %>
-																			<!-- Controlla se ormai è un orario oltrepassato e quindi non più prenotabile -->
-																			<% if first_active_seat_id[d_number] == -1 %>
-																				<i class="bi bi-clock" style="color: grey"> Scaduto </i>
+																	<!-- Inserisce l'orario di riferimento della riga nel primo td -->
+																	<td class="text-center"> <%= @min+h %>:00 - <%=@min+h+1%>:00 </td>
+																	<!-- Inserisce i dati opportuni a seconda dei casi nei 7 td dei giorni della settimana -->
+																	<% 7.times do |d_number| %>
+																		<td class="text-center">
+																			<!-- Controlla se è chiuso -->
+																			<% if @week_days.where(day: @days[(@today+d_number).wday-1]).first.state == "Chiuso" or (@min+h >= @week_days.where(day: @days[(@today+d_number).wday-1]).first.chiusura.hour) %>
+																				Chiuso
 																			<% else %>
-																				<!-- Controlla se l'utente corrente ha gia prenotato questo orario -->
-																				<% if reserved_seats[d_number] == 1 %>
-																					<i class="bi bi-check-circle" style="color: green"> Prenotato </i>
-																				<!-- Controlla se i posti in quell'orario sono al completo -->
-																				<% elsif num_seats_per_day[d_number] == 0 %>
-																					<i class="bi bi-x-circle" style="color: red"> Completo </i>
-																				<!-- Se non ci troviamo in nessuno dei casi precedenti scrive il numero di posti disponibili e Mostra lo switch per prenotare -->
+																				<!-- Controlla se ormai è un orario oltrepassato e quindi non più prenotabile -->
+																				<% if first_active_seat_id[d_number] == -1 %>
+																					<i class="bi bi-clock" style="color: grey"> Scaduto </i>
 																				<% else %>
-																					<div class="form-check form-switch ms-auto me-auto mx-1 my-1 px-0" style="width:fit-content">
-																						<%= form.check_box((first_active_seat_id[d_number].to_s), { class: "form-check-input mx-0 px-0", type: "checkbox"}) %>
-																						<label class="h6 my-0 mx-1" for="<%= first_active_seat_id[d_number] %>"> <%= num_seats_per_day[d_number] %> </label>
-																					</div>
+																					<!-- Controlla se l'utente corrente ha gia prenotato questo orario -->
+																					<% if reserved_seats[d_number] == 1 %>
+																						<i class="bi bi-check-circle" style="color: green"> Prenotato </i>
+																					<!-- Controlla se i posti in quell'orario sono al completo -->
+																					<% elsif num_seats_per_day[d_number] == 0 %>
+																						<i class="bi bi-x-circle" style="color: red"> Completo </i>
+																					<!-- Se non ci troviamo in nessuno dei casi precedenti scrive il numero di posti disponibili e Mostra lo switch per prenotare -->
+																					<% else %>
+																						<div class="form-check form-switch ms-auto me-auto mx-1 my-1 px-0" style="width:fit-content">
+																							<%= form.check_box((first_active_seat_id[d_number].to_s), { class: "form-check-input mx-0 px-0", type: "checkbox"}) %>
+																							<label class="h6 my-0 mx-1" for="<%= first_active_seat_id[d_number] %>"> <%= num_seats_per_day[d_number] %> </label>
+																						</div>
+																					<% end %>
 																				<% end %>
 																			<% end %>
-																		<% end %>
-																	</td>
-																<% end %>
-															</tr>
-														<% end %>
-													</tbody>
-												</table>
+																		</td>
+																	<% end %>
+																</tr>
+															<% end %>
+														</tbody>
+													</table>
+												</div>
 											</div>
-
 										</div>
-									</div>
-								<% end %>
+									<% end %>
+								</div>
 							</div>
 						</div>
 					</div>
