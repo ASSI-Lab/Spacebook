@@ -105,6 +105,11 @@ class ReservationsController < ApplicationController
     if ( @reservation.start_date.strftime("%Y-%m-%d %T") > DateTime.now.strftime("%Y-%m-%d %T") )
       Seat.find(@reservation.seat_id).update(state: "Active")
     end
+    
+    # CONTROLLA SE LA PRENOTAZIONE È STATA SINCRONIZZATA SU CALENDAR RIMUOVENDOLA ANCHE DA LÌ IN CASO AFFERMATIVO
+    if @reservation.is_sync!=nil
+      remove_from_calendar @reservation
+    end
 
     @reservation.destroy
 
@@ -198,6 +203,18 @@ class ReservationsController < ApplicationController
                     ]
     }, 'primary': true
     )
+  end
+
+  # RIMUOVE LA PRENOTAZIONE DA GOOGLE CALENDAR
+  def remove_from_calendar reservation
+    begin
+      client = get_google_calendar_client current_user # INIZIALIZZO CLIENT
+      client.delete_event('primary',reservation.is_sync)  # RIMUOVO LA PRENOTAZIONE USANDO L'EVENT_ID
+      flash[:notice] = "Prenotazione rimossa con successo da Calendar."
+    rescue => exception
+      flash[:error] = "Errore!",exception
+      print "\n\n",exception,"\n\n"
+    end
   end
 
   private
