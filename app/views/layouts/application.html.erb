@@ -11,6 +11,7 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
     <%= javascript_pack_tag 'optimised_session_timeout_poller'%> <!-- INIZIALIIZZA IL TIMER DI INATTIVITÀ -->
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
@@ -78,8 +79,8 @@
 
     <!-- Controlla se la pagina corrente è tra quelle nella condizione -->
     <% if !current_page?("/users/sign_up") and !current_page?("/users/sign_in") and !current_page?("/make_department")%>
-        <div id="layoutSidenav">             <!-- In caso negativo mostra sia la barra laterale del sito, sia lo yeld della pagina corrente, sia il footer -->
-            <div id="layoutSidenav_nav">     <!-- Barra laterale -->
+        <div id="layoutSidenav">         <!-- In caso negativo mostra sia la barra laterale del sito, sia lo yeld della pagina corrente, sia il footer -->
+            <div id="layoutSidenav_nav"> <!-- Barra laterale -->
                 <nav class="sb-sidenav accordion sb-sidenav-dark pt-4" id="sidenavAccordion"> 
                     <div class="sb-sidenav-menu pt-4">
                         <div class="nav">
@@ -147,7 +148,7 @@
                 </footer> %>
             </div>
         </div>
-    <% else %>                               <!-- In caso positivo mostra solo lo yield della pagina corrente -->
+    <% else %>                           <!-- In caso positivo mostra solo lo yield della pagina corrente -->
         <%= yield %>
     <% end %>
 

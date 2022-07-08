@@ -2,12 +2,14 @@ class ReservationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_reservation, only: %i[ show edit update destroy ]
 
-  # Raccoglie il dipartimento selezionato dall'utente, aggiorna i posti relativi nel db con date e orari corretti, ne carica i dati e reindirizza a '/make_rexservation'
+  # Raccoglie il nome del dipartimento selezionato dall'utente, aggiorna i posti relativi nel db con date e orari corretti, ne carica gli spazi e reindirizza a '/make_rexservation'
   def set_department
     spaces = Space.where(dep_name: params[:name])
+
     # Aggiorna i posti del dipartimento ogni volta che un utente lo seleziona per effettuare una prenotazione
     spaces.each do |sp|
       Seat.where(space_id: sp.id).each do |seat|
+        # Controlla se il posto ha un data e un tempo precedenti a quelli odierni
         if ( seat.start_date.strftime("%Y%m%d%T") <= DateTime.now.strftime("%Y%m%d%T") )
           # Se il posto è di oggi ma l'orario è passato basta mettere expired nello stato dello spazio
           if ( seat.start_date.strftime("%Y%m%d") == DateTime.now.strftime("%Y%m%d") )
@@ -16,12 +18,13 @@ class ReservationsController < ApplicationController
           else
             # Crea il nuovo posto nel giorno corretto della settimana
             Seat.create(space_id: seat.space_id, dep_name: seat.dep_name, typology: seat.typology, space_name: seat.space_name, position: seat.position, start_date: seat.start_date+(604800), end_date: seat.end_date+(604800), state: "Active")
-            # Distrugge il posto vecchio
+            # E distrugge il vecchio posto
             seat.destroy
           end
         end
       end
     end
+
     respond_to do |format|
       format.html { render :new, locals: { department: params, spaces: spaces} }
     end
@@ -31,8 +34,10 @@ class ReservationsController < ApplicationController
   def make_res
     # Raccoglie lo stato della check di calendar (Spuntata o meno)
     sync_calendar = params["calendar_check"]
-    # Per ognuno degli orari selezionati
+
+    # Per ognuno dei params
     params.each do |check|
+      # Se il param è riferito ad un check degli orari da prenotare
       if !(check[0]=="authenticity_token" or check[0]=="commit" or check[0]=="controller" or check[0]=="action" or check[0]=="calendar_check") and (check[1] == "1")
         seat = Seat.find(check[0])                        # Raccoglie il posto relativo
         space = Space.find(seat.space_id)                 # Raccoglie lo spazio relativo
@@ -87,8 +92,6 @@ class ReservationsController < ApplicationController
     authorize! :update, @reservation, :message => "Attenzione: Non sei autorizzato a modificare la prenotazione."
     respond_to do |format|
       if @reservation.update(reservation_params)
-        #format.html { redirect_to reservation_url(@reservation), notice: "Reservation was successfully updated." }
-        #format.json { render :show, status: :ok, location: @reservation }
         format.html { redirect_to request.referrer, notice: "Prenotazione disabilitata." }
         # Deve manda email di spiegazioni
         format.js {render inline: "location.reload();" }
@@ -102,6 +105,7 @@ class ReservationsController < ApplicationController
   # DELETE /reservations/1 or /reservations/1.json
   def destroy
     authorize! :destroy, @reservation, :message => "Attenzione: Non sei autorizzato ad eliminare la prenotazione."
+
     if ( @reservation.start_date.strftime("%Y-%m-%d %T") > DateTime.now.strftime("%Y-%m-%d %T") )
       Seat.find(@reservation.seat_id).update(state: "Active")
     end

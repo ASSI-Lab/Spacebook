@@ -70,11 +70,11 @@
 								</div>
 							<% end %>
 						<% else %>
-							<%= month_calendar do |date| %><!-- SE IL CALENDAR DELL'UTENTE NON PRESENTA EVENTI CREA CALENDARIO VUOTO -->
+							<%= month_calendar do |date| %> <!-- SE IL CALENDAR DELL'UTENTE NON PRESENTA EVENTI CREA CALENDARIO VUOTO -->
 								<%= date.day %>
 							<% end %>
 						<% end %>
-					<% else %>                             <!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI -->
+					<% else %>                              <!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI -->
 						<%= month_calendar do |date| %>
 							<%= date.day %>
 						<% end %>

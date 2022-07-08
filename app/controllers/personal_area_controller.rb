@@ -19,12 +19,12 @@ class PersonalAreaController < ApplicationController
         
         client.authorization = client_authorization
         client.authorization.grant_type = "refresh_token"
-        @result = client.list_events(CALENDAR_ID,max_results: 1000,single_events: true,order_by: 'startTime',time_min: Time.now.iso8601)# LEGGO I PROSSIMI 10 EVENTI SUL CALENDAR
-        @hash = {}# HASH CHE CONTERRÀ TUTTI GLI EVENTI DEL CALENDAR
+        @result = client.list_events(CALENDAR_ID,max_results: 1000,single_events: true,order_by: 'startTime',time_min: Time.now.iso8601) # LEGGO I PROSSIMI 10 EVENTI SUL CALENDAR
+        @hash = {} # HASH CHE CONTERRÀ TUTTI GLI EVENTI DEL CALENDAR
         @result.items.each do |event|
           x=[event.summary, event.start.date_time.strftime("%H:%M")]
           print x
-          @hash[event.start.date_time.strftime("%Y-%m-%d").to_s]=x# AGGIUNGO GLI EVENTI FORMATTANDONE LA DATA CHE VIENE USATA COME CHIAVE
+          @hash[event.start.date_time.strftime("%Y-%m-%d").to_s]=x # AGGIUNGO GLI EVENTI FORMATTANDONE LA DATA CHE VIENE USATA COME CHIAVE
         end
         return @hash
       rescue => exception

@@ -5,115 +5,85 @@
 	<title> Gestione sito - Spacebook </title>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
+	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
 
-    <script>
-        $(document).ready(function () {
-            $('#datatableDipartimenti').DataTable({
-                dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
-                scrollX: true,
-                filter: 'false',
-                pagingType: "simple_numbers",
-                pageLength: 10,
-                language: {
-                    lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> dipartimenti contemporaneamente </h6></label>',
-                    zeroRecords: 'Nessun dipartimento',
-                    paginate: {
-                        first:    '<i class="bi bi-caret-left-fill"></i>',
-                        previous: '<i class="bi bi-arrow-left-circle"></i>',
-                        next:     '<i class="bi bi-arrow-right-circle"></i>',
-                        last:     '<i class="bi bi-caret-right-fill"></i>'
-                    }
-                }
-            });
+	<script>
+		$(document).ready(function () {
+			$('#datatableDipartimenti').DataTable({
+				dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
+				scrollX: true,
+				filter: 'false',
+				pagingType: "simple_numbers",
+				pageLength: 10,
+				language: {
+					lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> dipartimenti contemporaneamente </h6></label>',
+					zeroRecords: 'Nessun dipartimento',
+					paginate: {
+						first:    '<i class="bi bi-caret-left-fill"></i>',
+						previous: '<i class="bi bi-arrow-left-circle"></i>',
+						next:     '<i class="bi bi-arrow-right-circle"></i>',
+						last:     '<i class="bi bi-caret-right-fill"></i>'
+					}
+				}
+			});
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
 			$('#datatableUtenti').DataTable({
-                dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
-                scrollX: true,
-                filter: 'false',
-                pagingType: "simple_numbers",
-                pageLength: 10,
-                language: {
-                    lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> utenti contemporaneamente </h6></label>',
-                    zeroRecords: 'Nessun utente',
-                    paginate: {
-                        first:    '<i class="bi bi-caret-left-fill"></i>',
-                        previous: '<i class="bi bi-arrow-left-circle"></i>',
-                        next:     '<i class="bi bi-arrow-right-circle"></i>',
-                        last:     '<i class="bi bi-caret-right-fill"></i>'
-                    }
-                }
-            });
+				dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
+				scrollY: 480,
+				scrollX: true,
+				filter: 'false',
+				pagingType: "simple_numbers",
+				pageLength: 10,
+				language: {
+					lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> utenti contemporaneamente </h6></label>',
+					zeroRecords: 'Nessun utente',
+					paginate: {
+						first:    '<i class="bi bi-caret-left-fill"></i>',
+						previous: '<i class="bi bi-arrow-left-circle"></i>',
+						next:     '<i class="bi bi-arrow-right-circle"></i>',
+						last:     '<i class="bi bi-caret-right-fill"></i>'
+					}
+				}
+			});
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
 			$('#datatablePrenotazioni').DataTable({
-                dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
-                scrollX: true,
-                filter: 'false',
-                pagingType: "simple_numbers",
-                pageLength: 10,
-                language: {
-                    lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> prenotazioni contemporaneamente </h6></label>',
-                    zeroRecords: 'Nessuna prenotazione',
-                    paginate: {
-                        first:    '<i class="bi bi-caret-left-fill"></i>',
-                        previous: '<i class="bi bi-arrow-left-circle"></i>',
-                        next:     '<i class="bi bi-arrow-right-circle"></i>',
-                        last:     '<i class="bi bi-caret-right-fill"></i>'
-                    }
-                }
-            });
-        });
-    </script>
+				dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
+				scrollX: true,
+				filter: 'false',
+				pagingType: "simple_numbers",
+				pageLength: 10,
+				language: {
+					lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> prenotazioni contemporaneamente </h6></label>',
+					zeroRecords: 'Nessuna prenotazione',
+					paginate: {
+						first:    '<i class="bi bi-caret-left-fill"></i>',
+						previous: '<i class="bi bi-arrow-left-circle"></i>',
+						next:     '<i class="bi bi-arrow-right-circle"></i>',
+						last:     '<i class="bi bi-caret-right-fill"></i>'
+					}
+				}
+			});
+		});
+	</script>
 
 </head>
 
 
 <body>
 	<div class="row">
-		<div class="col">
+		<div class="col-lg-5">
 			<div class="card shadow-lg border-0 rounded-lg">
-				<div class="card-header text-center">
-					<h3 class="font-weight-light my-3"> Dipartimenti </h3>
-				</div>
-				<div class="card-body">
-					<table id="datatableDipartimenti" class="display table-responsive table-striped table-hover" width="100%">
-						<thead>
-							<tr>
-								<th> Nome </th>
-								<th> Email del manager </th>
-								<th> Indirizzo </th>
-								<th> Numero di piani </th> 
-								<th> Numero di spazi </th>
-								<th colspan="2"> Opzioni </th>
-							</tr>
-						</thead>
-						<tbody>
-							<% @departments.each do |department| %>
-								<tr>
-									<td><%= department.name %></td>
-									<td><%= department.manager %></td>
-									<td><%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
-									<td><%= department.floors %></td>
-									<td><%= department.number_of_spaces %></td>
-									<td>
-										<%= button_to 'Mostra', department, method: :get, :class => "btn btn-sm btn-outline-info" %>
-										<%= button_to 'Elimina', department, method: :delete, data: { confirm: 'Are you sure?'}, :class => "btn btn-sm btn-outline-info" %>
-									</td>
-								</tr>
-							<% end %>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="row mt-4">
-		<div class="col-xl-4">
-			<div class="card shadow-lg border-0 rounded-lg">
-				<div class="card-header text-center">
-					<h3 class="font-weight-light my-3"> Utenti </h3>
+				<div class="card-header">
+					<h4 class="font-weight-light my-1"> Utenti </h4>
 				</div>
 				<div class="card-body">
 					<table id="datatableUtenti" class="display table-responsive table-striped table-hover" width="100%">
@@ -135,23 +105,75 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-xl-8">
+		<div class="col-lg-7">
 			<div class="card shadow-lg border-0 rounded-lg">
-				<div class="card-header text-center">
-					<h3 class="font-weight-light my-3"> Prenotazioni </h3>
+				<div class="card-header">
+					<h4 class="font-weight-light my-1"> Operazioni </h4>
+				</div>
+				<div class="card-body">
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-4">
+		<div class="col">
+			<div class="card shadow-lg border-0 rounded-lg">
+				<div class="card-header">
+					<h4 class="font-weight-light my-1"> Dipartimenti </h4>
+				</div>
+				<div class="card-body">
+					<table id="datatableDipartimenti" class="display table-responsive table-striped table-hover" width="100%">
+						<thead>
+							<tr>
+								<th> Nome </th>
+								<th> Email del manager </th>
+								<th> Indirizzo </th>
+								<th> Piani </th> 
+								<th> Spazi </th>
+								<th> Mostra </th>
+								<th> Elimina </th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @departments.each do |department| %>
+								<tr>
+									<td><%= department.name %></td>
+									<td><%= department.manager %></td>
+									<td><%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
+									<td><%= department.floors %></td>
+									<td><%= department.number_of_spaces %></td>
+									<td><%= link_to '', department, method: :get, :class => "btn btn-sm btn-outline-info bi bi-eye", :style=>"width:100%"%>
+									<td><%= link_to '', department, method: :delete, data: { confirm: 'Sicuro?' }, :class => "btn btn-sm btn-outline-info bi bi-trash", :style=>"width:100%"%>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-4">
+		<div class="col">
+			<div class="card shadow-lg border-0 rounded-lg">
+				<div class="card-header">
+					<h4 class="font-weight-light my-1"> Prenotazioni </h4>
 				</div>
 				<div class="card-body">
 					<table id="datatablePrenotazioni" class="display table-responsive table-striped table-hover" width="100%">
 						<thead>
 							<tr>
-								<th> Utente </th>
-								<th> Dipartimento </th>
-								<th> Tipologia </th>
-								<th> Spazio </th>
-								<th> Piano </th>
-								<th> Posto </th>
-								<th> Stato </th>
-								<th> Opzioni </th>
+								<th>Utente</th>
+								<th>Dipartimento</th>
+								<th>Tipologia</th>
+								<th>Spazio</th>
+								<th>Piano</th>
+								<th>Posto</th>
+								<th>Data</th>
+								<th>Orario</th>
+								<th>Stato</th>
+								<th>Sincronizzata su calendar</th>
+								<th>Opzioni</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -163,7 +185,10 @@
 									<td><%= reservation.space_name %></td>
 									<td><%= reservation.floor %></td>
 									<td><%= reservation.seat_num %></td>
+									<td><%= reservation.start_date.mday %>-<%= reservation.start_date.mon %>-<%= reservation.start_date.year %></td>
+									<td><%= reservation.start_date.strftime('%H:%M') %> - <%= reservation.end_date.strftime('%H:%M') %> </td>
 									<td><%= reservation.state %></td>
+									<td><%= (reservation.is_sync!=nil)? "Si" : "No" %></td>
 									<td><%= button_to 'Elimina', reservation, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-sm btn-outline-info" %></td>
 								</tr>
 							<% end %>

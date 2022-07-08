@@ -2,35 +2,35 @@
 <html lang="it">
 <head>
 
-	<title> prenotazioni - Spacebook </title>
+	<title> Le tue prenotazioni - Spacebook </title>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
 
 	<script>
-        $(document).ready(function () {
-            $('#datatablePrenotazioni').DataTable({
-                dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
-                scrollX: true,
-                filter: 'false',
-                pagingType: "simple_numbers",
-                pageLength: 10,
-                language: {
-                    lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> prenotazioni contemporaneamente </h6></label>',
-                    zeroRecords: 'Nessuna prenotazione',
-                    paginate: {
-                        first:    '<i class="bi bi-caret-left-fill"></i>',
-                        previous: '<i class="bi bi-arrow-left-circle"></i>',
-                        next:     '<i class="bi bi-arrow-right-circle"></i>',
-                        last:     '<i class="bi bi-caret-right-fill"></i>'
-                    }
-                }
-            });
-        });
-    </script>
+		$(document).ready(function () {
+			$('#datatablePrenotazioni').DataTable({
+				dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
+				scrollX: true,
+				filter: 'false',
+				pagingType: "simple_numbers",
+				pageLength: 10,
+				language: {
+					lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> prenotazioni contemporaneamente </h6></label>',
+					zeroRecords: 'Nessuna prenotazione',
+					paginate: {
+						first:    '<i class="bi bi-caret-left-fill"></i>',
+						previous: '<i class="bi bi-arrow-left-circle"></i>',
+						next:     '<i class="bi bi-arrow-right-circle"></i>',
+						last:     '<i class="bi bi-caret-right-fill"></i>'
+					}
+				}
+			});
+		});
+	</script>
 
 </head>
 
