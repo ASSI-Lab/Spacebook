@@ -4,24 +4,6 @@
 
   	<title> Effettua prenotazioni - Spacebook </title>
 
-	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
-
-	<script>
-        $(document).ready(function () {
-            $('#datatableOrari').DataTable({
-                dom: '<"row"<"col"t>><"row mt-0">',
-                scrollX: true,
-                filter: 'false',
-                pageLength: 24,
-				ordering: false
-            })
-        });
-    </script>
-
 </head>
 
 <body>
@@ -39,7 +21,17 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="action">
-								<%= form.submit class:"btn btn-lg btn-outline-info", value: 'Continua'%>
+								<!-- Modal della descrizione -->
+								<%= render 'layouts/modal_loading' %>
+
+								<label class="h6 my-0 py-0" data-bs-toggle="modal" data-bs-target="#modalCaricamento" aria-expanded="false">
+									<table>
+										<tr>
+											<td><%= form.submit class:"btn btn-lg btn-outline-info", value: 'Continua' %></td>
+											
+										</tr>
+									</table>
+								</label>
 							</div>
 						</div>
 					</div>
@@ -183,9 +175,10 @@
 																							<p class="card-text text-muted pt-3"> <%= sp.description %> </p>
 																						</div>
 																						<div class="card-body pt-1">
-																							<table id="datatableOrari" class="display table-responsive table-striped table-hover" width="100%">
-																								<thead> <!-- Header che mostra il giorno della settimana e la data nel formato 'giorno-mese-anno' -->
-																									<tr>
+																							<table id="datatableOrari" class="display table table-responsive table-hover" width="100%">
+																								<tbody>
+																									<!-- Prima riga che mostra il giorno della settimana e la data nel formato 'giorno-mese-anno' -->
+																									<tr class="rigaHeaderOrariPrenotazione">
 																										<td class="text-center"> Orari </td>
 																										<td class="text-center"><%= @days[(@today+0).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+0).mday %> / <%= (@today+0).mon %> / <%= (@today+0).year %></td>
 																										<td class="text-center"><%= @days[(@today+1).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+1).mday %> / <%= (@today+1).mon %> / <%= (@today+1).year %></td>
@@ -195,8 +188,7 @@
 																										<td class="text-center"><%= @days[(@today+5).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+5).mday %> / <%= (@today+5).mon %> / <%= (@today+5).year %></td>
 																										<td class="text-center"><%= @days[(@today+6).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+6).mday %> / <%= (@today+6).mon %> / <%= (@today+6).year %></td>
 																									</tr>
-																								</thead>
-																								<tbody> <!-- Body che mostra gli orari e le check per prenotare -->
+																									<!-- Corpo delle righe che mostra gli orari e le check per prenotare -->
 																									<!-- Per ogni ora tra l'apertura e la chiusura -->
 																									<% (@max-@min).times do |h| %>
 																										<tr><%

@@ -34,16 +34,38 @@
         });
     </script>
 
+	<script>
+        $(document).ready(function () {
+            $('#datatablePrenotazioni').DataTable({
+                dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
+                scrollX: true,
+                filter: 'false',
+                pagingType: "simple_numbers",
+                pageLength: 10,
+                language: {
+                    lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> prenotazioni contemporaneamente </h6></label>',
+                    zeroRecords: 'Nessuna prenotazione',
+                    paginate: {
+                        first:    '<i class="bi bi-caret-left-fill"></i>',
+                        previous: '<i class="bi bi-arrow-left-circle"></i>',
+                        next:     '<i class="bi bi-arrow-right-circle"></i>',
+                        last:     '<i class="bi bi-caret-right-fill"></i>'
+                    }
+                }
+            });
+        });
+    </script>	
+
 </head>
 
 <body>
-	<div class="row">
+	<div class="row mt-4">
 		<!-- Card del dipartimento -->
 		<div class="col-xl-5">
-			<div class="card shadow-lg border-0 rounded-lg">
+			<div class="card shadow-lg border-0 rounded-lg" style="height: 100%">
 				<div class="card-header"> 
-					<h3 class="font-weight-light my-3"> <%= @department.name %> (ID: <%= @department.id %>) </h3>
-						<div class="small text-muted"> <%= @department.manager %> (ID: <%= @department.user_id %>) </div>
+					<h3 class="font-weight-light mb-2 pb-1"> <%= @department.name %> (ID: <%= @department.id %>) </h3>
+					<div class="small text-muted"> <%= @department.manager %> (ID: <%= @department.user_id %>) </div>
 				</div>
 				<div class="card-body">
 					<ul class="list-group list-group-flush">
@@ -103,22 +125,73 @@
 			</div>
 		</div>
 
+		<!-- Carousel con le piante dei piani del dipartimento -->
 		<div class="col-xl-7">
+			<div class="card shadow-lg border-0 rounded-lg" style="height: 100%">
+				<div class="card-header text-center">
+					<h3 class="font-weight-light my-3"> Piante dei piani </h3>
+				</div>
+				<div class="card-body">
+					<div id="depFloorMapCarousel" class="carousel slide" data-bs-ride="carousel">
+						<table width="100%">
+							<tr>
+								<td> <!-- Precedente -->
+									<button class="btn btn-outline-info bi bi-caret-left-fill" data-bs-target="#depFloorMapCarousel" data-bs-slide="prev"></button>
+								</td>
+								<td> <!-- Immagine del piano -->
+									<div class="carousel-inner">
+										<% [0,1,2].each do |num| %>
+											<div class="carousel-item <%= (num == 0)? 'active' : '' %>">
+												<table width="100%">
+													<!-- Pianta del piano -->
+													<tr>
+														<td style="text-align:center">
+															<img class="card-img" id="depFloorMapCarouselImgTop" src="<%= (num == 1)? "https://i1.wp.com/fotografiaartistica.it/wp-content/uploads/2019/06/nasa-immagini-gratuite-dello-spazio.jpg?fit=1041%2C664&ssl=1" : (num == 2)? "https://cdna.artstation.com/p/assets/images/images/034/757/492/large/jorge-hardt-02112021-minimalist-japanese-mobile-hd.jpg?1613135473" : "https://st.depositphotos.com/2290789/3667/i/600/depositphotos_36675429-stock-photo-king-lion-aslan.jpg" %>" alt="..." />
+														</td>
+													</tr>
+													<!-- Piano -->
+													<tr>
+														<td>
+															<div class="label text-center h5">
+																<hr class="dropdown-divider" />
+																<%= (num == 0)? "Piano terra" : "#{num}° Piano" %>
+															</div>
+														</td>
+													</tr>
+												</table>
+											</div>
+										<% end %>
+									</div>
+								</td>
+								<td> <!-- Successiva -->
+									<button class="btn btn-outline-info bi bi-caret-right-fill" data-bs-target="#depFloorMapCarousel" data-bs-slide="next"></button>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
 		<!-- Mostra la tabella con gli spazi relativi al dipartimento selezionato -->
-			<div class="card shadow-lg border-0 rounded-lg">
+		<div class="col-xl-8">
+			<div class="card shadow-lg border-0 rounded-lg" style="height: 100%">
 				<div class="card-header text-center">
 					<h3 class="font-weight-light my-3"> Spazi </h3>
 				</div>
 				<div class="card-body">
-					<table id="datatableSpazi" class="display table-responsive table-striped table-hover" width="100%">
+					<table id="datatableSpazi" class="display table-responsive table-striped table-hover" style="width: 100%">
 						<thead>
 							<tr>
-								<th>id</th>
-								<th>Tipologia</th>
-								<th>Nome</th>
-								<th>Piano</th>
-								<th>Numero di posti</th>
-								<th>Disponibilità</th>
+								<th width="14%"> id</th>
+								<th width="14%"> Tipologia</th>
+								<th width="14%"> Nome</th>
+								<th width="10%"> Piano</th>
+								<th width="18%"> Numero di posti</th>
+								<th width="14%"> Disponibilità</th>
+								<th width="14%"> Mostra pianta</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -130,6 +203,60 @@
 									<td><%= space.floor %></td>
 									<td><%= space.number_of_seats %></td>
 									<td><%= space.state %></td>
+									<td> <button class="btn btn-outline-info bi bi-aspect-ratio" style="width: 100%"> </button></td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- Immagine della pianta dello spazio selezionato -->
+		<div class="col-xl-4">
+			<div class="card shadow-lg border-0 rounded-lg" style="height: 100%">
+				<div class="card-header text-left">
+					<p class="card-text text-muted my-3 py-1"> Pianta </p>
+				</div>
+				<div class="card-body">
+					<img class="card-img mt-2" id="depFloorMapImg" src="https://i1.wp.com/fotografiaartistica.it/wp-content/uploads/2019/06/nasa-immagini-gratuite-dello-spazio.jpg?fit=1041%2C664&ssl=1" alt="..." />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
+		<!-- Prenotazioni relative al dipartimento -->
+		<div class="col">
+			<div class="card shadow-lg border-0 rounded-lg">
+				<div class="card-header text-center">
+					<h3 class="font-weight-light my-3"> Prenotazioni </h3>
+				</div>
+				<div class="card-body">
+					<table id="datatablePrenotazioni" class="display table-responsive table-striped table-hover" width="100%">
+						<thead>
+							<tr>
+								<th> Utente </th>
+								<th> Dipartimento </th>
+								<th> Tipologia </th>
+								<th> Spazio </th>
+								<th> Piano </th>
+								<th> Posto </th>
+								<th> Stato </th>
+								<th> Opzioni </th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @reservations.each do |reservation| %>
+								<tr>
+									<td><%= reservation.email %></td>
+									<td><%= reservation.dep_name %></td>
+									<td><%= reservation.typology %></td>
+									<td><%= reservation.space_name %></td>
+									<td><%= reservation.floor %></td>
+									<td><%= reservation.seat_num %></td>
+									<td><%= reservation.state %></td>
+									<td><%= button_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btnDestroy" %></td>
 								</tr>
 							<% end %>
 						</tbody>

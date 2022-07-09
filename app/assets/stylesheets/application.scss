@@ -311,6 +311,13 @@ svg {
 table {
   caption-side: bottom;
   border-collapse: collapse;
+  display: block; // mdm, prima non c'era
+  overflow-x: auto; // mdm, prima non c'era
+  white-space: nowrap; // mdm, prima non c'era
+}
+table tbody { // mdm, prima non c'era
+  display: table;
+  width: 100%;
 }
 
 caption {
@@ -334,6 +341,9 @@ th {
   border-color: inherit;
   border-style: solid;
   border-width: 0;
+}
+.rigaHeaderOrariPrenotazione { // mdm, prima non c'era
+  pointer-events: none;
 }
 
 label {
@@ -5646,7 +5656,7 @@ textarea.form-control-lg {
   opacity: 0;
 }
 .modal-backdrop.show {
-  opacity: 0.1;         // Originale: 0.5;
+  opacity: 0.1;         // mdm, originale: 0.5;
 }
 
 
@@ -11903,4 +11913,23 @@ body {
 .paginate_button.disabled > a {
   pointer-events: none;
   opacity: 0.30;
+}
+
+// modal per il caricamento
+#modalCaricamentoContent{
+  border: none !important;
+  background-color: transparent !important;
+}
+
+#modalCaricamentoBody {
+  height: 50%;
+  background-color: transparent !important;
+}
+
+#modalCaricamento > .modal-backdrop.show{
+  opacity: 0.9 !important;
+}
+
+#modalCaricamentoImg {
+  object-fit: contain;
 }
