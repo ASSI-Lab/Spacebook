@@ -70,9 +70,19 @@
                                             <div class="label h6"> 
                                                 Dati del dipartimento
                                             </div>
-                                            <div class="form-floating mb-3">                            
-                                                <%= form.text_field :name, :class=>"form-control", :id=>"depName", :placeholder=>"plh"%>
-                                                <label for="depName"> Nome </label>
+                                            <div class="row">
+                                                <div class="col-sm-9">
+                                                    <div class="form-floating mb-3">                            
+                                                        <%= form.text_field :name, :class=>"form-control", :id=>"depName", :placeholder=>"plh"%>
+                                                        <label for="depName"> Nome </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-floating mb-3">
+                                                        <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
+                                                        <label for="numPiani"> Numero dei piani dell'edificio </label>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="row">
@@ -110,26 +120,6 @@
 
                                             <br>
 
-                                            <div class="label h6"> 
-                                                Dati relativi alle prenotazioni
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-floating mb-3">
-                                                        <%= form.number_field :number_of_spaces, :class=>"form-control", :id=>"numSpazi", :placeholder=>"plh"%>
-                                                        <label for="numSpazi"> Numero di spazi prenotabili </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-floating mb-3">
-                                                        <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
-                                                        <label for="numPiani"> Numero dei piani dell'edificio </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <br>
-
                                             <div class="form-floating mb-3">
                                                 <div class="label h6">
                                                     <%= form.label 'Descrizione del dipartimento' %>
@@ -149,78 +139,60 @@
                                     </div>
                                 </div>
                             <% else %>
+                                <!-- Raccoglie il dipartimento temporaneo appena creato --> 
                                 <% mydep = (TempDep.where(user_id: current_user.id)).first %>
 
+                                <!-- Mostra tramite il form per l'inserimento degli orari -->
                                 <% @twd = (TempWeekDay.where(temp_dep_id: mydep.id)) %>
-                                <!-- Mostra tramite modal tutti i form per l'inserimento degli orari --> 
                                 <% if @twd.count != 7 %>
                                     <div class="card shadow-lg border-0 rounded-lg mt-5">
                                         <div class="card-header text-center">
                                             <h4 class="font-weight-light mt-4 mb-0"> Imposta gli orari del dipartimento </h4>
-                                            <div class="small text-muted"> Se selezioni 'Chiuso' puoi lasciare degli orari casuali </div>
+                                            <div class="small text-muted"> Seleziona solo i giorni in cui il dipartimento è aerto </div>
                                         </div>
                                         <div class="card-body">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">
-                                                    <table width="100%" class="text-center">
-                                                        <tr>
-                                                            <!-- Per ogni giorno della settimna -->
-                                                            <% ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"].each do |table_day| %>
-                                                                <% @current_table_day_alredy_in = TempWeekDay.where(temp_dep_id: mydep.id, day: table_day) %>
-                                                                <td>
-                                                                    <table width="100%">
-                                                                        <!-- Se quel giorno non è stato ancora impostato genera il modal per impostarlo -->
-                                                                        <% if @current_table_day_alredy_in.count == 0 %>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <h6><%= table_day %></h6>
-                                                                                </td>
-                                                                            </tr>
-                                                                                <td>
-                                                                                    <i class="bi bi-x-circle-fill" style="color:red"></i> Vuoto
-                                                                                </td>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <!-- Tasto per l'inserimento tramite modal degli orari -->
-                                                                                    <div type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempWDID<%= table_day %>" id="tempWDUpdateBtn"> Imposta <i class="bi bi-clock"></i></div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <!-- Modal per l'inserimento -->
-                                                                                    <%= render 'modal_temp_wd_new', temp_week_day: @temp_week_day, mydep: mydep, table_day: table_day %>
-                                                                                </td>
-                                                                            </tr>
-                                                                        <!-- In caso contrario mostra gli orari per quel giorno e ne genera il modal di modifica -->
-                                                                        <% else %>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <h6><%= @current_table_day_alredy_in.first.day %></h6>
-                                                                                </td>
-                                                                            </tr>
-                                                                                <td>
-                                                                                    <i class="bi bi-check-circle-fill" style="color:green"></i>
-                                                                                    <!-- Mostra gli orari del giorno corrente -->
-                                                                                    <% if @current_table_day_alredy_in.first.state == "Aperto" %>
-                                                                                        <%= @current_table_day_alredy_in.first.apertura.strftime('%H:%M') %> - <%= @current_table_day_alredy_in.first.chiusura.strftime('%H:%M') %>
-                                                                                    <% else %>
-                                                                                        Chiuso
-                                                                                    <% end %>
-                                                                                </td>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <!-- tasto per la modifica tramite modal degli orari -->
-                                                                                    <div type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempWDID<%= @current_table_day_alredy_in.first.id %>" id="tempWDUpdateBtn"> Modifica <i class="bi bi-pen"></i></i></div>
-                                                                                    <!-- Modal di modifica -->
-                                                                                    <%= render 'modal_temp_wd_edit', twd: @current_table_day_alredy_in.first %>
-                                                                                </td>
-                                                                            </tr>
-                                                                        <% end %>
-                                                                    </table>
-                                                                </td>
-                                                            <% end %>
-                                                        </tr>
-                                                    </table>
-                                                </li>
-                                            </ul>
+                                            <%= form_with url: set_temp_wd_path, local: true, method: :post do |form| %>
+                                                <div class="row text-center mb-2">
+                                                    <!-- Per ogni giorno della settimna -->
+                                                    <% ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"].each do |table_day| %>
+                                                        <div class="col px-0">
+                                                            <div class="row">
+                                                                <div class="col-lg-12" style="min-width: fit-content">
+                                                                    <!-- Check per impostare aperto/chiuso -->
+                                                                    <div class="form-check form-switch my-0 px-1">
+                                                                        <label class="h6 my-0 py-0" data-bs-toggle="collapse" data-bs-target="#<%= table_day %>SetTWDCollapse" aria-expanded="false">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td><%= table_day %></td>
+                                                                                    <td><%= form.check_box(table_day+"OpenCheck", { class: "form-check-input mx-1 my-0 px-0 py-0", type: "checkbox", style: "float: none"}) %></td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-12 collapse px-0" id="<%= table_day %>SetTWDCollapse">
+                                                                    <!-- Colapse per inserire gli orari -->
+                                                                    Apertura
+                                                                    <div class="form-floating mx-2" style="display: flex">
+                                                                        <%= form.time_select( table_day+"Apertura", {}, { class: "form-control text-center mx-1 my-0 py-0", style: "width: 100%; min-width: 50px; height: auto"} ) %>
+                                                                    </div>
+                                                                    Chiusura
+                                                                    <div class="form-floating mx-2" style="display: flex">
+                                                                        <%= form.time_select( table_day+"Chiusura", {}, { class: "form-control text-center mx-1 my-0 py-0", style: "width: 100%; min-width: 50px; height: auto"} ) %>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <% end %>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <%= form.number_field :temp_dep_id, value: mydep.id, readonly: true, :style=>'display:none'%>
+                                                        <%= form.text_field :dep_name, value: mydep.name, readonly: true, :style=>'display:none'%>
+                                                        <%= form.submit 'Imposta orari', class:"btn btn-outline-info", style: "width:100%" %>
+                                                    </div>
+                                                </div>
+                                            <% end %>
                                         </div>
                                     </div>
                                 <% else %>
@@ -235,13 +207,14 @@
                                                 <div class="col-lg-3">
                                                     <h6 class="mt-1  mb-3"> Compila il form con i dati richiesti </h6>
                                                     <!-- Form di inserimento degli spazi -->
-                                                    <%= form_with(model: @temp_sp) do |form| %>
-                                                        <% if @temp_sp.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
+                                                    <% temp_sp = TempSp.new %>
+                                                    <%= form_with(model: temp_sp) do |form| %>
+                                                        <% if temp_sp.errors.any? %> <!-- 'if' generato da rails generate scaffold -->
                                                             <div id="error_explanation">
-                                                            <h2><%= pluralize(@temp_sp.errors.count, "error") %> prohibited this space from being saved:</h2>
+                                                            <h2><%= pluralize(temp_sp.errors.count, "error") %> prohibited this space from being saved:</h2>
 
                                                             <ul>
-                                                                <% @temp_sp.errors.each do |error| %>
+                                                                <% temp_sp.errors.each do |error| %>
                                                                     <li><%= error.full_message %></li>
                                                                 <% end %>
                                                             </ul>
@@ -377,57 +350,60 @@
                                         </div>
                                     </div>
 
-                                <% end %>
-
-                                <!-- Mostra il dipartimento appena creato -->
-                                <div class="card shadow-lg border-0 rounded-lg mt-4">
-                                    <div class="card-header text-center">
-                                        <label class="label h4 font-weight-light mt-4 mb-2" data-bs-toggle="modal" data-bs-target="#tempSpID<%= mydep.id %>"> <%= mydep.name %> <i class="bi bi-pen btn btn-sm btn-outline-info px-1 py-0"></i></label>
-                                        <!-- Modal di modifica -->
-                                        <div style="text-align:left">
-                                            <%= render 'modal_temp_dep_edit', mydep: mydep %>
+                                    <!-- Mostra il dipartimento appena creato -->
+                                    <div class="card shadow-lg border-0 rounded-lg mt-4">
+                                        <div class="card-header text-center">
+                                            <!-- Icona interattiva per la modifica tramite modal -->
+                                            <label class="label h4 font-weight-light mt-4 mb-2" data-bs-toggle="modal" data-bs-target="#tempSpID<%= mydep.id %>"> <%= mydep.name %> <i class="btn btn-sm btn-outline-info bi bi-pen px-1 py-0"></i></label>
+                                            <!-- Modal di modifica -->
+                                            <div style="text-align:left">
+                                                <%= render 'modal_temp_dep_edit', mydep: mydep %>
+                                            </div>
+                                            <div class="small text-muted"> Clicca sulla pennina per cambiare i dati </div>
                                         </div>
-                                        <div class="small text-muted"> Clicca sulla pennina per cambiare i dati </div>
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                <!-- Descrizione -->
+                                                <li class="list-group-item">
+                                                    <!-- Icona interattiva per visualizzare il collapse della descrizione -->
+                                                    <label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= (mydep).id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Descrizione <i class="bi bi-card-text"></i> </label> 
+                                                    <!-- Collapse della descrizione -->
+                                                    <div class="collapse" id="dep<%= (mydep).id %>DescCollapse">
+                                                        <%= (mydep).description %>
+                                                    </div>
+                                                </li>
+
+                                                <li class="list-group-item">
+                                                    <label class="label"><h6> Posizione: </h6></label> <%= mydep.via %>, <%= mydep.civico %>, <%= mydep.cap %>, <%= mydep.citta %>, <%= mydep.provincia %>
+                                                </li>
+
+                                                <li class="list-group-item">
+                                                    <label class="label"><h6> Numero piani: </h6></label> <%= mydep.floors %>
+                                                </li>
+
+                                                <li class="list-group-item">
+                                                    <label class="label"><h6> Spazi disponibili: </h6></label> <%= mydep.number_of_spaces %>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="card-body">
-                                        <ul class="list-group list-group-flush">
-                                            <!-- Descrizione -->
-                                            <li class="list-group-item">
-                                                <!-- Icona interattiva per visualizzare il collapse della descrizione -->
-                                                <label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= (mydep).id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Descrizione <i class="bi bi-card-text"></i> </label> 
-                                                <!-- Collapse della descrizione -->
-                                                <div class="collapse" id="dep<%= (mydep).id %>DescCollapse">
-                                                    <%= (mydep).description %>
+
+                                    <div class="card shadow-lg border-0 rounded-lg mt-4">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <!-- Tasto per l'annullamento della procedura di registrazione -->
+                                                    <%= button_to 'Annulla la registrazione del dipartimento e i relativi spazi', mydep, method: :delete, data: { confirm: 'Sicuro di voler annullare la procedura? Dovrai comunque registrare il tuo dipartimento al prossimo accesso.' }, :class=>"btn btn-outline-info", :style=>"width:100%" %>
                                                 </div>
-                                            </li>
-
-                                            <li class="list-group-item">
-                                                <label class="label"><h6> Posizione: </h6></label> <%= mydep.via %>, <%= mydep.civico %>, <%= mydep.cap %>, <%= mydep.citta %>, <%= mydep.provincia %>
-                                            </li>
-
-                                            <li class="list-group-item">
-                                                <label class="label"><h6> Numero piani: </h6></label> <%= mydep.floors %>
-                                            </li>
-
-                                            <li class="list-group-item">
-                                                <label class="label"><h6> Spazi disponibili: </h6></label> <%= mydep.number_of_spaces %>
-                                            </li>
-
-                                            <!-- Tasto per l'annullamento della procedura di registrazione -->
-                                            <li class="list-group-item"> 
-                                                <%= button_to 'Annulla la registrazione del dipartimento e i relativi spazi', mydep, method: :delete, data: { confirm: 'Sicuro di voler annullare la procedura? Dovrai comunque registrare il tuo dipartimento al prossimo accesso.' }, :class=>"btn btn-outline-info", :style=>"width:100%" %>
-                                            </li>
-
-                                        </ul>
+                                                <div class="col-lg-6">
+                                                    <!-- Mostra il tasto per la conferma dei dati temporanei inseriti e l'avvio della creazione degli oggetti effettivi -->
+                                                    <%= button_to 'Conferma la registrazione del dipartimento e i relativi spazi', '/manager_department', method: :get, data: { confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in questa schermata?' }, :class=>"btn btn-outline-info", :style=>"width:100%" %>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <!-- Mostra il tasto per la conferma dei dati temporanei inseriti e l'avvio della creazione degli oggetti effettivi -->
-                                <div class="card shadow-lg border-0 rounded-lg mt-4">
-                                    <div class="card-body">
-                                        <%= button_to 'Conferma la registrazione del dipartimento e i relativi spazi', '/manager_department', method: :get, data: { confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in questa schermata?' }, :class=>"btn btn-outline-info", :style=>"width:100%" %>
-                                    </div>
-                                </div>
+                                <% end %>
                             <% end %>
                         </div>
                     </div>

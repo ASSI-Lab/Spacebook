@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
   # Dipartimenti
   get "/make_department", to: "temp_deps#new"
+  post '/make_department', to: 'temp_deps#set_temp_wd', as: 'set_temp_wd'
   get "/manager_department", to: "departments#manager_department"
 
   # Prenotazioni

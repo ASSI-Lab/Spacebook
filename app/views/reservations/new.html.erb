@@ -7,85 +7,142 @@
 </head>
 
 <body>
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="form-floating mb-3">
+	<% if !local_assigns.has_key? :department %>
+		<div class="row">
+			<div class="col">
 				<!-- Form per selezionare il dipartimento da prenotare -->
 				<%= form_with url: set_department_path, local: true, method: :post do |form| %>
 					<div class="row">
-						<div class="col-lg-6">
+						<div class="col-lg-9">
 							<div class="form-floating mb-3">
-								<%= form.select(:name, Department.all.collect {|dep| [ dep.name ] }, {}, {class: "form-select", id: "depName"}) %>
+								<%= form.select(:selected_dep_name, Department.all.collect {|dep| [ dep.name ] }, {}, {class: "form-select", id: "depName"}) %>
 								<label for="depName"> Seleziona il dipartimento </label>
 							</div>
 						</div>
-						<div class="col-lg-6">
-							<div class="action">
-								<!-- Modal della descrizione -->
-								<%= render 'layouts/modal_loading' %>
-
-								<label class="h6 my-0 py-0" data-bs-toggle="modal" data-bs-target="#modalCaricamento" aria-expanded="false">
-									<table>
-										<tr>
-											<td><%= form.submit class:"btn btn-lg btn-outline-info", value: 'Continua' %></td>
-											
-										</tr>
-									</table>
-								</label>
-							</div>
+						<div class="col-lg-3">
+							<%= form.text_field :filter, value: "Dep", :style=>'display:none'%>
+							<%= form.submit 'Filtra Dipartimento', class:"btn btn-outline-info my-2", style: "width: 100%; height: 40px" %>
 						</div>
 					</div>
 				<% end %>
 			</div>
 		</div>
-
-		<!-- Solo se il dipartimento è stato selezionato, effettua il render dei suoi dati e dele tabelle relative ai posti prenotabili -->
-		<% if local_assigns.has_key? :department %>
-			<div class="col-lg-12">
-				<div class="row">
-					<div class="col-lg-6">
-						<div class="card shadow-lg border-0 rounded-lg">
-							<div class="card-header text-left">
-								<h3 class="font-weight-light mb-1"> Ricerca con filtri </h3>
-								<p class="card-text text-muted pt-1"> Visualizza solo la tipologia o lo spazio che ti interessa! </p>
-							</div>
-							<div class="card-body">
-								<label for="depName"> Seleziona la tipologia </label>
-								<br>
-								<label for="depName"> Seleziona lo spazio </label>
-							</div>
+	<!-- Solo se il dipartimento è stato selezionato, effettua il render dei successivi form, dei suoi dati e dele tabelle relative ai posti prenotabili -->
+	<% else %>
+		<% @department = Department.where(name: department[:selected_dep_name]).first %>
+		<% selected_ty = (selected_spaces.collect {|ty| [ ty.typology ] }).uniq %>
+		<!-- Mostra le componenti del form a seconda dei filtri -->
+		<%= form_with url: set_space_path, local: true, method: :post do |form| %>
+			<div class="row">
+				<div class="col-lg-3">
+					<!-- Mostra sempre il dipartimento selezionato nel form precedente -->
+					<div class="form-floating mb-3">
+						<%= form.text_field :selected_dep_name, value: department[:selected_dep_name], style: "display:none" %>
+						<div id="selDep" class="form-control"> <%= department[:selected_dep_name] %> </div>
+						<label for="selDep"> Dipartimento </label>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="form-floating mb-3">
+						<!-- Se non è stata selezionata ne la tipologia ne lo spazio mostra il form per selezionarla -->
+						<% if department[:filter] == "Dep" %>
+							<% selected_spaces = Space.where(dep_name: params[:selected_dep_name]) %>
+							<% department_ty = (selected_spaces.collect {|ty| [ ty.typology ] }).uniq %>
+							<%= form.select(:selected_typology, department_ty, {}, {class: "form-select", id: "depTyp"}) %>
+							<label for="depTyp"> Seleziona la tipologia </label>
+						<!-- Altrimenti se è stata selezionata la tipologia ma non lo spazio mostra la tipologia selezionata -->
+						<% elsif department[:filter] == "Dep_Typ" or department[:filter] == "Dep_Typ_Sp" %>
+							<% selected_spaces = Space.where(dep_name: params[:selected_dep_name], typology: params[:selected_typology]) %>
+							<% selected_ty = [[department[:selected_typology]]] %>
+							<%= form.text_field :selected_typology, value: department[:selected_typology], style: "display:none" %>
+							<div id="selTyp" class="form-control"> <%= department[:selected_typology] %> </div>
+							<label for="selTyp"> Tipologia </label>
+						<% end %>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="form-floating mb-3">
+						<!-- Se è stata selezionata la tipologia ma non è lo spazio inizializza gli spazi della tipologia selezionata e mostra il form per selezionare lo spazio -->
+						<% if department[:filter] == "Dep_Typ" %>
+							<% selected_spaces = Space.where(dep_name: params[:selected_dep_name], typology: params[:selected_typology]) %>
+							<%= form.select(:selected_space, (selected_spaces.collect {|sp| [ sp.name ] }), {}, {class: "form-select", id: "depTySp"}) %>
+							<label for="depTySp"> Seleziona lo spazio </label>
+						<!-- Altrimenti inizializza lo spazio selezionato e mostra il form per cambiare spazio selezionato -->
+						<% elsif department[:filter] == "Dep_Typ_Sp" %>
+							<% selected_spaces = Space.where(dep_name: params[:selected_dep_name], typology: params[:selected_typology], name: params[:selected_space]) %>
+							<%= form.select(:selected_space, (selected_spaces.collect {|sp| [ sp.name ] }), {}, {class: "form-select", id: "depTySp"}) %>
+							<label for="depTySp"> Seleziona lo spazio </label>
+						<% end %>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="row">
+						<div class="col-lg-6">
+							<%= form.text_field :filter, value: (department[:filter] == "Dep")? "Dep_Typ" : "Dep_Typ_Sp", :style=>'display:none'%>
+							<%= form.submit (department[:filter] == "Dep_Typ")? "Filtra spazio" : "Filtra tipologia", class:"btn btn-outline-info my-2", style: "width: 100%; height: 40px" %>
+						</div>
+						<!-- Elimina i filtri -->
+						<div class="col-lg-6">
+							<%= link_to 'Rimuovi filtri', "/make_reservation", class:"btn btn-outline-info my-2", style: "width: 100%; height: 40px" %>
 						</div>
 					</div>
-					<div class="col-lg-6">
-						<% @department = Department.where(name: department[:name]).first %>
+				</div>
+			</div>
+		<% end %>
+
+		<!-- Mostra i dati e i check per prenotare -->
+		<div class="row">
+			<div class="col">
+				<div class="row">
+					<div class="col-lg-12">
 						<!-- Mostra il dipartimento in cui prenotare -->
 						<div class="card shadow-lg border-0 rounded-lg">
-							<div class="card-header"> 
-								<h3 class="font-weight-light mb-1"> <%= (@department).name %> </h3>
-								<p class="card-text text-muted pt-1"> 
-									<%= (@department).via %>, <%= (@department).civico %>, <%= (@department).cap %>, <%= (@department).citta %>, <%= (@department).provincia %>
-								</p>
+							<div class="card-header">
+								<label class="font-weight-light h3 mb-1"> <%= (@department).name %> </label> 
+								<button class="btn btn-sm btn-outline-info bi bi-info-circle" data-bs-toggle="collapse" data-bs-target="#dep<%= @department.id %>InfoBodyCollapse" aria-expanded="false"></button>
 							</div>
-							<div class="card-body">
-								<ul class="list-group list-group-flush">
-									<!-- Descrizione -->
-									<li class="list-group-item pt-0">
-										<!-- Icona interattiva per visualizzare il collapse della descrizione -->
-										<label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= (@department).id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Descrizione <i class="bi bi-card-text"></i> </label> 
-										<!-- Collapse della descrizione -->
-										<div class="collapse" id="dep<%= (@department).id %>DescCollapse">
-											<%= (@department).description %>
-										</div>
-									</li>
+							<div class="card-body collapse" id="dep<%= @department.id %>InfoBodyCollapse">
+								<div class="row">
+									<div class="col-lg-7">
+										<ul class="list-group list-group-flush">
+											<!-- Descrizione -->
+											<li class="list-group-item pt-0">
+												<!-- Icona interattiva per visualizzare il collapse della descrizione -->
+												<label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= @department.id %>DescCollapse" aria-expanded="false"> Descrizione <i class="bi bi-card-text"></i> </label> 
+												<!-- Collapse della descrizione -->
+												<div class="collapse" id="dep<%= @department.id %>DescCollapse">
+													<%= @department.description %>
+												</div>
+											</li>
+											
+											<!-- Dati + orari -->
+											<li class="list-group-item">
+												<ul class="list-group list-group-flush">
+													<li class="list-group-item ms-0 ps-0">
+														<label class="label h5"> Posizione </label><br>
+														<%= @department.via %>, <%= @department.civico %>, <%= @department.cap %>, <%= @department.citta %>, <%= @department.provincia %>
+													</li>
+													<li class="list-group-item ms-0 ps-0"> 
+														<label class="label h5"> Numero piani </label><br>
+														<%= @department.floors %>
+													</li>
+													<li class="list-group-item ms-0 ps-0"> 
+														<label class="label h5"> Numero spazi </label><br>
+														<%= @department.number_of_spaces %>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</div>
 									<!-- Carousel piante -->
-									<li class="list-group-item pt-0">
+									<div class="col-lg-5">
 										<div id="depFloorMapCarousel" class="carousel slide" data-bs-ride="carousel">
 											<table width="100%">
 												<tr>
 													<td> <!-- Precedente -->
 														<button class="btn btn-outline-info bi bi-caret-left-fill" data-bs-target="#depFloorMapCarousel" data-bs-slide="prev"></button>
 													</td>
-													<td> <!-- Immagine del piano -->
+													<td width="100%"> <!-- Immagine del piano -->
 														<div class="carousel-inner">
 															<% [0,1,2].each do |num| %>
 																<div class="carousel-item <%= (num == 0)? 'active' : '' %>">
@@ -116,8 +173,8 @@
 												</tr>
 											</table>
 										</div>
-									</li>
-								</ul>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -132,24 +189,25 @@
 									<p class="card-text text-muted pt-1"> Puoi prenotare più spazi e più giorni contemporaneamente! </p>
 								</div>
 								<div class="card-body">
-									<% (Space.where(department_id: @department.id).collect {|ty| [ ty.typology ] }).uniq.each do |sps_typ| %>
+									<!-- Mostra ogni tipologia del dipartimento selezionato e i rispettivi colapse degli spazi -->
+									<% selected_ty.each do |current_ty| %>
 										<div class="row">
 											<div class="col">
 												<div class="row">
 													<div class="col-lg-2">
 														<!-- Label interattiva per visualizzare gli spazi della tipologia corrente -->
-														<label class="dropdown-item h5" data-bs-toggle="collapse" data-bs-target="#spTypology<%= sps_typ[0] %>ResTableCollapse" aria-expanded="false" aria-controls="collapseExample"> <%= sps_typ[0] %> </label> 
+														<label class="dropdown-item h5" data-bs-toggle="collapse" data-bs-target="#spTypology<%= current_ty[0] %>ResTableCollapse" aria-expanded="false" aria-controls="collapseExample"> <%= current_ty[0] %> </label> 
 													</div>
 												</div>
 												<div class="row">
 													<!-- Collapse con gli spazi della tipologia corrente -->
-													<div class="collapse" id="spTypology<%= sps_typ[0] %>ResTableCollapse">
+													<div class="collapse" id="spTypology<%= current_ty[0] %>ResTableCollapse">
 														<div class="col">
-															<% (Space.where(department_id: @department.id, typology: sps_typ[0])).each do |sp| %>
+															<% selected_spaces.where(typology: current_ty).each do |current_sp| %>
 																<div class="row">
 																	<div class="col-lg-2">
 																		<!-- Label interattiva per visualizzare la tabella dello spazio -->
-																		<label class="dropdown-item h5 px-4" data-bs-toggle="collapse" data-bs-target="#spName<%= (sp).id %>ResTableCollapse" aria-expanded="false" aria-controls="collapseExample"> <%= sp.name %> </label> 
+																		<label class="dropdown-item h5 px-4" data-bs-toggle="collapse" data-bs-target="#spName<%= current_sp.id %>ResTableCollapse" aria-expanded="false" aria-controls="collapseExample"> <%= current_sp.name %> </label> 
 																	</div>
 																	<div class="col-lg-10"> <%
 																		# Raccoglie gli orari del dipartimento dello spazio corrente
@@ -160,19 +218,19 @@
 																			@max = @max? ((@max < wd.chiusura.hour)? wd.chiusura.hour : @max) : wd.chiusura.hour
 																		end
 																		# Raccoglie i posti dello spazio corrente
-																		@seats = Seat.where(space_id: sp.id)
+																		@seats = Seat.where(space_id: current_sp.id)
 																		# La data di oggi
 																		@today = (Date.today)
 																		# Array per l'inserimento dei giorni in italiano nella tabella
 																		@days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"] %>
 																		
 																		<!-- Collapse della tabella -->
-																		<div class="collapse" id="spName<%= (sp).id %>ResTableCollapse">
+																		<div class="collapse" id="spName<%= current_sp.id %>ResTableCollapse">
 																			<div class="row">
 																				<div class="col-lg-9">
 																					<div class="card shadow-lg border-0 rounded-lg">
 																						<div class="card-header text-left">
-																							<p class="card-text text-muted pt-3"> <%= sp.description %> </p>
+																							<p class="card-text text-muted pt-3"> <%= current_sp.description %> </p>
 																						</div>
 																						<div class="card-body pt-1">
 																							<table id="datatableOrari" class="display table table-responsive table-hover" width="100%">
@@ -326,17 +384,17 @@
 						<% if current_user.access_token!=nil %>
 							<div class="form-check form-switch ms-auto me-auto mx-1 my-1 px-0">
 								<%= form.check_box(("calendar_check"), { class: "form-check-input mx-3 px-0", type: "checkbox" }) %>
-								<label class="h6 my-0 mx-1" for="calendar_check"> Sincronizza prenotazione su Calendar </label>
+								<label class="h6 my-0 mx-1" for="calendar_check"> Sincronizza prenotazioni su Calendar </label>
 							</div>
 						<% end %>
 						<div class="action">
 							<!-- Invia i dati per gli orari selezionati alla funzione per la creazione -->
-							<%= form.submit class: "btn btn-outline-info", value: "Prenota gli orari selezionati" %>
+							<%= form.submit "Prenota gli orari selezionati", class: "btn btn-outline-info" %>
 						</div>
 					</div>
 				<% end %>
 			</div>
-		<% end %>
-	</div>
+		</div>
+	<% end %>
 </body>
 </html>

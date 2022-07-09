@@ -19,7 +19,8 @@
                 </div>
                 <div class="modal-body">
                     <button onclick="window.location.href='/personal_area'" class="dropdown-item">Area personale</button>
-                    <%= button_to 'Esci', destroy_user_session_path, method: :delete, :class => "dropdown-item" %>
+                    <%= button_to 'Esci', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+                    <%= button_to "Annulla la registrazione ed elimina l'utente", "/users#destroy", method: :delete, data: { confirm: "Sei sicuro di voler eliminare l'account?" }, class: "dropdown-item" %>
                 </div>
             <% end %>
         </div>

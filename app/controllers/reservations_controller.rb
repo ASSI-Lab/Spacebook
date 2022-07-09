@@ -4,10 +4,10 @@ class ReservationsController < ApplicationController
 
   # Raccoglie il nome del dipartimento selezionato dall'utente, aggiorna i posti relativi nel db con date e orari corretti, ne carica gli spazi e reindirizza a '/make_rexservation'
   def set_department
-    spaces = Space.where(dep_name: params[:name])
+    selected_spaces = Space.where(dep_name: params[:selected_dep_name])
 
     # Aggiorna i posti del dipartimento ogni volta che un utente lo seleziona per effettuare una prenotazione
-    spaces.each do |sp|
+    selected_spaces.each do |sp|
       Seat.where(space_id: sp.id).each do |seat|
         # Controlla se il posto ha un data e un tempo precedenti a quelli odierni
         if ( seat.start_date.strftime("%Y%m%d%T") <= DateTime.now.strftime("%Y%m%d%T") )
@@ -26,7 +26,7 @@ class ReservationsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :new, locals: { department: params, spaces: spaces} }
+      format.html { render :new, locals: { department: params, selected_spaces: selected_spaces } }
     end
   end
 
