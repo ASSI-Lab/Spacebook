@@ -4,7 +4,8 @@
 <head>
 
 	<title> Home - Spacebook </title>
-
+	<%= javascript_pack_tag 'leaflet' %>
+	<%= stylesheet_link_tag 'leaflet',media: 'all', 'data-turbolinks-track': 'reload' %>
 </head>
 
 <body>
@@ -147,7 +148,15 @@
 			<div class="card shadow-lg border-0 rounded-lg mt-5">
 				<div class="card-header text-center h3"> Mappa </div>
 				<div class="card-body text-center">
-					<img class="card-img-top" src="https://www.ninaedizionishop.it/87/mappa-europa.jpg" alt="..." />
+					<div id="map"></div>
+					<!-- Utilizzo LEAFLET e OSM per generare una mappa centrata su Roma -->
+					<script>
+					var map = L.map('map').setView([41.90399, 12.48881], 13);
+					L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+						maxZoom: 19,
+						attribution: '© OpenStreetMap'
+					}).addTo(map);
+					</script>
 				</div>
 			</div>
 
