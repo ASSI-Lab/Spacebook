@@ -65,7 +65,7 @@
 												<button class="btn btn-outline-secondary disabled"> <i class='bi bi-cursor'></i><br> prenota </button>
 											<% end %>
 											<% @coord = get_coord(department.via+" "+department.civico+" "+department.citta+" "+department.cap)%>
-											<button onclick='centra_mappa("<%= department.via.concat(" ",department.civico," ,",department.cap," ,",department.citta," ,",department.provincia) %>","<%= @coord[0] %>","<%= @coord[1] %>")'>Click me</button>
+											<button onclick='centra_mappa("<%= department.via.concat(" ",department.civico," ,",department.cap," ,",department.citta," ,",department.provincia) %>","<%= @coord[0] %>","<%= @coord[1] %>","<%= department.name %>")'>Click me</button>
 										</td>
 									</tr>
 								</table>
@@ -152,7 +152,6 @@
 				<div class="card-body text-center">
 					<div id="map"></div>
 					<!-- Utilizzo LEAFLET e OSM per generare una mappa centrata su Roma -->
-					<p id="centra">Indirizzo</p>
 					<script>
 					var map = L.map('map').setView([41.89333, 12.48302], 13);
 					L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -161,9 +160,18 @@
 					}).addTo(map);
 
 					document.getElementById("centra").onclick = function() {centra_mappa()};
-					function centra_mappa(dep, lat, lon) {
+					function centra_mappa(dep, lat, lon,dep_n) {
 					map.setView([lat, lon], 18);
-					document.getElementById("centra").innerHTML = "Indirizzo: "+dep;
+					var myIcon = L.icon({
+					iconUrl: '<%=image_path('marker-icon-2x.png')%>',
+					shadowUrl: '<%=image_path('marker-shadow.png')%>',
+					iconSize:     [38, 80], // size of the icon
+					shadowSize:   [50, 64], // size of the shadow
+					iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+					shadowAnchor: [4, 62],  // the same for the shadow
+					popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+					});
+					L.marker([lat, lon],{icon: myIcon}).addTo(map).bindPopup(dep_n+"<br>"+dep).openPopup();
 					}
 					</script>
 					
