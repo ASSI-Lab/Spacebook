@@ -8,55 +8,14 @@
 
 <body>
 	<div class="row">
-		<!-- Introduzione -->
-		<div class="col-xl-7">
-			<div class="card shadow-lg border-0 rounded-lg" style="height:100%">
-				<div class="card-body">
-					<h2 class="font-weight-light mt-2 mb-2"> Benvenuto nella tua area personale </h2>
-					<p class="card-text">
-						Qui potrai accedere rapidamente ai tuoi spazi preferiti, potrai visualizzare tutte le prenotazioni che hai effettuato,
-						effettuarne di nuove e aggiungere uno spazio per la prenotazione rapida
-					</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-xl-5">
-			<div class="row">
-				<!-- Info utente -->
-				<div class="col-xl-8">
-					<div class="card bg-dark text-white mb-1" style="height:100%">
-						<div class="card-header h4"> Info utente </div>
-						<li class="list-group-item bg-dark text-white"> 
-							<label class="label h5"> Email: </label> <%= current_user.email %>
-							<br>
-							<label class="label h5"> Password: </label> <%= current_user.password %>
-							<button class="btn btn-sm btn-outline-info" id="updatePsw"> <i class="bi bi-pen"></i> </button>
-						</li>
-					</div>
-				</div>
-
-				<!-- Tasto per la prenotazione rapida -->
-				<div class="col-xl-4">
-					<div class="card bg-dark text-white mb-0" style="height:100%">
-						<div class="card-body">
-							<p class="card-text h5"> Effettua prenotazione rapida </p>
-							<a class="stretched-link" href="#"></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>	
-	</div>
-
-	<div class="row mt-4">
 		<!-- Calendario per sincronizzazione AL MOMENTO SE SI È COLLEGATI TRAMITE GOOGLE IL CALENDARIO VIENE FORMATO CON I PROSSIMI 10 EVENTI ALL'INTERNO -->
-		<div class="col-lg-7">
-			<div class="card shadow-lg border-0 rounded-lg">
+		<div class="col-lg-7 pb-2">
+			<h2 class="font-weight-light mt-0 mb-2 mx-2"> Benvenuto nella tua area personale </h2>
+			<div class="card shadow-lg border-0 rounded-lg" style="height: 93%">
 				<div class="card-header"> 
-					<h4 class="card-title"> Google Calendar </h4>
+					<h4 class="card-title pb-0 mb-0"> Google Calendar </h4>
 				</div>
-				<div class="card-body px-3">
+				<div class="card-body px-3 pt-1">
 					<% if current_user.access_token!=nil%> <!-- SE IL TOKEN È PRESENTE VIENE INVIATA LA RICHIESTA A CALENDAR -->
 						<% @hash=load_events %>
 						<% if @hash!=nil %>
@@ -83,11 +42,34 @@
 			</div>
 		</div>
 
-		<!-- Link alle varie pagine -->
-		<div class="col-lg-5">
+		<div class="col-lg-5 pb-2">
 			<div class="row">
-				<div class="col-sm-4">
+				<!-- Info utente -->
+				<div class="col-lg-8">
 					<div class="card bg-dark text-white mb-4">
+						<div class="card-header h4"> Info utente </div>
+						<li class="list-group-item bg-dark text-white"> 
+							<label class="label h5"> Email: </label> <%= current_user.email %>
+							<br>
+							<label class="label h5"> Password: </label> <%= current_user.password %>
+							<button class="btn btn-sm btn-outline-info" id="updatePsw"> <i class="bi bi-pen"></i> </button>
+						</li>
+					</div>
+				</div>
+
+				<!-- Tasto per la prenotazione rapida -->
+				<div class="col-lg-4">
+					<div class="card bg-dark text-white mb-4" style="height: 84%">
+						<div class="card-body">
+							<p class="card-text h5"> Effettua prenotazione rapida </p>
+							<a class="stretched-link" href="#"></a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Link alle varie pagine -->
+				<div class="col-lg-4">
+					<div class="card bg-dark text-white pb-1 mb-4" style="height: 90%">
 						<img class="card-img-top" src="https://i.pinimg.com/736x/fc/e0/f6/fce0f6027d2fcbbd232fddcd71873f03.jpg">
 						<div class="card-body">
 							<p class="card-text h5"> Le mie prenotazioni </p>
@@ -95,8 +77,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
-					<div class="card bg-dark text-white mb-4">
+				<div class="col-lg-4">
+					<div class="card bg-dark text-white pb-1 mb-4" style="height: 90%">
 						<img class="card-img-top" src="https://i.pinimg.com/236x/cf/5d/07/cf5d0716d2637b82379e7765d76b3351.jpg">
 						<div class="card-body">
 							<p class="card-text h5"> Spazi preferiti </p>
@@ -104,8 +86,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
-					<div class="card bg-dark text-white mb-4">
+				<div class="col-lg-4">
+					<div class="card bg-dark text-white pb-1 mb-4" style="height: 90%">
 						<img class="card-img-top" src="https://i.pinimg.com/236x/0e/f9/98/0ef9986934af8b20c2540db89dd04dad.jpg">
 						<div class="card-body">
 							<p class="card-text h5"> Nuova prenotazione </p>
@@ -115,8 +97,8 @@
 				</div>
 
 				<% if current_user.roles in ["manager"] %>
-					<div class="col-sm-12">
-						<div class="card bg-dark text-white mb-4">
+					<div class="col-lg-12">
+						<div class="card bg-dark text-white">
 							<img class="card-img-top" src="https://i.pinimg.com/564x/9c/1f/b9/9c1fb9d95b28c2718d924738f8fd5feb.jpg">
 							<div class="card-body">
 								<p class="card-text h5"> Il mio dipartimento </p>
@@ -125,8 +107,8 @@
 						</div>
 					</div>
 				<% elsif current_user.roles in ["admin"] %>
-					<div class="col-sm-12">
-						<div class="card bg-dark text-white mb-4">
+					<div class="col-lg-12">
+						<div class="card bg-dark text-white">
 							<img class="card-img-top" src="https://i.pinimg.com/236x/a8/56/2d/a8562db482364133bad63dc0752960fa.jpg">
 							<div class="card-body">
 								<p class="card-text h5"> Gestione sito </p>
@@ -136,7 +118,7 @@
 					</div>
 				<% end %>
 			</div>
-		</div>
+		</div>	
 	</div>
 
 </body>

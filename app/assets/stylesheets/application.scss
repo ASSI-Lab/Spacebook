@@ -311,13 +311,7 @@ svg {
 table {
   caption-side: bottom;
   border-collapse: collapse;
-  display: block; // mdm, prima non c'era
-  overflow-x: auto; // mdm, prima non c'era
-  white-space: nowrap; // mdm, prima non c'era
-}
-table tbody { // mdm, prima non c'era
-  display: table;
-  width: 100%;
+
 }
 
 caption {

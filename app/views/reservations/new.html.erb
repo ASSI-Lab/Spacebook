@@ -32,7 +32,7 @@
 		<% @department = Department.where(name: department[:selected_dep_name]).first %>
 		<% selected_ty = (selected_spaces.collect {|ty| [ ty.typology ] }).uniq %>
 		<!-- Mostra le componenti del form a seconda dei filtri -->
-		<%= form_with url: set_space_path, local: true, method: :post do |form| %>
+		<%= form_with url: set_department_path, local: true, method: :post do |form| %>
 			<div class="row">
 				<div class="col-lg-3">
 					<!-- Mostra sempre il dipartimento selezionato nel form precedente -->
