@@ -140,6 +140,7 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    json (2.6.2)
     jwt (2.3.0)
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -332,6 +333,7 @@ DEPENDENCIES
   google-apis-calendar_v3
   httparty
   jbuilder (~> 2.7)
+  json
   listen (~> 3.3)
   net-smtp
   omniauth-google-oauth2
