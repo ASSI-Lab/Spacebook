@@ -247,8 +247,7 @@
 																										<td class="text-center"><%= @days[(@today+6).wday - 1] %><div class="dropdown-divider my-0"></div><%= (@today+6).mday %> / <%= (@today+6).mon %> / <%= (@today+6).year %></td>
 																									</tr>
 																									<!-- Corpo delle righe che mostra gli orari e le check per prenotare -->
-																									<!-- Per ogni ora tra l'apertura e la chiusura -->
-																									<% (@max-@min).times do |h| %>
+																									<% (@max-@min).times do |h| %> <!-- Per ogni ora tra l'apertura e la chiusura -->
 																										<tr><%
 																											reserved_seats_ids = Reservation.where(user_id: current_user.id).collect {|res| [ res.seat_id ] } # id dei posti delle prenotazioni dell'utente corrente
 																											reserved_seats = [0, 0, 0, 0, 0, 0, 0]                                                            # Array per tenere memoria se il posto è prenotato dall'utente corrente o meno
