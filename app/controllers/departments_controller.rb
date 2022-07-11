@@ -7,7 +7,8 @@ class DepartmentsController < ApplicationController
 
   # GET /manager_department | Mostra al manager il dipartimento gestito | accessibile premento il bottone 'il mio dipartimento' nall'area personale
   def manager_department
-    if (current_user.is_manager?) # Controlla se l'utente è manager
+    # Controlla se l'utente è manager
+    if (current_user.is_manager?)
       
       # Crea il dipartimento effettivo con relativi orari, spazi e posti se è presente un dipartimento temporaneo associato a questo manager nel DB
       @temp_dep = TempDep.where(manager: current_user.email)  # Raccoglie l'eventuale dipartimento temporaneo
@@ -91,15 +92,17 @@ class DepartmentsController < ApplicationController
               
               # Per ogni slot da un ora contenuto negli orari di (1)
               ((wd.chiusura.hour-wd.apertura.hour)).times do |h|
-                
+
                 @start_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h,0,0) # La data + L'orario d'inizio del posto
                 @end_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h+1,0,0) # La data + L'orario di fine del posto
-                
+
                 # Per ogni posto dello spazio
                 sp.number_of_seats.times do |pos| # Crea i posti relativi ad una settimana dal momento della creazione
                   Seat.create(space_id: sp.id, dep_name: @department.name, typology: sp.typology, space_name: sp.name, position: pos+1, start_date: @start_date, end_date: @end_date, state: "Active")
                 end
+
               end
+
             end
           end
         end
@@ -116,9 +119,10 @@ class DepartmentsController < ApplicationController
         @reservations = Reservation.where(department_id: ((@department).first).id)    # e le prenotazioni del dipartimento trovato
       end # A questo punto si aprirà la view '/manager_department' che lavorerà con questi dati.
 
-    else                          # Se l'user non è manager
-      redirect_back(fallback_location: root_path)                                             # Reindirizza alla pagina home ((???))
-      flash[:alert] = "Attenzione: Non sei autorizzato a visualizzare questa pagina!"         # Notifica l'utente
+    # Se l'user non è manager
+    else
+      redirect_back(fallback_location: root_path)                                     # Reindirizza alla pagina home ((???))
+      flash[:alert] = "Attenzione: Non sei autorizzato a visualizzare questa pagina!" # Notifica l'utente
     end
   end
 

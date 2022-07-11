@@ -17,9 +17,11 @@ class ReservationsController < ApplicationController
           # Se invece non è di oggi ma di un giorno precedente
           else
             # Crea il nuovo posto nel giorno corretto della settimana
-            Seat.create(space_id: seat.space_id, dep_name: seat.dep_name, typology: seat.typology, space_name: seat.space_name, position: seat.position, start_date: seat.start_date+(604800), end_date: seat.end_date+(604800), state: "Active")
-            # E distrugge il vecchio posto
-            seat.destroy
+            seat.update(start_date: seat.start_date+(604800), end_date: seat.end_date+(604800), state: "Active")
+
+            # Elimina l'eventuale prenotazione di quel posto
+            old_res = Reservation.where(seat_id: seat.id)
+            old_res.first.destroy if old_res.count != 0
           end
         end
       end
@@ -38,7 +40,7 @@ class ReservationsController < ApplicationController
     # Per ognuno dei params
     params.each do |check|
       # Se il param è riferito ad un check degli orari da prenotare
-      if !(check[0]=="authenticity_token" or check[0]=="commit" or check[0]=="controller" or check[0]=="action" or check[0]=="calendar_check") and (check[1] == "1")
+      if (check[1] == "MakeRes")
         seat = Seat.find(check[0])                        # Raccoglie il posto relativo
         space = Space.find(seat.space_id)                 # Raccoglie lo spazio relativo
         department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
@@ -62,9 +64,64 @@ class ReservationsController < ApplicationController
           res["end_date"]=seat.end_date
 
           # INVIO L'HASH APPENA CREATO PER L'INVIO A GOOGLE CALENDAR
-          sync_event res 
-        end 
+          sync_event res
+        end
+
+      elsif (check[1] == "AddFavSp")
+        space = Space.find((check[0].to_i)*(-1))          # Raccoglie lo spazio relativo
+        department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
+
+        # Aggiunge lo spazio alla lista dei preferiti
+        FavouriteSpace.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.id, dep_name: department.name, typology: space.typology, space_name: space.name)
+
+      elsif (check[1] == "RmFavSp")
+        fav_sp = FavouriteSpace.find(check[0]) # Raccoglie lo spazio preferito relativo
+        fav_sp.destroy                         # Rimuove lo spazio alla lista dei preferiti
+
+      elsif (check[1] == "SetQkRes")
+        id_str = ""
+        check[0].each_char do |char|
+          if char=="0" or char=="1" or char=="2" or char=="3" or char=="4" or char=="5" or char=="6" or char=="7" or char=="8" or char=="9"
+            id_str.concat(char)
+          end
+        end
+        id_int = id_str.to_i
+
+        space = Space.find(id_int)                        # Raccoglie lo spazio relativo
+        department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
+
+        # Imposta lo spazio come prenotazione rapida
+        QuickReservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.id, dep_name: department.name, typology: space.typology, space_name: space.name)
+
+      elsif (check[1] == "UpdateQkRes")
+        qk_res = QuickReservation.where(user_id: current_user.id) # Raccoglie la prenotazione rapida relativa
+        id_str = ""
+        check[0].each_char do |char|
+          if char=="0" or char=="1" or char=="2" or char=="3" or char=="4" or char=="5" or char=="6" or char=="7" or char=="8" or char=="9"
+             id_str.concat(char)
+          end
+        end
+        id_int = id_str.to_i
+
+        space = Space.find(id_int)                        # Raccoglie lo spazio relativo
+        department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
+
+        # Aggiorna la prenotazione rapida
+        qk_res.update(department_id: department.id, space_id: space.id, dep_name: department.name, typology: space.typology, space_name: space.name)
+
+      elsif (check[1] == "RmQkRes")
+        id_str = ""
+        check[0].each_char do |char|
+          if char=="0" or char=="1" or char=="2" or char=="3" or char=="4" or char=="5" or char=="6" or char=="7" or char=="8" or char=="9"
+            id_str.concat(char)
+          end
+        end
+        id_int = id_str.to_i
+
+        QuickReservation.where(user_id: current_user.id, space_id: id_int).first.destroy # Rimuove la prenotazione rapida
+
       end
+
     end
     respond_to do |format|
       format.html { render :reserved, locals: { make_res_parameters: params } }

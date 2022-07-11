@@ -311,7 +311,15 @@ svg {
 table {
   caption-side: bottom;
   border-collapse: collapse;
-
+}
+#orariMakeResTable {
+  display: block; // mdm, prima non c'era
+  overflow-x: auto; // mdm, prima non c'era
+  white-space: nowrap; // mdm, prima non c'era
+}
+#orariMakeResTableBody { // mdm, prima non c'era
+  display: table;
+  width: 100%;
 }
 
 caption {
@@ -11931,4 +11939,17 @@ body {
 // DIMENSIONE MAPPA HOME
 #map {
   height: 500px;
+}
+
+// Links in sign_in e sign_up
+#signLinks {
+  width: 100%;
+}
+#signLinks > a {
+  padding: 2px;
+  color: var(--bs-dark) !important;
+}
+#signLinks > a:hover {
+  border-radius: 0.25rem;
+  background-color: #ddd;
 }

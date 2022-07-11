@@ -1,13 +1,14 @@
 <!-- Modal full-screen che appare durante il caricamento delle pagine in cui vanno elaborati dati -->
 
-<div class="modal fade" id="modalCaricamento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalCaricamentoLabel" aria-hidden="true">
+<div class="modal" id="modalCaricamento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalCaricamentoLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" id="modalCaricamentoContent">
             <div class="modal-body text-center" id="modalCaricamentoBody">
-                <img id="modalCaricamentoImg" src="https://i.pinimg.com/236x/8c/24/7f/8c247fbf0059d5877645138543a0cc71.jpg">
-                <h3 class="modal-title text-black" id="modalCaricamentoLabel"> 
-                    <p> Caricamento </p>
+                <h3 class="modal-title text-black" id="modalCaricamentoLabel">
                     <p> Stiamo lavorando per voi ^-^ </p>
+                    <img id="modalCaricamentoImg" src="https://i.pinimg.com/236x/8c/24/7f/8c247fbf0059d5877645138543a0cc71.jpg">
+                    <p> <%= msg %> </p>
+                    <p> Caricamento... </p>
                 </h3>
             </div>
         </div>

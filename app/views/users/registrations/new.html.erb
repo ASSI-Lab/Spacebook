@@ -18,16 +18,14 @@
                                 <div class="card-body">
                                     <!-- Form -->
                                     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-                                        <%= render "users/shared/error_messages", resource: resource %>
-                                        
                                         <div class="form-floating mb-3">
-                                            <%= f.email_field :email, autofocus: true, autocomplete: "email", :class=>"form-control", :id=>"email", :placeholder=>"plh" %>
+                                            <%= f.email_field :email, autofocus: true, autocomplete: "email", :class=>"form-control", required: :true, :id=>"email", :placeholder=>"plh" %>
                                             <label for="email"> Email </label>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
-                                                    <%= f.password_field :password, autocomplete: "new-password", :class=>"form-control", :id=>"password", :placeholder=>"plh" %>
+                                                    <%= f.password_field :password, autocomplete: "new-password", :class=>"form-control", required: :true, :id=>"password", :placeholder=>"plh" %>
                                                     <label for="password"> Password
                                                         <% if @minimum_password_length %>
                                                         <em>(<%= @minimum_password_length %> characters minimum)</em>
@@ -37,7 +35,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
-                                                    <%= f.password_field :password_confirmation, autocomplete: "new-password", :class=>"form-control", :id=>"confirm-password", :placeholder=>"plh" %>
+                                                    <%= f.password_field :password_confirmation, autocomplete: "new-password", :class=>"form-control", required: :true, :id=>"confirm-password", :placeholder=>"plh" %>
                                                     <label for="confirm-password"> Password confirmation </label>
                                                 </div>
                                             </div>
@@ -57,11 +55,16 @@
 
                                     <!-- Links -->
                                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                        <div>
+                                        <div id="signLinks">
                                             <%= render "users/shared/links" %>
                                         </div>
                                     </div>
-                                </div>  
+                                </div>
+                                <!--
+                                <div class="card-footer">
+                                    <%= render "users/shared/error_messages", resource: resource %>
+                                </div>
+                                -->
                             </div>
                         </div>
                     </div>

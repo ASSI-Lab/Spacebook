@@ -37,7 +37,7 @@
             <tr>
                 <!-- Icone alternate per sidenav e home -->
                 <td width="6%" style="text-align:left">
-                    <% if !current_page?("/users/sign_up") and !current_page?("/users/sign_in") and !current_page?("/make_department")%>
+                    <% if !current_page?("/users/sign_up") and !current_page?("/users/sign_in") and !current_page?("/make_department") and !current_page?("/make_quick_res") %>
                         <!-- Icona per il toggle della sidenav -->
                         <div class="btn btn-outline-info bi bi-arrow-left-right ms-3" id="sidebarToggle"></div>
                     <% else %>
@@ -78,7 +78,7 @@
     <%= render 'layouts/modal_user' %>
 
     <!-- Controlla se la pagina corrente è tra quelle nella condizione -->
-    <% if !current_page?("/users/sign_up") and !current_page?("/users/sign_in") and !current_page?("/make_department")%>
+    <% if !current_page?("/users/sign_up") and !current_page?("/users/sign_in") and !current_page?("/make_department") and !current_page?("/make_quick_res")%>
         <div id="layoutSidenav">         <!-- In caso negativo mostra sia la barra laterale del sito, sia lo yeld della pagina corrente, sia il footer -->
             <div id="layoutSidenav_nav"> <!-- Barra laterale -->
                 <nav class="sb-sidenav accordion sb-sidenav-dark pt-4" id="sidenavAccordion"> 

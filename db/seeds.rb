@@ -23,22 +23,22 @@ dep_set = [
     {user_id: @fra_man.id, name: "Dipartimento di Francesco", manager: @fra_man.email, 
      via: "Piazzale Aldo Moro", civico: "5", cap: "00185", citta: "Roma", provincia: "RM", latitude: "41.9012777", longitude: "12.5145879", 
      description: "Per gestire o testare questo dipartimento accedi come 'fra.manager@gmail.com'", 
-     floors: 4, number_of_spaces: 20},
+     floors: 4, number_of_spaces: 2},
     
     {user_id: @mat_man.id, name: "Dipartimento di Matteo", manager: @mat_man.email, 
      via: "Viale dello Scalo S. Lorenzo", civico: "82", cap: " 00159", citta: "Roma", provincia: "RM", latitude: "41.89684", longitude: "12.5213", 
      description: "Per gestire o testare questo dipartimento accedi come 'matteo.manager@gmail.com'", 
-     floors: 4, number_of_spaces: 20},
+     floors: 4, number_of_spaces: 2},
     
     {user_id: @mic_man.id, name: "Dipartimento di Michela", manager: @mic_man.email,
      via: "Via Carlo Fea", civico: "2", cap: "00161", citta: "Roma", provincia: "RM", latitude: "41.9186778", longitude: "12.5175380", 
      description: "Per gestire o testare questo dipartimento accedi come 'michela.manager@gmail.com'", 
-     floors: 4, number_of_spaces: 20},
+     floors: 4, number_of_spaces: 2},
     
     {user_id: @don_man.id, name: "Dipartimento di Donia", manager: @don_man.email, 
      via: "Via Eudossiana", civico: "18", cap: "00184", citta: "Roma", provincia: "RM", latitude: "41.8932591", longitude: "12.4930178", 
      description: "Per gestire o testare questo dipartimento accedi come 'donia.manager@gmail.com'", 
-     floors: 4, number_of_spaces: 20}
+     floors: 4, number_of_spaces: 2}
 ]
 
 # Creazione dei dipartimenti e dei relativi orari, spazi e posti
@@ -64,7 +64,9 @@ dep_set.each do |dep|
     # Insieme dei dati per creare gli spazi
     sp_set = [
         {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, typology: "Isola", name: "D", description: "Prese di corrente inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
+        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, typology: "Isola", name: "C", description: "Prese di corrente ancora più inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
         {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, typology: "Aula", name: "106", description: "Microfono non funzionante", floor: 1, number_of_seats: 4, state: "Abilitato"},
+        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, typology: "Aula", name: "204", description: "Forma strana", floor: 2, number_of_seats: 8, state: "Abilitato"}
     ]
 
     # Creazione degli spazi
