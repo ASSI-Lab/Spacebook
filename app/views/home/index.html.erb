@@ -10,43 +10,67 @@
 
 <body>
 	<div class="row">
-		<!-- Zona centrale del sito -->
-		<div class="col-xl-8">
-			<!-- Descrizione del sito e barra di ricerca -->
-			<div class="row">
-				
-				<!-- Introduzione -->
-				<div class="card shadow-lg border-0 rounded-lg">
-					<div class="card-body">
-						<h2 class="font-weight-light mt-3 mb-4"> Benvenuto </h2>
-						<p class="card-text">
-							Speriamo ti troverai bene nel nostro sito, siamo super fighi e strabravi perciò vedi di non rompere e non fare danni!
-							Registrati e prenota tutti gli spazi che vuoi in pochi e semplici passi (se non ci riesci hai dei problemi)
-							<br>
-							<% if !user_signed_in? %>
-								Per effettuare una prenotazione <%= link_to "accedi", "/users/sign_in" %> o <%= link_to "registrati", "/users/sign_up" %>
-							<% end %>
-						</p>
-					</div>
-				</div>
-
-				<!-- Barra di ricerca per dipartimenti -->
-				<div class="col-xl-6">
-					<form class="d-none d-md-inline-block form-inline mt-3 mb-1">
-						<div class="input-group">
-							<table width="100%" class="rounded btn-outline-info">
-								<tr>
-									<td width="90%"><input type="text" class="form-control btn-outline-info" placeholder="Trova un dipartimento..." id="depSearchHome"/></td>
-									<td width="10%"><button class="btn btn-info bi bi-search" id="btnNavbarSearch" type="button"></button></td>
-								</tr>
-							</table>
-						</div>
-					</form>
+		<div class="col-xl-8">	
+			<!-- Introduzione -->
+			<div class="card shadow-lg border-0 rounded-lg">
+				<div class="card-body">
+					<h2 class="font-weight-light mt-3 mb-4"> Benvenuto </h2>
+					<p class="card-text">
+						Speriamo ti troverai bene nel nostro sito, siamo super fighi e strabravi perciò vedi di non rompere e non fare danni!
+						Registrati e prenota tutti gli spazi che vuoi in pochi e semplici passi (se non ci riesci hai dei problemi)
+						<br>
+						<% if !user_signed_in? %>
+							Per effettuare una prenotazione <%= link_to "accedi", "/users/sign_in" %> o <%= link_to "registrati", "/users/sign_up" %>
+						<% end %>
+					</p>
 				</div>
 			</div>
-			
+		</div>
+		<div class="col-lg-4">
+			<!-- Bottone per la prenotazione rapida -->
+			<div class="card bg-dark text-white mb-4">
+				<div class="card-header">
+					<table>
+						<tr>
+							<td width="90%">
+								<h4 class="font-weight-light"> Prenotazione rapida </h4>
+								<div class="small text-muted"> Verrà prenotato il primo orario disponibile in data odierna per lo spazio sotto riportato </div>
+							</td>
+							<td width="10%">
+								<button class="btn btn-sm btn-outline-info"> <i class='bi bi-cursor'></i><br> prenota </button> </div>								
+							</td>
+						</tr>
+					</table>
+				</div>
+				<li class="list-group-item bg-dark text-white">
+					<label class="label h5"> Dipartimento: </label> <%= "@quick_reservation.dep_name" %>
+					<br>
+					<label class="label h5"> Tipologia - Spazio: </label> <%= "@quick_reservation.typology - @quick_reservation.space_name" %>
+				</li>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<!-- Barra di ricerca per dipartimenti -->
+		<div class="col-xl-6">
+			<form class="d-none d-md-inline-block form-inline mt-3 mb-1">
+				<div class="input-group">
+					<table width="100%" class="rounded btn-outline-info">
+						<tr>
+							<td width="90%"><input type="text" class="form-control btn-outline-info" placeholder="Trova un dipartimento..." id="depSearchHome"/></td>
+							<td width="10%"><button class="btn btn-info bi bi-search" id="btnNavbarSearch" type="button"></button></td>
+						</tr>
+					</table>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-8">
 			<!-- Lista di tutti i dipartimenti dell'applicazione -->
-			<div class="row mb-5">
+			<div class="row mb-3">
 				<% @departments.each do |department| %>
 					<div class="col-sm-6">
 						<!-- Card che mostra il dipartimento corrente -->
@@ -122,32 +146,9 @@
 			</div>
 		</div>
 
-		<!-- Zona destra del sito -->
-		<div class="col-xl-4">
-			<!-- Bottone per la prenotazione rapida -->
-			<div class="card bg-dark text-white mb-4">
-				<div class="card-header">
-					<table>
-						<tr>
-							<td width="90%">
-								<h4 class="font-weight-light"> Prenotazione rapida </h4>
-								<div class="small text-muted"> Verrà prenotato il primo orario disponibile in data odierna per lo spazio sotto riportato </div>
-							</td>
-							<td width="10%">
-								<button class="btn btn-sm btn-outline-info"> <i class='bi bi-cursor'></i><br> prenota </button> </div>								
-							</td>
-						</tr>
-					</table>
-				</div>
-				<li class="list-group-item bg-dark text-white">
-					<label class="label h5"> Dipartimento: </label> <%= "@quick_reservation.dep_name" %>
-					<br>
-					<label class="label h5"> Tipologia - Spazio: </label> <%= "@quick_reservation.typology - @quick_reservation.space_name" %>
-				</li>
-			</div>
-
+		<div class="col-lg-4">
 			<!-- Mappa per geolocalizzazione -->
-			<div class="card shadow-lg border-0 rounded-lg mt-5">
+			<div class="card shadow-lg border-0 rounded-lg mt-3 mb-2">
 				<div class="card-header text-center h3"> Mappa </div>
 				<div class="card-body text-center">
 					<div id="map"></div>
@@ -165,11 +166,11 @@
 					var myIcon = L.icon({
 					iconUrl: '<%=image_path('marker-icon-2x.png')%>',
 					shadowUrl: '<%=image_path('marker-shadow.png')%>',
-					iconSize:     [38, 80], // size of the icon
-					shadowSize:   [50, 64], // size of the shadow
-					iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-					shadowAnchor: [4, 62],  // the same for the shadow
-					popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+					iconSize:     [30, 50], // size of the icon
+					shadowSize:   [30, 64], // size of the shadow
+					iconAnchor:   [17, 58], // point of the icon which will correspond to marker's location
+					shadowAnchor: [9, 75], // the same for the shadow
+					popupAnchor:  [-3, -60] // point from which the popup should open relative to the iconAnchor
 					});
 					L.marker([lat, lon],{icon: myIcon}).addTo(map).bindPopup(dep_n+"<br>"+dep).openPopup();
 					}
@@ -177,7 +178,6 @@
 					
 				</div>
 			</div>
-
 		</div>
 	</div>
 </body>
