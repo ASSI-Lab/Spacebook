@@ -64,3 +64,5 @@ gem 'signet'
 gem 'google-apis-calendar_v3'
 gem "simple_calendar", "~> 2.4"
 gem 'bootstrap'
+gem 'httparty'
+gem 'open_street_map'
