@@ -132,8 +132,9 @@ class ReservationsController < ApplicationController
 
       # CERCO L'EVENTO CORRISPONDENTE A QUELLO APPENA CREATO
       result.items.each do |e|
-        if (e.summary==event.summary && e.start.date_time==res["start_date"].rfc3339)
+        if (e.summary==event.summary && e.start.date_time==res["start_date"].change(:offset => "+0100").rfc3339)
           Reservation.find(res["res_id"]).update({is_sync: e.id}) # INSERISCO L'EVENT ID NEL DB
+          #print "\n\n\nORARIO EVENTO CALENDAR: ",e.start.date_time,"\n\nORARIO EVENTO LOCALE: ",res["start_date"],"\n\nORARIO EVENTO UTC: ",res["start_date"].change(:offset => "+0100").rfc3339,"\n\n\n\n"
         end
       end
       flash[:notice] = 'Prenotazioni sincronizzate con successo.'
@@ -168,11 +169,11 @@ class ReservationsController < ApplicationController
     location: res["place"],
     description: "prenotazione posto",
     start: {
-        date_time: res["start_date"].rfc3339,
+        date_time: res["start_date"].change(:offset => "+0100").rfc3339,
         time_zone: "Europe/Rome"
     },
     end: {
-        date_time: res["end_date"].rfc3339,
+        date_time: res["end_date"].change(:offset => "+0100").rfc3339,
         time_zone: "Europe/Rome"
     },
     reminders: {
