@@ -88,8 +88,7 @@
 											<% else %>
 												<button class="btn btn-outline-secondary disabled"> <i class='bi bi-cursor'></i><br> prenota </button>
 											<% end %>
-											<% @coord = get_coord(department.via+" "+department.civico+" "+department.citta+" "+department.cap)%>
-											<button onclick='centra_mappa("<%= department.via.concat(" ",department.civico," ,",department.cap," ,",department.citta," ,",department.provincia) %>","<%= @coord[0] %>","<%= @coord[1] %>","<%= department.name %>")'>Click me</button>
+											<button onclick='centra_mappa("<%= department.latitude %>","<%= department.longitude %>","<%= department.name %>", "<%=department.via+" "+department.civico+" "+department.citta+" "+department.cap %>")'>Click me</button>
 										</td>
 									</tr>
 								</table>
@@ -161,7 +160,7 @@
 					}).addTo(map);
 
 					document.getElementById("centra").onclick = function() {centra_mappa()};
-					function centra_mappa(dep, lat, lon,dep_n) {
+					function centra_mappa(lat, lon, dep_n, dep) {
 					map.setView([lat, lon], 18);
 					var myIcon = L.icon({
 					iconUrl: '<%=image_path('marker-icon-2x.png')%>',

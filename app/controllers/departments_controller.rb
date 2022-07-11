@@ -15,7 +15,8 @@ class DepartmentsController < ApplicationController
 
         # Inizializza il dipartimento temporaneo e crea il dipartimento effettivo con i dati di quello temporaneo
         @temp_dep = @temp_dep.first
-        @department = Department.create(user_id: current_user.id, name: @temp_dep.name, manager: @temp_dep.manager, via: @temp_dep.via, civico: @temp_dep.civico, cap: @temp_dep.cap, citta: @temp_dep.citta, provincia: @temp_dep.provincia, description: @temp_dep.description, floors: @temp_dep.floors, number_of_spaces: @temp_dep.number_of_spaces)
+        coord = get_coord(@temp_dep.via+" "+@temp_dep.civico+" "+@temp_dep.citta+" "+@temp_dep.cap)
+        @department = Department.create(user_id: current_user.id, name: @temp_dep.name, manager: @temp_dep.manager, via: @temp_dep.via, civico: @temp_dep.civico, cap: @temp_dep.cap, citta: @temp_dep.citta, provincia: @temp_dep.provincia,latitude: coord[0],longitude: coord[1], description: @temp_dep.description, floors: @temp_dep.floors, number_of_spaces: @temp_dep.number_of_spaces)
 
         # Raccoglie gli orari temporanei relativi al dipartimento temporaneo e con il ciclo crea gli orari effettivi
         @temp_week_day = TempWeekDay.where(temp_dep_id: @temp_dep.id).each do |twd|
@@ -121,6 +122,16 @@ class DepartmentsController < ApplicationController
     end
   end
 
+  def get_coord ind
+    client = OpenStreetMap::Client.new
+    response = client.search(q: ind, format: 'json', addressdetails: '1', accept_language: 'en')
+    geo_data = response[0]
+    lat = geo_data["lat"]
+    lon = geo_data["lon"]
+    res =[lat,lon]
+    return res
+  end
+
   # GET /departments/1 or /departments/1.json | Mostra all'admin il singolo dipartimento
   def show
     @week_days = WeekDay.where(department_id: @department.id)
@@ -177,6 +188,6 @@ class DepartmentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def department_params
-      params.require(:department).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :description, :floors, :number_of_spaces)
+      params.require(:department).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :latitude, :longitude, :description, :floors, :number_of_spaces)
     end
 end

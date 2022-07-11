@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 2022_06_20_203544) do
     t.string "cap"
     t.string "citta"
     t.string "provincia"
+    t.string "latitude"
+    t.string "longitude"
     t.text "description"
     t.integer "floors"
     t.integer "number_of_spaces"
