@@ -62,10 +62,10 @@
 											<% if user_signed_in? %>
 												<button class="btn btn-outline-info" onclick="window.location.href='/make_reservation'"> <i class='bi bi-cursor'></i><br> prenota </button>
 											<% else %>
-												<% @coord = get_coord(department.via+" "+department.civico+" "+department.citta+" "+department.cap)%>
 												<button class="btn btn-outline-secondary disabled"> <i class='bi bi-cursor'></i><br> prenota </button>
-												<button onclick='centra_mappa("<%= department.via.concat(" ",department.civico," ,",department.cap," ,",department.citta," ,",department.provincia) %>","<%= @coord[0] %>","<%= @coord[1] %>")'>Click me</button>
 											<% end %>
+											<% @coord = get_coord(department.via+" "+department.civico+" "+department.citta+" "+department.cap)%>
+											<button onclick='centra_mappa("<%= department.via.concat(" ",department.civico," ,",department.cap," ,",department.citta," ,",department.provincia) %>","<%= @coord[0] %>","<%= @coord[1] %>")'>Click me</button>
 										</td>
 									</tr>
 								</table>
