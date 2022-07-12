@@ -71,16 +71,17 @@
 	<div class="row">
 		<!-- Barra di ricerca per dipartimenti -->
 		<div class="col-xl-6">
-			<form class="d-none d-md-inline-block form-inline mt-3 mb-1">
-				<div class="input-group">
-					<table width="100%" class="rounded btn-outline-info">
-						<tr>
-							<td width="90%"><input type="text" class="form-control btn-outline-info" placeholder="Trova un dipartimento..." id="depSearchHome"/></td>
-							<td width="10%"><button class="btn btn-info bi bi-search" id="btnNavbarSearch" type="button"></button></td>
-						</tr>
-					</table>
-				</div>
-			</form>
+			<%= search_form_for(@q, url: home_path, method: :get, class: "d-none d-md-inline-block form-inline my-2") do |f| %>
+				<table width="100%" class="rounded btn-outline-info">
+					<tr>
+						<td><%= f.search_field :name_or_via_or_civico_or_cap_or_citta_or_provincia_or_manager_i_cont_any, class: "form-control", placeholder: "Cerca un dipartimento...", id: "depSearchHome"%></td>
+						<td width="10%">
+							<button class="btn btn-info bi bi-search" id="btnNavbarSearch"></button>
+							<%= f.submit "", style: "display:none" %>
+						</td>
+					</tr>
+				</table>
+			<% end %>
 		</div>
 	</div>
 
@@ -171,26 +172,23 @@
 					<div id="map"></div>
 					<!-- Utilizzo LEAFLET e OSM per generare una mappa centrata su Roma -->
 					<script>
-					var map = L.map('map').setView([41.89333, 12.48302], 13);
-					L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-						maxZoom: 19,
-						attribution: '© OpenStreetMap'
-					}).addTo(map);
+						var map = L.map('map').setView([41.89333, 12.48302], 13);
+						L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+							maxZoom: 19,
+							attribution: '© OpenStreetMap'
+						}).addTo(map);
 
-					document.getElementById("centra").onclick = function() {centra_mappa()};
-					function centra_mappa(lat, lon, dep_n, dep) {
-					map.setView([lat, lon], 18);
-					var myIcon = L.icon({
-					iconUrl: '<%=image_path('marker-icon-2x.png')%>',
-					shadowUrl: '<%=image_path('marker-shadow.png')%>',
-					iconSize:     [30, 50], // size of the icon
-					shadowSize:   [30, 64], // size of the shadow
-					iconAnchor:   [17, 58], // point of the icon which will correspond to marker's location
-					shadowAnchor: [9, 75], // the same for the shadow
-					popupAnchor:  [-3, -60] // point from which the popup should open relative to the iconAnchor
-					});
-					L.marker([lat, lon],{icon: myIcon}).addTo(map).bindPopup(dep_n+"<br>"+dep).openPopup();
-					}
+						document.getElementById("centra").onclick = function() {centra_mappa()};
+						function centra_mappa(lat, lon, dep_n, dep) {
+							map.setView([lat, lon], 18);
+							var myIcon = L.icon({
+								iconUrl: '<%=image_path('marker-icon-2x.png')%>',
+								iconSize:     [30, 50], // size of the icon
+								iconAnchor:   [17, 58], // point of the icon which will correspond to marker's location
+								popupAnchor:  [-3, -60] // point from which the popup should open relative to the iconAnchor
+							});
+							L.marker([lat, lon],{icon: myIcon}).addTo(map).bindPopup(dep_n+"<br>"+dep).openPopup();
+						}
 					</script>
 				</div>
 			</div>

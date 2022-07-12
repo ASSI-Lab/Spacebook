@@ -66,3 +66,5 @@ gem "simple_calendar", "~> 2.4"
 gem 'bootstrap'
 gem 'httparty'
 gem 'open_street_map'
+gem 'ransack'
+gem 'faker'

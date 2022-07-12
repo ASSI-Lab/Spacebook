@@ -14,18 +14,19 @@ class DepartmentsController < ApplicationController
       @temp_dep = TempDep.where(manager: current_user.email)  # Raccoglie l'eventuale dipartimento temporaneo
       if (@temp_dep.count == 1)                               # Controlla se il dipartimento temporaneo esiste
 
-        # Inizializza il dipartimento temporaneo e crea il dipartimento effettivo con i dati di quello temporaneo
-        @temp_dep = @temp_dep.first
-        coord = get_coord(@temp_dep.via+" "+@temp_dep.civico+" "+@temp_dep.citta+" "+@temp_dep.cap)
-        @department = Department.create(user_id: current_user.id, name: @temp_dep.name, manager: @temp_dep.manager, via: @temp_dep.via, civico: @temp_dep.civico, cap: @temp_dep.cap, citta: @temp_dep.citta, provincia: @temp_dep.provincia,latitude: coord[0],longitude: coord[1], description: @temp_dep.description, floors: @temp_dep.floors, number_of_spaces: @temp_dep.number_of_spaces)
+        @temp_dep = @temp_dep.first                                                                 # Inizializza il dipartimento temporaneo
+        @temp_sps = TempSp.where(temp_dep_id: @temp_dep.id)                                         # Raccoglie gli spazi temporanei relativi al dipartimento temporaneo
+        coord = get_coord(@temp_dep.via+" "+@temp_dep.civico+" "+@temp_dep.citta+" "+@temp_dep.cap) # Raccoglie le coordinate del dipartimento temporaneo
+        # Crea il dipartimento effettivo con i dati di quello temporaneo
+        @department = Department.create(user_id: current_user.id, name: @temp_dep.name, manager: @temp_dep.manager, via: @temp_dep.via, civico: @temp_dep.civico, cap: @temp_dep.cap, citta: @temp_dep.citta, provincia: @temp_dep.provincia,latitude: coord[0],longitude: coord[1], description: @temp_dep.description, floors: @temp_dep.floors, number_of_spaces: @temp_sps.count)
 
         # Raccoglie gli orari temporanei relativi al dipartimento temporaneo e con il ciclo crea gli orari effettivi
         @temp_week_day = TempWeekDay.where(temp_dep_id: @temp_dep.id).each do |twd|
           WeekDay.create(department_id: @department.id, dep_name: @department.name, day: twd.day, state:twd.state, apertura: twd.apertura, chiusura: twd.chiusura)
         end
 
-        # Raccoglie gli spazi temporanei relativi al dipartimento temporaneo e con il ciclo crea gli spazi effettivi
-        @temp_sps = TempSp.where(temp_dep_id: @temp_dep.id).each do |temp_sp|
+        # Il ciclo crea gli spazi effettivi
+        @temp_sps.each do |temp_sp|
           Space.create(department_id: @department.id, dep_name: temp_sp.dep_name, typology: temp_sp.typology, name: temp_sp.name, description: temp_sp.description, floor: temp_sp.floor, number_of_seats: temp_sp.number_of_seats, state: temp_sp.state)
         end
 

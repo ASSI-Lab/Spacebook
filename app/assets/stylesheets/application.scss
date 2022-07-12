@@ -5585,12 +5585,12 @@ textarea.form-control-lg {
 }
 
 #userNavModalDialog { //mdm
-  margin-top: 4%;
-  margin-right: 1%;
+  margin-top: 60px;
+  margin-right: 1rem;
 }
 #flashNavModalDialog { //mdm
-  margin-top: 4%;
-  margin-right: 5%;
+  margin-top: 60px;
+  margin-right: 4.85rem;
 }
 
 .modal-dialog {
@@ -11831,6 +11831,10 @@ body {
 }
 
 // Datatables Sorting arrows
+.opt-no-sort.sorting::before,
+.opt-no-sort.sorting::after {
+  display: none !important;
+}
 .sorting::before,
 .sorting::after {
   padding: 3px;

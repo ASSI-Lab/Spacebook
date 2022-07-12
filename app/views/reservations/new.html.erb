@@ -10,18 +10,21 @@
 
 	<% page_load_msg = '' %>
 
+	<!-- L'utente deve selezionare un dipartimento -->
 	<% if !local_assigns.has_key? :department %>
 		<div class="row">
 			<div class="col">
 				<!-- Form per selezionare il dipartimento da prenotare -->
 				<%= form_with url: set_department_path, local: true, method: :post do |form| %>
 					<div class="row">
+						<!-- Select dipartimento -->
 						<div class="col-lg-9">
 							<div class="form-floating mb-3">
 								<%= form.select(:selected_dep_name, Department.all.collect {|dep| [ dep.name ] }, {}, {class: "form-select", id: "depName"}) %>
 								<label for="depName"> Seleziona il dipartimento </label>
 							</div>
 						</div>
+						<!-- Bottone -->
 						<div class="col-lg-3">
 							<%= form.text_field :filter, value: "Dep", :style=>'display:none'%>
 							<label class="mx-0 my-0 px-0 py-0" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
@@ -37,17 +40,18 @@
 		<% @department = Department.where(name: department[:selected_dep_name]).first %>
 		<% current_qk_res = QuickReservation.all.where(user_id: current_user.id) %>
 		<% selected_ty = (selected_spaces.collect {|ty| [ ty.typology ] }).uniq %>
-		<!-- Mostra le componenti del form a seconda dei filtri -->
+		<!-- Mostra le componenti del form e inizializza le variabili a seconda dei filtri -->
 		<%= form_with url: set_department_path, local: true, method: :post do |form| %>
 			<div class="row">
+				<!-- Mostra sempre il dipartimento selezionato nel form precedente -->
 				<div class="col-lg-3">
-					<!-- Mostra sempre il dipartimento selezionato nel form precedente -->
 					<div class="form-floating mb-3">
 						<%= form.text_field :selected_dep_name, value: department[:selected_dep_name], style: "display:none" %>
 						<div id="selDep" class="form-control"> <%= department[:selected_dep_name] %> </div>
 						<label for="selDep"> Dipartimento </label>
 					</div>
 				</div>
+				<!-- Select tipologia -->
 				<div class="col-lg-3">
 					<div class="form-floating mb-3">
 						<!-- Se non è stata selezionata ne la tipologia ne lo spazio mostra il form per selezionarla -->
@@ -56,7 +60,7 @@
 							<% department_ty = (selected_spaces.collect {|ty| [ ty.typology ] }).uniq %>
 							<%= form.select(:selected_typology, department_ty, {}, {class: "form-select", id: "depTyp"}) %>
 							<label for="depTyp"> Seleziona la tipologia </label>
-						<!-- Altrimenti se è stata selezionata la tipologia ma non lo spazio mostra la tipologia selezionata -->
+						<!-- Altrimenti se è stata selezionata la tipologia ma non lo spazio, mostra la tipologia selezionata -->
 						<% elsif department[:filter] == "Dep_Typ" or department[:filter] == "Dep_Typ_Sp" %>
 							<% selected_spaces = Space.where(dep_name: params[:selected_dep_name], typology: params[:selected_typology]) %>
 							<% selected_ty = [[department[:selected_typology]]] %>
@@ -66,6 +70,7 @@
 						<% end %>
 					</div>
 				</div>
+				<!-- Select spazio -->
 				<div class="col-lg-3">
 					<div class="form-floating mb-3">
 						<!-- Se è stata selezionata la tipologia ma non è lo spazio inizializza gli spazi della tipologia selezionata e mostra il form per selezionare lo spazio -->
@@ -73,18 +78,21 @@
 							<% selected_spaces = Space.where(dep_name: params[:selected_dep_name], typology: params[:selected_typology]) %>
 							<%= form.select(:selected_space, (selected_spaces.collect {|sp| [ sp.name ] }), {}, {class: "form-select", id: "depTySp"}) %>
 							<label for="depTySp"> Seleziona lo spazio </label>
-						<!-- Altrimenti inizializza lo spazio selezionato e mostra il form per cambiare spazio selezionato -->
+						<!-- Altrimenti inizializza lo spazio selezionato e lo mostra -->
 						<% elsif department[:filter] == "Dep_Typ_Sp" %>
 							<% selected_spaces = Space.where(dep_name: params[:selected_dep_name], typology: params[:selected_typology], name: params[:selected_space]) %>
-							<%= form.select(:selected_space, (selected_spaces.collect {|sp| [ sp.name ] }), {}, {class: "form-select", id: "depTySp"}) %>
-							<label for="depTySp"> Seleziona lo spazio </label>
+							<div id="depTySp" class="form-control"> <%= department[:selected_space] %> </div>
+							<label for="depTySp"> Spazio </label>
 						<% end %>
 					</div>
 				</div>
+				<!-- Bottoni -->
 				<div class="col-lg-3">
 					<div class="row">
-						<div class="col-lg-6">
-							<%= form.text_field :filter, value: (department[:filter] == "Dep")? "Dep_Typ" : "Dep_Typ_Sp", :style=>'display:none'%>
+						<!-- Bottone per filtrare -->
+						<% if department[:filter] != "Dep_Typ_Sp" %> 
+							<div class="col-xl-6">
+								<%= form.text_field :filter, value: (department[:filter] == "Dep")? "Dep_Typ" : "Dep_Typ_Sp", :style=>'display:none'%>
 								<% if department[:filter] == "Dep_Typ" %> 
 									<% page_load_msg = "Selezione dello spazio" %>
 									<% btn_value = "Filtra spazio" %>
@@ -92,13 +100,14 @@
 									<% page_load_msg = "Selezione della tipologia" %>
 									<% btn_value = "Filtra tipologia" %>
 								<% end %>
-							<label class="mx-0 my-0 px-0 py-0" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
-								<%= form.submit btn_value, class:"btn btn-outline-info my-2", style: "width: 100%; height: 40px" %>
-							</label>
-						</div>
-						<!-- Elimina i filtri -->
-						<div class="col-lg-6">
-							<label class="mx-0 my-0 px-0 py-0" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
+								<label class="mx-0 my-0 px-0 py-0" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento" style="width:100%">
+									<%= form.submit btn_value, class:"btn btn-outline-info my-2", style: "width: 100%; height: 40px" %>
+								</label>
+							</div>
+						<% end %>
+						<!-- Bottone per elimina i filtri -->
+						<div class="col-xl-6">
+							<label class="mx-0 my-0 px-0 py-0" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento" style="width:100%">
 								<%= link_to 'Rimuovi filtri', "/make_reservation", class:"btn btn-outline-info my-2", style: "width: 100%; height: 40px" %>
 							</label>
 						</div>
@@ -107,23 +116,24 @@
 			</div>
 		<% end %>
 
-		<!-- Mostra i dati e i check per prenotare -->
+		<!-- Mostra i vari dati e check per prenotare -->
 		<div class="row">
 			<div class="col">
 				<div class="row">
 					<div class="col-lg-12">
-						<!-- Mostra il dipartimento in cui prenotare -->
+						<!-- Mostra tramite colapse il dipartimento in cui prenotare -->
 						<div class="card shadow-lg border-0 rounded-lg">
 							<div class="card-header">
 								<label class="font-weight-light h3 mb-1"> <%= (@department).name %> </label> 
 								<button class="btn btn-sm btn-outline-info bi bi-info-circle" data-bs-toggle="collapse" data-bs-target="#dep<%= @department.id %>InfoBodyCollapse" aria-expanded="false"></button>
 							</div>
+							<!-- Colapse del dipaartimento -->
 							<div class="card-body collapse" id="dep<%= @department.id %>InfoBodyCollapse">
 								<div class="row">
 									<div class="col-lg-7">
 										<ul class="list-group list-group-flush">
 											<!-- Descrizione -->
-											<li class="list-group-item pt-0">
+											<li class="list-group-item">
 												<!-- Icona interattiva per visualizzare il collapse della descrizione -->
 												<label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= @department.id %>DescCollapse" aria-expanded="false"> Descrizione <i class="bi bi-card-text"></i> </label> 
 												<!-- Collapse della descrizione -->
@@ -132,22 +142,18 @@
 												</div>
 											</li>
 											
-											<!-- Dati + orari -->
+											<!-- Dati -->
 											<li class="list-group-item">
-												<ul class="list-group list-group-flush">
-													<li class="list-group-item ms-0 ps-0">
-														<label class="label h5"> Posizione </label><br>
-														<%= @department.via %>, <%= @department.civico %>, <%= @department.cap %>, <%= @department.citta %>, <%= @department.provincia %>
-													</li>
-													<li class="list-group-item ms-0 ps-0"> 
-														<label class="label h5"> Numero piani </label><br>
-														<%= @department.floors %>
-													</li>
-													<li class="list-group-item ms-0 ps-0"> 
-														<label class="label h5"> Numero spazi </label><br>
-														<%= @department.number_of_spaces %>
-													</li>
-												</ul>
+												<label class="label h5"> Posizione </label><br>
+												<%= @department.via %>, <%= @department.civico %>, <%= @department.cap %>, <%= @department.citta %>, <%= @department.provincia %>
+											</li>
+											<li class="list-group-item"> 
+												<label class="label h5"> Numero piani </label><br>
+												<%= @department.floors %>
+											</li>
+											<li class="list-group-item"> 
+												<label class="label h5"> Numero spazi </label><br>
+												<%= @department.number_of_spaces %>
 											</li>
 										</ul>
 									</div>
@@ -206,13 +212,13 @@
 									<p class="card-text text-muted pt-1"> Puoi visualizzare e prenotare più spazi contemporaneamente! </p>
 								</div>
 								<div class="card-body">
-									<!-- Mostra ogni tipologia del dipartimento selezionato e i rispettivi colapse degli spazi -->
+									<!-- Per ogni tipologia del dipartimento selezionato -->
 									<% selected_ty.each do |current_ty| %>
 										<div class="row">
 											<div class="col">
 												<div class="row">
 													<div class="col-lg-2">
-														<!-- Label interattiva per visualizzare gli spazi della tipologia corrente -->
+														<!-- Label interattiva per visualizzare il colapse con gli spazi della tipologia corrente -->
 														<label class="dropdown-item h5" data-bs-toggle="collapse" data-bs-target="#spTypology<%= current_ty[0] %>ResTableCollapse" aria-expanded="false" aria-controls="collapseExample"> <%= current_ty[0] %> </label> 
 													</div>
 												</div>
@@ -220,11 +226,16 @@
 													<!-- Collapse con gli spazi della tipologia corrente -->
 													<div class="collapse" id="spTypology<%= current_ty[0] %>ResTableCollapse">
 														<div class="col">
+
+															<!-- Per ogni spazio del dipartimento corrente e della tipologia corrente -->
 															<% selected_spaces.where(typology: current_ty).each do |current_sp| %>
+
+																<!-- Raccoglie l'eventuale spazio preferito dell'utente corrente relativo allo spazio corrente -->
 																<% current_fav_sp = FavouriteSpace.all.where(user_id: current_user.id, space_id: current_sp.id) %>
+
 																<div class="row">
 																	<div class="col-lg-2">
-																		<!-- Label interattiva per visualizzare la tabella dello spazio -->
+																		<!-- Label interattiva per visualizzare il colapse dello spazio corrente -->
 																		<label class="dropdown-item h5 px-4" data-bs-toggle="collapse" data-bs-target="#spName<%= current_sp.id %>ResTableCollapse" aria-expanded="false" aria-controls="collapseExample">
 																			<%= current_sp.name %>
 																			<% if current_fav_sp.count == 1 %>
@@ -232,24 +243,24 @@
 																			<% end %>
 																		</label> 
 																	</div>
-																	<div class="col-lg-10"> <%
-																		# Raccoglie gli orari del dipartimento dello spazio corrente
+																	<div class="col-lg-10">
+																		<%
+																		# Raccoglie gli orari del dipartimento dello spazio corrente e inizializza il minimo orario di apertura ed il massimo orario di chiusura della settimana
 																		@week_days = WeekDay.where(department_id: @department.id)
-																		# Inizializza il minimo orario di apertura ed il massimo orario di chiusura della settimana
 																		@week_days.where(state: "Aperto").each do |wd|
 																			@min = @min? ((@min > wd.apertura.hour)? wd.apertura.hour : @min) : wd.apertura.hour
 																			@max = @max? ((@max < wd.chiusura.hour)? wd.chiusura.hour : @max) : wd.chiusura.hour
 																		end
-																		# Raccoglie i posti dello spazio corrente
-																		@seats = Seat.where(space_id: current_sp.id)
-																		# La data di oggi
-																		@today = (Date.today)
-																		# Array per l'inserimento dei giorni in italiano nella tabella
-																		@days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"] %>
+
+																		@seats = Seat.where(space_id: current_sp.id)                                           # Raccoglie i posti dello spazio corrente
+																		@today = (Date.today)                                                                  # La data di oggi
+																		@days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"] # Array per l'inserimento dei giorni in italiano nella tabella
+																		%>
 																		
-																		<!-- Collapse della tabella -->
+																		<!-- Collapse dello spazio corrente -->
 																		<div class="collapse" id="spName<%= current_sp.id %>ResTableCollapse">
 																			<div class="row">
+																				<!-- Tabella del colapse -->
 																				<div class="col-lg-8">
 																					<div class="card shadow-lg border-0 rounded-lg">
 																						<div class="card-header text-left">
@@ -374,32 +385,45 @@
 																						</div>
 																					</div>
 																				</div>
+																				<!-- Informazioni e azioni del colapse -->
 																				<div class="col-lg-4">
 																					<div class="card shadow-lg border-0 rounded-lg">
 																						<div class="card-header text-left">
 																							<p class="card-text text-muted h5 pt-1"> Pianta </p>
 																						</div>
+																						<!-- Pianta dello spazio + descrizione -->
 																						<div class="card-body">
 																							<img class="card-img" id="depFloorMapImg" src="https://i1.wp.com/fotografiaartistica.it/wp-content/uploads/2019/06/nasa-immagini-gratuite-dello-spazio.jpg?fit=1041%2C664&ssl=1" alt="..." />
+
 																							<div class="dropdown-divider my-3"></div>
-																							<label class="h5"> Descrizione </label>
-																							<br><%= current_sp.description %>
+
+																							<label class="h5"> Descrizione </label><br>
+																							<%= current_sp.description %>
 																						</div>
+																						<!-- Azioni per lo spazio corrente -->
 																						<div class="card-footer">
 																							<div class="form-check form-switch ms-auto me-auto mx-1 my-1 px-0">
-																								<% if current_fav_sp.count == 1 %>
-																									<%= form.check_box((current_fav_sp.first.id.to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "RmFavSp", unchecked_value = "0") %>
-																									<label class="h5" for="<%= current_fav_sp.first.id %>"> Rimuovi spazio dalla lista preferiti </label>
-																								<% else %>
-																									<%= form.check_box((((current_sp.id)*(-1)).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "AddFavSp", unchecked_value = "0") %>
-																									<label class="h5" for="<%= ((current_sp.id)*(-1)) %>"> Aggiungi spazio ai preferiti </label>
-																								<% end %>
+																								<table width="100%">
+																									<tr>
+																										<!-- Se l'utente ha aggiunto lo spazio corrente tra i preferiti, propone la rimozione -->
+																										<% if current_fav_sp.count == 1 %>
+																											<td><label class="h5"> Rimuovi spazio dalla lista preferiti </label></td>
+																											<td><%= form.check_box((current_fav_sp.first.id.to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "RmFavSp", unchecked_value = "0") %></td>
+																										<!-- Se l'utente ha aggiunto lo spazio corrente tra i preferiti, propone l'aggiunta -->
+																										<% else %>
+																											<td><label class="h5"> Aggiungi spazio ai preferiti </label></td>
+																											<td><%= form.check_box((((current_sp.id)*(-1)).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "AddFavSp", unchecked_value = "0") %></td>
+																										<% end %>
+																									</tr>
+																								</table>
 																							</div>
 																							<div class="dropdown-divider"></div>
 																							<div class="form-check form-switch ms-auto me-auto mx-1 my-1 px-0">
 																								<table width="100%">
 																									<tr>
+																										<!-- Se l'utente ha gia impostato una prenotazione rapida -->
 																										<% if current_qk_res.count == 1 %>
+																											<!-- Se non è relativa allo spazio corrente propone lo scambio -->
 																											<% if current_qk_res.first.space_id != current_sp.id %>
 																												<td>
 																													<label class="h5 mb-1"> Prenotazione rapida attuale: </label><br>
@@ -407,24 +431,19 @@
 																													<label class="h5 mb-1"> Sostituisci con: </label><br>
 																													<%= current_sp.dep_name %>: <%= current_sp.typology %> - <%= current_sp.name %>
 																												</td>
-																												<td>
-																													<%= form.check_box(("QR").concat((current_sp.id).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "UpdateQkRes", unchecked_value = "0") %>
-																												</td>
+																												<td><%= form.check_box(("QR").concat((current_sp.id).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "UpdateQkRes", unchecked_value = "0") %></td>
+																											<!-- Se invece lo spazio coente è lo stesso della prenotazione rapida, propone la rimozione -->
 																											<% else %>
-																												<td>
-																													<label class="h5"> Rimuovi prenotazione rapida </label>
-																												</td>
-																												<td>
-																													<%= form.check_box(("QR").concat((current_sp.id).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "RmQkRes", unchecked_value = "0") %>
-																												</td>
+																												<td><label class="h5"> Rimuovi prenotazione rapida </label></td>
+																												<td><%= form.check_box(("QR").concat((current_sp.id).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "RmQkRes", unchecked_value = "0") %></td>
 																											<% end %>
+																										<!-- Se invece l'utente non ha impostato una prenotazione rapida, propone di impostarla -->
 																										<% else %>
 																											<td>
-																												<label class="h5"> Imposta spazio come prenotazione rapida </label>
+																												<label class="h5"> Imposta come prenotazione rapida </label><br>
+																												Solo uno spazio può essere impostato come P.R. se ne selezioni più di uno ne verrà impostato uno solo tra quelli.
 																											</td>
-																											<td>
-																												<%= form.check_box(("QR").concat((current_sp.id).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "SetQkRes", unchecked_value = "0") %>
-																											</td>
+																											<td><%= form.check_box(("QR").concat((current_sp.id).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "SetQkRes", unchecked_value = "0") %></td>
 																										<% end %>
 																									</tr>
 																								</table>
@@ -447,25 +466,23 @@
 							</div>
 						</div>
 					</div>
-					<div class="row mt-4" style="text-align: right">
+					<div class="mt-4" style="text-align: right">
+						<!-- Se l'utente ha effettuato l'accesso con google, potrà sincronizzare le prenotazioni su calendar -->
 						<% if current_user.access_token!=nil %>
 							<div class="form-check form-switch ms-auto me-auto mx-1 my-1 px-0">
-								<%= form.check_box(("calendar_check"), { class: "form-check-input mx-3 px-0", type: "checkbox" }) %>
+								<%= form.check_box(("calendar_check"), { class: "form-check-input mx-1 px-0", type: "checkbox" }) %>
 								<label class="h6 my-0 mx-1" for="calendar_check"> Sincronizza prenotazioni su Calendar </label>
 							</div>
 						<% end %>
-						<div class="action">
-							<!-- Invia i dati per gli orari selezionati alla funzione per la creazione -->
-							<label class="mx-0 my-0 px-0 py-0" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
-								<%= form.submit "Prenota gli orari selezionati", class: "btn btn-outline-info" %>
-							</label>
-						</div>
+						<!-- Invia i dati per gli orari selezionati alla funzione per la creazione -->
+						<%= form.submit "Conferma", data: { confirm: "Prenotare gli orari selezionati e procedere con le azioni selezionate per gli spazi?" }, class: "btn btn-outline-info mt-2" %>
 					</div>
 				<% end %>
 			</div>
 		</div>
 	<% end %>
 
+	<!-- Modal che si sovrappone al sito durante i caricamenti -->
 	<%= render 'layouts/modal_loading', msg: page_load_msg %>
 
 </body>
