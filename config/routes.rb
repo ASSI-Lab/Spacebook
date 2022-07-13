@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :site_current_dates
   resources :temp_deps
   resources :temp_week_days
   resources :temp_sps
@@ -55,5 +56,5 @@ Rails.application.routes.draw do
     get   "/check_session_timeout"    => "session_timeout#check_session_timeout"
     get   "/session_timeout"          => "session_timeout#render_timeout"
   end
-  
+
 end

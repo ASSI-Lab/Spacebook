@@ -10,7 +10,7 @@ class DepartmentsController < ApplicationController
     # Controlla se l'utente è manager
     if (current_user.is_manager?)
       
-      # Crea il dipartimento effettivo con relativi orari, spazi e posti se è presente un dipartimento temporaneo associato a questo manager nel DB
+      # Se è presente un dipartimento temporaneo associato a questo manager nel DB, crea il dipartimento effettivo con relativi orari, spazi e posti
       @temp_dep = TempDep.where(manager: current_user.email)  # Raccoglie l'eventuale dipartimento temporaneo
       if (@temp_dep.count == 1)                               # Controlla se il dipartimento temporaneo esiste
 
@@ -30,7 +30,7 @@ class DepartmentsController < ApplicationController
           Space.create(department_id: @department.id, dep_name: temp_sp.dep_name, typology: temp_sp.typology, name: temp_sp.name, description: temp_sp.description, floor: temp_sp.floor, number_of_seats: temp_sp.number_of_seats, state: temp_sp.state)
         end
 
-        @temp_dep.destroy                                       # Elimina il dipartimento temporaneo e i relativi orari e spazi temporanei
+        @temp_dep.destroy                                         # Elimina il dipartimento temporaneo e i relativi orari e spazi temporanei
 
         # Creazione dei posti settimanali per ogni orario prenotabile
         @week_days = WeekDay.where(department_id: @department.id) # Raccoglie gli orari del dipartimento
@@ -45,7 +45,7 @@ class DepartmentsController < ApplicationController
 
               @day = wd.day               # (1)
               @monday = Date.today.monday # (2)
-              
+
               # Tramite (1) & (2) sopra riportati calcola la data da inserire a seconda dei casi:
               if (@day=="Lunedì")         # Calcola la data del prossimo lunedì
                 if @monday.past?
@@ -90,20 +90,17 @@ class DepartmentsController < ApplicationController
                   @date = @monday + 6
                 end
               end
-              
+
               # Per ogni slot da un ora contenuto negli orari di (1)
               ((wd.chiusura.hour-wd.apertura.hour)).times do |h|
 
-                @start_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h,0,0) # La data + L'orario d'inizio del posto
-                @end_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h+1,0,0) # La data + L'orario di fine del posto
+                @start_date = DateTime.new(@date.year, @date.mon, @date.mday, wd.apertura.hour+h, 0, 0) # La data + l'orario d'inizio del posto
+                @end_date = @start_date+(60*60)                                                         # La data + l'orario di fine del posto
 
-                # Per ogni posto dello spazio
-                sp.number_of_seats.times do |pos| # Crea i posti relativi ad una settimana dal momento della creazione
-                  Seat.create(space_id: sp.id, dep_name: @department.name, typology: sp.typology, space_name: sp.name, position: pos+1, start_date: @start_date, end_date: @end_date, state: "Active")
-                end
+                # Crea il posto relativo al giorno corrente
+                Seat.create(space_id: sp.id, dep_name: @department.name, typology: sp.typology, space_name: sp.name, position: 1, start_date: @start_date, end_date: @end_date, state: "Active")
 
               end
-
             end
           end
         end

@@ -47,13 +47,13 @@ dep_set.each do |dep|
 
     # Insieme dei dati per creare gli orari
     wd_set = [
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Lunedì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Martedì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Mercoledì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Giovedì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Venerdì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,13,0,0)},
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Sabato", state: "Chiuso", apertura: DateTime.new(2000,3,9,0,0,0), chiusura: DateTime.new(2000,3,9,0,0,0)},
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, day: "Domenica", state: "Chiuso", apertura: DateTime.new(2000,3,9,0,0,0), chiusura: DateTime.new(2000,3,9,0,0,0)},
+        {department_id: @curr_dep.id, dep_name: @curr_dep.name, day: "Lunedì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
+        {department_id: @curr_dep.id, dep_name: @curr_dep.name, day: "Martedì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
+        {department_id: @curr_dep.id, dep_name: @curr_dep.name, day: "Mercoledì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
+        {department_id: @curr_dep.id, dep_name: @curr_dep.name, day: "Giovedì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,20,0,0)},
+        {department_id: @curr_dep.id, dep_name: @curr_dep.name, day: "Venerdì", state: "Aperto", apertura: DateTime.new(2000,3,9,8,0,0), chiusura: DateTime.new(2000,3,9,13,0,0)},
+        {department_id: @curr_dep.id, dep_name: @curr_dep.name, day: "Sabato", state: "Chiuso", apertura: DateTime.new(2000,3,9,0,0,0), chiusura: DateTime.new(2000,3,9,0,0,0)},
+        {department_id: @curr_dep.id, dep_name: @curr_dep.name, day: "Domenica", state: "Chiuso", apertura: DateTime.new(2000,3,9,0,0,0), chiusura: DateTime.new(2000,3,9,0,0,0)},
     ]
 
     # Creazione degli orari
@@ -63,10 +63,10 @@ dep_set.each do |dep|
 
     # Insieme dei dati per creare gli spazi
     sp_set = [
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, typology: "Isola", name: "D", description: "Prese di corrente inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, typology: "Isola", name: "C", description: "Prese di corrente ancora più inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, typology: "Aula", name: "106", description: "Microfono non funzionante", floor: 1, number_of_seats: 4, state: "Abilitato"},
-        {department_id: Department.where(name: @curr_dep.name).first.id, dep_name: @curr_dep.name, typology: "Aula", name: "204", description: "Forma strana", floor: 2, number_of_seats: 8, state: "Abilitato"}
+        {department_id: @curr_dep.id, dep_name: @curr_dep.name, typology: "Isola", name: "D", description: "Prese di corrente inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
+        {department_id: @curr_dep.id, dep_name: @curr_dep.name, typology: "Isola", name: "C", description: "Prese di corrente ancora più inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
+        {department_id: @curr_dep.id, dep_name: @curr_dep.name, typology: "Aula", name: "106", description: "Microfono non funzionante", floor: 1, number_of_seats: 4, state: "Abilitato"},
+        {department_id: @curr_dep.id, dep_name: @curr_dep.name, typology: "Aula", name: "204", description: "Forma strana", floor: 2, number_of_seats: 8, state: "Abilitato"}
     ]
 
     # Creazione degli spazi
@@ -130,13 +130,11 @@ dep_set.each do |dep|
 
                 # Per ogni slot da un ora contenuto negli orari di (1)
                 ((wd.chiusura.hour-wd.apertura.hour)).times do |h|
-                    @start_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h,0,0)    # Data e orario d'inizio del posto
-                    @end_date = DateTime.new(@date.year,@date.mon,@date.mday,wd.apertura.hour+h+1,0,0)    # Data e orario di fine del posto
+                    @start_date = DateTime.new(@date.year, @date.mon, @date.mday, wd.apertura.hour+h, 0, 0) # Data e orario d'inizio del posto
+                    @end_date = DateTime.new(@date.year, @date.mon, @date.mday, wd.apertura.hour+h+1, 0, 0) # Data e orario di fine del posto
 
-                    # Per ogni posto dello spazio
-                    sp.number_of_seats.times do |pos| # Crea i posti relativi ad una settimana dal momento della creazione
-                        Seat.create(space_id: sp.id, dep_name: @curr_dep.name, typology: sp.typology, space_name: sp.name, position: pos+1, start_date: @start_date, end_date: @end_date, state: "Active")
-                    end
+                    # Crea i posti relativi ad una settimana dal momento della creazione
+                    Seat.create(space_id: sp.id, dep_name: @curr_dep.name, typology: sp.typology, space_name: sp.name, position: 1, start_date: @start_date, end_date: @end_date, state: "Active")
                 end
             end
         end

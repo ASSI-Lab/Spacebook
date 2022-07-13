@@ -2,7 +2,6 @@ class HomeController < ApplicationController
 
   # Pagina home del sito
   def index
-    @departments = Department.all
     @q = Department.ransack(params[:q])
     @departments = @q.result(distinct: true)
     @week_days = WeekDay.all

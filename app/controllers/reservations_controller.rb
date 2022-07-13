@@ -6,29 +6,8 @@ class ReservationsController < ApplicationController
   def set_department
     selected_spaces = Space.where(dep_name: params[:selected_dep_name])
 
-    # Aggiorna i posti del dipartimento ogni volta che un utente lo seleziona per effettuare una prenotazione
-    selected_spaces.each do |sp|
-      Seat.where(space_id: sp.id).each do |seat|
-        # Controlla se il posto ha un data e un tempo precedenti a quelli odierni
-        if ( seat.start_date.strftime("%Y%m%d%T") <= DateTime.now.strftime("%Y%m%d%T") )
-          # Se il posto è di oggi ma l'orario è passato basta mettere expired nello stato dello spazio
-          if ( seat.start_date.strftime("%Y%m%d") == DateTime.now.strftime("%Y%m%d") )
-            seat.update(state: "Expired")
-          # Se invece non è di oggi ma di un giorno precedente
-          else
-            # Crea il nuovo posto nel giorno corretto della settimana
-            seat.update(start_date: seat.start_date+(604800), end_date: seat.end_date+(604800), state: "Active")
-
-            # Elimina l'eventuale prenotazione di quel posto
-            old_res = Reservation.where(seat_id: seat.id)
-            old_res.first.destroy if old_res.count != 0
-          end
-        end
-      end
-    end
-
     respond_to do |format|
-      format.html { render :new, locals: { department: params, selected_spaces: selected_spaces } }
+      format.html { render :new, locals: { department: params, selected_spaces: selected_spaces} }
     end
   end
 
@@ -49,7 +28,7 @@ class ReservationsController < ApplicationController
         jcr = Reservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, seat_id: seat.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name, floor: space.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Active")
 
         # Modifica il posto per renderlo occupato
-        seat.update(state: "Reserved")
+        seat.update(position: seat.position+1, state: "Reserved")
 
         # Controllo se l'utente ha spuntato o meno la check di calendar
         if sync_calendar=="1" # In caso positivo inizializzo con i dati opportuni la variabile res e chiamo sync_event

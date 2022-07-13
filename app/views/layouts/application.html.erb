@@ -20,16 +20,19 @@
 
 <body class="sb-nav-fixed">
 
-    <!-- Controlla se l'utente ha effettuato l'accesso, se è manager e se non ha ancora un dipartimento creato -->
-    <% if user_signed_in? and current_user.is_manager? and !current_page?('/make_department') and (Department.where(manager: current_user.email).count == 0) %> 
-        <% require_department %> <!-- In caso positivo viene reindirizzato di forza alla pagina '/make_department' tramite la funzione sotto riportata (Si veda 'application_controller.rb' per il corpo della funzione) -->
-    <% end %>
+    <%
+    # Controlla se l'utente ha effettuato l'accesso, se è manager e se non ha ancora un dipartimento creato
+    if user_signed_in? and current_user.is_manager? and !current_page?('/make_department') and (Department.where(manager: current_user.email).count == 0)
+        # In caso positivo viene reindirizzato di forza alla pagina '/make_department' tramite la funzione sotto riportata (Si veda 'application_controller.rb' per il corpo della funzione)
+        require_department
+    end
 
-    <!-- Cattura i messaggi di notifica e li mostra nel modal delle notifiche flash -->
-    <% flash_messages = [] %>
-    <% flash.each do |type, msg| %>
-        <% flash_messages.concat([msg]) %>
-    <% end %>
+    # Cattura i messaggi di notifica e li mostra nel modal delle notifiche flash
+    flash_messages = []
+    flash.each do |type, msg|
+        flash_messages.concat([msg])
+    end
+    %>
 
     <!-- Header del sito -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark ">
@@ -134,18 +137,6 @@
                     </div>
                 </footer>
 
-                <!-- FOOTER VECCHIO PER ORA MANTENIAMOLO -->
-                <%# <footer class="py-4 bg-light mt-4">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="ms-auto">
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer> %>
             </div>
         </div>
     <% else %>                           <!-- In caso positivo mostra solo lo yield della pagina corrente -->

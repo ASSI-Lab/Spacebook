@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_20_203544) do
+ActiveRecord::Schema.define(version: 2022_07_13_134209) do
 
   create_table "departments", force: :cascade do |t|
     t.integer "user_id"
@@ -103,6 +103,12 @@ ActiveRecord::Schema.define(version: 2022_06_20_203544) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["dep_name", "typology", "space_name", "position", "start_date", "end_date", "state"], name: "seats_index", unique: true
     t.index ["space_id"], name: "index_seats_on_space_id"
+  end
+
+  create_table "site_current_dates", force: :cascade do |t|
+    t.datetime "last_update"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "spaces", force: :cascade do |t|

@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
     before_action :configure_permitted_parameters, if: :devise_controller?                  # Aggiunge parametri al controllo di sicurezza di devise
     helper_method :require_department
-    
+    helper_method :dep_seats_translation
+
     protected
 
     def configure_permitted_parameters
