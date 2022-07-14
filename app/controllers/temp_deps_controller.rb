@@ -24,17 +24,25 @@ class TempDepsController < ApplicationController
       redirect_to '/manager_department'
       flash[:alert] = "Hai gia creato un dipartimento! Eccolo quì!" # Mostra messagio di spiegazione
     else
-      @temp_dep = TempDep.new
-      res = new_dep_map
-      @dep_map = res[0]
-      @dep_event = res[1]
+      if TempDep.where(manager: current_user.email).count == 0
+        @temp_dep = TempDep.new
+        res = new_dep_map(current_user.email)
+        @dep_map = res[0]
+        @dep_event = res[1]
+      end
     end
   end
 
   # Crea nuovo dipartimento su seats.io e un evento collegato ad esso
-  def new_dep_map
+  def new_dep_map manager_name
     client = Seatsio::Client.new(Seatsio::Region.EU(), ENV['SEATS_IO_SECRET'])
-    chart = client.charts.create
+    name = current_user.email
+    venueType = "ROWS_WITH_SECTIONS"
+    categories = [
+      {"key": 1, "label": "Posti", "color": "#aaaaaa"},
+      {"key": 2, "label": "Posti disabili", "color": "#bbbbbb"}
+    ]
+    chart = client.charts.create categories: categories, name: name#, venueType: venueType
     event = client.events.create chart_key: chart.key
     print "\n\n\n"+event.key+"\n\n\n\n"+chart.key+"\n\n"
     return [chart.key,event.key]

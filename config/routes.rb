@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   resources :users do       # CONTROLLA LE MAIL DI CONFERMA E IN CASO DI ASSENZA PER NUOVA REGISTRAZIONE NE INVIA UNA (CONTROLLARE application_mailer PER ULTERIORI DETTAGLI)
     member do
       get :confirm_email
+      patch :ban
     end
   end
 

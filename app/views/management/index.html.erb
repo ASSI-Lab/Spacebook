@@ -95,7 +95,7 @@
 								<tr>
 									<td><%= user.email %></td>
 									<td><%= user.roles %></td>
-									<td> <button class="btn btn-sm btn-outline-info"> Sospendi </button> </td>
+									<td><%= link_to ban_status(user), ban_user_path(user) , method: :patch, :class => "btn btn-sm btn-outline-info", :style=>"width:100%"%>
 								</tr>
 							<% end %>
 						</tbody>

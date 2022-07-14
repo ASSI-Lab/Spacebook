@@ -222,31 +222,31 @@
 
 				<!-- Mostra la pianta interattiva del dipartimento -->
 				<% if selected_department.dep_map!=nil %>
-				<div class="card shadow-lg border-0 rounded-lg mt-4">
-					<div class="card-header text-center">
-						<label class="font-weight-light h4 mt-4 mb-0"> Pianta del dipartimento </label>
-						<div class="small text-muted"> Clicca sulla pianta per esplorare gli spazi del dipartimento selezionato. </div>
-					</div>
-					<div class="card-body">
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item px-0">
-								<div style="displa:flex">
-									<!-- Spazio per inserire renderer Seatsio per visualizzazione pianta dipartimento -->
-									<div id="chart"></div>
-									<script src="https://cdn-eu.seatsio.net/chart.js"></script>
+					<div class="card shadow-lg border-0 rounded-lg mt-4">
+						<div class="card-header text-center">
+							<label class="font-weight-light h4 mt-4 mb-0"> Pianta del dipartimento </label>
+							<div class="small text-muted"> Clicca sulla pianta per esplorare gli spazi del dipartimento selezionato. </div>
+						</div>
+						<div class="card-body">
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item px-0">
+									<div style="displa:flex">
+										<!-- Spazio per inserire renderer Seatsio per visualizzazione pianta dipartimento -->
+										<div id="chart"></div>
+										<script src="https://cdn-eu.seatsio.net/chart.js"></script>
 
-									<script>
-										new seatsio.SeatingChart({
-											divId: 'chart',
-											workspaceKey: '<%= ENV['SEATS_IO_PUBLIC'] %>',
-											event: '<%= selected_department.dep_event %>'
-										}).render();
-									</script>                                                        
-								</div>
-							</li>
-						</ul>
+										<script>
+											new seatsio.SeatingChart({
+												divId: 'chart',
+												workspaceKey: '<%= ENV['SEATS_IO_PUBLIC'] %>',
+												event: '<%= selected_department.dep_event %>'
+											}).render();
+										</script>                                                        
+									</div>
+								</li>
+							</ul>
+						</div>
 					</div>
-				</div>
 				<% end %>
 				
 				<!-- Form per selezionare gli spazi e gli orari da prenotare -->
