@@ -1,0 +1,704 @@
+Questo file contiene tutte le classi e gli id delle view in modo da eliminare dal file style.scss tutto ciò che non serve
+
+DEPARTMENTS 
+    MODAL DEP EDIT {
+        CLASSI {
+            modal fade
+            modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg
+            modal-content
+            modal-header
+            modal-title
+            btn btn-outline-info
+            modal-body
+            label h6
+            form-floating mb-3
+            form-control
+            field
+            actions
+        }
+
+        ID {
+            tempSpID<%= mydep.id %>
+            staticBackdropLabel
+            error_explanation
+            depName
+            via
+            civico
+            cap
+            citta
+            provincia
+            numSpazi
+            numPiani
+        }
+    }
+
+    MODAL SP DESC {
+        CLASSI {
+            modal fade
+            modal-dialog modal-dialog-centered modal-dialog-scrollable
+            modal-content
+            modal-header
+            modal-title
+            btn-close
+            modal-body
+        }
+
+        ID {
+            depID<%= space.id %>
+            staticBackdropLabel
+        }
+    }
+
+    MANAGER DEPARTMENT {
+        CLASSI {
+            bi bi-caret-left-fill
+            bi bi-arrow-left-circle
+            bi bi-arrow-right-circle
+            bi bi-caret-right-fill
+            card shadow-lg border-0 rounded-lg
+            card-body
+            font-weight-light
+            card-text
+            card-header
+            btn btn-outline-info
+            list-group list-group-flush
+            list-group-item pt-0
+            label h5
+            bi bi-card-text
+            collapse
+            list-group-item
+            bi bi-clock
+            card-header text-center
+            carousel slide
+            carousel-inner
+            carousel-item
+            card-img
+            label text-center h5
+            dropdown-divider
+            display table-responsive table-striped table-hover
+            h6
+            btnDestroy
+        }
+
+        ID {
+            dep<%= (@department.first).id %>DescCollapse
+            depFloorMapCarousel
+            depFloorMapCarouselImgTop
+            datatableSpazi
+            myAreaChart
+            datatablePrenotazioni
+        }
+    }
+
+
+    SHOW {
+        CLASSI {
+            card shadow-lg border-0 rounded-lg
+            card-header
+            font-weight-light
+            small text-muted
+            card-body
+            list-group list-group-flush
+            list-group-item
+            label h5
+            collapse
+            carousel slide
+            btn btn-outline-info
+            carousel-inner
+            carousel-item
+            card-img
+            label text-center h5
+            dropdown-divider
+            display table-responsive table-striped table-hover
+            btnDestroy
+        }
+
+        ID {
+            dep<%= @department.id %>DescCollapse
+            depFloorMapCarousel
+            depFloorMapCarouselImgTop
+            datatableSpazi
+            depFloorMapImg
+            datatablePrenotazioni
+        }
+    }
+}
+
+FAVOURITE SPACES {
+    INDEX {
+        CLASSI {
+            row mt-4 justify-content-center
+            card shadow-lg border-0 rounded-lg
+            card-header text-center
+            font-weight-light my-3
+            card-body
+            display table-responsive table-striped table-hover
+            h5
+            h5 opt-no-sort
+            btn btn-outline-info
+
+        }
+
+        ID {
+            datatableSpaziPreferiti
+
+        }
+    }
+}
+
+HOME {
+    INDEX {
+        CLASSI {
+            card shadow-lg border-0 rounded-lg
+            card-body
+            font-weight-light
+            card-text
+            card bg-dark text-white mb-4
+            card-header
+            small text-muted
+            btn btn-sm btn-outline-info
+            list-group-item bg-dark text-white
+            label h5
+            d-none d-md-inline-block form-inline mt-3 mb-1
+            input-group
+            rounded btn-outline-info
+            form-control btn-outline-info
+            text-right
+            btn btn-sm btn-outline-info disabled
+            list-group list-group-flush
+            list-group-item
+            collapse
+        }
+
+        ID {
+            depSearchHome
+            btnNavbarSearch
+            prenotaBtnDisabilitato
+            dep<%= department.id %>DescCollapse
+            dep<%= department.id %>OrariCollapse
+            map
+        }
+    }
+}
+
+INFORMATIONS {
+    CLASSI {
+        card
+        card-body
+        font-weight-light
+        card-text text-muted
+        col-md-4 col-lg-4 d-flex justify-content-center mb-md-0 mb-4
+        img-fluid
+        font-weight-bold
+        font-weight-bold text-center dark-grey-text pb-2
+        text-center text-muted w-responsive mx-auto mb-5
+        card-img-top img-fluid mx-auto    
+    }
+
+    ID {
+
+    }
+}
+
+LAYOUTS {
+    MODAL FLASH MSG {
+        CLASSI {
+            modal fade
+            modal-dialog
+            modal-content
+            modal-header
+            modal-title
+            btn-close
+            modal-body
+            dropdown-divider
+            btn btn-outline-info
+        }
+
+        ID {
+            flashNavModal
+            flashNavModalDialog
+            staticBackdropLabel
+        }
+    }
+
+    MODAL LOADING {
+        CLASSI {
+            modal
+            modal-dialog modal-dialog-centered modal-lg
+            modal-content
+            modal-body text-center
+            modal-title text-black
+        }
+
+        ID {
+            modalCaricamento
+            modalCaricamentoContent
+            modalCaricamentoBody
+            modalCaricamentoLabel
+            modalCaricamentoImg
+        }
+    }
+
+    MODAL USER {
+        CLASSI {
+            modal fade
+            modal-dialog
+            modal-content
+            modal-header
+            modal-title
+            btn-close
+            modal-body
+            dropdown-item
+            btn-close
+        }
+
+        ID {
+            userNavModal
+            userNavModalDialog
+            staticBackdropLabel
+        }
+    }
+
+    APPLICATION {
+        CLASSI {
+            sb-nav-fixed
+            sb-topnav navbar navbar-expand navbar-dark bg-dark
+            btn btn-outline-info
+            navbar-brand text-center
+            position-absolute badge rounded-pill bg-danger mt-1
+            sb-sidenav accordion sb-sidenav-dark pt-4
+            sb-sidenav-menu pt-4
+            nav
+            nav-link
+            sb-nav-link-icon
+            sb-sidenav-footer py-4 mt-4 small
+            text-muted
+            container-fluid px-4 pt-4
+            container-fluid px-4 py-4 mt-4 bg-dark d-flex justify-content-between small
+        }
+
+        ID {
+            sidebarToggle
+            homeBtnWhenNoSidenav
+            flashNavModalButton
+            userNavModalButton
+            layoutSidenav
+            layoutSidenav_nav
+            sidenavAccordion
+            layoutSidenav_content
+            footer
+        }
+    }
+}
+
+MANAGEMENT {
+    INDEX {
+        CLASSI {
+            card shadow-lg border-0 rounded-lg
+            card-header
+            font-weight-light
+            card-body
+            display table-responsive table-striped table-hover
+            btn btn-sm btn-outline-info
+
+        }
+
+        ID {
+            datatableUtenti
+            datatableDipartimenti
+            datatablePrenotazioni
+        }
+    }
+}
+
+PERSONAL AREA {
+    INDEX {
+        CLASSI {
+            font-weight-light
+            card shadow-lg border-0 rounded-lg
+            card-header
+            card-title
+            card-body
+            card bg-dark text-white mb-4
+            list-group-item bg-dark text-white
+            label h5
+            btn btn-sm btn-outline-info
+            stretched-link
+            card-img-top
+            small text-white stretched-link    
+        }
+
+        ID {
+
+        }
+    }
+}
+
+QUICK RESERVATIONS {
+    MAKE QUICK RESERVATIONS {
+        CLASSI {
+            bg-primary
+            container
+            card shadow-lg border-0 rounded-lg mt-5
+            card-header text-center
+            font-weight-light my-3
+            card-body
+            h6
+            card-footer
+            btn btn-outline-info
+
+        }
+
+        ID {
+            layoutAuthentication
+            layoutAuthentication_content
+        }
+    }
+}
+
+RESERVATIONS {
+    NEW {
+        CLASSI {
+            form-floating mb-3
+            form-select
+            btn btn-outline-info
+            form-control
+            card shadow-lg border-0 rounded-lg
+            card-header
+            font-weight-light
+            card-body collapse
+            list-group list-group-flush
+            list-group-item
+            label h5
+            collapse
+            carousel slide
+            carousel-inner
+            carousel-item
+            card-img
+            label
+            dropdown-divider
+            card-text text-muted
+            dropdown-item
+            display table table-responsive table-hover
+            rigaHeaderOrariPrenotazione
+            text-center
+            form-check form-switch
+            form-check-input
+            h6
+            card-footer
+        }
+
+        ID {
+            depName
+            modalCaricamentoButton
+            selDep
+            depTyp
+            selTyp
+            depTySp
+            modalCaricamentoButton
+            dep<%= @department.id %>InfoBodyCollapse
+            dep<%= @department.id %>DescCollapse
+            depFloorMapCarousel
+            depFloorMapCarouselImgTop
+            spTypology<%= current_ty[0] %>ResTableCollapse
+            spName<%= current_sp.id %>ResTableCollapse
+            orariMakeResTable
+            orariMakeResTableBody
+            depFloorMapImg
+
+        }
+    }
+
+    RESERVED {
+        CLASSI {
+            card shadow-lg border-0 rounded-lg
+            card-header text-center
+            font-weight-light
+            card-body
+            display table-responsive table-striped table-hover
+            h5
+            h5 opt-no-sort
+            btn btn-outline-info
+            card-footer
+        }
+
+        ID {
+            datatablePrenotazioni
+        }
+    }
+}
+
+SIMPLE CALENDAR {
+    CALEDAR, MONTH CALENDAR, WEEK CALENDAR {
+        CLASSI {
+            simple-calendar
+            calendar-heading text-center
+            calendar-title
+            table table-striped
+        }
+    }
+}
+
+TASKS {
+    INDEX {
+        CLASSI {
+           grid-container
+            grid-item1
+            grid-item11
+            btnNew
+            grid-item2
+            grid-item21
+            btnShow
+        }
+    }
+
+    NEW {
+        CLASSI {
+            field
+            actions
+        }
+
+        ID {
+            error_explanation
+        }
+    }
+
+    SHOW {
+        CLASSI {
+            ""
+        }
+    }
+}
+
+TEMP DEPS {
+    MODAL TEMP DEP EDIT {
+        CLASSI {
+            modal fade
+            modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg
+            modal-content
+            modal-header
+            modal-title
+            btn btn-outline-info
+            modal-body
+            label h6
+            form-floating mb-3
+            form-control
+            field
+            actions
+        }
+
+        ID {
+            tempSpID<%= mydep.id %>
+            staticBackdropLabel
+            error_explanation
+            depName
+            via
+            civico
+            cap
+            citta
+            provincia
+            numSpazi
+            numPiani
+        }
+    }
+
+    MODAL TEMP SP DESC {
+        CLASSI {
+            modal fade
+            modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg
+            modal-content
+            modal-header
+            modal-title
+            btn-close
+            modal-body
+        }
+
+        ID {
+            depID<%= jcs.id %>
+            staticBackdropLabel
+        }
+    }
+
+    MODAL TEMP SP EDIT {
+        CLASSI {
+            modal fade
+            modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg
+            modal-content
+            modal-header
+            modal-title
+            btn btn-outline-info
+            modal-body
+            form-floating mb-3
+            form-select
+            form-control
+            label
+            field
+            actions
+        }
+
+        ID {
+            tempSpID<%= jcs.id %>
+            staticBackdropLabel
+            error_explanation
+            spazioName
+            piano
+            numPosti
+        }
+    }
+
+    MODAL TEMP WD EDIT {
+        CLASSI {
+            modal fade
+            modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg
+            modal-content
+            modal-header
+            modal-title
+            btn btn-outline-info
+            modal-body
+            text-center
+            form-floating mb-3
+            form-select
+            form-control
+            actions
+        }
+
+        ID {
+
+        }
+    }
+
+    NEW {
+        CLASSI {
+            bg-primary
+            container
+            row justify-content-center my-5
+            card shadow-lg border-0 rounded-lg mt-5
+            card-header
+            text-center font-weight-light my-4
+            card-body
+            label h6
+            form-floating
+            form-control
+            field
+            actions
+            btn btn-outline-info
+            small text-muted
+            card-body
+            form-check form-switch
+            form-check-input
+            form-select
+            display table-responsive table-striped table-hover
+            list-group list-group-flush
+            list-group-item
+
+        }
+
+        ID {
+            layoutAuthentication
+            layoutAuthentication_content
+            error_explanation
+            depName
+            via
+            civico
+            cap
+            citta
+            provincia
+            numPiani
+            <%= table_day %>SetTWDCollapse
+            spazioName
+            piano
+            numPosti
+            datatableTempSpCreati
+            dep<%= (mydep).id %>DescCollapse
+        }
+    }
+}
+
+USERS {
+    CONFIRMATIONS > NEW {
+        CLASSI {
+            field
+            actions
+        }
+    }
+
+    PASSWORDS > EDIT, NEW {
+        CLASSI {
+            field
+            actions
+        }
+    }
+
+    REGISTRATIONS {
+        EDIT {
+            CLASSI {
+                field
+                actions
+            }
+        }
+
+        NEW {
+            CLASSI {
+                bg-primary
+                container
+                row justify-content-center mt-5
+                card shadow-lg border-0 rounded-lg mt-5
+                card-header
+                text-center font-weight-light my-4
+                card-body
+                form-floating
+                form-control
+                form-check
+                actions
+                btn btn-outline-info
+                d-flex align-items-center justify-content-between mt-4 mb-0
+            }
+
+            ID {
+                layoutAuthentication
+                layoutAuthentication_content
+                email
+                password
+                confirm-password
+                signLinks
+            }
+        }
+    }
+
+    SESSIONS {
+        NEW {
+            CLASSI {
+                bg-primary
+                container
+                row justify-content-center mt-5
+                card shadow-lg border-0 rounded-lg mt-5
+                card-header
+                text-center font-weight-light my-4
+                card-body
+                form-floating
+                form-control
+                form-check
+                role
+                actions
+                btn btn-outline-info
+                d-flex align-items-center justify-content-between mt-4 mb-0
+            }
+
+            ID {
+                layoutAuthentication
+                layoutAuthentication_content
+                email
+                password
+                confirm-password
+                signLinks
+            }
+        }
+    }
+
+    UNLOCKS > NEW {
+        CLASSI {
+            field
+            actions
+        }
+    }
+}

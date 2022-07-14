@@ -13,13 +13,12 @@
     <script>
         $(document).ready(function () {
             $('#datatableSpazi').DataTable({
-                dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
+                dom: '<"row"<"col"t>><"row mt-1"<"col"p>>',
                 scrollX: true,
                 filter: 'false',
                 pagingType: "simple_numbers",
                 pageLength: 10,
                 language: {
-                    lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> spazi contemporaneamente </h6></label>',
                     zeroRecords: 'Nessuno spazio creato',
                     paginate: {
                         first:    '<i class="bi bi-caret-left-fill"></i>',
@@ -34,13 +33,12 @@
 	<script>
         $(document).ready(function () {
             $('#datatablePrenotazioni').DataTable({
-                dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
+                dom: '<"row"<"col"t>><"row mt-1"<"col"p>>',
                 scrollX: true,
                 filter: 'false',
                 pagingType: "simple_numbers",
                 pageLength: 10,
                 language: {
-                    lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> prenotazioni contemporaneamente </h6></label>',
                     zeroRecords: 'Nessuna prenotazione',
                     paginate: {
                         first:    '<i class="bi bi-caret-left-fill"></i>',
@@ -59,7 +57,7 @@
 	<div class="row">
 		<!-- Introduzione -->
 		<div class="col">
-			<div class="card shadow-lg border-0 rounded-lg">
+			<div class="card">
 				<div class="card-body">
 					<h2 class="font-weight-light mt-3 mb-4"> Ecco il tuo dipartimento </h2>
 					<p class="card-text">
@@ -72,7 +70,7 @@
 	<div class="row mt-4">
 		<!-- Card del dipartimento -->
 		<div class="col-xl-7">
-			<div class="card shadow-lg border-0 rounded-lg">
+			<div class="card">
 				<div class="card-header"> 
 					<table width="100%">
 						<tr>
@@ -92,65 +90,46 @@
 					</table>
 				</div>
 				<div class="card-body">
-					<ul class="list-group list-group-flush">
-						<!-- Descrizione -->
-						<li class="list-group-item pt-0">
-							<!-- Icona interattiva per visualizzare il collapse della descrizione -->
-							<label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= (@department.first).id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Descrizione <i class="bi bi-card-text"></i> </label> 
-							<!-- Collapse della descrizione -->
-							<div class="collapse" id="dep<%= (@department.first).id %>DescCollapse">
-								<%= (@department.first).description %>
-							</div>
-						</li>
-						
-						<!-- Dati + orari -->
-						<li class="list-group-item"> 
-							<table width="100%">
-								<tr>
-									<td width="55%" class="ms-0 ps-0"> <!-- Dati -->
-										<ul class="list-group list-group-flush">
-											<li class="list-group-item ms-0 ps-0">
-												<label class="label h5"> Posizione </label><br>
-												<%= (@department.first).via %>, <%= (@department.first).civico %>, <%= (@department.first).cap %>, <%= (@department.first).citta %>, <%= (@department.first).provincia %>
-											</li>
-											<li class="list-group-item ms-0 ps-0"> 
-												<label class="label h5"> Numero piani </label><br>
-												<%= (@department.first).floors %>
-											</li>
-											<li class="list-group-item ms-0 ps-0"> 
-												<label class="label h5"> Numero spazi </label><br>
-												<%= (@department.first).number_of_spaces %>
-											</li>
-										</ul>
-									</td>
-									<td width="45%" class="px-3 pt-2"> <!-- Orari -->
-										<label class="label h5"> Orari <i class="bi bi-clock"></i> </label> 
-										<!-- Raccoglie tutti gli orari del dipartimento -->
-										<% @week_days.where(department_id: (@department.first).id).each do |wd| %>
-											<div class="row">
-												<div class="col-sm-5">
-													<h6><%= wd.day %></h6>
-												</div>
-												<div class="col-sm-7">
-													<% if wd.state == "Aperto" %>
-														<%= wd.apertura.strftime('%H:%M') %>-<%= wd.chiusura.strftime('%H:%M') %>
-													<% else %>
-														<%= wd.state %>
-													<% end %>
-												</div>
-											</div>
-										<% end %>
-									</td>
-								</tr>
-							</table>
-						</li>
-					</ul>	
+					<!-- Descrizione + dati + orari -->
+					<table width="100%">
+						<tr>
+							<td width="55%" class="ms-0 ps-0">
+								<!-- Descrizione -->
+								<label class="label h5 pt-2 pb-0"> Descrizione <i class="bi bi-card-text"></i> </label> 
+								<div> <%= (@department.first).description %> </div><br>
+
+								<label class="label h5 pt-0 pb-0"> Posizione: </label> <%= (@department.first).via %>, <%= (@department.first).civico %>, <%= (@department.first).cap %>, <%= (@department.first).citta %>, <%= (@department.first).provincia %><br>
+
+								<label class="label h5 pt-2 pb-0"> Numero piani: </label> <%= (@department.first).floors %><br>
+
+								<label class="label h5 pt-2 pb-0"> Numero spazi: </label> <%= (@department.first).number_of_spaces %>
+							</td>
+							<td width="45%" class="px-3 pt-2"> <!-- Orari -->
+								<label class="label h5 pt-2 pb-0"> Orari <i class="bi bi-clock"></i> </label> 
+								<!-- Raccoglie tutti gli orari del dipartimento -->
+								<% @week_days.where(department_id: (@department.first).id).each do |wd| %>
+									<div class="row">
+										<div class="col-sm-5">
+											<h6><%= wd.day %></h6>
+										</div>
+										<div class="col-sm-7">
+											<% if wd.state == "Aperto" %>
+												<%= wd.apertura.strftime('%H:%M') %>-<%= wd.chiusura.strftime('%H:%M') %>
+											<% else %>
+												<%= wd.state %>
+											<% end %>
+										</div>
+									</div>
+								<% end %>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
 		<!-- Carousel piante -->
 		<div class="col-xl-5">
-			<div class="card shadow-lg border-0 rounded-lg">
+			<div class="card">
 				<div class="card-header text-center">
 					<h3 class="font-weight-light my-3"> Piante dei piani </h3>
 				</div>
@@ -200,7 +179,7 @@
 	<div class="row mt-4">
 		<!-- SPAZI DEL DIPARTIMENTO -->
 		<div class="col-xl-7">
-			<div class="card shadow-lg border-0 rounded-lg">
+			<div class="card">
 				<div class="card-header text-center">
 					<h3 class="font-weight-light my-3"> Spazi del dipartimento </h3>
 				</div>
@@ -242,7 +221,7 @@
 		</div>
 		<!-- Grafici -->
 		<div class="col-xl-5">
-			<div class="card shadow-lg border-0 rounded-lg">
+			<div class="card">
 				<div class="card-header text-center">
 					<h3 class="font-weight-light my-3"> Area Chart Example </h3>
 				</div>
@@ -256,7 +235,7 @@
 	<!-- PRENOTAZIONI DEL DIPARTIMENTO -->
 	<div class="row mt-4">
 		<div class="col">
-			<div class="card shadow-lg border-0 rounded-lg">
+			<div class="card">
 				<div class="card-header text-center">
 					<h3 class="font-weight-light my-3"> Prenotazioni </h3>
 				</div>

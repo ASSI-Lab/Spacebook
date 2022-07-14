@@ -148,36 +148,31 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<!-- Mostra tramite colapse il dipartimento in cui prenotare -->
-						<div class="card shadow-lg border-0 rounded-lg">
+						<div class="card">
 							<div class="card-header">
-								<label class="font-weight-light h3 mb-1"> <%= (selected_department).name %> </label> 
+								<label class="h3 mb-1"> <%= (selected_department).name %> </label> 
 								<button class="btn btn-sm btn-outline-info bi bi-info-circle" data-bs-toggle="collapse" data-bs-target="#dep<%= selected_department.id %>InfoBodyCollapse" aria-expanded="false"></button>
 							</div>
-							<!-- Colapse del dipartimento -->
+							<!-- Collapse del dipaartimento -->
 							<div class="card-body collapse" id="dep<%= selected_department.id %>InfoBodyCollapse">
 								<div class="row">
 									<div class="col-lg-7">
-										<ul class="list-group list-group-flush">
-											<!-- Descrizione -->
-											<li class="list-group-item">
-												<label class="label h5"> Descrizione <i class="bi bi-card-text"></i> </label><br>
-												<%= selected_department.description %>
-											</li>
+										<!-- Descrizione -->
+										<!-- Icona interattiva per visualizzare il collapse della descrizione -->
+										<label class="label h5 py-1" data-bs-toggle="collapse" data-bs-target="#dep<%= selected_department.id %>DescCollapse" aria-expanded="false"> Descrizione <i class="bi bi-card-text"></i> </label> 
+										<br>
+										<%= selected_department.description %>
+										<br>
 											
-											<!-- Dati -->
-											<li class="list-group-item">
-												<label class="label h5"> Posizione </label><br>
-												<%= selected_department.via %>, <%= selected_department.civico %>, <%= selected_department.cap %>, <%= selected_department.citta %>, <%= selected_department.provincia %>
-											</li>
-											<li class="list-group-item"> 
-												<label class="label h5"> Numero piani </label><br>
-												<%= selected_department.floors %>
-											</li>
-											<li class="list-group-item"> 
-												<label class="label h5"> Numero spazi </label><br>
-												<%= selected_department.number_of_spaces %>
-											</li>
-										</ul>
+										<!-- Dati -->
+										<label class="label h5 py-1"> Posizione </label><br>
+										<%= selected_department.via %>, <%= selected_department.civico %>, <%= selected_department.cap %>, <%= selected_department.citta %>, <%= selected_department.provincia %><br>
+
+										<label class="label h5 py-1"> Numero piani </label><br>
+										<%= selected_department.floors %><br>
+
+										<label class="label h5 py-1"> Numero spazi </label><br>
+										<%= selected_department.number_of_spaces %>
 									</div>
 									<!-- Carousel piante -->
 									<div class="col-lg-5" style="vertical-align:middle">
@@ -258,9 +253,9 @@
 				<%= form_with url: make_res_path, local: true, method: :post do |form| %>
 					<div class="row">
 						<div class="col">
-							<div class="card shadow-lg border-0 rounded-lg mt-4">
+							<div class="card mt-4">
 								<div class="card-header"> 
-									<h3 class="font-weight-light mb-1"> Seleziona gli spazi che vuoi prenotare </h3>
+									<h3 class="mb-1"> Seleziona gli spazi che vuoi prenotare </h3>
 									<p class="card-text text-muted pt-1"> Puoi visualizzare e prenotare più spazi contemporaneamente! </p>
 								</div>
 								<div class="card-body">
@@ -302,7 +297,7 @@
 																			<div class="row">
 																				<!-- Tabella del colapse -->
 																				<div class="col-lg-8">
-																					<div class="card shadow-lg border-0 rounded-lg">
+																					<div class="card">
 																						<div class="card-header text-left">
 																							<p class="card-text text-muted pt-1"> Puoi prenotare più orari contemporaneamente! </p>
 																						</div>
@@ -438,7 +433,7 @@
 																				</div>
 																				<!-- Informazioni e azioni del colapse -->
 																				<div class="col-lg-4">
-																					<div class="card shadow-lg border-0 rounded-lg">
+																					<div class="card">
 																						<div class="card-header text-left">
 																							<p class="card-text text-muted h5 pt-1"> Pianta </p>
 																						</div>
