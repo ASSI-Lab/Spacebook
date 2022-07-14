@@ -25,7 +25,19 @@ class TempDepsController < ApplicationController
       flash[:alert] = "Hai gia creato un dipartimento! Eccolo quì!" # Mostra messagio di spiegazione
     else
       @temp_dep = TempDep.new
+      res = new_dep_map
+      @dep_map = res[0]
+      @dep_event = res[1]
     end
+  end
+
+  # Crea nuovo dipartimento su seats.io e un evento collegato ad esso
+  def new_dep_map
+    client = Seatsio::Client.new(Seatsio::Region.EU(), ENV['SEATS_IO_SECRET'])
+    chart = client.charts.create
+    event = client.events.create chart_key: chart.key
+    print "\n\n\n"+event.key+"\n\n\n\n"+chart.key+"\n\n"
+    return [chart.key,event.key]
   end
 
   # POST /temp_deps or /temp_deps.json
@@ -74,7 +86,7 @@ class TempDepsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def temp_dep_params
-      params.require(:temp_dep).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :description, :floors, :number_of_spaces)
+      params.require(:temp_dep).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :description, :floors, :number_of_spaces, :dep_map, :dep_event)
     end
 end
 

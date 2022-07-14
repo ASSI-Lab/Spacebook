@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_13_134209) do
+ActiveRecord::Schema.define(version: 2022_06_20_203544) do
 
   create_table "departments", force: :cascade do |t|
     t.integer "user_id"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 2022_07_13_134209) do
     t.string "provincia"
     t.string "latitude"
     t.string "longitude"
+    t.string "dep_map"
+    t.string "dep_event"
     t.text "description"
     t.integer "floors"
     t.integer "number_of_spaces"
@@ -105,12 +107,6 @@ ActiveRecord::Schema.define(version: 2022_07_13_134209) do
     t.index ["space_id"], name: "index_seats_on_space_id"
   end
 
-  create_table "site_current_dates", force: :cascade do |t|
-    t.datetime "last_update"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "spaces", force: :cascade do |t|
     t.integer "department_id"
     t.string "dep_name"
@@ -152,6 +148,8 @@ ActiveRecord::Schema.define(version: 2022_07_13_134209) do
     t.text "description"
     t.integer "floors"
     t.integer "number_of_spaces"
+    t.string "dep_map"
+    t.string "dep_event"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["manager"], name: "temp_dep_manager_index", unique: true

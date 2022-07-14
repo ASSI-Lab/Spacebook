@@ -14,6 +14,8 @@ class CreateDepartments < ActiveRecord::Migration[6.1]
       t.string :provincia
       t.string :latitude
       t.string :longitude
+      t.string :dep_map
+      t.string :dep_event
       
       t.text :description
       t.integer :floors

@@ -65,6 +65,8 @@
                                             <!-- Campi inseriti automaticamente -->
                                             <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, :style=>'display:none' %>
                                             <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, :style=>'display:none'%>
+                                            <%= form.text_field :dep_map, required: true, value:@dep_map, readonly: true, :style=>'display:none'%>
+                                            <%= form.text_field :dep_event, required: true, value:@dep_event, readonly: true, :style=>'display:none'%>
 
                                             <!-- Campi inseriti dal manager -->
                                             <div class="label h6"> 
@@ -319,6 +321,33 @@
                                         </div>
                                     </div>
 
+                                    <!-- Mostra il designer di Seats.io -->
+                                    <div class="card shadow-lg border-0 rounded-lg mt-4">
+                                        <div class="card-header text-center">
+                                            <label class="font-weight-light h4 mt-4 mb-0"> Designer pianta dipartimento </label>
+                                            <div class="small text-muted"> Clicca nell'area del designer per creare un modello per il tuo dipartimento. Puoi seguire il tutorial interattivo se è il tuo primo design. </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item px-0">
+                                                    <div style="displa:flex">
+                                                        <!-- Spazio per inserire renderer Seatsio per creazione pianta dipartimento -->
+                                                        <div id="chartDesigner"></div>
+                                                        <script src="https://cdn-eu.seatsio.net/chart.js"></script>
+
+                                                        <script>
+                                                            new seatsio.SeatingChartDesigner({
+                                                                divId: 'chartDesigner',
+                                                                secretKey: '<%= ENV['SEATS_IO_SECRET'] %>',
+                                                                chartKey: '<%= mydep.dep_map %>'
+                                                            }).render();
+                                                        </script>                                                        
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
                                     <!-- Mostra gli orari del dipartimento -->
                                     <div class="card shadow-lg border-0 rounded-lg mt-4">
                                         <div class="card-header text-center">
@@ -387,7 +416,7 @@
                                             </ul>
                                         </div>
                                     </div>
-
+                                    
                                     <div class="card shadow-lg border-0 rounded-lg mt-4">
                                         <div class="card-body">
                                             <div class="row">

@@ -224,6 +224,36 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- Mostra la pianta interattiva del dipartimento -->
+				<% if selected_department.dep_map!=nil %>
+				<div class="card shadow-lg border-0 rounded-lg mt-4">
+					<div class="card-header text-center">
+						<label class="font-weight-light h4 mt-4 mb-0"> Pianta del dipartimento </label>
+						<div class="small text-muted"> Clicca sulla pianta per esplorare gli spazi del dipartimento selezionato. </div>
+					</div>
+					<div class="card-body">
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item px-0">
+								<div style="displa:flex">
+									<!-- Spazio per inserire renderer Seatsio per visualizzazione pianta dipartimento -->
+									<div id="chart"></div>
+									<script src="https://cdn-eu.seatsio.net/chart.js"></script>
+
+									<script>
+										new seatsio.SeatingChart({
+											divId: 'chart',
+											workspaceKey: '<%= ENV['SEATS_IO_PUBLIC'] %>',
+											event: '<%= selected_department.dep_event %>'
+										}).render();
+									</script>                                                        
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<% end %>
+				
 				<!-- Form per selezionare gli spazi e gli orari da prenotare -->
 				<%= form_with url: make_res_path, local: true, method: :post do |form| %>
 					<div class="row">
@@ -414,7 +444,7 @@
 																						</div>
 																						<!-- Pianta dello spazio + descrizione -->
 																						<div class="card-body">
-																							<img class="card-img" id="depFloorMapImg" src="https://i1.wp.com/fotografiaartistica.it/wp-content/uploads/2019/06/nasa-immagini-gratuite-dello-spazio.jpg?fit=1041%2C664&ssl=1" alt="..." />
+																							<img class="card-img" id="depFloorMapImg" src="https://i1.wp.com/fotogafiaartistica.it/wp-content/uploads/2019/06/nasa-immagini-gratuite-dello-spazio.jpg?fit=1041%2C664&ssl=1" alt="..." />
 
 																							<div class="dropdown-divider my-3"></div>
 

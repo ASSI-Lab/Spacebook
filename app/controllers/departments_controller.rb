@@ -18,7 +18,7 @@ class DepartmentsController < ApplicationController
         @temp_sps = TempSp.where(temp_dep_id: @temp_dep.id)                                         # Raccoglie gli spazi temporanei relativi al dipartimento temporaneo
         coord = get_coord(@temp_dep.via+" "+@temp_dep.civico+" "+@temp_dep.citta+" "+@temp_dep.cap) # Raccoglie le coordinate del dipartimento temporaneo
         # Crea il dipartimento effettivo con i dati di quello temporaneo
-        @department = Department.create(user_id: current_user.id, name: @temp_dep.name, manager: @temp_dep.manager, via: @temp_dep.via, civico: @temp_dep.civico, cap: @temp_dep.cap, citta: @temp_dep.citta, provincia: @temp_dep.provincia,latitude: coord[0],longitude: coord[1], description: @temp_dep.description, floors: @temp_dep.floors, number_of_spaces: @temp_sps.count)
+        @department = Department.create(user_id: current_user.id, name: @temp_dep.name, manager: @temp_dep.manager, via: @temp_dep.via, civico: @temp_dep.civico, cap: @temp_dep.cap, citta: @temp_dep.citta, provincia: @temp_dep.provincia,latitude: coord[0],longitude: coord[1], description: @temp_dep.description, floors: @temp_dep.floors, number_of_spaces: @temp_sps.count, dep_map: @temp_dep.dep_map, dep_event: @temp_dep.dep_event)
 
         # Raccoglie gli orari temporanei relativi al dipartimento temporaneo e con il ciclo crea gli orari effettivi
         @temp_week_day = TempWeekDay.where(temp_dep_id: @temp_dep.id).each do |twd|
@@ -190,6 +190,6 @@ class DepartmentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def department_params
-      params.require(:department).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :latitude, :longitude, :description, :floors, :number_of_spaces)
+      params.require(:department).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :latitude, :longitude, :description, :floors, :number_of_spaces, :dep_map, :dep_event)
     end
 end
