@@ -1,4 +1,4 @@
-var IDLE_TIMEOUT = 1800; //seconds
+var IDLE_TIMEOUT = 900; //seconds
 var _idleSecondsCounter = 0;
 document.onclick = function() {
   _idleSecondsCounter = 0;
