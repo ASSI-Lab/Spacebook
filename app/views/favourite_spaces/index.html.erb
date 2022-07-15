@@ -13,13 +13,12 @@
     <script>
         $(document).ready(function () {
             $('#datatableSpaziPreferiti').DataTable({
-                dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
+                dom: '<"row"<"col"t>><"row mt-1"<"col"p>>',
                 scrollX: true,
                 filter: 'false',
                 pagingType: "simple_numbers",
                 pageLength: 10,
                 language: {
-                    lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> spazi preferiti </h6></label>',
                     zeroRecords: 'Nessuno spazio preferito',
                     paginate: {
                         first:    '<i class="bi bi-caret-left-fill"></i>',

@@ -15,14 +15,13 @@
     <script>
         $(document).ready(function () {
             $('#datatableTempSpCreati').DataTable({
-                dom: '<"row"<"col"l>><"row"<"col"<"dropdown-divider mb-0">>><"row"<"col"t>><"row mt-1"<"col"p>><"row"<"col"<"dropdown-divider">>>',
+                dom: '<"row"<"col"t>><"row mt-1"<"col"p>>',
                 scrollY: 481,
                 scrollX: true,
                 filter: 'false',
                 pagingType: "simple_numbers",
                 pageLength: 10,
                 language: {
-                    lengthMenu: '<label><h6> Mostra </h6></label> _MENU_ <label><h6> spazi contemporaneamente </h6></label>',
                     zeroRecords: 'Nessuno spazio inserito',
                     paginate: {
                         first:    '<i class="bi bi-caret-left-fill"></i>',
