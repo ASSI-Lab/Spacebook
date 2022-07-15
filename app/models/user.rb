@@ -12,8 +12,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :timeoutable,
          :omniauthable, omniauth_providers: [:google_oauth2]
          
-         acts_as_user :roles => [ :manager, :admin ]    #RUOLI DEFINITI PER IL CONTROLLO AUTORIZZAZIONI DI CANARD
-         ROLES = %w[manager admin].freeze               #RUOLI MOSTRATI NELLE CHECKBOX DI SIGNUP(MANTENERE LO STESSO ORDINE DI :roles !!!)
+         acts_as_user :roles => [ :manager, :admin ,:base_user]    #RUOLI DEFINITI PER IL CONTROLLO AUTORIZZAZIONI DI CANARD
+         ROLES = %w[manager admin base_user].freeze               #RUOLI MOSTRATI NELLE CHECKBOX DI SIGNUP(MANTENERE LO STESSO ORDINE DI :roles !!!)
 
          def is?(role)                                                                         #***
             roles.include?(role.to_s)                                                          #

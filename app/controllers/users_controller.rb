@@ -13,6 +13,6 @@ class UsersController < ApplicationController
             UserMailer.with(user: @user).blocked_account_email.deliver_now
         end
         redirect_to request.referrer
-        flash[:notice] = "Account utente(#{@user.email}) bloccato: #{@user.access_locked?}"
+        flash[:notice] = "L' account (\"#{@user.email}\") è stato #{@user.access_locked? ? "bloccato" : "sbloccato"} con successo!"
     end
 end

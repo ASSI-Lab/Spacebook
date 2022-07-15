@@ -11,6 +11,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           @user.access_token = auth.credentials.token           # AGGIUNGO ACCESS TOKEN UTENTE AL DATABASE
           @user.expires_at = auth.credentials.expires_at        # AGGIUNGO DATA SCADENZA TOKEN UTENTE AL DATABASE
           @user.refresh_token = auth.credentials.refresh_token  # AGGIUNGO TOKEN DI REFRESH AL DATABASE
+          @user.provider = "Google"
           @user.save!
           if @user.roles_mask != nil                            ####################
             print "\n\n\n",@user.roles_mask,"\n\n\n"            #
