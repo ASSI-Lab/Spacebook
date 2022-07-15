@@ -1,11 +1,11 @@
 <!-- Modal di modifica che permette ad un manager di aggiornare i campi del suo dipartimento temporaneo -->
 
-<div class="modal fade" id="tempSpID<%= mydep.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="tempDepID<%= mydep.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-        <div class="modal-content">
+        <div class="modal-content form-c-label">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel"> Modifica "<%= mydep.name %>" </h5>
-                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
+                <button type="button" class="btn bi bi-x-lg" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                     <%= form_with(model: mydep) do |form| %>
@@ -25,59 +25,39 @@
                         Dati del dipartimento
                     </div>
                     <div class="form-floating mb-3">                            
-                        <%= form.text_field :name, :class=>"form-control", :id=>"depName", :placeholder=>"plh"%>
+                        <%= form.text_field :name, class: "form-control", id: "depName", placeholder: "plh" %>
                         <label for="depName"> Nome </label>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :via, :class=>"form-control", :id=>"via", :placeholder=>"plh"%>
+                                <%= form.text_field :via, class: "form-control", id: "via", placeholder: "plh" %>
                                 <label for="via"> Via, Viale, Piazza... </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :civico, :class=>"form-control", :id=>"civico", :placeholder=>"plh"%>
+                                <%= form.text_field :civico, class: "form-control", id: "civico", placeholder: "plh" %>
                                 <label for="civico"> n° civico </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :cap, :class=>"form-control", :id=>"cap", :placeholder=>"plh"%>
+                                <%= form.text_field :cap, class: "form-control", id: "cap", placeholder: "plh" %>
                                 <label for="cap"> Cap </label>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :citta, :class=>"form-control", :id=>"citta", :placeholder=>"plh"%>
+                                <%= form.text_field :citta, class: "form-control", id: "citta", placeholder: "plh" %>
                                 <label for="citta"> Città </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :provincia, :class=>"form-control", :id=>"provincia", :placeholder=>"plh"%>
+                                <%= form.text_field :provincia, class: "form-control", id: "provincia", placeholder: "plh" %>
                                 <label for="provincia"> Provincia </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <br>
-
-                    <div class="label h6"> 
-                        Dati relativi alle prenotazioni
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-floating mb-3">
-                                <%= form.number_field :number_of_spaces, :class=>"form-control", :id=>"numSpazi", :placeholder=>"plh"%>
-                                <label for="numSpazi"> Numero di spazi prenotabili </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-floating mb-3">
-                                <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
-                                <label for="numPiani"> Numero dei piani dell'edificio </label>
                             </div>
                         </div>
                     </div>
@@ -95,7 +75,7 @@
 
                     <!-- Tasto per aggiornare o per annullare -->
                     <div class="actions">
-                        <%= form.submit class:"btn btn-outline-info", value: 'Aggiorna', style: 'width:100%'%>
+                        <%= form.submit class:"btn btn-info", value: 'Aggiorna', style: 'width:100%'%>
                     </div>
 
                 <% end %>

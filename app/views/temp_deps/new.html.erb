@@ -62,10 +62,10 @@
                                             <% end %>
 
                                             <!-- Campi inseriti automaticamente -->
-                                            <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, :style=>'display:none' %>
-                                            <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, :style=>'display:none'%>
-                                            <%= form.text_field :dep_map, required: true, value:@dep_map, readonly: true, :style=>'display:none'%>
-                                            <%= form.text_field :dep_event, required: true, value:@dep_event, readonly: true, :style=>'display:none'%>
+                                            <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, style: 'display:none' %>
+                                            <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, style: 'display:none'%>
+                                            <%= form.text_field :dep_map, required: true, value:@dep_map, readonly: true, style: 'display:none'%>
+                                            <%= form.text_field :dep_event, required: true, value:@dep_event, readonly: true, style: 'display:none'%>
 
                                             <!-- Campi inseriti dal manager -->
                                             <div class="label h6"> 
@@ -73,15 +73,15 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-9">
-                                                    <div class="form-floating mb-3">                            
-                                                        <%= form.text_field :name, :class=>"form-control", :id=>"depName", :placeholder=>"plh"%>
-                                                        <label for="depName"> Nome </label>
+                                                    <div class="form-floating mb-3">
+                                                        <%= form.text_field :name, class: "form-control", id: "depName", placeholder: "plh"%>
+                                                        <label class="form-c-label" for="depName"> Nome </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
-                                                        <label for="numPiani"> Numero dei piani dell'edificio </label>
+                                                        <%= form.number_field :floors, class: "form-control", id: "numPiani", placeholder: "plh"%>
+                                                        <label class="form-c-label" for="numPiani"> Numero dei piani dell'edificio </label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -89,32 +89,32 @@
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.text_field :via, :class=>"form-control", :id=>"via", :placeholder=>"plh"%>
-                                                        <label for="via"> Via, Viale, Piazza... </label>
+                                                        <%= form.text_field :via, class: "form-control", id: "via", placeholder: "plh"%>
+                                                        <label class="form-c-label" for="via"> Via, Viale, Piazza... </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.text_field :civico, :class=>"form-control", :id=>"civico", :placeholder=>"plh"%>
-                                                        <label for="civico"> n° civico </label>
+                                                        <%= form.text_field :civico, class: "form-control", id: "civico", placeholder: "plh"%>
+                                                        <label class="form-c-label" for="civico"> n° civico </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.text_field :cap, :class=>"form-control", :id=>"cap", :placeholder=>"plh"%>
-                                                        <label for="cap"> Cap </label>
+                                                        <%= form.text_field :cap, class: "form-control", id: "cap", placeholder: "plh"%>
+                                                        <label class="form-c-label" for="cap"> Cap </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.text_field :citta, :class=>"form-control", :id=>"citta", :placeholder=>"plh"%>
-                                                        <label for="citta"> Città </label>
+                                                        <%= form.text_field :citta, class: "form-control", id: "citta", placeholder: "plh"%>
+                                                        <label class="form-c-label" for="citta"> Città </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.text_field :provincia, :class=>"form-control", :id=>"provincia", :placeholder=>"plh"%>
-                                                        <label for="provincia"> Provincia </label>
+                                                        <%= form.text_field :provincia, class: "form-control", id: "provincia", placeholder: "plh"%>
+                                                        <label class="form-c-label" for="provincia"> Provincia </label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -126,7 +126,7 @@
                                                     <%= form.label 'Descrizione del dipartimento' %>
                                                 </div>
                                                 <div class="field"> 
-                                                    <%= form.text_area :description, :class=>"form-control", rows: 5, :style=>"width:100%" %>
+                                                    <%= form.text_area :description, class: "form-control", rows: 5, style: "width:100%" %>
                                                 </div>
                                             </div>
 
@@ -171,8 +171,8 @@
                                                                         </label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-12 collapse px-0" id="<%= table_day %>SetTWDCollapse">
-                                                                    <!-- Colapse per inserire gli orari -->
+                                                                <!-- Colapse per inserire gli orari -->
+                                                                <div class="col-lg-12 collapse px-1" id="<%= table_day %>SetTWDCollapse">
                                                                     Apertura
                                                                     <div class="form-floating mx-2" style="display: flex">
                                                                         <%= form.time_select( table_day+"Apertura", {}, { class: "form-control text-center mx-1 my-0 py-0", style: "width: 100%; min-width: 50px; height: auto"} ) %>
@@ -188,9 +188,9 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <%= form.number_field :temp_dep_id, value: mydep.id, readonly: true, :style=>'display:none'%>
-                                                        <%= form.text_field :dep_name, value: mydep.name, readonly: true, :style=>'display:none'%>
-                                                        <%= form.submit 'Imposta orari', class:"btn btn-outline-info", style: "width:100%" %>
+                                                        <%= form.number_field :temp_dep_id, value: mydep.id, readonly: true, style: 'display:none'%>
+                                                        <%= form.text_field :dep_name, value: mydep.name, readonly: true, style: 'display:none'%>
+                                                        <%= form.submit 'Imposta orari', class:"btn btn-outline-info mt-2", style: "width:100%" %>
                                                     </div>
                                                 </div>
                                             <% end %>
@@ -206,7 +206,7 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-lg-3">
-                                                    <h6 class="mt-1 mb-3"> Compila il form con i dati richiesti </h6>
+                                                    <h6 class="mt-2 mb-1"> Compila il form con i dati richiesti </h6>
                                                     <!-- Form di inserimento degli spazi -->
                                                     <% temp_sp = TempSp.new %>
                                                     <%= form_with(model: temp_sp) do |form| %>
@@ -223,37 +223,35 @@
                                                         <% end %>
 
                                                         <!-- Campo inserito automaticamente -->
-                                                        <%= form.number_field :temp_dep_id, value: mydep.id, required: true, readonly: true, :style=>'display:none' %>
-                                                        <%= form.text_field :dep_name, value: mydep.name, required: true, readonly: true, :style=>'display:none' %>
-                                                        <%= form.text_field :state, value: "Abilitato", required: true, :style=>'display:none' %>
+                                                        <%= form.number_field :temp_dep_id, value: mydep.id, required: true, readonly: true, style: 'display:none' %>
+                                                        <%= form.text_field :dep_name, value: mydep.name, required: true, readonly: true, style: 'display:none' %>
+                                                        <%= form.text_field :state, value: "Abilitato", required: true, style: 'display:none' %>
 
                                                         <!-- Campi inseriti dal manager -->
                                                         <div class="form-floating mb-3">
                                                             <%= form.select( :typology, [["Aula"], ["Isola"], ["Biblioteca"], ["Laboratorio"]], {}, {class: "form-select", id: "tipSpazio"}) %>
-                                                            <label for="tipSpazio"> Seleziona la tipologia dello spazio </label>
-                                                        </div>
-
-                                                        <div class="form-floating mb-3">                            
-                                                            <%= form.text_field :name, :class=>"form-control", :id=>"spazioName", :placeholder=>"plh"%>
-                                                            <label for="spazioName"> Nome dello spazio </label>
-                                                        </div>
-
-                                                        <div class="form-floating mb-3">                            
-                                                            <%= form.number_field :floor, :class=>"form-control", :id=>"piano", :placeholder=>"plh"%>
-                                                            <label for="piano"> Piano al quale si trova </label>
-                                                        </div>
-
-                                                        <div class="form-floating mb-3">                            
-                                                            <%= form.number_field :number_of_seats, :class=>"form-control", :id=>"numPosti", :placeholder=>"plh"%>
-                                                            <label for="numPosti"> Numero di posti prenotabili </label>
+                                                            <label class="form-c-label" for="tipSpazio"> Seleziona la tipologia dello spazio </label>
                                                         </div>
 
                                                         <div class="form-floating mb-3">
-                                                            <div class="label">
-                                                                <%= form.label 'Descrizione dello spazio' %>
-                                                            </div>
-                                                            <div class="field"> 
-                                                                <%= form.text_area :description, :class=>"form-control", rows: 8, :style=>"width:100%" %>
+                                                            <%= form.text_field :name, class: "form-control", id: "spazioName", placeholder: "plh"%>
+                                                            <label class="form-c-label" for="spazioName"> Nome dello spazio </label>
+                                                        </div>
+
+                                                        <div class="form-floating mb-3">
+                                                            <%= form.number_field :floor, class: "form-control", id: "piano", placeholder: "plh"%>
+                                                            <label class="form-c-label" for="piano"> Piano al quale si trova </label>
+                                                        </div>
+
+                                                        <div class="form-floating mb-3">
+                                                            <%= form.number_field :number_of_seats, class: "form-control", id: "numPosti", placeholder: "plh"%>
+                                                            <label class="form-c-label" for="numPosti"> Numero di posti prenotabili </label>
+                                                        </div>
+
+                                                        <div class="form-floating mb-3 mt-0">
+                                                            <div class="field "> 
+                                                                <label> Descrizione dello spazio </label>
+                                                                <%= form.text_area :description, class: "form-control", rows: 7, style: "width:100%" %>
                                                             </div>
                                                         </div>
 
@@ -298,22 +296,11 @@
                                                                     </td>
                                                                     <td>
                                                                         <!-- Tasto per la rimozioe dello spazio inserito -->
-                                                                        <%= link_to '', jcs, method: :delete, data: { confirm: 'Sicuro?' }, :class => "btn btn-sm btn-outline-info bi bi-trash", :style=>"width:100%"%>
+                                                                        <%= link_to '', jcs, method: :delete, data: { confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style: "width:100%"%>
                                                                     </td>
                                                                 </tr>
                                                             <% end %>
                                                         </tbody>
-                                                        <tfoot>
-                                                            <tr class="h6">
-                                                                <td width="14%">Tipologia</td>
-                                                                <td width="14%">Nome</td>
-                                                                <td width="14%">Piano</td>
-                                                                <td width="14%">Posti</td>
-                                                                <td width="14%">Descrizione</td>
-                                                                <td width="14%">Modifica</td>
-                                                                <td width="14%">Rimuovi</td>
-                                                            </tr>
-                                                        </tfoot>
                                                     </table>
                                                 </div>
                                             </div>
@@ -354,27 +341,23 @@
                                             <div class="small text-muted"> Clicca sulla pennina relativa ad uno dei giorni per modificarli </div>
                                         </div>
                                         <div class="card-body">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item px-0">
-                                                    <div style="displa:flex">
-                                                        <!-- Per tutti gli orari del dipartimento -->
-                                                        <% @twd.each do |twd| %>
-                                                            <label style="margin: 0px 44px 10px 44px">
-                                                                <!-- Icona interattiva per la modifica tramite modal degli orari -->
-                                                                <label class="label h6" data-bs-toggle="modal" data-bs-target="#tempWDID<%= twd.id %>"> <%= twd.day %> <i class="bi bi-pen btn btn-sm btn-outline-info px-1 py-0"></i> </label>
-                                                                <!-- Modal di modifica -->
-                                                                <%= render 'modal_temp_wd_edit', twd: twd %>
-                                                                <br>
-                                                                <% if twd.state == "Aperto" %>
-                                                                    <%= twd.apertura.strftime('%H:%M') %>-<%= twd.chiusura.strftime('%H:%M') %>
-                                                                <% else %>
-                                                                    Chiuso
-                                                                <% end %>
-                                                            </label>
+                                            <div style="displa:flex">
+                                                <!-- Per tutti gli orari del dipartimento -->
+                                                <% @twd.each do |twd| %>
+                                                    <label style="margin: 0px 44px 10px 44px">
+                                                        <!-- Icona interattiva per la modifica tramite modal degli orari -->
+                                                        <label class="label h6" data-bs-toggle="modal" data-bs-target="#tempWDID<%= twd.id %>"> <%= twd.day %> <i class="bi bi-pen btn btn-sm btn-outline-info px-1 py-0"></i> </label>
+                                                        <!-- Modal di modifica -->
+                                                        <%= render 'modal_temp_wd_edit', twd: twd %>
+                                                        <br>
+                                                        <% if twd.state == "Aperto" %>
+                                                            <%= twd.apertura.strftime('%H:%M') %>-<%= twd.chiusura.strftime('%H:%M') %>
+                                                        <% else %>
+                                                            Chiuso
                                                         <% end %>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                                    </label>
+                                                <% end %>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -382,7 +365,7 @@
                                     <div class="card shadow-lg border-0 rounded-lg mt-4">
                                         <div class="card-header text-center">
                                             <!-- Icona interattiva per la modifica tramite modal -->
-                                            <label class="label h4 font-weight-light mt-4 mb-2" data-bs-toggle="modal" data-bs-target="#tempSpID<%= mydep.id %>"> <%= mydep.name %> <i class="btn btn-sm btn-outline-info bi bi-pen px-1 py-0"></i></label>
+                                            <label class="label h4 font-weight-light mt-4 mb-2" data-bs-toggle="modal" data-bs-target="#tempDepID<%= mydep.id %>"> <%= mydep.name %> <i class="btn btn-sm btn-outline-info bi bi-pen px-1 py-0"></i></label>
                                             <!-- Modal di modifica -->
                                             <div style="text-align:left">
                                                 <%= render 'modal_temp_dep_edit', mydep: mydep %>
@@ -390,42 +373,23 @@
                                             <div class="small text-muted"> Clicca sulla pennina per cambiare i dati </div>
                                         </div>
                                         <div class="card-body">
-                                            <ul class="list-group list-group-flush">
-                                                <!-- Descrizione -->
-                                                <li class="list-group-item">
-                                                    <!-- Icona interattiva per visualizzare il collapse della descrizione -->
-                                                    <label class="label h5" data-bs-toggle="collapse" data-bs-target="#dep<%= (mydep).id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Descrizione <i class="bi bi-card-text"></i> </label> 
-                                                    <!-- Collapse della descrizione -->
-                                                    <div class="collapse" id="dep<%= (mydep).id %>DescCollapse">
-                                                        <%= (mydep).description %>
-                                                    </div>
-                                                </li>
-
-                                                <li class="list-group-item">
-                                                    <label class="label"><h6> Posizione: </h6></label> <%= mydep.via %>, <%= mydep.civico %>, <%= mydep.cap %>, <%= mydep.citta %>, <%= mydep.provincia %>
-                                                </li>
-
-                                                <li class="list-group-item">
-                                                    <label class="label"><h6> Numero piani: </h6></label> <%= mydep.floors %>
-                                                </li>
-
-                                                <li class="list-group-item">
-                                                    <label class="label"><h6> Spazi disponibili: </h6></label> <%= mydep.number_of_spaces %>
-                                                </li>
-                                            </ul>
+                                            <!-- Icona interattiva per visualizzare il collapse della descrizione -->
+                                            <label class="label h6 mb-0"> Descrizione: </label> <%= (mydep).description %><br>
+                                            <label class="label h6 mb-0"> Posizione: </label> <%= mydep.via %>, <%= mydep.civico %>, <%= mydep.cap %>, <%= mydep.citta %>, <%= mydep.provincia %><br>
+                                            <label class="label h6 mb-0"> Numero piani: </label> <%= mydep.floors %>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="card shadow-lg border-0 rounded-lg mt-4">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <!-- Tasto per l'annullamento della procedura di registrazione -->
-                                                    <%= button_to 'Annulla la registrazione del dipartimento e i relativi spazi', mydep, method: :delete, data: { confirm: 'Sicuro di voler annullare la procedura? Dovrai comunque registrare il tuo dipartimento al prossimo accesso.' }, :class=>"btn btn-outline-info", :style=>"width:100%" %>
+                                                    <!-- Mostra il tasto per la conferma dei dati temporanei inseriti e l'avvio della creazione degli oggetti effettivi -->
+                                                    <%= button_to 'Conferma la registrazione del dipartimento e i relativi spazi', '/manager_department', method: :get, data: { confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in questa schermata?' }, class: "btn btn-outline-info", style: "width:100%" %>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <!-- Mostra il tasto per la conferma dei dati temporanei inseriti e l'avvio della creazione degli oggetti effettivi -->
-                                                    <%= button_to 'Conferma la registrazione del dipartimento e i relativi spazi', '/manager_department', method: :get, data: { confirm: 'Sicuro di voler registrare il dipartimento con i dati riportati in questa schermata?' }, :class=>"btn btn-outline-info", :style=>"width:100%" %>
+                                                    <!-- Tasto per l'annullamento della procedura di registrazione -->
+                                                    <%= button_to 'Annulla la registrazione del dipartimento e i relativi spazi', mydep, method: :delete, data: { confirm: 'Sicuro di voler annullare la procedura? Dovrai comunque registrare il tuo dipartimento al prossimo accesso.' }, class: "btn btn-outline-info", style: "width:100%" %>
                                                 </div>
                                             </div>
                                         </div>

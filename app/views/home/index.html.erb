@@ -66,21 +66,15 @@
 		</div>
 	</div>
 
-	<div class="row">
-		<!-- Barra di ricerca per dipartimenti -->
-		<div class="col-xl-6">
-			<form class="d-none d-md-inline-block form-inline mt-3 mb-1">
-				<div class="input-group">
-					<table width="100%" class="rounded btn-outline-info">
-						<tr>
-							<td width="90%"><input type="text" class="form-control btn-outline-info" placeholder="Trova un dipartimento..." id="depSearchHome"/></td>
-							<td width="10%"><button class="btn btn-info bi bi-search" id="btnNavbarSearch" type="button"></button></td>
-						</tr>
-					</table>
-				</div>
-			</form>
-		</div>
-	</div>
+	<!-- Barra di ricerca per dipartimenti -->
+	<%= search_form_for(@q, url: home_path, method: :get, class: "d-none d-md-inline-block form-inline my-2") do |f| %>
+		<table width="100%" class="mt-4">
+			<tr>
+				<td><%= f.search_field :name_or_via_or_civico_or_cap_or_citta_or_provincia_or_manager_i_cont_any, class: "form-control", placeholder: "Cerca un dipartimento...", id: "depSearchHome"%></td>
+				<td width="10%"><button class="btn btn-outline-info bi bi-search mx-2" id="btnNavbarSearch"><% f.submit "" %></button></td>
+			</tr>
+		</table>
+	<% end %>
 
 	<div class="row">
 		<div class="col-lg-8">
@@ -111,7 +105,6 @@
 								</table>
 							</div>
 							<div class="card-body" style="background-color: transparent !important">
-								<!-- Descrizione -->
 								<!-- Icona interattiva per visualizzare il collapse della descrizione -->
 								<label class="label h5 py-1" data-bs-toggle="collapse" data-bs-target="#dep<%= department.id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Descrizione <i class="colorLink bi bi-card-text"></i> </label> 
 								<!-- Collapse della descrizione -->

@@ -75,16 +75,16 @@
 					<table width="100%">
 						<tr>
 							<td width="76%">
-								<h3 class="font-weight-light my-3"> <%= (@department.first).name %> </h3>
+								<h3 class="font-weight-light my-3"> <%= (@department).name %> </h3>
 							</td>
 							<td width="12%">
 								<!-- Tasto per l'update -->
-								<button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempSpID<%= @department.first.id %>"> Aggiorna </button>
-								<%= render 'modal_dep_edit', mydep: @department.first %>
+								<button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempSpID<%= @department.id %>"> Aggiorna </button>
+								<%= render 'modal_dep_edit', mydep: @department %>
 							</td>
 							<td width="12%">
 								<!-- Tasto per l'eliminazione -->
-								<%= button_to 'Elimina', @department.first, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, :class=>"btn btn-outline-info" %>
+								<%= button_to 'Elimina', @department, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, :class=>"btn btn-outline-info" %>
 							</td>
 						</tr>
 					</table>
@@ -94,20 +94,25 @@
 					<table width="100%">
 						<tr>
 							<td width="55%" class="ms-0 ps-0">
-								<!-- Descrizione -->
-								<label class="label h5 pt-2 pb-0"> Descrizione <i class="bi bi-card-text"></i> </label> 
-								<div> <%= (@department.first).description %> </div><br>
+								<!-- Descrizione truncate tramite modal -->
+								<label class="label h5 pt-2 pb-0">
+									<label class="h5 pt-2 pb-0"> Descrizione: </label>
+									<!-- Icona interattiva per visualizzare il modal della descrizione completa -->
+									<i class="colorLink bi bi-card-text" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>DescModal"> continua a leggere </i>
+									<!-- Truncate -->
+									<label class="text-truncate" style="width: 450px"> <%= (@department).description %> </label>
+									<!-- Modal descrizione -->
+									<%= render 'modal_dep_desc', department: @department %>
+								</label>
 
-								<label class="label h5 pt-0 pb-0"> Posizione: </label> <%= (@department.first).via %>, <%= (@department.first).civico %>, <%= (@department.first).cap %>, <%= (@department.first).citta %>, <%= (@department.first).provincia %><br>
-
-								<label class="label h5 pt-2 pb-0"> Numero piani: </label> <%= (@department.first).floors %><br>
-
-								<label class="label h5 pt-2 pb-0"> Numero spazi: </label> <%= (@department.first).number_of_spaces %>
+								<label class="label h5 pt-0 pb-0"> Posizione: </label> <%= (@department).via %>, <%= (@department).civico %>, <%= (@department).cap %>, <%= (@department).citta %>, <%= (@department).provincia %><br>
+								<label class="label h5 pt-2 pb-0"> Numero piani: </label> <%= (@department).floors %><br>
+								<label class="label h5 pt-2 pb-0"> Numero spazi: </label> <%= (@department).number_of_spaces %>
 							</td>
 							<td width="45%" class="px-3 pt-2"> <!-- Orari -->
 								<label class="label h5 pt-2 pb-0"> Orari <i class="bi bi-clock"></i> </label> 
 								<!-- Raccoglie tutti gli orari del dipartimento -->
-								<% @week_days.where(department_id: (@department.first).id).each do |wd| %>
+								<% @week_days.where(department_id: (@department).id).each do |wd| %>
 									<div class="row">
 										<div class="col-sm-5">
 											<h6><%= wd.day %></h6>

@@ -2,10 +2,10 @@
 
 <div class="modal fade" id="tempSpID<%= mydep.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-        <div class="modal-content">
+        <div class="modal-content form-c-label">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel"> Modifica "<%= mydep.name %>" </h5>
-                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
+                <button type="button" class="btn bi bi-x-lg" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <%= form_with(model: mydep) do |form| %>
@@ -21,12 +21,19 @@
                     <% end %>
 
                     <!-- Campi inseriti dal manager -->
-                    <div class="label h6"> 
-                        Dati del dipartimento
-                    </div>
-                    <div class="form-floating mb-3">                            
-                        <%= form.text_field :name, :class=>"form-control", :id=>"depName", :placeholder=>"plh"%>
-                        <label for="depName"> Nome </label>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3">                            
+                                <%= form.text_field :name, :class=>"form-control", :id=>"depName", :placeholder=>"plh"%>
+                                <label for="depName"> Nome </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3">
+                                <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
+                                <label for="numPiani"> Numero dei piani dell'edificio </label>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -62,28 +69,6 @@
                         </div>
                     </div>
 
-                    <br>
-
-                    <div class="label h6"> 
-                        Dati relativi alle prenotazioni
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-floating mb-3">
-                                <%= form.number_field :number_of_spaces, :class=>"form-control", :id=>"numSpazi", :placeholder=>"plh"%>
-                                <label for="numSpazi"> Numero di spazi prenotabili </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-floating mb-3">
-                                <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
-                                <label for="numPiani"> Numero dei piani dell'edificio </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <br>
-
                     <div class="form-floating mb-3">
                         <div class="label h6">
                             <%= form.label 'Descrizione del dipartimento' %>
@@ -93,9 +78,9 @@
                         </div>
                     </div>
 
-                    <!-- Tasto per aggiornare o per annullare -->
+                    <!-- Tasto per aggiornare -->
                     <div class="actions">
-                        <%= form.submit class:"btn btn-outline-info", value: 'Aggiorna'%>
+                        <%= form.submit "Aggiorna", class:"btn btn-info", style: "width: 100%"%>
                     </div>
 
                 <% end %>

@@ -2,10 +2,10 @@
 
 <div class="modal fade" id="tempWDID<%= twd.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
+        <div class="modal-content form-c-label">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel"> Modifica gil orari per "<%= twd.day %>" </h5>
-                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal" aria-label="Close"> Annulla </button>
+                <button type="button" class="btn bi bi-x-lg" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <%= form_with(model: twd) do |form| %>
@@ -35,13 +35,15 @@
                             <td>
                                 <div class="form-floating mb-3">
                                     <h6> Apertura </h6>
-                                    <%= form.time_select( :apertura, {}, { class: "form-control text-center mx-auto py-0", style: "width:50%; height:auto;"} ) %>
+                                    <div class="form-floating mx-2" style="display: flex">
+                                        <%= form.time_select( :apertura, {}, { class: "form-control text-center mx-auto py-0", style: "width:45%; height:auto;"} ) %>
+                                    </div>
                                 </div>
-                            </td>
-                            <td>
                                 <div class="form-floating mb-3">
-                                    <h6 for="chiusura"> Chiusura </h6>
-                                    <%= form.time_select( :chiusura, {}, { class: "form-control text-center mx-auto py-0", style: "width:50%; height:auto;"} ) %>
+                                    <h6> Chiusura </h6>
+                                    <div class="form-floating mx-2" style="display: flex">
+                                        <%= form.time_select( :chiusura, {}, { class: "form-control text-center mx-auto py-0", style: "width:45%; height:auto;"} ) %>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -49,7 +51,7 @@
 
                     <!-- Tasto per la creazione -->
                     <div class="actions">
-                        <%= form.submit class:"btn btn-outline-info", value: "Aggiorna l'orario per #{twd.day}", style: "width:100%"%>
+                        <%= form.submit class:"btn btn-info", value: "Aggiorna l'orario per #{twd.day}", style: "width:100%"%>
                     </div>
                 <% end %>
             </div>
