@@ -26,9 +26,9 @@ class TempDepsController < ApplicationController
     else
       if TempDep.where(manager: current_user.email).count == 0
         @temp_dep = TempDep.new
-        # res = new_dep_map(current_user.email)
-        # @dep_map = res[0]
-        # @dep_event = res[1]
+        res = new_dep_map(current_user.email)
+        @dep_map = res[0]
+        @dep_event = res[1]
       end
     end
   end
@@ -37,13 +37,10 @@ class TempDepsController < ApplicationController
   def new_dep_map manager_name
     client = Seatsio::Client.new(Seatsio::Region.EU(), ENV['SEATS_IO_SECRET'])
     name = current_user.email
-    venueType = "ROWS_WITH_SECTIONS"
-    categories = [
-      {"key": 1, "label": "Posti", "color": "#aaaaaa"},
-      {"key": 2, "label": "Posti disabili", "color": "#bbbbbb"}
-    ]
-    chart = client.charts.create categories: categories, name: name#, venueType: venueType
+    chart = client.charts.copy("547d22f4-9842-4816-aab3-55fa3b935c56")
     event = client.events.create chart_key: chart.key
+    client.charts.update key: chart.key, new_name: name
+    client.charts.publish_draft_version(chart.key)
     print "\n\n\n"+event.key+"\n\n\n\n"+chart.key+"\n\n"
     return [chart.key,event.key]
   end

@@ -5,6 +5,7 @@ class AddLockableToDevise < ActiveRecord::Migration[6.1]
 
     # Add these only if unlock strategy is :email or :both
     add_column :users, :unlock_token, :string
+    add_column :users, :locking_reason, :string
     add_index :users, :unlock_token, unique: true
   end
 end
