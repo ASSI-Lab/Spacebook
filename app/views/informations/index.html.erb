@@ -8,76 +8,76 @@
 
 <body>
 	<!-- CARD CON LE INFORMAZIONI -->
-	<div class="row">
-		<div class="col-md-8 mb-4 px-0">
-			<div class="card" style="border:none">
+	<div class="row mx-4 my-3">
+		<div class="col-md-2 col-lg-3 d-flex justify-content-center" style="display: flex; align-items: center;">
+			<img class="card-img" id="infoSpacebookLogo" src="<%= image_path('def-removebg-preview.png')%>">
+		</div>
+		<div class="col-md-10 col-lg-9" style="display: flex; align-items: center;">
+			<div class="card">
 				<div class="card-body">
-					<h2 class="font-weight-light mt-3 mb-4"> Funzionalità </h2>
-					<p class="card-text text-muted pt-3">
+					<h2 class="font-weight-light mt-3 mb-2"> Funzionalità </h2>
+					<p class="card-text pt-3">
 						Il sito è progettato per consentire agli utenti di prenotare spazi all'interno di un dipartimento.
 						<br>
 						Al momento della registrazione, un visitatore può scegliere uno dei seguenti ruoli: utente base o utente manager.
 						<br>
-						Ogni utente registrato può accedere all'area personale dove può modificare il nome utente, l’immagine profilo e la password e,
+						Ogni utente registrato può accedere all'area personale dove può modificare la password e,
 						eventualmente, sincronizzare le prenotazioni effettuate con il proprio account Google Calendar.
 					</p>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4 col-lg-4 d-flex justify-content-center mb-md-0 mb-4">
-			<img class="img-fluid" style="object-fit:cover" src="https://i.pinimg.com/564x/8e/6d/45/8e6d458ace445d5d6e10bd611bceb7c6.jpg">
-		</div>
 	</div>
 
 	<!-- LISTA DELLE FUNZIONALITÀ -->
-	<div class="row pt-3 mb-5">
-		<div class="col-lg-4 mb-5">
-			<h4 class="font-weight-bold mb-3">
+	<div class="row mx-4 pt-3 mb-5">
+		<div class="col-sm-6 col-md-4 col-lg-4 mb-4 px-4">
+			<h4 class="font-weight-bold text-white mb-3">
 				<i class="far fa-paper-plane indigo-text pr-2"></i> Utente base
 			</h4>
-			<p class="text-muted mb-lg-0">
+			<p class="text-white mb-lg-0">
 				Accedi con le tue credenziali, effettua prenotazioni e gestiscile nella tua area personale 
 			</p>
 		</div>
-		<div class="col-lg-4 mb-5">
-			<h4 class="font-weight-bold mb-3">
+		<div class="col-sm-6 col-md-4 col-lg-4 mb-4 px-4">
+			<h4 class="font-weight-bold text-white mb-3">
 				<i class="far fa-paper-plane indigo-text pr-2"></i> Utente manager
 			</h4>
-			<p class="text-muted mb-lg-0">
+			<p class="text-white mb-lg-0">
 				Oltre atutte le funzionalità di un utente base, al momento della registrazione verrai reindirizzato
 				alla creazione di un nuovo dipartimento, che potrai gestire dalla tua area personale 
 			</p>
 		</div>
-		<div class="col-lg-4 mb-5">
-			<h4 class="font-weight-bold mb-3">
+		<div class="col-sm-6 col-md-4 col-lg-4 mb-4 px-4">
+			<h4 class="font-weight-bold text-white mb-3">
 				<i class="far fa-paper-plane indigo-text pr-2"></i> Prenotazione
 			</h4>
-			<p class="text-muted mb-lg-0">
+			<p class="text-white mb-lg-0">
 				Effettua prenotazioni degli spazi nel tuo dipartimento del cuore in tutta facilità 
 			</p>
 		</div>
-		<div class="col-lg-4 mb-5">
-			<h4 class="font-weight-bold mb-3">
+		<div class="col-sm-6 col-md-4 col-lg-4 mb-4 px-4">
+			<h4 class="font-weight-bold text-white mb-3">
 				<i class="far fa-paper-plane indigo-text pr-2"></i> Prenotazione rapida
 			</h4>
-			<p class="text-muted mb-lg-0">
+			<p class="text-white mb-lg-0">
 				Prenoti sempre lo stesso posto o hai bisogno di un posto di riserva in caso ti fossi dimenticato di prenotare?
 				Nessun problema, effettua la prenotazione rapida!
 			</p>
 		</div>
-		<div class="col-lg-4 mb-5">
-			<h4 class="font-weight-bold mb-3">
+		<div class="col-sm-6 col-md-4 col-lg-4 mb-4 px-4">
+			<h4 class="font-weight-bold text-white mb-3">
 				<i class="far fa-paper-plane indigo-text pr-2"></i> Spazi preferiti
 			</h4>
-			<p class="text-muted mb-lg-0">
+			<p class="text-white mb-lg-0">
 				Aggiungi a una lista gli spazi che prenoti più spesso o che semplicemente ti piacciono di più
 			</p>
 		</div>
-		<div class="col-lg-4 mb-5">
-			<h4 class="font-weight-bold mb-3">
+		<div class="col-sm-6 col-md-4 col-lg-4 mb-4 px-4">
+			<h4 class="font-weight-bold text-white mb-3">
 				<i class="far fa-paper-plane indigo-text pr-2"></i> Calendar
 			</h4>
-			<p class="text-muted mb-lg-0">
+			<p class="text-white mb-lg-0">
 				Sincronizza il tuo calendario di Google nell'area personale, potrai visualizzare tutti i tuoi impegni e le
 				nuove prenotazioni appariranno lì, come per magia
 			</p>
@@ -86,47 +86,47 @@
 
 	<!-- TEAM -->
 	<div class="row mt-5">
-		<h3 class="font-weight-bold text-center dark-grey-text pb-2"> Executive Team </h3>
-		<p class="text-center text-muted w-responsive mx-auto mb-5">
+		<h3 class="font-weight-bold text-center text-white pb-2"> Executive Team </h3>
+		<p class="text-center text-white w-responsive mx-auto mb-3">
 			Ammirate e prostratevi ai vostri admin, supremi maestri nelle arti tecnologiche
 			<br>
 			Per dubbi o difficoltà non esitare a contattarci al seguente indirizzo mail < mail >
 		</p>
 	</div>
-	<div class="row">
-		<div class="col-md-3 mb-4">
+	<div class="row mx-4 my-4">
+		<div class="col-md-6 col-lg-3 mb-4">
 			<div class="card">
-				<img class="card-img-top img-fluid mx-auto" src="https://i.pinimg.com/564x/68/cd/cd/68cdcdadcd12297acc5e9fe08bdfcb2f.jpg" alt="sample image">
+				<img class="card-img-top img-fluid mx-auto" src="<%= image_path('neptune.jpg')%>" style="height: 165px">
 				<div class="card-body text-center">
 					<h6 class="font-weight-bold"> Donia Ferjani </h6>
-					<small class="text-muted"> Co-funder & CEO </small>
+					<small class="text-white"> Co-funder & CEO </small>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3 mb-4">
+		<div class="col-md-6 col-lg-3 mb-4">
 			<div class="card">
-				<img class="card-img-top img-fluid mx-auto" src="https://i.pinimg.com/564x/1a/94/04/1a94049b83a7643a5a855f5c2ac94407.jpg" alt="sample image">
+				<img class="card-img-top img-fluid mx-auto" src="<%= image_path('uranus.jpg')%>" style="height: 165px">
 				<div class="card-body text-center">
 					<h6 class="font-weight-bold"> Michela Fuselli </h6>
-					<small class="text-muted"> Co-funder & CEO </small>
+					<small class="text-white"> Co-funder & CEO </small>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3 mb-4">
+		<div class="col-md-6 col-lg-3 mb-4">
 			<div class="card">
-				<img class="card-img-top img-fluid mx-auto" src="https://i.pinimg.com/564x/ab/d1/ff/abd1ff4125e6e5c8201df0c1b29dfae6.jpg" alt="sample image">
+				<img class="card-img-top img-fluid mx-auto" src="<%= image_path('jupiter.jpg')%>" style="height: 165px">
 				<div class="card-body text-center">
 					<h6 class="font-weight-bold"> Francesco Guarino </h6>
-					<small class="text-muted"> Co-funder & CEO </small>
+					<small class="text-white"> Co-funder & CEO </small>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3 mb-4">
+		<div class="col-md-6 col-lg-3 mb-4">
 			<div class="card">
-				<img class="card-img-top img-fluid mx-auto" src="https://i.pinimg.com/736x/4f/d1/21/4fd1216d68fd0aef4dd00f643b565a54.jpg" alt="sample image">
+				<img class="card-img-top img-fluid mx-auto" src="<%= image_path('mars.jpg')%>" style="height: 165px">
 				<div class="card-body text-center">
 					<h6 class="font-weight-bold"> Matteo Tedesco </h6>
-					<small class="text-muted"> Co-funder & CEO </small>
+					<small class="text-white"> Co-funder & CEO </small>
 				</div>
 			</div>
 		</div>

@@ -2641,7 +2641,7 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
   height: 10vw; // mdm, prima non c'erano
   object-fit: cover; // mdm, prima non c'erano
 }
-#depFloorMapCarouselImgTop { // mdm
+#depFloorMapCarouselImgTop, #infoSpacebookLogo { // mdm
   height: 235px;
   max-width: 100%;
   max-height: 100%;
@@ -5563,5 +5563,5 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
 
 // colore mese successivo nel calendar
 .simple-calendar .next-month {
-    background: #acc3deb8;
+  background: #acc3deb8;
 }
