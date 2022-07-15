@@ -5536,3 +5536,18 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
   background: hsla(0, 0%, 100%, 0.15);
   border-radius: 0.25rem;
 }
+
+// colore giorno corrente nel calendar
+.simple-calendar .today {
+  background: #9cc6f6 !important;
+}
+
+// colore mese precendente nel calendar
+.simple-calendar .prev-month {
+  background: #acc3deb8;
+}
+
+// colore mese successivo nel calendar
+.simple-calendar .next-month {
+    background: #acc3deb8;
+}
