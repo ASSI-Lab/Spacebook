@@ -290,6 +290,7 @@ thead, tbody, tfoot, tr, td, th {
 }
 
 label { display: inline-block; }
+.form-c-label { color: var(--bs-body-color) !important; } // mdm
 
 button { border-radius: 0; }
 button:focus:not(:focus-visible) { outline: 0; }
@@ -858,11 +859,11 @@ progress { vertical-align: baseline; }
   --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
   --bs-table-active-color: #212529;
   --bs-table-active-bg: rgba(0, 0, 0, 0.1);
-  --bs-table-hover-color: #212529;
-  --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+  // --bs-table-hover-color: #212529;
+  --bs-table-hover-bg: rgba(103, 174, 254, 0.25);
   width: 100%;
   margin-bottom: 0;
-  color: #212529;
+  // color: #212529;
   vertical-align: top;
   border-color: #dee2e6;
 }
@@ -916,19 +917,6 @@ progress { vertical-align: baseline; }
 
 .table-hover > tbody > tr:hover > *, .dataTable-table > tbody > tr:hover > * {
   --bs-table-accent-bg: var(--bs-table-hover-bg);
-  color: var(--bs-table-hover-color);
-}
-
-.table-info {
-  --bs-table-bg: #cff4fc;
-  --bs-table-striped-bg: #c5e8ef;
-  --bs-table-striped-color: #000;
-  --bs-table-active-bg: #badce3;
-  --bs-table-active-color: #000;
-  --bs-table-hover-bg: #bfe2e9;
-  --bs-table-hover-color: #000;
-  color: #000;
-  border-color: #badce3;
 }
 
 .table-responsive, .dataTable-wrapper .dataTable-container {
@@ -5528,4 +5516,23 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
 .colorLink {
   cursor: pointer;
   color: #67aefe;
+}
+
+// tabella prenotazioni
+.divOrariPrenotazioni {
+  background-color: white;
+  color: #015484;
+  border-radius: 0.6rem;
+}
+
+// label interattiva per visualizzare i collapse di tipologia e spazi
+.labelCollapseMakeRes {
+  width: 100%;
+  color: white;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.labelCollapseMakeRes:hover {
+  background: hsla(0, 0%, 100%, 0.15);
+  border-radius: 0.25rem;
 }
