@@ -18,11 +18,11 @@ class TempDepsController < ApplicationController
     end
   end
 
-  # GET /temp_deps/new
+  # Pagina di registrazione del dipartimento (creazione dei dati temporanei)
   def new
     if (Department.where(manager: current_user.email).count == 1)
       redirect_to '/manager_department'
-      flash[:alert] = "Hai gia creato un dipartimento! Eccolo quì!" # Mostra messagio di spiegazione
+      flash[:alert] = "Hai gia creato un dipartimento! Eccolo quì!"
     else
       if TempDep.where(manager: current_user.email).count == 0
         @temp_dep = TempDep.new
@@ -48,42 +48,30 @@ class TempDepsController < ApplicationController
     return [chart.key,event.key]
   end
 
-  # POST /temp_deps or /temp_deps.json
   def create
     @temp_dep = TempDep.new(temp_dep_params)
 
     respond_to do |format|
       if @temp_dep.save
-        format.html { redirect_to request.referrer, notice: "Il dipartimento è stato registrato correttamente. Procedi con la registrazione degli spazi!" }
-        format.js {render inline: "location.reload();" }
+        format.html { render :new, notice: "Il dipartimento è stato registrato e potrai modificarlo successivamente. Procedi con la registrazione degli orari!" }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @temp_dep.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /temp_deps/1 or /temp_deps/1.json
   def update
     respond_to do |format|
       if @temp_dep.update(temp_dep_params)
-        format.html { redirect_to request.referrer, notice: "Le informazioni del dipartimento sono state modificate correttamente" }
-        format.js {render inline: "location.reload();" }
+        format.html { redirect_to request.referrer, notice: "Le informazioni del tuo dipartimento sono state modificate correttamente" }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @temp_dep.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /temp_deps/1 or /temp_deps/1.json
   def destroy
     @temp_dep.destroy
-
-    respond_to do |format|
-      format.html { redirect_to request.referrer, notice: "Il dipartimento è stato rimosso correttamente!" }
-      format.js {render inline: "location.reload();" }
-    end
   end
 
   private
@@ -97,24 +85,3 @@ class TempDepsController < ApplicationController
       params.require(:temp_dep).permit(:user_id, :name, :manager, :via, :civico, :cap, :citta, :provincia, :description, :floors, :number_of_spaces, :dep_map, :dep_event)
     end
 end
-
-# Parameters: {
-#   "authenticity_token"=>"[FILTERED]",
-#   "temp_dep_id"=>"1",
-#   "dep_name"=>"Ed.M.Polo",
-
-#   "''day''OpenCheck"=>val,
-#     "''day''Apertura(1i)"=>val,
-#     "''day''Apertura(2i)"=>val,
-#     "''day''Apertura(3i)"=>val,
-#     "''day''Apertura(4i)"=>val,
-#     "''day''Apertura(5i)"=>val,
-
-#     "''day''Chiusura(1i)"=>val,
-#     "''day''Chiusura(2i)"=>val,
-#     "''day''Chiusura(3i)"=>val,
-#     "''day''Chiusura(4i)"=>val,
-#     "''day''Chiusura(5i)"=>val,
-
-#   "commit"=>"Imposta orari"
-#   }

@@ -12,11 +12,11 @@ class PersonalAreaController < ApplicationController
         client_authorization.access_token = current_user.access_token
         client_authorization.refresh_token = current_user.refresh_token
         client_authorization.expires_at = current_user.expires_at
-        
+
         if current_user.expires_at <= Time.now.to_i
           redirect_to "/session_timeout"
         end
-        
+
         client.authorization = client_authorization
         client.authorization.grant_type = "refresh_token"
         @result = client.list_events(CALENDAR_ID,max_results: 1000,single_events: true,order_by: 'startTime',time_min: Time.now.iso8601) # LEGGO I PROSSIMI 10 EVENTI SUL CALENDAR

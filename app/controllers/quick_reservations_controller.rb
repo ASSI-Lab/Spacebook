@@ -5,72 +5,65 @@ class QuickReservationsController < ApplicationController
   # Effettua la prenotazione rapida sullo spazio impostato e mostra il risultato all'utente
   def make_quick_res
     @qk_res = QuickReservation.where(user_id: current_user.id).first                    # Raccoglie la prenotazione rapida
-
-    @user_res = Reservation.where(user_id: current_user.id, space_id: @qk_res.space_id) # Raccoglie le prenotazioni dell'utente fatte sullo stesso spazio della rapida
-
-    alredy_reserved = 0 # Variabile di controllo
+    @user_res = Reservation.where(user_id: current_user.id, space_id: @qk_res.space_id) # Raccoglie le prenotazioni dell'utente fatte sullo stesso spazio della prenotazione rapida
+    alredy_reserved = 0                                                                 # Variabile di controllo
 
     # Se c'è almeno una prenotazione di quelle sopra riportate
     if @user_res.count != 0
       # Per ognuna di esse
       @user_res.each do |user_res|
         # Controlla se sono in data odierna e se sono ancora valide
-        if ( user_res.start_date.strftime("%Y%m%d%T") >= DateTime.now.strftime("%Y%m%d%T") ) and ( user_res.start_date.strftime("%Y%m%d") < ((DateTime.now)+(86400)).strftime("%Y%m%d") )
-          alredy_reserved = 1 # Se si imposta la variabile di controllo a 1
+        if user_res.start_date.strftime("%Y%m%d%k") > DateTime.now.strftime("%Y%m%d%k") and user_res.start_date.strftime("%Y%m%d") == (DateTime.now).strftime("%Y%m%d")
+          alredy_reserved = 1 # In caso positivo imposta la variabile di controllo a 1
         end
       end
     end
 
-    # Se la variabile di controllo è a 1 allora si ha gia almeno una prenotazione oggi per lo spazio desiderato
-    if alredy_reserved == 1
-      redirect_to '/user_reservations'                                                                                                                     # Reindirizza alla pagina delle prenotazioni utente
-      flash[:alert] = "Hai gia una prenotazione per questo spazio oggi, se desideri effettuarne un altra puoi farlo dalla pagina 'Effettua prenotazione'!" # Notifica l'utente
-    # Se invece è a zero, inizializza i dati con i quali prenota lo spazio desiderato
-    else
-      @seat = Seat.where(space_id: @qk_res.space_id, space_id: @qk_res.space_id, typology: @qk_res.typology, state: "Active").order(:start_date, :position).first
-      @space = Space.find(@seat.space_id)
-      @department = Department.find(@space.department_id)
+    if alredy_reserved == 1 # Se la variabile di controllo è a 1 allora si ha gia almeno una prenotazione oggi per lo spazio desiderato
+      # Reindirizza alla pagina delle prenotazioni utente
+      redirect_to '/user_reservations'
+      flash[:alert] = "Hai gia una prenotazione per questo spazio oggi, se desideri effettuarne un altra puoi farlo dalla pagina 'Effettua prenotazione'!"
+    else                    # Se invece è a 0, inizializza i dati con i quali prenota lo spazio della prenotazione rapida
+      @seat = Seat.where(space_id: @qk_res.space_id).order(:start_date).first
+      if @seat.start_date.strftime("%Y%m%d") == (DateTime.now).strftime("%Y%m%d") and @seat.state == "Active" # Se il posto prenotabile è di oggi e non è scaduto lo prenota
+        @space = Space.find(@seat.space_id)
+        @department = Department.find(@space.department_id)
 
-      @reservation = Reservation.create(user_id: current_user.id, department_id: @department.id, space_id: @space.id, seat_id: @seat.id, email: current_user.email, dep_name: @department.name, typology: @space.typology, space_name: @space.name, floor: @space.floor, seat_num: @seat.position, start_date: @seat.start_date, end_date: @seat.end_date, state: "Active")
-      @seat.update(state: "Reserved")
+        # Crea la prenotazione
+        @reservation = Reservation.create(user_id: current_user.id, department_id: @department.id, space_id: @space.id, seat_id: @seat.id, email: current_user.email, dep_name: @department.name, typology: @space.typology, space_name: @space.name, floor: @space.floor, seat_num: @seat.position, start_date: @seat.start_date, end_date: @seat.end_date, state: "Active")
+        # Aggiorna il posto
+        @seat.update(position: @seat.position+1)
+      end
     end
   end
 
-  # POST /quick_reservations or /quick_reservations.json
   def create
     @quick_reservation = QuickReservation.new(quick_reservation_params)
 
     respond_to do |format|
       if @quick_reservation.save
-        format.html { redirect_to quick_reservation_url(@quick_reservation), notice: "Quick reservation was successfully created." }
-        format.json { render :show, status: :created, location: @quick_reservation }
+        flash[:alert] = "Prenotazione rapida impostata correttamente su '"+@quick_reservation.typology+" - "+@quick_reservation.space_name+"'"
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @quick_reservation.errors, status: :unprocessable_entity }
+        format.html { redirect_to referrer.request, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /quick_reservations/1 or /quick_reservations/1.json
   def update
     respond_to do |format|
       if @quick_reservation.update(quick_reservation_params)
-        format.html { redirect_to quick_reservation_url(@quick_reservation), notice: "Quick reservation was successfully updated." }
-        format.json { render :show, status: :ok, location: @quick_reservation }
+        flash[:alert] = "Prenotazione rapida sostituita correttamente con '"+@quick_reservation.typology+" - "+@quick_reservation.space_name+"'"
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @quick_reservation.errors, status: :unprocessable_entity }
+        format.html { redirect_to referrer.request, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /quick_reservations/1 or /quick_reservations/1.json
   def destroy
     @quick_reservation.destroy
 
     respond_to do |format|
       format.html { redirect_to request.referrer }
-      format.js { render inline: "location.reload();" }
     end
   end
 

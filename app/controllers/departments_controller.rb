@@ -99,7 +99,7 @@ class DepartmentsController < ApplicationController
                 ((wd.chiusura.hour-wd.apertura.hour)).times do |h|
 
                   @start_date = DateTime.new(@date.year, @date.mon, @date.mday, wd.apertura.hour+h, 0, 0) # La data + l'orario d'inizio del posto
-                  @end_date = @start_date+(60*60)                                                         # La data + l'orario di fine del posto
+                  @end_date = DateTime.new(@date.year, @date.mon, @date.mday, wd.apertura.hour+h+1, 0, 0) # La data + l'orario di fine del posto
 
                   # Crea il posto relativo al giorno corrente
                   Seat.create(space_id: sp.id, dep_name: @department.name, typology: sp.typology, space_name: sp.name, position: 1, start_date: @start_date, end_date: @end_date, state: "Active")
@@ -143,51 +143,46 @@ class DepartmentsController < ApplicationController
     return res
   end
 
-  # GET /departments/1 or /departments/1.json | Mostra all'admin il singolo dipartimento
+  # Mostra all'admin il dipartimento selezionato da gestione sito (/management)
   def show
     @week_days = WeekDay.where(department_id: @department.id)
     @spaces = Space.where(department_id: @department.id)
     @reservations = Reservation.where(department_id: @department.id)
   end
 
-  # POST /departments or /departments.json
   def create
     @department = Department.new(department_params)
     authorize! :create, @department, :message => "Attenzione: Non sei autorizzato a creare un dipartimento."
 
     respond_to do |format|
       if @department.save
-        format.html { redirect_to request.referrer, notice: "Il dipartimento è stato creato correttamente all'interno del sito" }
-        format.js {render inline: "location.reload();" }
+        flash[:alert] = "Il dipartimento è stato registrato correttamente all'interno del sito"
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @department.errors, status: :unprocessable_entity }
+        format.html { redirect_to request.referrer, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /departments/1 or /departments/1.json
   def update
-    authorize! :update, @department, :message => "Attenzione: Non sei autorizzato ad aggiornare un dipartimento."
+    authorize! :update, @department, :message => "Attenzione: Non sei autorizzato ad aggiornare i dipartimenti."
+
     respond_to do |format|
       if @department.update(department_params)
         format.html { redirect_to '/manager_department', notice: "Il dipartimento è stato aggiornato correttamente" }
-        format.json { render :manager_department, status: :ok, location: @department }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @department.errors, status: :unprocessable_entity }
+        format.html { redirect_to '/manager_department', status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /departments/1 or /departments/1.json
   def destroy
     authorize! :destroy, @department, :message => "Attenzione: Non sei autorizzato ad eliminare un dipartimento."
+
     @department.destroy
 
     respond_to do |format|
-      format.html { redirect_to request.referrer, notice: "Il dipartimento e tutti i suoi spazi sono stati eliminati correttamente dal sito. In più tutte le prenotazioni relative a tali spazi sono state disdette comunicando tramite e-mail agli utenti interessati la motivazione" }
-      format.js {render inline: "location.reload();" }
+      format.html { redirect_to request.referrer }
+      flash[:alert] = "Il dipartimento e tutti i suoi spazi sono stati eliminati correttamente dal sito. In più tutte le prenotazioni relative a tali spazi sono state disdette comunicando tramite e-mail agli utenti interessati la motivazione"
     end
   end
 

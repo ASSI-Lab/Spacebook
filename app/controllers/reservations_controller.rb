@@ -2,7 +2,7 @@ class ReservationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_reservation, only: %i[ show edit update destroy ]
 
-  # Raccoglie il nome del dipartimento selezionato dall'utente, aggiorna i posti relativi nel db con date e orari corretti, ne carica gli spazi e reindirizza a '/make_rexservation'
+  # Raccoglie il nome del dipartimento selezionato dall'utente, ne carica gli spazi e reindirizza a '/make_rexservation'
   def set_department
     selected_spaces = Space.where(dep_name: params[:selected_dep_name])
 
@@ -11,24 +11,24 @@ class ReservationsController < ApplicationController
     end
   end
 
-  # Raccoglie le prenotazioni richieste dall'utente e ne genera le prenotazioni del dipartimento e reindirizza a '/user_reservation'
+  # Raccoglie le azioni e gli spazi richiesti dall'utente e agisce di conseguenza, infine reindirizza a '/user_reservation'
   def make_res
-    # Raccoglie lo stato della check di calendar (Spuntata o meno)
-    sync_calendar = params["calendar_check"]
+
+    sync_calendar = params["calendar_check"] # Raccoglie lo stato della check di calendar (Spuntata o meno)
 
     # Per ognuno dei params
     params.each do |check|
-      # Se il param è riferito ad un check degli orari da prenotare
+      # Se il param è riferito ad un check degli spazi da prenotare
       if (check[1] == "MakeRes")
+
         seat = Seat.find(check[0])                        # Raccoglie il posto relativo
         space = Space.find(seat.space_id)                 # Raccoglie lo spazio relativo
         department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
 
         # Crea la prenotazione con i dati sopra raccolti
         jcr = Reservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, seat_id: seat.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name, floor: space.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Active")
-
         # Modifica il posto per renderlo occupato
-        seat.update(position: seat.position+1, state: "Reserved")
+        seat.update(position: seat.position+1)
 
         # Controllo se l'utente ha spuntato o meno la check di calendar
         if sync_calendar=="1" # In caso positivo inizializzo con i dati opportuni la variabile res e chiamo sync_event
@@ -44,20 +44,24 @@ class ReservationsController < ApplicationController
 
           # INVIO L'HASH APPENA CREATO PER L'INVIO A GOOGLE CALENDAR
           sync_event res
+
         end
 
+      # Se il param è riferito ad un check per aggiungere uno spazio ai preferiti
       elsif (check[1] == "AddFavSp")
+
         space = Space.find((check[0].to_i)*(-1))          # Raccoglie lo spazio relativo
         department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
 
         # Aggiunge lo spazio alla lista dei preferiti
         FavouriteSpace.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.id, dep_name: department.name, typology: space.typology, space_name: space.name)
 
+      # Se il param è riferito ad un check per rimuovere uno spazio dai preferiti
       elsif (check[1] == "RmFavSp")
-        fav_sp = FavouriteSpace.find(check[0]) # Raccoglie lo spazio preferito relativo
-        fav_sp.destroy                         # Rimuove lo spazio alla lista dei preferiti
-
+        FavouriteSpace.find(check[0]).destroy # Raccoglie lo spazio preferito relativo e lo rimuove
+      # Se il param è riferito ad un check per impostare uno spazio come prenotazione rapida
       elsif (check[1] == "SetQkRes")
+        # Ottiene l'id dello spazio da impostare
         id_str = ""
         check[0].each_char do |char|
           if char=="0" or char=="1" or char=="2" or char=="3" or char=="4" or char=="5" or char=="6" or char=="7" or char=="8" or char=="9"
@@ -72,8 +76,12 @@ class ReservationsController < ApplicationController
         # Imposta lo spazio come prenotazione rapida
         QuickReservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.id, dep_name: department.name, typology: space.typology, space_name: space.name)
 
+      # Se il param è riferito ad un check per sostituire uno spazio alla prenotazione rapida
       elsif (check[1] == "UpdateQkRes")
+
         qk_res = QuickReservation.where(user_id: current_user.id) # Raccoglie la prenotazione rapida relativa
+
+        # Ottiene l'id dello spazio da sostituire
         id_str = ""
         check[0].each_char do |char|
           if char=="0" or char=="1" or char=="2" or char=="3" or char=="4" or char=="5" or char=="6" or char=="7" or char=="8" or char=="9"
@@ -88,7 +96,10 @@ class ReservationsController < ApplicationController
         # Aggiorna la prenotazione rapida
         qk_res.update(department_id: department.id, space_id: space.id, dep_name: department.name, typology: space.typology, space_name: space.name)
 
+      # Se il param è riferito ad un check per rimuovere lo spazio dalla prenotazione rapida
       elsif (check[1] == "RmQkRes")
+
+        # Ottiene l'id dello spazio da rimuovere
         id_str = ""
         check[0].each_char do |char|
           if char=="0" or char=="1" or char=="2" or char=="3" or char=="4" or char=="5" or char=="6" or char=="7" or char=="8" or char=="9"
@@ -100,50 +111,45 @@ class ReservationsController < ApplicationController
         QuickReservation.where(user_id: current_user.id, space_id: id_int).first.destroy # Rimuove la prenotazione rapida
 
       end
-
     end
+
     respond_to do |format|
       format.html { render :reserved, locals: { make_res_parameters: params } }
     end
   end
 
-  # POST /reservations or /reservations.json
   def create
+    authorize! :create, @reservation, :message => "Attenzione: Non sei autorizzato ad effettuare prenotazioni!"
     @reservation = Reservation.new(reservation_params)
-    authorize! :create, @reservation, :message => "Attenzione: Non sei autorizzato ad effettuare una nuova prenotazione."
 
     respond_to do |format|
       if @reservation.save
-        format.html { redirect_to '/user_reservations', notice: "Prenotazione effettuata correttamente." }
-        format.json { render :reserved, status: :created, location: @reservation }
+        format.html { redirect_to '/user_reservations', notice: "Prenotazione '"+@reservation.typology+" - "+@reservation.space_name+"' effettuata correttamente" }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @reservation.errors, status: :unprocessable_entity }
+        format.html { redirect_to request.referrer, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /reservations/1 or /reservations/1.json
   def update
-    authorize! :update, @reservation, :message => "Attenzione: Non sei autorizzato a modificare la prenotazione."
+    authorize! :update, @reservation, :message => "Attenzione: Non sei autorizzato a modificare le prenotazioni!"
+
     respond_to do |format|
       if @reservation.update(reservation_params)
-        format.html { redirect_to request.referrer, notice: "Prenotazione disabilitata." }
-        # Deve manda email di spiegazioni
-        format.js {render inline: "location.reload();" }
+        format.html { redirect_to request.referrer, notice: "Prenotazione '"+@reservation.typology+" - "+@reservation.space_name+"' disabilitata correttamente" }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @reservation.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /reservations/1 or /reservations/1.json
   def destroy
-    authorize! :destroy, @reservation, :message => "Attenzione: Non sei autorizzato ad eliminare la prenotazione."
+    authorize! :destroy, @reservation, :message => "Attenzione: Non sei autorizzato ad eliminare le prenotazioni!"
 
-    if ( @reservation.start_date.strftime("%Y-%m-%d %T") > DateTime.now.strftime("%Y-%m-%d %T") )
-      Seat.find(@reservation.seat_id).update(state: "Active")
+    # Libera il posto della prenotazione eliminata
+    if ( @reservation.start_date.strftime("%Y%m%d%T") > DateTime.now.strftime("%Y%m%d%T") )
+      @seat = Seat.find(@reservation.seat_id)
+      @seat.update(position: @seat.position-1)
     end
     
     # CONTROLLA SE LA PRENOTAZIONE È STATA SINCRONIZZATA SU CALENDAR RIMUOVENDOLA ANCHE DA LÌ IN CASO AFFERMATIVO
@@ -155,7 +161,6 @@ class ReservationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to request.referrer, notice: "La prenotazione è stata eliminata correttamente" }
-      format.js {render inline: "location.reload();" }
     end
   end
 

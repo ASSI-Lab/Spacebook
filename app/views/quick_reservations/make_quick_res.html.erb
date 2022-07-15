@@ -7,45 +7,51 @@
 </head>
 
 <body class="bg-primary">
-    <div id="layoutAuthentication">
-        <div id="layoutAuthentication_content">
-            <main>
-                <!-- Page content-->
-                <div class="container">
+	<div id="layoutAuthentication">
+		<div id="layoutAuthentication_content">
+			<main>
+				<!-- Page content-->
+				<div class="container">
 					<div class="row mt-4 justify-content-center my-5">
 						<div class="col-lg-6">
 							<div class="card shadow-lg border-0 rounded-lg mt-5">
-								<div class="card-header text-center">
-									<h3 class="font-weight-light my-3"> Ecco la tua prenotazione rapida </h3>
-								</div>
-								<div class="card-body">
-									<table width="100%">
-										<tr>
-											<td width="50%"><label class="h6 px-3"> Dipartimento: </label></td>
-											<td><%= @reservation.dep_name %></td>
-										</tr>
-										<tr>
-											<td width="50%"><label class="h6 px-3"> Tipologia - Spazio: </label></td>
-											<td><%= @reservation.typology %> - <%= @reservation.space_name %></td>
-										</tr>
-										<tr>
-											<td width="50%"><label class="h6 px-3"> Data: </label></td>
-											<td><%= @reservation.start_date.mday %> / <%= @reservation.start_date.mon %> / <%= @reservation.start_date.year %></td>
-										</tr>
-										<tr>
-											<td width="50%"><label class="h6 px-3"> Orario: </label></td>
-											<td><%= @reservation.start_date.strftime('%H:%M') %> - <%= @reservation.end_date.strftime('%H:%M') %></td>
-										</tr>
-										<tr>
-											<td width="50%"><label class="h6 px-3"> Piano: </label></td>
-											<td><%= @reservation.floor %></td>
-										</tr>
-										<tr>
-											<td width="50%"><label class="h6 px-3"> Posto: </label></td>
-											<td><%= @reservation.seat_num %></td>
-										</tr>
-									</table>
-								</div>
+								<% if @reservation %>
+									<div class="card-header text-center">
+										<h3 class="font-weight-light my-3"> Ecco la tua prenotazione rapida </h3>
+									</div>
+									<div class="card-body">
+										<table width="100%">
+											<tr>
+												<td width="50%"><label class="h6 px-3"> Dipartimento: </label></td>
+												<td><%= @reservation.dep_name %></td>
+											</tr>
+											<tr>
+												<td width="50%"><label class="h6 px-3"> Tipologia - Spazio: </label></td>
+												<td><%= @reservation.typology %> - <%= @reservation.space_name %></td>
+											</tr>
+											<tr>
+												<td width="50%"><label class="h6 px-3"> Data: </label></td>
+												<td><%= @reservation.start_date.mday %> / <%= @reservation.start_date.mon %> / <%= @reservation.start_date.year %></td>
+											</tr>
+											<tr>
+												<td width="50%"><label class="h6 px-3"> Orario: </label></td>
+												<td><%= @reservation.start_date.strftime('%H:%M') %> - <%= @reservation.end_date.strftime('%H:%M') %></td>
+											</tr>
+											<tr>
+												<td width="50%"><label class="h6 px-3"> Piano: </label></td>
+												<td><%= @reservation.floor %></td>
+											</tr>
+											<tr>
+												<td width="50%"><label class="h6 px-3"> Posto: </label></td>
+												<td><%= @reservation.seat_num %></td>
+											</tr>
+										</table>
+									</div>
+								<% else %>
+									<div class="card-header text-center">
+										<h3 class="font-weight-light my-3"> Ci dispiace... <br> Non ci sono posti disponibili in data odierna </h3>
+									</div>
+								<% end %>
 								<div class="card-footer">
 									<div class="row">
 										<div class="col-lg-6">
