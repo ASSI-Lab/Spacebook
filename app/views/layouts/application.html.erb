@@ -117,23 +117,42 @@
                                 <div class="sb-nav-link-icon bi-info-circle"></div>
                                 Informazioni 
                             </a>
-
                         </div>
                     </div>
+
+                    <div class="card px-0 small" style="border-radius: 0">
+                        <table>
+                            <tr>
+                                <td width="25%" style="padding-left: 15px">
+                                    <img class="card-img" id="footerSpacebookLogo" src="<%= image_path('def-removebg-preview.png')%>">
+                                </td>
+                                <td style="text-align: center">
+                                    <label class="text-muted" style="padding-right: 15px"> Copyright &copy; Spacebook </label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
                 </nav>
             </div>
             <div id="layoutSidenav_content"> <!-- Corpo della pagina corrente -->
                 <main>
-                    <div class="container-fluid px-4 pt-4" style="padding-bottom: 70px">
+                    <div class="container-fluid" style="padding: 40px 50px 60px 50px">
                         <%= yield %>
                     </div>
                 </main>
-            </div>
 
-            <!-- FOOTER -->
-            <footer class="container-fluid px-1 py-4 mt-4" id="bottomFooter">
-                
-            </footer>
+                <!-- FOOTER -->
+                <footer class="small" style="padding: 20px 0 20px 0" id="bottomFooter">
+                    <table width="100%">
+                        <tr>
+                            <td class="px-4" style="text-align: right" id="footerLinks">
+                                <a href="#"> Privacy Policy </a> &middot; <a href="#">Terms &amp; Conditions</a>
+                            </td>
+                        </tr>
+                    </table>
+                </footer>
+            </div>
         </div>
     <% else %>                           <!-- In caso positivo mostra solo lo yield della pagina corrente -->
         <%= yield %>

@@ -81,20 +81,20 @@
 			<!-- Lista di tutti i dipartimenti dell'applicazione -->
 			<div class="row">
 				<% @departments.each do |department| %>
-					<div class="col-sm-6 pb-4">
+					<div class="col-xl-6 pb-4">
 						<!-- Card che mostra il dipartimento corrente -->
 						<div class="card" style="height: 100%">
 							<div class="card-header">
 								<table width="100%">
 									<tr>
-										<td width="88%">
+										<td>
 											<h3 class="mt-4 mb-2"> <%= department.name %> </h3>
 											<div class="small"> 
 												<%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %> 
 												<label onclick='centra_mappa("<%= department.latitude %>","<%= department.longitude %>","<%= department.name %>", "<%=department.via+" "+department.civico+" "+department.citta+" "+department.cap %>")', class="colorLink bi bi-geo-fill px-2"> </label>
 											</div>
 										</td>
-										<td width="12%" class="text-right">
+										<td class="text-right">
 											<% if user_signed_in? %>
 												<%= form_with url: set_department_path, local: true, method: :post do |form| %>
 													<button class="btn btn-sm btn-outline-info"> <i class='bi bi-cursor'></i><br> prenota </button>
@@ -146,7 +146,7 @@
 				<% end %>
 			</div>
 		</div>
-		<div class="col-lg-4 pb-4">
+		<div class="col-lg-4 pb-4 ">
 			<!-- Mappa per geolocalizzazione -->
 			<div class="card" style="height: 550px">
 				<div class="card-header text-white text-center h3"> Mappa </div>

@@ -7,15 +7,17 @@
 </head>
 
 <body>
+
+	<h2 class="text-white mb-4"> Benvenuto nella tua area personale </h2>
+
 	<div class="row">
 		<!-- Calendario per sincronizzazione AL MOMENTO SE SI È COLLEGATI TRAMITE GOOGLE IL CALENDARIO VIENE FORMATO CON I PROSSIMI 10 EVENTI ALL'INTERNO -->
 		<div class="col-lg-7 pb-2">
-			<h2 class="text-white mt-0 mb-2 mx-2"> Benvenuto nella tua area personale </h2>
-			<div class="card" style="height: 93%">
+			<div class="card">
 				<div class="card-header"> 
 					<h4 class="card-title pb-0 mb-0"> Google Calendar </h4>
 				</div>
-				<div class="card-body px-3 pt-1">
+				<div class="card-body px-3" style="display: flex; align-items: center">
 					<% if current_user.access_token!=nil%> <!-- SE IL TOKEN È PRESENTE VIENE INVIATA LA RICHIESTA A CALENDAR -->
 						<% @hash=load_events %>
 						<% if @hash!=nil %>
@@ -33,7 +35,7 @@
 								<%= date.day %>
 							<% end %>
 						<% end %>
-					<% else %>                              <!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI -->
+					<% else %>                             <!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI -->
 						<%= month_calendar do |date| %>
 							<%= date.day %>
 						<% end %>
@@ -42,13 +44,13 @@
 			</div>
 		</div>
 
-		<div class="col-lg-5 pb-2">
+		<div class="col-lg-5 pb-2" style="padding-left: 30px">
 			<div class="row">
 				<!-- Info utente -->
-				<div class="col-lg-8">
-					<div class="card mb-4">
+				<div class="col-lg-12 pb-4">
+					<div class="card" style="height: 100%">
 						<div class="card-header h4"> Info utente </div>
-						<div class="card-footer">
+						<div class="card-footer" style="height: 100%">
 							<label class="label h5 my-2 py-1"> Email: </label> <%= current_user.email %> <br>
 							<label class="label h5 py-1"> Password: </label> <%= current_user.password %>
 							<button class="btn btn-sm btn-outline-info" id="updatePsw"> <i class="bi bi-pen"></i> </button>
@@ -56,62 +58,62 @@
 					</div>
 				</div>
 
-				<!-- Tasto per la prenotazione rapida -->
-				<div class="col-lg-4">
-					<div class="card mb-4" style="height: 84%">
-						<div class="card-body">
-							<p class="card-text h5 my-2"> Effettua prenotazione rapida </p>
-							<a class="stretched-link" href="/make_quick_res"></a>
-						</div>
-					</div>
-				</div>
-
 				<!-- Link alle varie pagine -->
 				<div class="col-lg-4">
-					<div class="card pb-1 mb-4" style="height: 90%">
-						<img class="card-img-top" src="https://i.pinimg.com/736x/fc/e0/f6/fce0f6027d2fcbbd232fddcd71873f03.jpg">
-						<div class="card-footer">
+					<div class="card" style="height: 100%">
+						<div class="card-header px-0 py-0">
+							<img class="card-img-top" id="personalAreaImg" src="https://i.pinimg.com/736x/fc/e0/f6/fce0f6027d2fcbbd232fddcd71873f03.jpg">
+						</div>
+						<div class="card-footer" style="height: 100%">
 							<p class="card-text h5 my-2"> Le mie prenotazioni </p>
-							<a class="small text-white stretched-link" href="/user_reservations"> </a>
+							<a class="stretched-link" href="/user_reservations"></a>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-4">
-					<div class="card " style="height: 90%">
-						<img class="card-img-top" src="https://i.pinimg.com/564x/26/fb/7e/26fb7edd0ac89f5e36d7a98bd6d1873e.jpg">
-						<div class="card-footer">
+					<div class="card" style="height: 100%">
+						<div class="card-header px-0 py-0">
+							<img class="card-img-top" id="personalAreaImg" src="https://i.pinimg.com/564x/26/fb/7e/26fb7edd0ac89f5e36d7a98bd6d1873e.jpg">
+						</div>
+						<div class="card-footer" style="height: 100%">
 							<p class="card-text h5 my-2"> Spazi preferiti </p>
-							<a class="small text-white stretched-link" href="/favourite_spaces"> </a>
+							<a class="stretched-link" href="/favourite_spaces"></a>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-4">
-					<div class="card pb-1 mb-4" style="height: 90%">
-						<img class="card-img-top" src="https://i.pinimg.com/564x/77/ae/db/77aedb455931b1132ba273846f0c21e4.jpg">
-						<div class="card-footer">
+					<div class="card" style="height: 100%">
+						<div class="card-header px-0 py-0">
+							<img class="card-img-top" id="personalAreaImg" src="https://i.pinimg.com/564x/77/ae/db/77aedb455931b1132ba273846f0c21e4.jpg">
+						</div>
+						<div class="card-footer" style="height: 100%">
 							<p class="card-text h5 my-2"> Nuova prenotazione </p>
-							<a class="small text-white stretched-link" href="/make_reservation"> </a>
+							<a class="stretched-link" href="/make_reservation"></a>
 						</div>
 					</div>
 				</div>
 
 				<% if current_user.roles in ["manager"] %>
-					<div class="col-lg-12">
+					<div class="col-lg-12 pt-4">
 						<div class="card">
-							<img class="card-img-top" src="https://i.pinimg.com/564x/9a/d9/46/9ad946ce786180f826b61cce48a1f9c8.jpg">
-							<div class="card-footer">
+							<div class="card-header px-0 py-0">
+								<img class="card-img-top" id="personalAreaImg" src="https://i.pinimg.com/564x/9a/d9/46/9ad946ce786180f826b61cce48a1f9c8.jpg">
+							</div>
+							<div class="card-footer" style="height: 100%">
 								<p class="card-text h5 my-2"> Il mio dipartimento </p>
-								<a class="small text-white stretched-link" href="/manager_department"> </a>
+								<a class="stretched-link" href="/manager_department"></a>
 							</div>
 						</div>
 					</div>
 				<% elsif current_user.roles in ["admin"] %>
-					<div class="col-lg-12">
+					<div class="col-lg-12 pt-4">
 						<div class="card">
-							<img class="card-img-top" src="https://i.pinimg.com/564x/75/0d/7c/750d7cc6ea932b46e2a2856c862b6a24.jpg">
-							<div class="card-footer">
+							<div class="card-header px-0 py-0">
+								<img class="card-img-top" id="personalAreaImg" src="https://i.pinimg.com/564x/75/0d/7c/750d7cc6ea932b46e2a2856c862b6a24.jpg">
+							</div>
+							<div class="card-footer" style="height: 100%">
 								<p class="card-text h5 my-2"> Gestione sito </p>
-								<a class="small text-white stretched-link" href="/management"> </a>
+								<a class="stretched-link" href="/management"></a>
 							</div>
 						</div>
 					</div>
