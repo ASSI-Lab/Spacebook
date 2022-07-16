@@ -6,6 +6,13 @@
 	<title> Home - Spacebook </title>
 	<%= javascript_pack_tag 'leaflet' %>
 	<%= stylesheet_link_tag 'leaflet',media: 'all', 'data-turbolinks-track': 'reload' %>
+	<%= javascript_pack_tag 'leaflet-routing-machine' %>
+	<%= stylesheet_link_tag 'leaflet-routing-machine',media: 'all', 'data-turbolinks-track': 'reload' %> 
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+	
+	<script src="../../assets/images/leaflet.routing.icons.png"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 </head>
 
 <body>
@@ -154,11 +161,34 @@
 					<div id="map"></div>
 					<!-- Utilizzo LEAFLET e OSM per generare una mappa centrata su Roma -->
 					<script>
-					var map = L.map('map').setView([41.89333, 12.48302], 13);
+					var map = L.map('map').setView([41.89333, 12.48302], 11);
 					L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 						maxZoom: 19,
 						attribution: '© OpenStreetMap'
 					}).addTo(map);
+
+					var EdIcon = L.icon({
+					iconUrl: '<%=image_path('depMarker.png')%>',
+					shadowUrl: '<%=image_path('marker-shadow.png')%>',
+					iconSize:     [30, 50], // size of the icon
+					shadowSize:   [30, 64], // size of the shadow
+					iconAnchor:   [17, 58], // point of the icon which will correspond to marker's location
+					shadowAnchor: [9, 75], // the same for the shadow
+					popupAnchor:  [-3, -60] // point from which the popup should open relative to the iconAnchor
+					});
+					
+					</script>
+
+					<% @departments.each do |department| %>
+
+						<script>
+							L.marker(["<%=department.latitude%>", "<%=department.longitude%>"],{icon: EdIcon}).addTo(map).bindPopup("<%=department.name%>"+"<br>"+"<%=department.via+" "+department.civico+" "+department.citta+" "+department.cap %>");
+						</script>
+
+					<%end%>
+
+
+					<script>
 
 					document.getElementById("centra").onclick = function() {centra_mappa()};
 					function centra_mappa(lat, lon, dep_n, dep) {
@@ -174,10 +204,28 @@
 					});
 					L.marker([lat, lon],{icon: myIcon}).addTo(map).bindPopup(dep_n+"<br>"+dep).openPopup();
 					}
+
 					</script>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	
 </body>
 </html>
+
+<script>
+
+	
+	L.Routing.control({
+		waypoints: [
+			L.latLng(41.89333, 12.48302),
+			L.latLng(42.89333, 12.58302)
+		],
+		routeWhileDragging: true,
+    	geocoder: L.Control.Geocoder.nominatim()
+	}).addTo(map);
+
+
+</script>

@@ -10,6 +10,7 @@ import "channels"
 import '../../assets/js/bootstrap_js_files'
 import '../../assets/js/sidenav_toggle.js'
 import 'jquery'
+import 'osrm'
 
 Rails.start()
 Turbolinks.start()

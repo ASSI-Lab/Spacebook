@@ -2,6 +2,7 @@
   "name": "spacebook",
   "private": true,
   "dependencies": {
+    "@mapbox/polyline": "^1.1.1",
     "@popperjs/core": "^2.11.5",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
@@ -9,6 +10,9 @@
     "@rails/webpacker": "5.4.3",
     "bootstrap": "^5.1.3",
     "jquery": "^3.6.0",
+    "leaflet-routing-machine": "^3.2.12",
+    "osrm": "^5.26.0",
+    "polyline": "^0.2.0",
     "seatsio": "^69.1.0",
     "turbolinks": "^5.2.0",
     "webpack": "^4.46.0",
