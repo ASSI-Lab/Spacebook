@@ -70,7 +70,7 @@
 	<div class="row mt-4">
 		<!-- Card del dipartimento -->
 		<div class="col-xl-7">
-			<div class="card">
+			<div class="card" style="height: 100%">
 				<div class="card-header"> 
 					<table width="100%">
 						<tr>
@@ -84,51 +84,50 @@
 							</td>
 							<td width="12%">
 								<!-- Tasto per l'eliminazione -->
-								<%= button_to 'Elimina', @department, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, :class=>"btn btn-outline-info" %>
+								<%= button_to 'Elimina', @department, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, class: "btn btn-outline-info" %>
 							</td>
 						</tr>
 					</table>
 				</div>
 				<div class="card-body">
-					<!-- Descrizione + dati + orari -->
-					<table width="100%">
-						<tr>
-							<td width="55%" class="ms-0 ps-0">
-								<!-- Descrizione truncate tramite modal -->
-								<label class="label h5 pt-2 pb-0">
-									<label class="h5 pt-2 pb-0"> Descrizione: </label>
-									<!-- Icona interattiva per visualizzare il modal della descrizione completa -->
-									<i class="colorLink bi bi-card-text" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>DescModal"> continua a leggere </i>
-									<!-- Truncate -->
-									<label class="text-truncate" style="width: 450px"> <%= (@department).description %> </label>
-									<!-- Modal descrizione -->
-									<%= render 'modal_dep_desc', department: @department %>
-								</label>
+					<div class="row">
+						<!-- Descrizione + dati -->
+						<div class="col-lg">
+							<!-- Descrizione truncate tramite modal -->
+							<p class="label mb-0 pt-2 pb-0">
+								<label class="h5"> Descrizione: </label><br>
+								<!-- Truncate -->
+								<p class="text-truncate mb-0" style="width: 400px"> <%= (@department).description %> </p>
+								<!-- Icona interattiva per visualizzare il modal della descrizione completa -->
+								<i class="colorLink bi bi-card-text" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>DescModal"> continua a leggere </i>
+								<!-- Modal descrizione -->
+								<%= render 'modal_dep_desc', department: @department %>
+							</p>
 
-								<label class="label h5 pt-0 pb-0"> Posizione: </label> <%= (@department).via %>, <%= (@department).civico %>, <%= (@department).cap %>, <%= (@department).citta %>, <%= (@department).provincia %><br>
-								<label class="label h5 pt-2 pb-0"> Numero piani: </label> <%= (@department).floors %><br>
-								<label class="label h5 pt-2 pb-0"> Numero spazi: </label> <%= (@department).number_of_spaces %>
-							</td>
-							<td width="45%" class="px-3 pt-2"> <!-- Orari -->
-								<label class="label h5 pt-2 pb-0"> Orari <i class="bi bi-clock"></i> </label> 
-								<!-- Raccoglie tutti gli orari del dipartimento -->
-								<% @week_days.where(department_id: (@department).id).each do |wd| %>
-									<div class="row">
-										<div class="col-sm-5">
-											<h6><%= wd.day %></h6>
-										</div>
-										<div class="col-sm-7">
-											<% if wd.state == "Aperto" %>
-												<%= wd.apertura.strftime('%H:%M') %>-<%= wd.chiusura.strftime('%H:%M') %>
-											<% else %>
-												<%= wd.state %>
-											<% end %>
-										</div>
+							<label class="label h5 pt-0 pb-0"> Posizione: </label> <%= (@department).via %>, <%= (@department).civico %>, <%= (@department).cap %>, <%= (@department).citta %>, <%= (@department).provincia %><br>
+							<label class="label h5 pt-2 pb-0"> Numero piani: </label> <%= (@department).floors %><br>
+							<label class="label h5 pt-2 pb-0"> Numero spazi: </label> <%= (@department).number_of_spaces %>
+						</div>
+						<!-- Orari -->
+						<div class="col-lg">
+							<label class="label h5 pt-2 pb-0"> Orari <i class="bi bi-clock"></i> </label> 
+							<!-- Raccoglie gli orari del dipartimento -->
+							<% @week_days.where(department_id: (@department).id).each do |wd| %>
+								<div class="row">
+									<div class="col-sm-5 h6">
+										<%= wd.day %>
 									</div>
-								<% end %>
-							</td>
-						</tr>
-					</table>
+									<div class="col-sm-7">
+										<% if wd.state == "Aperto" %>
+											<%= wd.apertura.strftime('%H:%M') %>-<%= wd.chiusura.strftime('%H:%M') %>
+										<% else %>
+											<%= wd.state %>
+										<% end %>
+									</div>
+								</div>
+							<% end %>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -150,7 +149,7 @@
 								secretKey: '<%= ENV['SEATS_IO_SECRET'] %>',
 								chartKey: '<%= @department.dep_map %>'
 							}).render();
-						</script> 
+						</script>
 					</div>
 				</div>
 			<% end %>
@@ -191,7 +190,7 @@
 									</td>
 									<td>
 										<!-- Tasto per la rimozioe dello spazio inserito -->
-										<%= link_to '', space, method: :delete, data: { confirm: 'Sicuro?' }, :class => "btn btn-sm btn-outline-info bi bi-trash", :style=>"width:100%"%>
+										<%= link_to '', space, method: :delete, data: { confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style:"width:100%"%>
 									</td>
 								</tr>
 							<% end %>
@@ -231,7 +230,7 @@
 								<th> Piano </th>
 								<th> Posto </th>
 								<th> Stato </th>
-								<th> Opzioni </th>
+								<th> Rimuovi </th>
 							</tr>
 						</thead>
 						<tbody>
@@ -244,7 +243,7 @@
 									<td><%= reservation.floor %></td>
 									<td><%= reservation.seat_num %></td>
 									<td><%= reservation.state %></td>
-									<td><%= button_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btnDestroy" %></td>
+									<td><%= link_to '', reservation, method: :delete, data: { confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style: "width:100%" %>
 								</tr>
 							<% end %>
 						</tbody>

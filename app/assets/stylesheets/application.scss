@@ -5473,7 +5473,10 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
 #modalCaricamentoImg { object-fit: contain; }
 
 // DIMENSIONE MAPPA HOME
-#map { height: 500px; }
+#map { 
+  width: 100%;
+  height: 100%; 
+}
 
 // Links in sign_in e sign_up
 #signLinks { width: 100%; }

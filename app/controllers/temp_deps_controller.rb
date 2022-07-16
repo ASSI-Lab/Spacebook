@@ -26,9 +26,9 @@ class TempDepsController < ApplicationController
     else
       if TempDep.where(manager: current_user.email).count == 0
         @temp_dep = TempDep.new
-        res = new_dep_map(current_user.email)
-        @dep_map = res[0]
-        @dep_event = res[1]
+        # res = new_dep_map(current_user.email)
+        # @dep_map = res[0]
+        # @dep_event = res[1]
       end
     end
   end
@@ -50,7 +50,7 @@ class TempDepsController < ApplicationController
 
     respond_to do |format|
       if @temp_dep.save
-        format.html { render :new, notice: "Il dipartimento è stato registrato e potrai modificarlo successivamente. Procedi con la registrazione degli orari!" }
+        format.html { redirect_to '/make_department', notice: "Il dipartimento è stato registrato e potrai modificarlo successivamente. Procedi con la registrazione degli orari!" }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -69,6 +69,14 @@ class TempDepsController < ApplicationController
 
   def destroy
     @temp_dep.destroy
+
+    respond_to do |format|
+      if @temp_dep.save
+        format.html { redirect_to request.referrer }
+      else
+        format.html { redirect_to request.referrer, status: :unprocessable_entity }
+      end
+    end
   end
 
   private

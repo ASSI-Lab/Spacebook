@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
     before_action :configure_permitted_parameters, if: :devise_controller?                  # Aggiunge parametri al controllo di sicurezza di devise
     helper_method :require_department
-    helper_method :dep_seats_translation
 
     protected
 
@@ -22,8 +21,8 @@ class ApplicationController < ActionController::Base
     end
 
     def require_department
-        flash[:alert] = "Attenzione: Avendo effettuato la registrazione come manager devi registrare il tuo dipartimento per poter accedere al sito!" # Mostra messagio di spiegazione
         redirect_to '/make_department'                                                                                                                # Reindirizza alla pagina di creazione del dipartimento
+        flash[:alert] = "Attenzione: Avendo effettuato la registrazione come manager devi registrare il tuo dipartimento per poter accedere al sito!" # Mostra messagio di spiegazione
     end
 
 end

@@ -150,7 +150,7 @@
 						<!-- Mostra tramite collapse il dipartimento in cui prenotare -->
 						<div class="card">
 							<div class="card-header">
-								<label class="h3 mb-1"> <%= (selected_department).name %> </label> 
+								<label class="h3 mb-1"> <%= (selected_department).name %> </label>
 								<button class="btn btn-sm btn-outline-info bi bi-info-circle" data-bs-toggle="collapse" data-bs-target="#dep<%= selected_department.id %>InfoBodyCollapse" aria-expanded="false"></button>
 							</div>
 							<!-- Collapse del dipartimento -->
@@ -222,16 +222,16 @@
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item px-0">
 									<!-- Spazio per inserire renderer Seatsio per visualizzazione pianta dipartimento -->
-										<div id="chart"></div>
-										<script src="https://cdn-eu.seatsio.net/chart.js"></script>
+									<div id="chart"></div>
+									<script src="https://cdn-eu.seatsio.net/chart.js"></script>
 
-										<script>
-											new seatsio.SeatingChart({
-												divId: 'chart',
-												workspaceKey: '<%= ENV['SEATS_IO_PUBLIC'] %>',
-												event: '<%= selected_department.dep_event %>'
-											}).render();
-										</script>                                                        
+									<script>
+										new seatsio.SeatingChart({
+											divId: 'chart',
+											workspaceKey: '<%= ENV['SEATS_IO_PUBLIC'] %>',
+											event: '<%= selected_department.dep_event %>'
+										}).render();
+									</script>
 								</li>
 							</ul>
 						</div>

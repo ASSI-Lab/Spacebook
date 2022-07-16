@@ -7,7 +7,7 @@ class TempWeekDaysController < ApplicationController
 
     respond_to do |format|
       if @temp_week_day.save
-        flash[:alert] = "L'orario per '#{@temp_week_day.day}' è stato registrato correttamente" }
+        flash[:alert] = "L'orario per '#{@temp_week_day.day}' è stato registrato correttamente"
       else
         format.html { redirect_to request.referrer, status: :unprocessable_entity }
       end

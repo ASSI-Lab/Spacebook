@@ -54,7 +54,7 @@ class ReservationsController < ApplicationController
         department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
 
         # Aggiunge lo spazio alla lista dei preferiti
-        FavouriteSpace.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.id, dep_name: department.name, typology: space.typology, space_name: space.name)
+        FavouriteSpace.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name)
 
       # Se il param è riferito ad un check per rimuovere uno spazio dai preferiti
       elsif (check[1] == "RmFavSp")

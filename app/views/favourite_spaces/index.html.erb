@@ -36,7 +36,7 @@
 <body>
 
 <div class="row mt-4 justify-content-center">
-	<div class="col-lg-9">
+	<div class="col-lg-6">
 		<div class="card">
 			<div class="card-header text-center">
 				<h3 class="font-weight-light my-3"> Spazi preferiti </h3>
@@ -45,18 +45,29 @@
 				<table id="datatableSpaziPreferiti" class="display table-responsive table-striped table-hover" width="100%">
 					<thead>
 						<tr>
-							<td class="h5">Email</td>
 							<td class="h5">Dipartimento</td>
-							<td class="h5">Tipologia - Spazio</td>
+							<td class="h5">Tipologia</td>
+							<td class="h5">Spazio</td>
+							<td class="h5 opt-no-sort">Prenota</td>
 							<td class="h5 opt-no-sort">Rimuovi</td>
 						</tr>
 					</thead>
 					<tbody>
 						<% @favourite_spaces.each do |favourite_space| %>
 							<tr>
-								<td><%= favourite_space.email %></td>
 								<td><%= favourite_space.dep_name %></td>
-								<td><%= favourite_space.typology %> - <%= favourite_space.space_name %></td>
+								<td><%= favourite_space.typology %></td>
+								<td><%= favourite_space.space_name %></td>
+								<td>
+									<%= form_with url: set_department_path, local: true, method: :post do |form| %>
+										<button class="btn btn-outline-info bi bi-cursor" style="width: 100%"></button>
+										<%= form.text_field :selected_dep_name, value: "#{Department.find( Space.find(favourite_space.space_id).department_id).name}", :style=>'display:none'%>
+										<%= form.text_field :selected_typology, value: "#{favourite_space.typology}", :style=>'display:none'%>
+										<%= form.text_field :selected_space, value: "#{favourite_space.space_name}", :style=>'display:none'%>
+										<%= form.text_field :filter, value: "Dep_Typ_Sp", :style=>'display:none'%>
+										<%= form.submit '', style: "display: none" %>
+									<% end %>
+								</td>
 								<td><%= link_to '', favourite_space, method: :delete, data: { confirm: 'Sei sicuro?' }, class: "btn btn-outline-info bi bi-trash", style: "width: 100%" %></td>
 							</tr>
 						<% end %>

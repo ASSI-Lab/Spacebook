@@ -24,8 +24,8 @@ class QuickReservationsController < ApplicationController
       redirect_to '/user_reservations'
       flash[:alert] = "Hai gia una prenotazione per questo spazio oggi, se desideri effettuarne un altra puoi farlo dalla pagina 'Effettua prenotazione'!"
     else                    # Se invece è a 0, inizializza i dati con i quali prenota lo spazio della prenotazione rapida
-      @seat = Seat.where(space_id: @qk_res.space_id).order(:start_date).first
-      if @seat.start_date.strftime("%Y%m%d") == (DateTime.now).strftime("%Y%m%d") and @seat.state == "Active" # Se il posto prenotabile è di oggi e non è scaduto lo prenota
+      @seat = Seat.where(space_id: @qk_res.space_id, state: "Active").order(:start_date).first
+      if @seat.start_date.strftime("%Y%m%d") == (DateTime.now).strftime("%Y%m%d") # Se il posto prenotabile è di oggi lo prenota
         @space = Space.find(@seat.space_id)
         @department = Department.find(@space.department_id)
 

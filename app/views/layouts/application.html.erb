@@ -124,15 +124,15 @@
             </div>
             <div id="layoutSidenav_content"> <!-- Corpo della pagina corrente -->
                 <main>
-                    <div class="container-fluid px-4 pt-4 pb-4">
+                    <div class="container-fluid px-4 pt-4" style="padding-bottom: 70px">
                         <%= yield %>
                     </div>
                 </main>
             </div>
 
             <!-- FOOTER -->
-            <footer class="container-fluid px-4 py-4 mt-4 bg-info d-flex justify-content-between small" id="bottomFooter">
-               
+            <footer class="container-fluid px-1 py-4 mt-4" id="bottomFooter">
+                
             </footer>
         </div>
     <% else %>                           <!-- In caso positivo mostra solo lo yield della pagina corrente -->

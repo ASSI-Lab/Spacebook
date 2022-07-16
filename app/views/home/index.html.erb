@@ -10,12 +10,12 @@
 
 <body>
 	<div class="row">
-		<div class="col-lg-8" style="height:100%">
+		<div class="col-lg-8">
 			<!-- Introduzione -->
-			<div class="card">
-				<div class="card-header">
-					<h2 class="text-white mt-2 mb-3"> Benvenuto </h2>
-					<p class="card-text text-white">
+			<div class="card" style="height:100%">
+				<div class="card-header" style="height:100%">
+					<h2 class="mt-2 mb-3"> Benvenuto </h2>
+					<p class="card-text">
 						Speriamo ti troverai bene nel nostro sito, siamo super fighi e strabravi perciò vedi di non rompere e non fare danni!
 						Registrati e prenota tutti gli spazi che vuoi in pochi e semplici passi (se non ci riesci hai dei problemi)
 						<br>
@@ -28,9 +28,9 @@
 		</div>
 		<div class="col-lg-4">
 			<% if user_signed_in? %>
-				<!-- Bottone per la prenotazione rapida -->
-				<div class="card mb-4">
-					<div class="card-header">
+				<!-- Card per la prenotazione rapida -->
+				<div class="card mb-4" style="height:100%">
+					<div class="card-header" style="height:100%">
 						<table width="100%">
 							<tr>
 								<% if @quick_reservation %>
@@ -49,7 +49,7 @@
 							</tr>
 						</table>
 					</div>
-					<div class="card-footer">
+					<div class="card-footer" style="height:100%">
 						<% if @quick_reservation %>
 							<div class="row">
 								<div class="col-lg-6"> <label class="label h5"> Dipartimento: </label> </div>
@@ -64,26 +64,26 @@
 				</div>
 			<% end %>
 		</div>
-	</div>
 
-	<!-- Barra di ricerca per dipartimenti -->
-	<%= search_form_for(@q, url: home_path, method: :get, class: "d-none d-md-inline-block form-inline my-2") do |f| %>
-		<table width="100%" class="mt-4">
-			<tr>
-				<td><%= f.search_field :name_or_via_or_civico_or_cap_or_citta_or_provincia_or_manager_i_cont_any, class: "form-control", placeholder: "Cerca un dipartimento...", id: "depSearchHome"%></td>
-				<td width="10%"><button class="btn btn-outline-info bi bi-search mx-2" id="btnNavbarSearch"><% f.submit "" %></button></td>
-			</tr>
-		</table>
-	<% end %>
+		<div class="col-lg-12">
+			<!-- Barra di ricerca per dipartimenti -->
+			<%= search_form_for(@q, url: home_path, method: :get, class: "d-none d-md-inline-block form-inline my-2") do |f| %>
+				<table width="100%" class="mt-4">
+					<tr>
+						<td><%= f.search_field :name_or_via_or_civico_or_cap_or_citta_or_provincia_or_manager_i_cont_any, class: "form-control", placeholder: "Cerca un dipartimento...", id: "depSearchHome"%></td>
+						<td width="10%"><button class="btn btn-outline-info bi bi-search mx-2" id="btnNavbarSearch"><% f.submit "" %></button></td>
+					</tr>
+				</table>
+			<% end %>
+		</div>
 
-	<div class="row">
-		<div class="col-lg-8">
+		<div class="col-lg-8 overflow-auto">
 			<!-- Lista di tutti i dipartimenti dell'applicazione -->
-			<div class="row mb-3">
+			<div class="row">
 				<% @departments.each do |department| %>
-					<div class="col-sm-6">
+					<div class="col-sm-6 pb-4">
 						<!-- Card che mostra il dipartimento corrente -->
-						<div class="card mt-3 mb-2">
+						<div class="card" style="height: 100%">
 							<div class="card-header">
 								<table width="100%">
 									<tr>
@@ -96,7 +96,12 @@
 										</td>
 										<td width="12%" class="text-right">
 											<% if user_signed_in? %>
-												<button class="btn btn-sm btn-outline-info" onclick="window.location.href='/make_reservation'"> <i class='bi bi-cursor'></i><br> prenota </button>
+												<%= form_with url: set_department_path, local: true, method: :post do |form| %>
+													<button class="btn btn-sm btn-outline-info"> <i class='bi bi-cursor'></i><br> prenota </button>
+													<%= form.text_field :selected_dep_name, value: "#{department.name}", :style=>'display:none'%>
+													<%= form.text_field :filter, value: "Dep", :style=>'display:none'%>
+													<%= form.submit '', style: "display: none" %>
+												<% end %>
 											<% else %>
 												<button class="btn btn-sm btn-outline-info disabled" id="prenotaBtnDisabilitato"> <i class='bi bi-cursor'></i><br> prenota </button> <!-- cambiare in grigio il colore -->
 											<% end %>
@@ -133,9 +138,7 @@
 								<br>
 
 								<label class="label h5 py-1"> Numero piani: </label> <%= department.floors %><br>
-
 								<label class="label h5 py-1"> Spazi disponibili: </label> <%= department.number_of_spaces %><br>
-
 								<label class="label h5 py-1"> Email del manager: </label> <%= department.manager %>
 							</div>
 						</div>
@@ -143,9 +146,9 @@
 				<% end %>
 			</div>
 		</div>
-		<div class="col-lg-4">
+		<div class="col-lg-4 pb-4">
 			<!-- Mappa per geolocalizzazione -->
-			<div class="card mt-3 mb-2">
+			<div class="card" style="height: 550px">
 				<div class="card-header text-white text-center h3"> Mappa </div>
 				<div class="card-body text-white text-center">
 					<div id="map"></div>
