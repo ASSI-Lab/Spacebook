@@ -134,50 +134,26 @@
 		</div>
 		<!-- Carousel piante -->
 		<div class="col-xl-5">
-			<div class="card">
-				<div class="card-header text-center">
-					<h3 class="font-weight-light my-3"> Piante dei piani </h3>
-				</div>
-				<div class="card-body">
-					<div id="depFloorMapCarousel" class="carousel slide" data-bs-ride="carousel">
-						<table width="100%">
-							<tr>
-								<td> <!-- Precedente -->
-									<button class="btn btn-outline-info bi bi-caret-left-fill" data-bs-target="#depFloorMapCarousel" data-bs-slide="prev"></button>
-								</td>
-								<td> <!-- Immagine del piano -->
-									<div class="carousel-inner">
-										<% [0,1,2].each do |num| %>
-											<div class="carousel-item <%= (num == 0)? 'active' : '' %>">
-												<table width="100%">
-													<!-- Pianta del piano -->
-													<tr>
-														<td style="text-align:center">
-															<img class="card-img" id="depFloorMapCarouselImgTop" src="<%= (num == 1)? "https://i1.wp.com/fotografiaartistica.it/wp-content/uploads/2019/06/nasa-immagini-gratuite-dello-spazio.jpg?fit=1041%2C664&ssl=1" : (num == 2)? "https://cdna.artstation.com/p/assets/images/images/034/757/492/large/jorge-hardt-02112021-minimalist-japanese-mobile-hd.jpg?1613135473" : "https://st.depositphotos.com/2290789/3667/i/600/depositphotos_36675429-stock-photo-king-lion-aslan.jpg" %>" alt="..." />
-														</td>
-													</tr>
-													<!-- Piano -->
-													<tr>
-														<td>
-															<div class="label text-center h5">
-																<hr class="dropdown-divider" />
-																<%= (num == 0)? "Piano terra" : "#{num}° Piano" %>
-															</div>
-														</td>
-													</tr>
-												</table>
-											</div>
-										<% end %>
-									</div>
-								</td>
-								<td> <!-- Successiva -->
-									<button class="btn btn-outline-info bi bi-caret-right-fill" data-bs-target="#depFloorMapCarousel" data-bs-slide="next"></button>
-								</td>
-							</tr>
-						</table>
+			<% if @department.dep_map!=nil%>
+				<div class="card">
+					<div class="card-header text-center">
+						<h3 class="font-weight-light my-3"> Pianta interattiva del dipartimento </h3>
+						<div class="small text-muted"> Clicca nell'area del designer per modificare il modello per il tuo dipartimento. Ricorda di modificare i dati del tuo dipartimento di conseguenza! </div>
+					</div>
+					<div class="card-body">
+						<div id="chartDesigner"></div>
+						<script src="https://cdn-eu.seatsio.net/chart.js"></script>
+
+						<script>
+							new seatsio.SeatingChartDesigner({
+								divId: 'chartDesigner',
+								secretKey: '<%= ENV['SEATS_IO_SECRET'] %>',
+								chartKey: '<%= @department.dep_map %>'
+							}).render();
+						</script> 
 					</div>
 				</div>
-			</div>
+			<% end %>
 		</div>
 	</div>
 

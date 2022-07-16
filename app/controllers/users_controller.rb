@@ -7,9 +7,13 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
         if @user.access_locked?
             @user.unlock_access!
+            @user.locking_reason = nil
+            @user.save
             UserMailer.with(user: @user).unlocked_account_email.deliver_now
         else
             @user.lock_access!
+            @user.locking_reason = "Bloccato dall'amministratore"
+            @user.save
             UserMailer.with(user: @user).blocked_account_email.deliver_now
         end
         redirect_to request.referrer
