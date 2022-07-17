@@ -4,52 +4,52 @@
 
 	<title> Il mio dipartimento - Spacebook </title>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
 
-    <script>
-        $(document).ready(function () {
-            $('#datatableSpazi').DataTable({
-                dom: '<"row"<"col"t>><"row mt-1"<"col"p>>',
-                scrollX: true,
-                filter: 'false',
-                pagingType: "simple_numbers",
-                pageLength: 10,
-                language: {
-                    zeroRecords: 'Nessuno spazio creato',
-                    paginate: {
-                        first:    '<i class="bi bi-caret-left-fill"></i>',
-                        previous: '<i class="bi bi-arrow-left-circle"></i>',
-                        next:     '<i class="bi bi-arrow-right-circle"></i>',
-                        last:     '<i class="bi bi-caret-right-fill"></i>'
-                    }
-                }
-            });
+	<script>
+		$(document).ready(function () {
+			$('#datatableSpazi').DataTable({
+				dom: '<"row"<"col"t>><"row mt-1"<"col"p>>',
+				scrollX: true,
+				filter: 'false',
+				pagingType: "simple_numbers",
+				pageLength: 4,
+				language: {
+					zeroRecords: 'Nessuno spazio creato',
+					paginate: {
+						first:    '<i class="bi bi-caret-left-fill"></i>',
+						previous: '<i class="bi bi-arrow-left-circle"></i>',
+						next:     '<i class="bi bi-arrow-right-circle"></i>',
+						last:     '<i class="bi bi-caret-right-fill"></i>'
+					}
+				}
+			});
 		});
 	</script>
 	<script>
-        $(document).ready(function () {
-            $('#datatablePrenotazioni').DataTable({
-                dom: '<"row"<"col"t>><"row mt-1"<"col"p>>',
-                scrollX: true,
-                filter: 'false',
-                pagingType: "simple_numbers",
-                pageLength: 10,
-                language: {
-                    zeroRecords: 'Nessuna prenotazione',
-                    paginate: {
-                        first:    '<i class="bi bi-caret-left-fill"></i>',
-                        previous: '<i class="bi bi-arrow-left-circle"></i>',
-                        next:     '<i class="bi bi-arrow-right-circle"></i>',
-                        last:     '<i class="bi bi-caret-right-fill"></i>'
-                    }
-                }
-            });
-        });
-    </script>
+		$(document).ready(function () {
+			$('#datatablePrenotazioni').DataTable({
+				dom: '<"row"<"col"t>><"row mt-1"<"col"p>>',
+				scrollX: true,
+				filter: 'false',
+				pagingType: "simple_numbers",
+				pageLength: 5,
+				language: {
+					zeroRecords: 'Nessuna prenotazione',
+					paginate: {
+						first:    '<i class="bi bi-caret-left-fill"></i>',
+						previous: '<i class="bi bi-arrow-left-circle"></i>',
+						next:     '<i class="bi bi-arrow-right-circle"></i>',
+						last:     '<i class="bi bi-caret-right-fill"></i>'
+					}
+				}
+			});
+		});
+	</script>
 
 </head>
 
@@ -69,52 +69,41 @@
 	</div>
 	<div class="row mt-4">
 		<!-- Card del dipartimento -->
-		<div class="col-xl-7">
-			<div class="card" style="height: 100%">
+		<div class="col-xl-5">
+			<div class="card" style="height: 400px">
 				<div class="card-header"> 
-					<table width="100%">
-						<tr>
-							<td width="76%">
-								<h3 class="font-weight-light my-3"> <%= (@department).name %> </h3>
-							</td>
-							<td width="12%">
-								<!-- Tasto per l'update -->
-								<button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#tempSpID<%= @department.id %>"> Aggiorna </button>
-								<%= render 'modal_dep_edit', mydep: @department %>
-							</td>
-							<td width="12%">
-								<!-- Tasto per l'eliminazione -->
-								<%= button_to 'Elimina', @department, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, class: "btn btn-outline-info" %>
-							</td>
-						</tr>
-					</table>
+					<h3 class="font-weight-light my-3">
+						<%= (@department).name %>
+						<!-- Tasto per l'eliminazione -->
+						<%= link_to '', @department, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, class: "btn btn-outline-info bi bi-trash", style: "float: right" %>
+					</h3>
 				</div>
 				<div class="card-body">
+					<!-- Descrizione + dati -->
 					<div class="row">
-						<!-- Descrizione + dati -->
-						<div class="col-lg">
+						<div class="col" style="width: 60%">
 							<!-- Descrizione truncate tramite modal -->
 							<p class="label mb-0 pt-2 pb-0">
-								<label class="h5"> Descrizione: </label><br>
+								<label class="h5 mb-0"> Descrizione: </label><br>
 								<!-- Truncate -->
-								<p class="text-truncate mb-0" style="width: 400px"> <%= (@department).description %> </p>
+								<label class="text-truncate my-0 py-0" style="width: 100%"> <%= (@department).description %> </p>
 								<!-- Icona interattiva per visualizzare il modal della descrizione completa -->
 								<i class="colorLink bi bi-card-text" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>DescModal"> continua a leggere </i>
 								<!-- Modal descrizione -->
 								<%= render 'modal_dep_desc', department: @department %>
 							</p>
 
-							<label class="label h5 pt-0 pb-0"> Posizione: </label> <%= (@department).via %>, <%= (@department).civico %>, <%= (@department).cap %>, <%= (@department).citta %>, <%= (@department).provincia %><br>
-							<label class="label h5 pt-2 pb-0"> Numero piani: </label> <%= (@department).floors %><br>
-							<label class="label h5 pt-2 pb-0"> Numero spazi: </label> <%= (@department).number_of_spaces %>
+							<label class="label h5 pt-0 mb-0"> Posizione: </label> <%= (@department).via %>, <%= (@department).civico %>, <%= (@department).cap %>, <%= (@department).citta %>, <%= (@department).provincia %><br>
+							<label class="label h5 pt-2 mb-0"> Numero piani: </label> <%= (@department).floors %><br>
+							<label class="label h5 pt-2 mb-0"> Numero spazi: </label> <%= (@department).number_of_spaces %><br>
 						</div>
-						<!-- Orari -->
-						<div class="col-lg">
-							<label class="label h5 pt-2 pb-0"> Orari <i class="bi bi-clock"></i> </label> 
+						<div class="col">
+							<!-- Orari -->
+							<label class="label h5 pt-2 mb-0"> Orari <i class="bi bi-clock"></i> </label> 
 							<!-- Raccoglie gli orari del dipartimento -->
 							<% @week_days.where(department_id: (@department).id).each do |wd| %>
 								<div class="row">
-									<div class="col-sm-5 h6">
+									<div class="col-sm-5">
 										<%= wd.day %>
 									</div>
 									<div class="col-sm-7">
@@ -129,37 +118,26 @@
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<!-- Carousel piante -->
-		<div class="col-xl-5">
-			<% if @department.dep_map!=nil%>
-				<div class="card">
-					<div class="card-header text-center">
-						<h3 class="font-weight-light my-3"> Pianta interattiva del dipartimento </h3>
-						<div class="small text-muted"> Clicca nell'area del designer per modificare il modello per il tuo dipartimento. Ricorda di modificare i dati del tuo dipartimento di conseguenza! </div>
-					</div>
-					<div class="card-body">
-						<div id="chartDesigner"></div>
-						<script src="https://cdn-eu.seatsio.net/chart.js"></script>
-
-						<script>
-							new seatsio.SeatingChartDesigner({
-								divId: 'chartDesigner',
-								secretKey: '<%= ENV['SEATS_IO_SECRET'] %>',
-								chartKey: '<%= @department.dep_map %>'
-							}).render();
-						</script>
+				<div class="card-footer">
+					<div class="row">
+						<div class="col-lg-6">
+							<!-- Tasto per l'update -->
+							<button class="btn btn-outline-info" style="width: 100%" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>EditModal"> Modifica </button>
+							<%= render 'modal_dep_edit', mydep: @department %>
+						</div>
+						<div class="col-lg-6">
+							<!-- Tasto per l'editor della pianta -->
+							<button class="btn btn-outline-info" style="width: 100%" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>MapModal"> Mostra pianta </button>
+							<!-- Modal editor seats.io -->
+							<%= render 'modal_dep_map', department: @department %>
+						</div>
 					</div>
 				</div>
-			<% end %>
+			</div>
 		</div>
-	</div>
-
-	<div class="row mt-4">
 		<!-- SPAZI DEL DIPARTIMENTO -->
 		<div class="col-xl-7">
-			<div class="card">
+			<div class="card" style="height: 100%">
 				<div class="card-header text-center">
 					<h3 class="font-weight-light my-3"> Spazi del dipartimento </h3>
 				</div>
@@ -167,12 +145,12 @@
 					<table id="datatableSpazi" class="display table-responsive table-striped table-hover" width="100%"> 
 						<thead>
 							<tr class="h6">
-								<th width="14%">Tipologia</th>
-								<th width="14%">Nome</th>
-								<th width="14%">Piano</th>
-								<th width="14%">Posti</th>
-								<th width="14%">Descrizione</th>
-								<th width="14%">Rimuovi</th>
+								<td class="h5">Tipologia</td>
+								<td class="h5">Nome</td>
+								<td class="h5" width="10%">Piano</td>
+								<td class="h5" width="10%">Posti</td>
+								<td class="h5 opt-no-sort" width="14%">Descrizione</td>
+								<td class="h5 opt-no-sort" width="14%">Rimuovi</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -180,8 +158,8 @@
 								<tr>
 									<td><%= space.typology %></td>
 									<td><%= space.name %></td>
-									<td style="text-align:center"><%= space.floor %></td>
-									<td style="text-align:center"><%= space.number_of_seats %></td>
+									<td><%= space.floor %></td>
+									<td><%= space.number_of_seats %></td>
 									<td>
 										<!-- Icona interattiva per la descrizione -->
 										<button style="width:100%" class="btn btn-sm btn-outline-info bi bi-card-text" data-bs-toggle="modal" data-bs-target="#depID<%= space.id %>"></button>
@@ -199,6 +177,50 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="row mt-4">
+		<!-- PRENOTAZIONI DEL DIPARTIMENTO -->
+		<div class="col">
+			<div class="card">
+				<div class="card-header text-center">
+					<h3 class="font-weight-light my-3"> Prenotazioni </h3>
+				</div>
+				<div class="card-body">
+					<table id="datatablePrenotazioni" class="display table-responsive table-striped table-hover" width="100%">
+						<thead>
+							<tr>
+								<td class="h5"> Utente </td>
+								<td class="h5"> Dipartimento </td>
+								<td class="h5"> Tipologia </td>
+								<td class="h5"> Spazio </td>
+								<td class="h5"> Posto </td>
+								<td class="h5"> Orario </td>
+								<td class="h5"> Stato </td>
+								<td class="h5 opt-no-sort"> Rimuovi </td>
+							</tr>
+						</thead>
+						<tbody>
+							<% @reservations.each do |reservation| %>
+								<tr>
+									<td><%= reservation.email %></td>
+									<td><%= reservation.dep_name %></td>
+									<td><%= reservation.typology %> </td>
+									<td> <%= reservation.space_name %></td>
+									<td><%= reservation.seat_num %></td>
+									<td><%= reservation.start_date.strftime("%H:%M") %> - <%= reservation.end_date.strftime("%H:%M") %></td>
+									<td><%= (reservation.state == "Active")? "Attiva" : "Scaduta" %></td>
+									<td><%= link_to '', reservation, method: :delete, data: { confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style: "width:100%" %>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
 		<!-- Grafici -->
 		<div class="col-xl-5">
 			<div class="card">
@@ -211,46 +233,6 @@
 			</div>
 		</div>
 	</div>
-	
-	<!-- PRENOTAZIONI DEL DIPARTIMENTO -->
-	<div class="row mt-4">
-		<div class="col">
-			<div class="card">
-				<div class="card-header text-center">
-					<h3 class="font-weight-light my-3"> Prenotazioni </h3>
-				</div>
-				<div class="card-body">
-					<table id="datatablePrenotazioni" class="display table-responsive table-striped table-hover" width="100%">
-						<thead>
-							<tr>
-								<th> Utente </th>
-								<th> Dipartimento </th>
-								<th> Tipologia </th>
-								<th> Spazio </th>
-								<th> Piano </th>
-								<th> Posto </th>
-								<th> Stato </th>
-								<th> Rimuovi </th>
-							</tr>
-						</thead>
-						<tbody>
-							<% @reservations.each do |reservation| %>
-								<tr>
-									<td><%= reservation.email %></td>
-									<td><%= reservation.dep_name %></td>
-									<td><%= reservation.typology %></td>
-									<td><%= reservation.space_name %></td>
-									<td><%= reservation.floor %></td>
-									<td><%= reservation.seat_num %></td>
-									<td><%= reservation.state %></td>
-									<td><%= link_to '', reservation, method: :delete, data: { confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style: "width:100%" %>
-								</tr>
-							<% end %>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+
 </body>
 </html>

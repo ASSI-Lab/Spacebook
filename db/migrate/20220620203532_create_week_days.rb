@@ -3,12 +3,12 @@ class CreateWeekDays < ActiveRecord::Migration[6.1]
     create_table :week_days do |t|
       t.belongs_to :department
 
-      t.string :dep_name
-      t.string :day
-      
-      t.string :state
-      t.datetime :apertura
-      t.datetime :chiusura
+      t.string :dep_name, null: false
+      t.string :day, null: false
+
+      t.string :state, null: false
+      t.datetime :apertura, null: false
+      t.datetime :chiusura, null: false
 
       t.timestamps
     end

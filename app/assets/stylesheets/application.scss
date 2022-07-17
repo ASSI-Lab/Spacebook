@@ -5487,9 +5487,8 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
 // DIMENSIONE MAPPA HOME
 #map { 
   width: 100%;
-  height: 100%; 
+  height: 100%;
   color:#000;
-  
 }
 
 // Links in sign_in e sign_up
@@ -5514,7 +5513,8 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
 
 // Chart designer di seats.io
 #chartDesigner {
-  height: 800px;
+  width: 100%;
+  height: 100%;
 }
 
 #chart {

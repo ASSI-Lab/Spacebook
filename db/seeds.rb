@@ -18,27 +18,35 @@ User.create(email: "donia.user@gmail.com",   password: "password", created_at: T
 @mic_man = User.create(email: "michela.manager@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
 @don_man = User.create(email: "donia.manager@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
 
+# Creazione degli utenti admin. Effettuate l'accesso con questi dati per eventuali test.
+User.create(email: "fra.admin@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
+User.create(email: "matteo.admin@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
+User.create(email: "michela.admin@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
+User.create(email: "donia.admin@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
+
 # Insieme dei dati per creare i dipartimenti
 dep_set = [
+
     {user_id: @fra_man.id, name: "Dipartimento di Francesco", manager: @fra_man.email, 
      via: "Piazzale Aldo Moro", civico: "5", cap: "00185", citta: "Roma", provincia: "RM", latitude: "41.9012777", longitude: "12.5145879", 
      description: "Per gestire o testare questo dipartimento accedi come 'fra.manager@gmail.com'", 
      floors: 4, number_of_spaces: 2},
-    
+
     {user_id: @mat_man.id, name: "Dipartimento di Matteo", manager: @mat_man.email, 
      via: "Viale dello Scalo S. Lorenzo", civico: "82", cap: " 00159", citta: "Roma", provincia: "RM", latitude: "41.89684", longitude: "12.5213", 
      description: "Per gestire o testare questo dipartimento accedi come 'matteo.manager@gmail.com'", 
      floors: 4, number_of_spaces: 2},
-    
+
     {user_id: @mic_man.id, name: "Dipartimento di Michela", manager: @mic_man.email,
      via: "Via Carlo Fea", civico: "2", cap: "00161", citta: "Roma", provincia: "RM", latitude: "41.9186778", longitude: "12.5175380", 
      description: "Per gestire o testare questo dipartimento accedi come 'michela.manager@gmail.com'", 
      floors: 4, number_of_spaces: 2},
-    
+
     {user_id: @don_man.id, name: "Dipartimento di Donia", manager: @don_man.email, 
      via: "Via Eudossiana", civico: "18", cap: "00184", citta: "Roma", provincia: "RM", latitude: "41.8932591", longitude: "12.4930178", 
      description: "Per gestire o testare questo dipartimento accedi come 'donia.manager@gmail.com'", 
      floors: 4, number_of_spaces: 2}
+
 ]
 
 # Creazione dei dipartimenti e dei relativi orari, spazi e posti

@@ -5,11 +5,11 @@ class CreateQuickReservations < ActiveRecord::Migration[6.1]
       t.belongs_to :department
       t.belongs_to :space
       
-      t.string :email
+      t.string :email, null: false
       
-      t.string :dep_name
-      t.string :typology
-      t.string :space_name
+      t.string :dep_name, null: false
+      t.string :typology, null: false
+      t.string :space_name, null: false
 
       t.timestamps
     end

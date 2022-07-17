@@ -96,11 +96,11 @@
 								<tr>
 									<td><%= user.email %></td>
 									<td><%= user.roles %></td>
-									<td><%= link_to ban_status(user), ban_user_path(user) , method: :patch, :class => "btn btn-sm btn-outline-info", :style=>"width:100%"%>
-									<% if user.locking_reason == nil && user.access_locked?  %>
-										<td>Superato limite tentativi di accesso</td>
+									<td><%= link_to ban_status(user), ban_user_path(user) , method: :patch, class: "btn btn-sm btn-outline-info", style: "width:100%"%>
+									<% if user.locking_reason == nil && user.access_locked? %>
+										<td> Superato limite tentativi di accesso </td>
 									<% else %>
-										<td><%= user.locking_reason %></td>
+										<td> <%= user.locking_reason %> </td>
 									<% end %>
 								</tr>
 							<% end %>
@@ -131,8 +131,8 @@
 									<td><%= department.name %></td>
 									<td><%= department.manager %></td>
 									<td><%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
-									<td><%= link_to '', department, method: :get, :class => "btn btn-sm btn-outline-info bi bi-eye", :style=>"width:100%"%>
-									<td><%= link_to '', department, method: :delete, data: { confirm: 'Sicuro?' }, :class => "btn btn-sm btn-outline-info bi bi-trash", :style=>"width:100%"%>
+									<td><%= link_to '', department, method: :get, class: "btn btn-sm btn-outline-info bi bi-eye", style: "width:100%"%>
+									<td><%= link_to '', department, method: :delete, data: { confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style: "width:100%"%>
 								</tr>
 							<% end %>
 						</tbody>
@@ -178,7 +178,7 @@
 									<td><%= reservation.start_date.strftime('%H:%M') %> - <%= reservation.end_date.strftime('%H:%M') %> </td>
 									<td><%= reservation.state %></td>
 									<td><%= (reservation.is_sync!=nil)? "Si" : "No" %></td>
-									<td><%= button_to 'Elimina', reservation, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-sm btn-outline-info" %></td>
+									<td><%= button_to 'Elimina', reservation, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-outline-info" %></td>
 								</tr>
 							<% end %>
 						</tbody>

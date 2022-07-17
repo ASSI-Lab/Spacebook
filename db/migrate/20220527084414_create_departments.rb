@@ -2,21 +2,21 @@ class CreateDepartments < ActiveRecord::Migration[6.1]
   def change
     create_table :departments do |t|
       t.belongs_to :user
-      
-      t.string :name
-      
-      t.string :manager
-      
-      t.string :via
-      t.string :civico
-      t.string :cap
-      t.string :citta
-      t.string :provincia
+
+      t.string :name, null: false
+
+      t.string :manager, null: false
+
+      t.string :via, null: false
+      t.string :civico, null: false
+      t.string :cap, null: false
+      t.string :citta, null: false
+      t.string :provincia, null: false
       t.string :latitude
       t.string :longitude
       t.string :dep_map
       t.string :dep_event
-      
+
       t.text :description
       t.integer :floors
       t.integer :number_of_spaces

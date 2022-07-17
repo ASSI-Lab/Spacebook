@@ -3,13 +3,13 @@ class CreateSeats < ActiveRecord::Migration[6.1]
     create_table :seats do |t|
       t.belongs_to :space
 
-      t.string :dep_name
-      t.string :typology
-      t.string :space_name
-      t.integer :position
-      t.datetime :start_date
-      t.datetime :end_date
-      
+      t.string :dep_name, null: false
+      t.string :typology, null: false
+      t.string :space_name, null: false
+      t.integer :position, null: false
+      t.datetime :start_date, null: false
+      t.datetime :end_date, null: false
+
       t.string :state
 
       t.timestamps

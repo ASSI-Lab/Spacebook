@@ -26,9 +26,9 @@ class TempDepsController < ApplicationController
     else
       if TempDep.where(manager: current_user.email).count == 0
         @temp_dep = TempDep.new
-        res = new_dep_map(current_user.email)
-        @dep_map = res[0]
-        @dep_event = res[1]
+        # res = new_dep_map(current_user.email)
+        # @dep_map = res[0]
+        # @dep_event = res[1]
       end
     end
   end

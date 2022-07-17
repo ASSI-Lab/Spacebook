@@ -1,6 +1,6 @@
 <!-- Modal di modifica che permette ad un manager di aggiornare alcuni campi del suo dipartimento -->
 
-<div class="modal fade" id="tempSpID<%= mydep.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="dep<%= mydep.id %>EditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content form-c-label">
             <div class="modal-header">
@@ -24,13 +24,13 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-floating mb-3">                            
-                                <%= form.text_field :name, :class=>"form-control", :id=>"depName", :placeholder=>"plh"%>
+                                <%= form.text_field :name, class: "form-control", id: "depName"%>
                                 <label for="depName"> Nome </label>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-floating mb-3">
-                                <%= form.number_field :floors, :class=>"form-control", :id=>"numPiani", :placeholder=>"plh"%>
+                                <%= form.number_field :floors, class: "form-control", id: "numPiani"%>
                                 <label for="numPiani"> Numero dei piani dell'edificio </label>
                             </div>
                         </div>
@@ -39,31 +39,31 @@
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :via, :class=>"form-control", :id=>"via", :placeholder=>"plh"%>
+                                <%= form.text_field :via, class: "form-control", id: "via"%>
                                 <label for="via"> Via, Viale, Piazza... </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :civico, :class=>"form-control", :id=>"civico", :placeholder=>"plh"%>
+                                <%= form.text_field :civico, class: "form-control", id: "civico"%>
                                 <label for="civico"> n° civico </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :cap, :class=>"form-control", :id=>"cap", :placeholder=>"plh"%>
+                                <%= form.text_field :cap, class: "form-control", id: "cap"%>
                                 <label for="cap"> Cap </label>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :citta, :class=>"form-control", :id=>"citta", :placeholder=>"plh"%>
+                                <%= form.text_field :citta, class: "form-control", id: "citta"%>
                                 <label for="citta"> Città </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :provincia, :class=>"form-control", :id=>"provincia", :placeholder=>"plh"%>
+                                <%= form.text_field :provincia, class: "form-control", id: "provincia"%>
                                 <label for="provincia"> Provincia </label>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                             <%= form.label 'Descrizione del dipartimento' %>
                         </div>
                         <div class="field"> 
-                            <%= form.text_area :description, :class=>"form-control", rows: 5, :style=>"width:100%" %>
+                            <%= form.text_area :description, class: "form-control", rows: 5, style: "width:100%" %>
                         </div>
                     </div>
 

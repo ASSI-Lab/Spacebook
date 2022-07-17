@@ -1,0 +1,9 @@
+Eseguire questi comandi ad ogni pull: Il primo comando è solo per me perche sono pigro :)
+
+cd Scrivania/ASSI/Spacebook
+bundle install
+rake db:drop
+rake db:migrate
+rake db:seed
+reset
+rails s

@@ -1,0 +1,28 @@
+<!-- Modal di modifica che permette ad un manager di aggiornare alcuni campi del suo dipartimento -->
+
+<div class="modal fade" id="dep<%= department.id %>MapModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen mt-4 ms-auto me-auto" style="width: 80%; height: 80%">
+        <div class="modal-content form-c-label">
+            <div class="modal-header">
+                <label class="font-weight-light my-1">
+                    <h3 class="mb-0"> Pianta interattiva del dipartimento </h3>
+                    <div class="small"> Clicca nell'area del designer per modificare il modello per il tuo dipartimento. Ricorda di modificare i dati del tuo dipartimento di conseguenza! </div>
+                </label>
+                <button type="button" class="btn bi bi-x-lg" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <% if department.dep_map!=nil%>
+                    <div id="chartDesigner"></div>
+                    <script src="https://cdn-eu.seatsio.net/chart.js"></script>
+                    <script>
+                        new seatsio.SeatingChartDesigner({
+                            divId: 'chartDesigner',
+                            secretKey: '<%= ENV['SEATS_IO_SECRET'] %>',
+                            chartKey: '<%= department.dep_map %>'
+                        }).render();
+                    </script>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
