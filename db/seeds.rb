@@ -7,10 +7,10 @@
 # Se volete cambiare alcuni dati nel seed assicuratevi che siano della giusta tipologia relativa al campo che state inserendo
 
 # Creazione degli utenti base. Effettuate l'accesso con questi dati per eventuali test.
-User.create(email: "fra.user@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 0)
-User.create(email: "matteo.user@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 0)
-User.create(email: "michela.user@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 0)
-User.create(email: "donia.user@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 0)
+User.create(email: "fra.user@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 4)
+User.create(email: "matteo.user@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 4)
+User.create(email: "michela.user@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 4)
+User.create(email: "donia.user@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 4)
 
 # Creazione degli utenti manager. Effettuate l'accesso con questi dati per eventuali test.
 @fra_man = User.create(email: "fra.manager@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
