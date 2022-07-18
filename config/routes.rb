@@ -44,7 +44,8 @@ Rails.application.routes.draw do
   get "/make_quick_res", to: "quick_reservations#make_quick_res"
 
   post "/find_on_map", to:"home#find_on_map"
-
+  
+  
   resources :users do       # CONTROLLA LE MAIL DI CONFERMA E IN CASO DI ASSENZA PER NUOVA REGISTRAZIONE NE INVIA UNA (CONTROLLARE application_mailer PER ULTERIORI DETTAGLI)
     member do
       get :confirm_email

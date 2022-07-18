@@ -20,6 +20,7 @@ class TempDepsController < ApplicationController
 
   # Pagina di registrazione del dipartimento (creazione dei dati temporanei)
   def new
+    authorize! :new, @temp_dep, :message => "Attenzione: Non sei autorizzato a creare un dipartimento."
     if (Department.where(manager: current_user.email).count == 1)
       redirect_to '/manager_department'
       flash[:alert] = "Hai gia creato un dipartimento! Eccolo quì!"

@@ -101,12 +101,12 @@
                             </a>
 
                             <!-- Controlla il ruolo dell'utente e ne visualizza le rispettive funzionalità -->
-                            <% if user_signed_in? && current_user.roles in ["manager"]%>
+                            <% if user_signed_in? && current_user.is_manager?%>
                                 <a class="nav-link" onclick="window.location.href='/manager_department'">
                                     <div class="sb-nav-link-icon bi bi-building"></div>
                                     Mio dipartimento
                                 </a>
-                            <% elsif user_signed_in? && current_user.roles in ["admin"]%>
+                            <% elsif user_signed_in? && current_user.is_admin?%>
                                 <a class="nav-link" onclick="window.location.href='/management'">
                                     <div class="sb-nav-link-icon bi bi-gear-wide-connected"></div>
                                     Gestione sito

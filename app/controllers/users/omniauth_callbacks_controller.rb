@@ -13,14 +13,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           @user.refresh_token = auth.credentials.refresh_token  # AGGIUNGO TOKEN DI REFRESH AL DATABASE
           @user.provider = "Google"
           @user.save!
-          if @user.roles_mask != nil                            ####################
-            print "\n\n\n",@user.roles_mask,"\n\n\n"            #
+          if @user.role != nil                            ####################
+            print "\n\n\n",@user.role,"\n\n\n"            #
           else                                                  #
             print "\n\n\n SENZA RUOLO \n\n\n"                   #
             u = @user                                           # FUNZIONALITÀ CHE ASSOCIA A CHI USA LOGIN GOOGLE IL RUOLO DI ADMIN(SOLO TEST!!!)
-            u.roles = ['admin']                                 #
+            u.role = 'admin'                                 #
             u.save                                              #
-            print "\n\n\n",u.roles_mask,"\n\n\n"                #
+            print "\n\n\n",u.role,"\n\n\n"                #
           end                                                   ####################
           sign_in_and_redirect @user, event: :authentication
         else

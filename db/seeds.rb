@@ -7,22 +7,22 @@
 # Se volete cambiare alcuni dati nel seed assicuratevi che siano della giusta tipologia relativa al campo che state inserendo
 
 # Creazione degli utenti base. Effettuate l'accesso con questi dati per eventuali test.
-User.create(email: "fra.user@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 4)
-User.create(email: "matteo.user@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 4)
-User.create(email: "michela.user@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 4)
-User.create(email: "donia.user@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 4)
+User.create(email: "fra.user@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
+User.create(email: "matteo.user@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
+User.create(email: "michela.user@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
+User.create(email: "donia.user@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
 
 # Creazione degli utenti manager. Effettuate l'accesso con questi dati per eventuali test.
-@fra_man = User.create(email: "fra.manager@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
-@mat_man = User.create(email: "matteo.manager@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
-@mic_man = User.create(email: "michela.manager@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
-@don_man = User.create(email: "donia.manager@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
+@fra_man = User.create(email: "fra.manager@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
+@mat_man = User.create(email: "matteo.manager@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
+@mic_man = User.create(email: "michela.manager@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
+@don_man = User.create(email: "donia.manager@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
 
 # Creazione degli utenti admin. Effettuate l'accesso con questi dati per eventuali test.
-User.create(email: "fra.admin@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
-User.create(email: "matteo.admin@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
-User.create(email: "michela.admin@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
-User.create(email: "donia.admin@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, roles_mask: 1)
+User.create(email: "fra.admin@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+User.create(email: "matteo.admin@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+User.create(email: "michela.admin@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+User.create(email: "donia.admin@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
 
 # Insieme dei dati per creare i dipartimenti
 dep_set = [

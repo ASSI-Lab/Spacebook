@@ -19,4 +19,9 @@ class UsersController < ApplicationController
         redirect_to request.referrer
         flash[:notice] = "L' account (\"#{@user.email}\") è stato #{@user.access_locked? ? "bloccato" : "sbloccato"} con successo!"
     end
+
+    def user_params
+        params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)
+    end
+
 end

@@ -95,7 +95,7 @@
 							<% @users.each do |user| %>
 								<tr>
 									<td><%= user.email %></td>
-									<td><%= user.roles %></td>
+									<td><%= user.role %></td>
 									<td><%= link_to ban_status(user), ban_user_path(user) , method: :patch, class: "btn btn-sm btn-outline-info", style: "width:100%"%>
 									<% if user.locking_reason == nil && user.access_locked? %>
 										<td> Superato limite tentativi di accesso </td>

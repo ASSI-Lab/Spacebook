@@ -41,9 +41,8 @@
                                             </div>
                                         </div>
                                         <div class="form-check mb-3">
-                                            <%= check_box_tag "user[roles][#{'manager'}]", 'manager', @user.roles.include?('manager'), {:name => "user[roles][]"}%>
-                                            <%= label_tag "user_roles_#{'manager'}", 'Richiedi registrazione come Manager' %>
-                                            <%= hidden_field_tag "user[roles][#{'user'}]", "" %> 
+                                        <!-- Tendina per selezione ruolo -->
+                                        <!--<%= f.collection_select(:role, User::ROLES, :to_s, lambda{|i| i.to_s.humanize}) %>-->
                                         </div>
 
                                         <div class="actions text-center py-3">

@@ -10,23 +10,49 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable, :trackable, :lockable, :recoverable, :rememberable, :validatable, :timeoutable, :omniauthable, omniauth_providers: [:google_oauth2]
          
-  acts_as_user :roles => [ :manager, :admin, :user ]    #RUOLI DEFINITI PER IL CONTROLLO AUTORIZZAZIONI DI CANARD
-  ROLES = %w[manager admin user].freeze               #RUOLI MOSTRATI NELLE CHECKBOX DI SIGNUP(MANTENERE LO STESSO ORDINE DI :roles !!!)
-        
+  #acts_as_user :roles => [ :manager, :admin, :user ]    #RUOLI DEFINITI PER IL CONTROLLO AUTORIZZAZIONI DI CANARD
+  ROLES = %i[manager admin user]                        #RUOLI MOSTRATI NELLE CHECKBOX DI SIGNUP(MANTENERE LO STESSO ORDINE DI :roles !!!)
+  
+  before_save :add_default_role
+
+  def add_default_role
+    if self.role==nil
+      self.role='user'
+      self.save
+    end
+  end
 
   def is?(role)                                                                        #***
     roles.include?(role.to_s)                                                          #
   end                                                                                  #
 
-  def roles=(roles)                                                                    #
-    self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.inject(0, :+)      # 
-  end                                                                                  # FUNZIONI DI SUPPORTO PER DEFINIZIONE RUOLO DURANTE SIGNUP
-  
-  def roles                                                                            #
-    ROLES.reject do |r|                                                                #
-      ((roles_mask.to_i || 0) & 2**ROLES.index(r)).zero?                               #
-    end                                                                                #
-  end                                                                                  #***
+  def has_role?(role)
+    roles.include?(role)
+  end                                                                                 #***
+
+  def is_manager?
+    if self.role.include?("manager")
+      return true
+    else
+      return false
+    end
+  end
+
+  def is_admin?
+    if self.role.include?("admin")
+      return true
+    else
+      return false
+    end
+  end
+
+  def is_user?
+    if self.role.include?("user")
+      return true
+    else
+      return false
+    end
+  end
 
   def self.from_omniauth(access_token)
     data = access_token.info
