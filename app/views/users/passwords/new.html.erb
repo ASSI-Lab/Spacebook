@@ -1,16 +1,48 @@
-<h2>Password dimenticata?</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
+    <title> Password dimenticata - Spacebook </title>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+</head>
 
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
+<body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-lg-7">
+                            <div class="card mt-5">
+								<div class="card-header"><h3 class="text-center my-4"> Password dimenticata? </h3></div>
+                                <div class="card-body">
+									<!-- Form -->
+									<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+										<%= render "users/shared/error_messages", resource: resource %>
 
-<%= render "users/shared/links" %>
+										<div class="form-floating mb-3">
+											<%= f.email_field :email, autofocus: true, autocomplete: "email", :class=>"form-control", required: :true, :id=>"email", :placeholder=>"plh" %>
+											<label class="form-c-label" for="email"> Email </label>
+										</div>
+
+										<div class="actions text-center py-3">
+											<%= f.submit class:"btn btn-outline-info", value:"Send me reset password instructions" %>
+										</div>
+									<% end %>
+
+									<!-- Links -->
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <div id="signLinks">
+											<%= render "users/shared/links" %>
+										</div>
+                                    </div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
