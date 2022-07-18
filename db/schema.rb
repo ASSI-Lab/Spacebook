@@ -14,13 +14,13 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
 
   create_table "departments", force: :cascade do |t|
     t.integer "user_id"
-    t.string "name"
-    t.string "manager"
-    t.string "via"
-    t.string "civico"
-    t.string "cap"
-    t.string "citta"
-    t.string "provincia"
+    t.string "name", null: false
+    t.string "manager", null: false
+    t.string "via", null: false
+    t.string "civico", null: false
+    t.string "cap", null: false
+    t.string "citta", null: false
+    t.string "provincia", null: false
     t.string "latitude"
     t.string "longitude"
     t.string "dep_map"
@@ -40,10 +40,10 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
     t.integer "user_id"
     t.integer "department_id"
     t.integer "space_id"
-    t.string "email"
-    t.string "dep_name"
-    t.string "typology"
-    t.string "space_name"
+    t.string "email", null: false
+    t.string "dep_name", null: false
+    t.string "typology", null: false
+    t.string "space_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["department_id"], name: "index_favourite_spaces_on_department_id"
@@ -56,10 +56,10 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
     t.integer "user_id"
     t.integer "department_id"
     t.integer "space_id"
-    t.string "email"
-    t.string "dep_name"
-    t.string "typology"
-    t.string "space_name"
+    t.string "email", null: false
+    t.string "dep_name", null: false
+    t.string "typology", null: false
+    t.string "space_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["department_id"], name: "index_quick_reservations_on_department_id"
@@ -73,20 +73,20 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
     t.integer "department_id"
     t.integer "space_id"
     t.integer "seat_id"
-    t.string "email"
-    t.string "dep_name"
-    t.string "typology"
-    t.string "space_name"
+    t.string "email", null: false
+    t.string "dep_name", null: false
+    t.string "typology", null: false
+    t.string "space_name", null: false
     t.integer "floor"
-    t.integer "seat_num"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.string "state"
+    t.integer "seat_num", null: false
+    t.datetime "start_date", null: false
+    t.datetime "end_date", null: false
+    t.string "state", null: false
     t.string "is_sync"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["department_id"], name: "index_reservations_on_department_id"
-    t.index ["email", "dep_name", "typology", "space_name", "floor", "seat_num", "start_date", "end_date"], name: "reservations_index", unique: true
+    t.index ["email", "dep_name", "typology", "space_name", "seat_num", "start_date", "end_date"], name: "reservations_index", unique: true
     t.index ["seat_id"], name: "index_reservations_on_seat_id"
     t.index ["space_id"], name: "index_reservations_on_space_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
@@ -94,12 +94,12 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
 
   create_table "seats", force: :cascade do |t|
     t.integer "space_id"
-    t.string "dep_name"
-    t.string "typology"
-    t.string "space_name"
-    t.integer "position"
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.string "dep_name", null: false
+    t.string "typology", null: false
+    t.string "space_name", null: false
+    t.integer "position", null: false
+    t.datetime "start_date", null: false
+    t.datetime "end_date", null: false
     t.string "state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -109,42 +109,28 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
 
   create_table "spaces", force: :cascade do |t|
     t.integer "department_id"
-    t.string "dep_name"
-    t.string "typology"
-    t.string "name"
+    t.string "dep_name", null: false
+    t.string "typology", null: false
+    t.string "name", null: false
     t.text "description"
     t.integer "floor"
     t.integer "number_of_seats"
-    t.string "state"
+    t.string "state", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["dep_name", "typology", "name"], name: "spaces_index", unique: true
     t.index ["department_id"], name: "index_spaces_on_department_id"
   end
 
-  create_table "tasks", force: :cascade do |t|
-    t.string "title"
-    t.string "description"
-    t.string "place"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.string "event"
-    t.string "members"
-    t.integer "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_tasks_on_user_id"
-  end
-
   create_table "temp_deps", force: :cascade do |t|
     t.integer "user_id"
-    t.string "name"
-    t.string "manager"
-    t.string "via"
-    t.string "civico"
-    t.string "cap"
-    t.string "citta"
-    t.string "provincia"
+    t.string "name", null: false
+    t.string "manager", null: false
+    t.string "via", null: false
+    t.string "civico", null: false
+    t.string "cap", null: false
+    t.string "citta", null: false
+    t.string "provincia", null: false
     t.text "description"
     t.integer "floors"
     t.integer "number_of_spaces"
@@ -160,13 +146,13 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
 
   create_table "temp_sps", force: :cascade do |t|
     t.integer "temp_dep_id"
-    t.string "dep_name"
-    t.string "typology"
-    t.string "name"
+    t.string "dep_name", null: false
+    t.string "typology", null: false
+    t.string "name", null: false
     t.text "description"
     t.integer "floor"
     t.integer "number_of_seats"
-    t.string "state"
+    t.string "state", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["dep_name", "typology", "name"], name: "temp_sps_index", unique: true
@@ -175,11 +161,11 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
 
   create_table "temp_week_days", force: :cascade do |t|
     t.integer "temp_dep_id"
-    t.string "dep_name"
-    t.string "day"
-    t.string "state"
-    t.datetime "apertura"
-    t.datetime "chiusura"
+    t.string "dep_name", null: false
+    t.string "day", null: false
+    t.string "state", null: false
+    t.datetime "apertura", null: false
+    t.datetime "chiusura", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["dep_name", "day"], name: "temp_week_days_index", unique: true
@@ -192,6 +178,11 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
@@ -208,6 +199,7 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
     t.string "unlock_token"
     t.string "locking_reason"
     t.string "role"
+    t.string "requested_manager"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -216,16 +208,15 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
 
   create_table "week_days", force: :cascade do |t|
     t.integer "department_id"
-    t.string "dep_name"
-    t.string "day"
-    t.string "state"
-    t.datetime "apertura"
-    t.datetime "chiusura"
+    t.string "dep_name", null: false
+    t.string "day", null: false
+    t.string "state", null: false
+    t.datetime "apertura", null: false
+    t.datetime "chiusura", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["dep_name", "day"], name: "week_days_index", unique: true
     t.index ["department_id"], name: "index_week_days_on_department_id"
   end
 
-  add_foreign_key "tasks", "users"
 end

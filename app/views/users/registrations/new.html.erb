@@ -43,7 +43,8 @@
                                         <div class="form-check mb-3">
                                         <!-- Tendina per selezione ruolo -->
                                         <!--<%= f.collection_select(:role, User::ROLES, :to_s, lambda{|i| i.to_s.humanize}) %>-->
-                                        </div>
+                                        <td><label class="h5"> Richiedi ruolo Manager </label></td>
+                                        <%= f.check_box(:requested_manager, { class: "form-check-input", type: "checkbox" }, checked_value = "true", unchecked_value = "false") %>                                        </div>
 
                                         <div class="actions text-center py-3">
                                             <%= f.submit class:"btn btn-outline-info", type:"submit", value:"Registrati"%> 

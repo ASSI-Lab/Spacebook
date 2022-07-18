@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi from Spacebook, <%= @user.email %></h1>
+    <p>
+      We are sorry to inform you that your account has been stripped of the Manager role,
+      please contact the admin directly at spacebook.adm@gmail.com to find out what happened and how to restore your account role.
+      You can always log in as a user!
+      your username is: <%= @user.email %>.<br>
+    </p>
+    <p>
+      To login to the site, just follow this link: <%= @url %>.
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>
