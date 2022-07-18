@@ -147,6 +147,36 @@
 								<label class="label h5 py-1"> Numero piani: </label> <%= department.floors %><br>
 								<label class="label h5 py-1"> Spazi disponibili: </label> <%= department.number_of_spaces %><br>
 								<label class="label h5 py-1"> Email del manager: </label> <%= department.manager %>
+								<br>
+
+								<!-- Icona interattiva per visualizzare il collapse delle informazioni meteo -->
+								<label class="label h5 py-1" data-bs-toggle="collapse" data-bs-target="#dep<%= department.id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Meteo <i class="colorLink bi bi-card-text"></i> </label> 
+								<!-- Collapse del meteo -->
+								<div class="collapse" id="dep<%= department.id %>DescCollapse">
+									<div class="card-body" style="background-color: transparent !important">
+										<% meteo = get_meteo_info(department.latitude, department.longitude) %>
+										<div class="row">
+											<div class="col-sm-3">
+												<img src="<%=meteo[0]%>">
+											</div>
+											<div class="col-sm-3" style="width:70%">
+												Temperatura: <%=meteo[1]%>°C
+												<br/>
+												Umidità: <%=meteo[2]%>
+												<br/>
+												Nuvole: <%=meteo[3]%>
+												<br/>
+												Vento: <%=meteo[4]%><%=meteo[5]%>
+												<br/>
+												Precipitazioni: <%=meteo[6]%><%=meteo[7]%>
+											</div>
+										</div>									
+									</div>
+									
+								</div>
+								<br/>
+															
+
 							</div>
 						</div>
 					</div>
@@ -157,7 +187,13 @@
 			<!-- Mappa per geolocalizzazione -->
 			<div class="card" style="height: 550px">
 				<div class="card-header text-white text-center h3"> Mappa </div>
+				<div class="row">
+						<div class="col-sm-3" style="position:absolute; left: 5px; top: 50px">zoom</div>
+						<div class="col-sm-3" style="position:absolute; right: 5px; top: 50px; width:70%">trova percorso</div>
+				</div>
+				<br/>
 				<div class="card-body text-white text-center">
+				
 					<div id="map"></div>
 					<!-- Utilizzo LEAFLET e OSM per generare una mappa centrata su Roma -->
 					<script>
