@@ -35,7 +35,8 @@ class Ability
     end
 
     if user.is_manager?
-      can :manage, Department, manager: user.email
+      can :manage, Department
+      can :manage, TempDep
     end
 
     if user.is_user?

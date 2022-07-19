@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   resources :tasks
 
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations" }
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", passwords: "passwords", confirmations: "confirmations" }
 
   root "home#index"
 
@@ -45,8 +45,7 @@ Rails.application.routes.draw do
   get "/make_quick_res", to: "quick_reservations#make_quick_res"
 
   post "/find_on_map", to:"home#find_on_map"
-  
-  
+
   resources :users do       # CONTROLLA LE MAIL DI CONFERMA E IN CASO DI ASSENZA PER NUOVA REGISTRAZIONE NE INVIA UNA (CONTROLLARE application_mailer PER ULTERIORI DETTAGLI)
     member do
       get :confirm_email

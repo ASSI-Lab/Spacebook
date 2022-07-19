@@ -23,6 +23,6 @@ class ApplicationController < ActionController::Base
     def require_department
         redirect_to '/make_department'                                                                                                                # Reindirizza alla pagina di creazione del dipartimento
         flash[:alert] = "Attenzione: Avendo effettuato la registrazione come manager devi registrare il tuo dipartimento per poter accedere al sito!" # Mostra messagio di spiegazione
-    end
+    end   
 
 end

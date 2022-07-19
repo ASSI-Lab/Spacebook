@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-    def index
-        @users = User.all
+    def reg
+        redirect_to '/users/sign_up'
+        flash[:notice] = "Errore registrazione!\nControlla i campi inseriti."
     end
 
     def ban
@@ -36,7 +37,7 @@ class UsersController < ApplicationController
     end    
 
     def user_params
-        params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)
+        params.require(:user).permit(:name, :email, :password, :password_confirmation, :role, :requested_manager)
     end
 
 end
