@@ -99,12 +99,21 @@
 											<div class="small"> 
 												<%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %> 
 												<label onclick='centra_mappa("<%= department.latitude %>","<%= department.longitude %>","<%= department.name %>", "<%=department.via+" "+department.civico+" "+department.citta+" "+department.cap %>")', class="colorLink bi bi-geo-fill px-2"> </label>
+
+												<%= form_with url: get_meteo_info_path, local: true, method: :post do |form| %>
+													<button class="btn btn-sm btn-outline-info"> <i class='bi bi-cursor'></i><br>  </button>
+													<%= form.number_field :lati, value: "#{department.latitude}", :style=>'display:none'%>
+													<%= form.number_field :long, value:  "#{department.longitude}", :style=>'display:none'%>
+													<%= form.submit '', style: "display: none" %>
+												<% end %>
+
+
 											</div>
 										</td>
 										<td class="text-right">
 											<% if user_signed_in? %>
 												<%= form_with url: set_department_path, local: true, method: :post do |form| %>
-													<button class="btn btn-sm btn-outline-info"> <i class='bi bi-cursor'></i><br> prenota </button>
+													<button class="colorLink bi bi-cloud-sun"> <i class='bi bi-cursor'></i><br> prenota </button>
 													<%= form.text_field :selected_dep_name, value: "#{department.name}", :style=>'display:none'%>
 													<%= form.text_field :filter, value: "Dep", :style=>'display:none'%>
 													<%= form.submit '', style: "display: none" %>
@@ -147,40 +156,9 @@
 								<label class="label h5 py-1"> Numero piani: </label> <%= department.floors %><br>
 								<label class="label h5 py-1"> Spazi disponibili: </label> <%= department.number_of_spaces %><br>
 								<label class="label h5 py-1"> Email del manager: </label> <%= department.manager %>
-								<br>
-
-								<!-- Icona interattiva per visualizzare il collapse delle informazioni meteo -->
-								<label class="label h5 py-1" data-bs-toggle="collapse" data-bs-target="#dep<%= department.id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Meteo <i class="colorLink bi bi-card-text"></i> </label> 
-								<!-- Collapse del meteo -->
-								<% visible = false %>
-								<div class="collapse" id="dep<%= department.id %>DescCollapse">
-									<div class="card-body" style="background-color: transparent !important">
 													
-										<% meteo = get_meteo_info(department.latitude, department.longitude) %>
-										<div class="row">
-											<div class="col-sm-3">
-												<img src="<%=meteo[0]%>">
-											</div>
-											<div class="col-sm-3" style="width:70%">
-												Temperatura: <%=meteo[1]%>°C
-												<br/>
-												Umidità: <%=meteo[2]%>
-												<br/>
-												Nuvole: <%=meteo[3]%>
-												<br/>
-												Vento: velocità <%=meteo[5]%>, direzione <%=meteo[4]%>
-												<br/>
-												Tipo Precipitazioni: <%=meteo[6]%>
-												<br/>
-												Quantità: <%=meteo[7]%>
-											</div>
-										</div>
 									
-															
-									</div>
-									
-								</div>
-								<br/>
+								
 															
 
 							</div>
@@ -250,6 +228,35 @@
 					</script>
 				</div>
 			</div>
+
+			<!-- Meteo -->
+			<div class="card" style="height: 300px">
+				<div class="card-header text-white text-center h3"> Meteo </div>
+				<div class="card-body text-white text-center">
+					<% if local_assigns.has_key? :icon %>
+						
+						<div class="row">
+							<div class="col-sm-3">
+								<img src= <%=image_path(icon)%> >
+							</div>
+							<div class="col-sm-3" style="width:70%">
+								Temperatura: <%=temperatura%>°C
+								<br/>
+								Umidità: <%=umidità%>
+								<br/>
+								Nuvole: <%=cc%>
+								<br/>
+								Vento: velocità <%=velocità%>, direzione <%=direzione_vento%>
+								<br/>
+								Tipo Precipitazioni: <%=prec_type%>
+								<br/>
+								Quantità: <%=pa%>
+							</div>
+						</div>
+					<%end%>
+				</div>
+			</div>
+
 		</div>
 	</div>
 
