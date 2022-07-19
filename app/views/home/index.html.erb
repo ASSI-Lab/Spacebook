@@ -152,8 +152,10 @@
 								<!-- Icona interattiva per visualizzare il collapse delle informazioni meteo -->
 								<label class="label h5 py-1" data-bs-toggle="collapse" data-bs-target="#dep<%= department.id %>DescCollapse" aria-expanded="false" aria-controls="collapseExample"> Meteo <i class="colorLink bi bi-card-text"></i> </label> 
 								<!-- Collapse del meteo -->
+								<% visible = false %>
 								<div class="collapse" id="dep<%= department.id %>DescCollapse">
 									<div class="card-body" style="background-color: transparent !important">
+													
 										<% meteo = get_meteo_info(department.latitude, department.longitude) %>
 										<div class="row">
 											<div class="col-sm-3">
@@ -166,11 +168,15 @@
 												<br/>
 												Nuvole: <%=meteo[3]%>
 												<br/>
-												Vento: <%=meteo[4]%><%=meteo[5]%>
+												Vento: velocità <%=meteo[5]%>, direzione <%=meteo[4]%>
 												<br/>
-												Precipitazioni: <%=meteo[6]%><%=meteo[7]%>
+												Tipo Precipitazioni: <%=meteo[6]%>
+												<br/>
+												Quantità: <%=meteo[7]%>
 											</div>
-										</div>									
+										</div>
+									
+															
 									</div>
 									
 								</div>

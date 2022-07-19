@@ -82,17 +82,32 @@ module HomeHelper
             icon = image_path('rainsnow.png')
         end  
 
+        velocità_vento = wind10m["speed"]
+        if(velocità_vento == 1)
+          velocità = "Below 0.3m/s"
+        elsif(velocità_vento == 2)
+          velocità = "0.3-3.4m/s"
+        elsif(velocità_vento == 3)
+          velocità = "3.4-8.0m/s"
+        elsif(velocità_vento == 4)
+          velocità = "8.0-10.8m/s"
+        elsif(velocità_vento == 5)
+          velocità = "10.8-17.2m/s"
+        elsif(velocità_vento == 6)
+          velocità = "17.2-24.5m/s"
+        elsif(velocità_vento == 7)
+          velocità = "24.5-32.6m/s"
+        elsif(velocità_vento == 8)
+          velocità = "Over 32.6m/s "        
+        end
 
-        
-        
         temperatura = info_g1["temp2m"]
         umidità = info_g1["rh2m"]
         direzione_vento = wind10m["direction"]
-        velocità_vento = wind10m["speed"]
         prec_type = info_g1["prec_type"]
         
         
-        return [icon,temperatura,umidità,cc,direzione_vento,velocità_vento,prec_type,pa]
+        return [icon,temperatura,umidità,cc,direzione_vento,velocità,prec_type,pa]
   
   
     end
