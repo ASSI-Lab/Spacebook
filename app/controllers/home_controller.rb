@@ -72,7 +72,7 @@ class HomeController < ApplicationController
       elsif(weatherType=="pcloudyday" || weatherType== "pcloudynight")
           icon = 'pcloudy.png'
       elsif(weatherType=="mcloudyday" || weatherType== "mcloudynight")
-          icon = 'mccloudy.png'
+          icon = 'mcloudy.png'
       elsif(weatherType=="cloudyday" || weatherType== "cloudynight")
           icon ='cloudy.png'
       elsif(weatherType=="humidday" || weatherType== "humidnight")

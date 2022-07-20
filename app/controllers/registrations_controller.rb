@@ -1,8 +1,20 @@
+require 'net/http'
+require 'net/https'
 class RegistrationsController < Devise::RegistrationsController
     # POST /resource
     def create
         build_resource(sign_up_params)
-
+        # Chiamo AbstractApi per controllare l'esistenza della mail inserita per la registrazione(NUMERO DI CHIAMATE LIMITATO LASCIARE IL CODICE COMMENTATO E DECOMENTARLO SOLO PER I TEST!!)
+        # CODICE COMMENTATO CAUSA CHIAMATE LIMITATE #####
+        # response = make_abstract_request(resource.email)
+        # if response=='error'
+        #     redirect_to(request.referrer, alert:"Errore nel controllo validità mail controlla la tua connessione!")
+        #     return
+        # elsif response[0]=='200' && response[1]=='UNDELIVERABLE'
+        #     redirect_to(request.referrer, alert:"L'email inserita non è valida controlla il campo e riprova!")
+        #     return
+        # end
+        ################
         resource.save
         yield resource if block_given?
         if resource.persisted?
@@ -20,6 +32,26 @@ class RegistrationsController < Devise::RegistrationsController
             set_minimum_password_length
             redirect_to(request.referrer, alert:resource.errors.full_messages[0])
         end
+    end
+
+    # Chiamo l'email verifier di AbstractApi per la verifica dell'esistenza dellla mail inserita (gestisco tutto tramite chiamate http)
+    def make_abstract_request(email)
+        uri = URI("https://emailvalidation.abstractapi.com/v1/?api_key=#{ENV['ABSTRACT_KEY']}&email=#{email}")
+    
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+    
+        request =  Net::HTTP::Get.new(uri)
+    
+        response = http.request(request)
+        deliv = JSON.parse(response.body)
+        puts "Status code: #{ response.code }"
+        puts "Response body: #{ response.body }"
+        return [response.code,deliv["deliverability"]]
+    rescue StandardError => error
+        puts "Error (#{ error.message })"
+        return "error"
     end
 
     protected
