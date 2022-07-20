@@ -1,13 +1,9 @@
-<!-- Modal full-screen che appare durante il caricamento delle pagine in cui vanno elaborati dati -->
-
-<div class="modal" id="modalCaricamento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalCaricamentoLabel" aria-hidden="true">
+<div class="modal fade" id="modalCaricamento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" id="modalCaricamentoContent">
             <div class="modal-body text-center" id="modalCaricamentoBody">
-                <h3 class="modal-title text-white" id="modalCaricamentoLabel">
-                    <p> Stiamo lavorando per voi ^-^ </p>
+                <h3 class="modal-title" id="modalCaricamentoLabel">
                     <img id="modalCaricamentoImg" src="<%= image_path('def-removebg-preview.png')%>">
-                    <p> <%= msg %> </p>
                     <p> Caricamento... </p>
                 </h3>
             </div>

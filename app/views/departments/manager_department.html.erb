@@ -10,6 +10,10 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap.min.css">
 
+	<link rel="stylesheet" href="../contrast-bootstrap-pro/css/bootstrap.min.css" />
+	<script src="https://kit.fontawesome.com/9d1d9a82d2.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+
 	<script>
 		$(document).ready(function () {
 			$('#datatableSpazi').DataTable({
@@ -54,15 +58,25 @@
 </head>
 
 <body>
+
+	<% it_days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"] %>
+	<% data_arr = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] %>
+	<% @chart_data = { chart_it_days: [ "", "", "", "", "", "", "" ], reserved_seats: [], open_seats: 0 } %>
+	<% today_date = DateTime.now %>
+	<%
+		7.times do |k|
+		@chart_data[:chart_it_days][k] = it_days[today_date.wday - 1 + k]
+		data_arr[today_date.wday - 1 + k] = 0
+		end
+	%>
+
 	<div class="row">
 		<!-- Introduzione -->
 		<div class="col">
 			<div class="card">
-				<div class="card-body">
-					<h2 class="font-weight-light mt-3 mb-4"> Ecco il tuo dipartimento </h2>
-					<p class="card-text">
-						In questa pagina puoi gestirlo, modificare gli spazi, le piante caricate e sbirciare tutte le prenotazioni ihihih
-					</p>
+				<div class="card-header">
+					<label class="h2 my-3"> Ecco il tuo dipartimento </label>
+					<p> In questa pagina puoi gestirlo, modificare gli spazi, le piante caricate e sbirciare tutte le prenotazioni ihihih </p>
 				</div>
 			</div>
 		</div>
@@ -70,23 +84,21 @@
 	<div class="row mt-4">
 		<!-- Card del dipartimento -->
 		<div class="col-xl-5">
-			<div class="card" style="height: 400px">
+			<div class="card" style="height: fit-content">
 				<div class="card-header"> 
-					<h3 class="font-weight-light my-3">
-						<%= (@department).name %>
-						<!-- Tasto per l'eliminazione -->
-						<%= link_to '', @department, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, class: "btn btn-outline-info bi bi-trash", style: "float: right" %>
-					</h3>
+					<label class="h3 my-3"> <%= (@department).name %> </label>
+					<!-- Tasto per l'eliminazione -->
+					<%= link_to '', @department, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, class: "btn btn-outline-info bi bi-trash my-3", style: "float: right" %>
 				</div>
 				<div class="card-body">
-					<!-- Descrizione + dati -->
 					<div class="row">
+						<!-- Descrizione + dati -->
 						<div class="col" style="width: 60%">
 							<!-- Descrizione truncate tramite modal -->
 							<p class="label mb-0 pt-2 pb-0">
 								<label class="h5 mb-0"> Descrizione: </label><br>
 								<!-- Truncate -->
-								<label class="text-truncate my-0 py-0" style="width: 100%"> <%= (@department).description %> </p>
+								<p class="text-truncate my-0 py-0" style="width: 100%"> <%= (@department).description %> </p>
 								<!-- Icona interattiva per visualizzare il modal della descrizione completa -->
 								<i class="colorLink bi bi-card-text" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>DescModal"> continua a leggere </i>
 								<!-- Modal descrizione -->
@@ -97,22 +109,13 @@
 							<label class="label h5 pt-2 mb-0"> Numero piani: </label> <%= (@department).floors %><br>
 							<label class="label h5 pt-2 mb-0"> Numero spazi: </label> <%= (@department).number_of_spaces %><br>
 						</div>
+						<!-- Orari -->
 						<div class="col">
-							<!-- Orari -->
-							<label class="label h5 pt-2 mb-0"> Orari <i class="bi bi-clock"></i> </label> 
-							<!-- Raccoglie gli orari del dipartimento -->
-							<% @week_days.where(department_id: (@department).id).each do |wd| %>
-								<div class="row">
-									<div class="col-sm-5">
-										<%= wd.day %>
-									</div>
-									<div class="col-sm-7">
-										<% if wd.state == "Aperto" %>
-											<%= wd.apertura.strftime('%H:%M') %>-<%= wd.chiusura.strftime('%H:%M') %>
-										<% else %>
-											<%= wd.state %>
-										<% end %>
-									</div>
+							<label class="label h5"> Orari <i class="bi bi-clock"></i> </label>
+							<% @week_days.each do |wd| %>
+								<div class="row mb-1">
+									<div class="col-sm-5"><label class="h6"> <%= wd.day %> </label></div>
+									<div class="col-sm-7"><label> <%= (wd.state == "Aperto")? "#{wd.apertura.strftime('%H:%M')}-#{wd.chiusura.strftime('%H:%M')}" : "#{wd.state}" %> </label></div>
 								</div>
 							<% end %>
 						</div>
@@ -120,41 +123,50 @@
 				</div>
 				<div class="card-footer">
 					<div class="row">
+						<!-- Tasto per l'update -->
 						<div class="col-lg-6">
-							<!-- Tasto per l'update -->
 							<button class="btn btn-outline-info" style="width: 100%" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>EditModal"> Modifica </button>
+							<!-- Modal edit department -->
 							<%= render 'modal_dep_edit', mydep: @department %>
 						</div>
+						<!-- Tasto per l'editor della pianta/per richiederlo -->
 						<div class="col-lg-6">
-							<!-- Tasto per l'editor della pianta -->
-							<button class="btn btn-outline-info" style="width: 100%" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>MapModal"> Mostra pianta </button>
-							<!-- Modal editor seats.io -->
-							<%= render 'modal_dep_map', department: @department %>
+							<% if @department.dep_map != nil %>
+								<button class="btn btn-outline-info" style="width: 100%" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>MapModal"> Mostra pianta </button>
+								<!-- Modal editor seats.io -->
+								<%= render 'modal_edit_map', department: @department %>
+							<% else %>
+								<%= form_with url: manager_map_initializer_path, local: true, method: :post do |form| %>
+									<%= form.number_field :dep_id, value: @department.id, readonly: true, style: 'display:none'%>
+									<button class="btn btn-outline-info" style="width: 100%"> Crea pianta </button>
+								<% end %>
+							<% end %>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- SPAZI DEL DIPARTIMENTO -->
+		<!-- Spazi del dipartimento -->
 		<div class="col-xl-7">
 			<div class="card" style="height: 100%">
 				<div class="card-header text-center">
-					<h3 class="font-weight-light my-3"> Spazi del dipartimento </h3>
+					<label class="h3 my-3"> Spazi del dipartimento </label>
 				</div>
 				<div class="card-body">
 					<table id="datatableSpazi" class="display table-responsive table-striped table-hover" width="100%"> 
 						<thead>
 							<tr class="h6">
-								<td class="h5">Tipologia</td>
-								<td class="h5">Nome</td>
-								<td class="h5" width="10%">Piano</td>
-								<td class="h5" width="10%">Posti</td>
-								<td class="h5 opt-no-sort" width="14%">Descrizione</td>
-								<td class="h5 opt-no-sort" width="14%">Rimuovi</td>
+								<td class="h5"> Tipologia </td>
+								<td class="h5"> Nome </td>
+								<td class="h5" width="10%"> Piano </td>
+								<td class="h5" width="10%"> Posti </td>
+								<td class="h5 opt-no-sort" width="14%"> Descrizione </td>
+								<td class="h5 opt-no-sort" width="14%"> Rimuovi </td>
 							</tr>
 						</thead>
 						<tbody>
 							<% @spaces.each do |space| %>
+								<% @chart_data[:open_seats] += space.number_of_seats %>
 								<tr>
 									<td><%= space.typology %></td>
 									<td><%= space.name %></td>
@@ -180,11 +192,11 @@
 	</div>
 
 	<div class="row mt-4">
-		<!-- PRENOTAZIONI DEL DIPARTIMENTO -->
+		<!-- Prenotazioni del dipartimento -->
 		<div class="col">
 			<div class="card">
 				<div class="card-header text-center">
-					<h3 class="font-weight-light my-3"> Prenotazioni </h3>
+					<label class="h3 my-3"> Prenotazioni </label>
 				</div>
 				<div class="card-body">
 					<table id="datatablePrenotazioni" class="display table-responsive table-striped table-hover" width="100%">
@@ -202,6 +214,8 @@
 						</thead>
 						<tbody>
 							<% @reservations.each do |reservation| %>
+								<% data_arr[reservation.start_date.wday - 1] += 1 if reservation.start_date.strftime("%Y%m%d") < ((DateTime.now)+(604800)).strftime("%Y%m%d") %>
+								<% data_arr[reservation.start_date.wday - 1 + 7] += 1 if reservation.start_date.strftime("%Y%m%d") < ((DateTime.now)+(604800)).strftime("%Y%m%d") %>
 								<tr>
 									<td><%= reservation.email %></td>
 									<td><%= reservation.dep_name %></td>
@@ -213,6 +227,11 @@
 									<td><%= link_to '', reservation, method: :delete, data: { confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style: "width:100%" %>
 								</tr>
 							<% end %>
+							<%
+								7.times do |k|
+								@chart_data[:reserved_seats][k] = data_arr[today_date.wday - 1 + k]
+								end
+							%>
 						</tbody>
 					</table>
 				</div>
@@ -221,14 +240,31 @@
 	</div>
 
 	<div class="row mt-4">
-		<!-- Grafici -->
-		<div class="col-xl-5">
+		<!-- Grafico -->
+		<div class="col">
 			<div class="card">
 				<div class="card-header text-center">
-					<h3 class="font-weight-light my-3"> Area Chart Example </h3>
+					<h3 class="font-weight-light my-3"> Disponibilità settimanale posti </h3>
 				</div>
 				<div class="card-body">
-					<canvas id="myAreaChart" width="100%" height="40"></canvas>
+					<canvas class="card form-c-label" id="myDepChart" width="100%" height="40"></canvas>
+					<script type="text/javascript" charset="utf-8">
+						const ctx = document.getElementById("myDepChart").getContext('2d');
+						const myChart = new Chart(ctx, {
+							type: 'line',
+							data: {
+								labels: [ "<%= @chart_data[:chart_it_days][0] %>", "<%= @chart_data[:chart_it_days][1] %>", "<%= @chart_data[:chart_it_days][2] %>", "<%= @chart_data[:chart_it_days][3] %>", "<%= @chart_data[:chart_it_days][4] %>", "<%= @chart_data[:chart_it_days][5] %>", "<%= @chart_data[:chart_it_days][6] %>" ],
+								datasets: [
+									{ label: 'Posti occupati', backgroundColor: 'rgba(255, 0, 0, 0.4)',
+										data: [ "<%= @chart_data[:reserved_seats][0] %>", "<%= @chart_data[:reserved_seats][1] %>", "<%= @chart_data[:reserved_seats][2] %>", "<%= @chart_data[:reserved_seats][3] %>", "<%= @chart_data[:reserved_seats][4] %>", "<%= @chart_data[:reserved_seats][5] %>", "<%= @chart_data[:reserved_seats][6] %>" ],
+									},
+									{ label: 'Posti liberi', backgroundColor: 'rgba(0, 255, 0, 0.4)',
+										data: [ "<%= @chart_data[:open_seats]-@chart_data[:reserved_seats][0] %>", "<%= @chart_data[:open_seats]-@chart_data[:reserved_seats][1] %>", "<%= @chart_data[:open_seats]-@chart_data[:reserved_seats][2] %>", "<%= @chart_data[:open_seats]-@chart_data[:reserved_seats][3] %>", "<%= @chart_data[:open_seats]-@chart_data[:reserved_seats][4] %>", "<%= @chart_data[:open_seats]-@chart_data[:reserved_seats][5] %>", "<%= @chart_data[:open_seats]-@chart_data[:reserved_seats][6] %>" ],
+									}
+								]
+							},
+						});
+					</script>
 				</div>
 			</div>
 		</div>

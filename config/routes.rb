@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   # Generali
   get "/home", to: "home#index"
-  post '/home', to: 'home#get_meteo_info', as: 'get_meteo_info'
+  post '/home', to: 'home#index', as: 'get_meteo_info'
   get "/personal_area", to: "personal_area#index"
   get "/informations", to: "informations#index"
 
@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   get "/make_department", to: "temp_deps#new"
   post '/make_department', to: 'temp_deps#set_temp_wd', as: 'set_temp_wd'
   get "/manager_department", to: "departments#manager_department"
+  post '/manager_department', to: 'departments#manager_map_initializer', as: 'manager_map_initializer'
 
   # Prenotazioni
   get "/make_reservation", to: "reservations#new"

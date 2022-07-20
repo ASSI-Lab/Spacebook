@@ -26,7 +26,7 @@ class ReservationsController < ApplicationController
         department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
 
         # Crea la prenotazione con i dati sopra raccolti
-        jcr = Reservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, seat_id: seat.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name, floor: space.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Active")
+        jcr = Reservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, seat_id: seat.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name, floor: space.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Valida")
         # Modifica il posto per renderlo occupato
         seat.update(position: seat.position+1)
 
@@ -144,7 +144,6 @@ class ReservationsController < ApplicationController
   end
 
   def destroy
-    authorize! :destroy, @reservation, :message => "Attenzione: Non sei autorizzato ad eliminare le prenotazioni!"
 
     # Libera il posto della prenotazione eliminata
     if ( @reservation.start_date.strftime("%Y%m%d%T") > DateTime.now.strftime("%Y%m%d%T") )

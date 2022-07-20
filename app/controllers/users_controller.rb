@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+
     def reg
         redirect_to '/users/sign_up'
         flash[:notice] = "Errore registrazione!\nControlla i campi inseriti."
@@ -34,7 +35,7 @@ class UsersController < ApplicationController
         end
         redirect_to request.referrer
         flash[:notice] = "All' account (\"#{@user.email}\") è stato #{@user.is_manager? ? "aggiunto" : "rimosso"} il ruolo di Manager con successo!"
-    end    
+    end
 
     def user_params
         params.require(:user).permit(:name, :email, :password, :password_confirmation, :role, :requested_manager)

@@ -1809,14 +1809,14 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
 }
 
 .btn-info {
-  color: #000;
-  background-color: #0dcaf0;
-  border-color: #0dcaf0;
+  color: var(--bs-body-color);
+  background-color: #fff;
+  border-color: var(--bs-body-color);
 }
 .btn-info:hover {
-  color: #000;
-  background-color: #31d2f2;
-  border-color: #25cff2;
+  color: #fff;
+  background-color: #6b90bb;
+  border-color: #6b90bb;
 }
 .btn-check:focus + .btn-info, .btn-info:focus {
   color: #000;
@@ -1857,21 +1857,18 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
 //   border-color: var(--bs-body-color) !important;
 // }
 
-#userNavModalButton, #flashNavModalButton, #sidebarToggle, #homeBtnWhenNoSidenav, #updatePsw { //mdm
-  color: rgb(255, 255, 255);
-  border-color: rgb(255, 255, 255);
+#flashNavModalButtonFill {
+  background-color: rgba(255, 0, 0, 0.5);
 }
-#userNavModalButton:hover, #flashNavModalButton:hover, #sidebarToggle:hover, #homeBtnWhenNoSidenav:hover, #updatePsw:hover { //mdm
-  color: rgb(255, 255, 255);
-  background-color: #6b90bb;
-  border-color: rgb(255, 255, 255);
+#flashNavModalButtonFill:hover {
+  background-color: red;
 }
 
-#depSearchHome { //mdm
+#Search { //mdm
   color: #ffffff;
   border-color: #ffffff;
 }
-#depSearchHome:hover { //mdm
+#Search:hover { //mdm
   color: rgb(255, 255, 255);
   border-color: #6b90bb;
 }
@@ -2247,7 +2244,7 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
   cursor: pointer; // mdm
   display: block;
   padding: 0.5rem 1rem;
-  color: #0d6efd;
+  color: #fff;
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
@@ -2256,7 +2253,9 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
   .nav-link { transition: none; }
 }
 
-.nav-link:hover, .nav-link:focus { color: #0a58ca; }
+.nav-link:hover, .nav-link:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+}
 
 .nav-link.disabled {
   color: #6c757d;
@@ -2324,10 +2323,7 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
   background-image: url("https://i.pinimg.com/564x/10/fe/9c/10fe9cabdec882e6c506a7271d773f7a.jpg");
-  background-color: #000;
 }
 .navbar > .container, .navbar > .container-fluid, .navbar > .container-sm, .navbar > .container-md, .navbar > .container-lg, .navbar > .container-xl, .navbar > .container-xxl {
   display: flex;
@@ -3302,7 +3298,7 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
   background-color: #000;
 }
 .modal-backdrop.fade { opacity: 0; }
-.modal-backdrop.show { opacity: 0.1; }       // mdm, originale: 0.5;
+.modal-backdrop.show { opacity: 0.1; } // mdm, originale: 0.5;
 
 .modal-header {
   display: flex;
@@ -5201,7 +5197,7 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
 
 .sb-topnav {
   padding-left: 0;
-  height: 56px;
+  height: 60px;
   z-index: 1039;
 }
 .sb-topnav .navbar-brand {
@@ -5468,36 +5464,42 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
 }
 
 // modal per il caricamento
+#modalCaricamento {
+  transition: opacity 0.01s linear;
+  background-image: url("https://i.pinimg.com/564x/10/fe/9c/10fe9cabdec882e6c506a7271d773f7a.jpg") !important;
+  background-size: cover;
+}
 #modalCaricamentoContent{
   border: none !important;
   background-color: transparent !important;
 }
-
 #modalCaricamentoBody {
   height: 50%;
+  color: white !important;
   background-color: transparent !important;
 }
-
-#modalCaricamento > .modal-backdrop.show { opacity: 0.9 !important; }
+#modalCaricamento > .modal-backdrop.show { 
+  opacity: unset !important;
+}
 
 #modalCaricamentoImg { object-fit: contain; }
 
 // DIMENSIONE MAPPA HOME
 #map { 
   width: 100%;
-  height: 100%;
+  height: 92%;
   color:#000;
 }
 
 // Links in sign_in e sign_up
 #signLinks { width: 100%; }
 #signLinks > a {
-  padding: 2px;
+  padding: 3px;
   color: #67aefe !important;
 }
 #signLinks > a:hover {
   border-radius: 0.25rem;
-  background-color: #ddd;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 // Links nel footer
@@ -5517,6 +5519,13 @@ textarea.form-control-lg { min-height: calc(1.5em + 1rem + 2px); }
 
 #chart {
   height: 300px;
+}
+
+#myDepChart {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  height: 100%;
 }
 
 // sfondo per footer

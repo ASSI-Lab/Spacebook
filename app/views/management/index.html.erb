@@ -14,11 +14,10 @@
 		$(document).ready(function () {
 			$('#datatableUtenti').DataTable({
 				dom: '<"row"<"col"t>><"row mt-1"<"col"p>>',
-				scrollY: 480,
 				scrollX: true,
 				filter: 'false',
 				pagingType: "simple_numbers",
-				pageLength: 10,
+				pageLength: 5,
 				language: {
 					zeroRecords: 'Nessun utente',
 					paginate: {
@@ -35,11 +34,10 @@
 		$(document).ready(function () {
 			$('#datatableDipartimenti').DataTable({
 				dom: '<"row"<"col"t>><"row mt-1"<"col"p>>',
-				scrollY: 480,
 				scrollX: true,
 				filter: 'false',
 				pagingType: "simple_numbers",
-				pageLength: 10,
+				pageLength: 5,
 				language: {
 					zeroRecords: 'Nessun dipartimento',
 					paginate: {
@@ -59,7 +57,7 @@
 				scrollX: true,
 				filter: 'false',
 				pagingType: "simple_numbers",
-				pageLength: 10,
+				pageLength: 5,
 				language: {
 					zeroRecords: 'Nessuna prenotazione',
 					paginate: {
@@ -77,119 +75,152 @@
 
 
 <body>
-	<div class="row">
-		<div class="col-lg-4">
-			<div class="card">
-				<div class="card-header">
-					<h4 class="my-1"> Utenti </h4>
+
+	<div class="card mb-4">
+		<div class="card-header">
+			<div class="row">
+				<div class="col">
+					<label class="h4 ml-2 my-3"> Utenti </label>
 				</div>
-				<div class="card-body">
-					<table id="datatableUtenti" class="display table-responsive table-striped table-hover" width="100%">
-						<thead>
-							<th> Email </th>
-							<th> Ruolo </th>
-							<th> Opzioni </th>
-							<th> Motivo blocco </th>
-							<th> Opzioni </th>
-						</thead>
-						<tbody>
-							<% @users.each do |user| %>
-								<% if user.email!=current_user.email %>
-									<tr>
-										<td><%= user.email %></td>
-										<td><%= user.role %></td>
-										<td><%= link_to ban_status(user), ban_user_path(user) , method: :patch, class: "btn btn-sm btn-outline-info", style: "width:100%"%>
-										<% if user.locking_reason == nil && user.access_locked? %>
-											<td> Superato limite tentativi di accesso </td>
-										<% else %>
-											<td> <%= user.locking_reason %> </td>
-										<% end %>
-										<td><%= link_to manager_status(user), set_manager_user_path(user) , method: :patch, class: "btn btn-sm btn-outline-info", style: "width:100%"%>
-									</tr>
-								<% end %>
-							<% end %>
-						</tbody>
-					</table>
+				<div class="col pt-1" style="text-align: right">
+					<%= search_form_for(@usr, url: management_path, method: :get, class: "d-none d-md-inline-block form-inline mt-2") do |f| %>
+						<table width="100%">
+							<tr>
+								<td><%= f.search_field :email_i_cont_any, class: "form-control", placeholder: "Cerca tramite email...", id: "Search"%></td>
+								<td width="10%"><button class="btn btn-outline-info bi bi-search mx-2"><% f.submit "" %></button></td>
+							</tr>
+						</table>
+					<% end %>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-8">
-			<div class="card">
-				<div class="card-header">
-					<h4 class="my-1"> Dipartimenti </h4>
-				</div>
-				<div class="card-body">
-					<table id="datatableDipartimenti" class="display table-responsive table-striped table-hover" width="100%">
-						<thead>
-							<tr>
-								<th> Nome </th>
-								<th> Email del manager </th>
-								<th> Indirizzo </th>
-								<th> Mostra </th>
-								<th> Elimina </th>
-							</tr>
-						</thead>
-						<tbody>
-							<% @departments.each do |department| %>
-								<tr>
-									<td><%= department.name %></td>
-									<td><%= department.manager %></td>
-									<td><%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
-									<td><%= link_to '', department, method: :get, class: "btn btn-sm btn-outline-info bi bi-eye", style: "width:100%"%>
-									<td><%= link_to '', department, method: :delete, data: { confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style: "width:100%"%>
-								</tr>
+		<div class="card-body">
+			<table id="datatableUtenti" class="display table-responsive table-striped table-hover" width="100%">
+				<thead>
+					<td class="h5" width="30%"> Email </td>
+					<td class="h5" width="25%"> Ruolo </td>
+					<td class="h5" width="30%"> Motivo blocco </td>
+					<td class="h5 opt-no-sort" width="15%"> Opzioni </td>
+				</thead>
+				<tbody>
+					<% @users.each do |user| %>
+						<tr>
+							<td><%= user.email %></td>
+							<td><%= user.role %></td>
+							<% if user.access_locked? %>
+								<% if user.locking_reason == nil %>
+									<td> Tentativi di accesso esauriti </td>
+								<% else %>
+									<td> <%= user.locking_reason %> </td>
+								<% end %>
+							<% else %>
+								<td></td>
 							<% end %>
-						</tbody>
-					</table>
-				</div>
-			</div>
+							<td><%= link_to ban_status(user), ban_user_path(user) , method: :patch, class: "btn btn-sm btn-outline-info", style: "width:100%"%>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
 		</div>
 	</div>
 
-	<div class="row my-4">
-		<div class="col">
-			<div class="card">
-				<div class="card-header">
-					<h4 class="my-1"> Prenotazioni </h4>
+	<div class="card mb-4">
+		<div class="card-header">
+			<div class="row">
+				<div class="col">
+					<label class="h4 ml-2 my-3"> Dipartimenti </label>
 				</div>
-				<div class="card-body">
-					<table id="datatablePrenotazioni" class="display table-responsive table-striped table-hover" width="100%">
-						<thead>
+				<div class="col pt-1" style="text-align: right">
+					<%= search_form_for(@dep, url: management_path, method: :get, class: "d-none d-md-inline-block form-inline mt-2") do |f| %>
+						<table width="100%">
 							<tr>
-								<th>Utente</th>
-								<th>Dipartimento</th>
-								<th>Tipologia</th>
-								<th>Spazio</th>
-								<th>Piano</th>
-								<th>Posto</th>
-								<th>Data</th>
-								<th>Orario</th>
-								<th>Stato</th>
-								<th>Sincronizzata su calendar</th>
-								<th>Opzioni</th>
+								<td><%= f.search_field :name_or_via_or_civico_or_cap_or_citta_or_provincia_or_manager_i_cont_any, class: "form-control", placeholder: "Cerca un dipartimento...", id: "Search"%></td>
+								<td width="10%"><button class="btn btn-outline-info bi bi-search mx-2"><% f.submit "" %></button></td>
 							</tr>
-						</thead>
-						<tbody>
-							<% @reservations.each do |reservation| %>
-								<tr>
-									<td><%= reservation.email %></td>
-									<td><%= reservation.dep_name %></td>
-									<td><%= reservation.typology %></td>
-									<td><%= reservation.space_name %></td>
-									<td><%= reservation.floor %></td>
-									<td><%= reservation.seat_num %></td>
-									<td><%= reservation.start_date.mday %>-<%= reservation.start_date.mon %>-<%= reservation.start_date.year %></td>
-									<td><%= reservation.start_date.strftime('%H:%M') %> - <%= reservation.end_date.strftime('%H:%M') %> </td>
-									<td><%= reservation.state %></td>
-									<td><%= (reservation.is_sync!=nil)? "Si" : "No" %></td>
-									<td><%= button_to 'Elimina', reservation, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-outline-info" %></td>
-								</tr>
-							<% end %>
-						</tbody>
-					</table>
+						</table>
+					<% end %>
 				</div>
 			</div>
 		</div>
+		<div class="card-body">
+			<table id="datatableDipartimenti" class="display table-responsive table-striped table-hover" width="100%">
+				<thead>
+					<tr>
+						<td class="h5" width="25%"> Nome </td>
+						<td class="h5" width="20%"> Email del manager </td>
+						<td class="h5" width="25%"> Indirizzo </td>
+						<td class="h5 opt-no-sort" width="15%"> Mostra </td>
+						<td class="h5 opt-no-sort" width="15%"> Elimina </td>
+					</tr>
+				</thead>
+				<tbody>
+					<% @departments.each do |department| %>
+						<tr>
+							<td><%= department.name %></td>
+							<td><%= department.manager %></td>
+							<td><%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %></td>
+							<td><%= link_to '', department, method: :get, class: "btn btn-sm btn-outline-info bi bi-eye", style: "width:100%"%>
+							<td><%= link_to '', department, method: :delete, data: { confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style: "width:100%"%>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
 	</div>
+
+	<div class="card mb-4">
+		<div class="card-header">
+			<div class="row">
+				<div class="col">
+					<label class="h4 ml-2 my-3"> Prenotazioni </label>
+				</div>
+				<div class="col pt-1" style="text-align: right">
+					<%= search_form_for(@res, url: management_path, method: :get, class: "d-none d-md-inline-block form-inline mt-2") do |f| %>
+						<table width="100%">
+							<tr>
+								<td><%= f.search_field :email_or_dep_name_or_typology_or_space_name_or_state_i_cont_any, class: "form-control", placeholder: "Cerca una prenotazione...", id: "Search"%></td>
+								<td width="10%"><button class="btn btn-outline-info bi bi-search mx-2"><% f.submit "" %></button></td>
+							</tr>
+						</table>
+					<% end %>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<table id="datatablePrenotazioni" class="display table-responsive table-striped table-hover" width="100%">
+				<thead>
+					<tr>
+						<td class="h5" width="20%"> Utente </td>
+						<td class="h5" width="20%"> Dipartimento </td>
+						<td class="h5" width="15%"> Tipologia </td>
+						<td class="h5" width="15%"> Spazio </td>
+						<td class="h5" width="5%"> Piano </td>
+						<td class="h5" width="5%"> Posto </td>
+						<td class="h5" width="10%"> Data </td>
+						<td class="h5" width="20%"> Orario </td>
+						<td class="h5" width="5%"> Stato </td>
+						<td class="h5 opt-no-sort" width="5%"> Opzioni </td>
+					</tr>
+				</thead>
+				<tbody>
+					<% @reservations.each do |reservation| %>
+						<tr>
+							<td><%= reservation.email %></td>
+							<td><%= reservation.dep_name %></td>
+							<td><%= reservation.typology %></td>
+							<td><%= reservation.space_name %></td>
+							<td><%= reservation.floor %></td>
+							<td><%= reservation.seat_num %></td>
+							<td><%= reservation.start_date.mday %>-<%= reservation.start_date.mon %>-<%= reservation.start_date.year %></td>
+							<td><%= reservation.start_date.strftime('%H:%M') %> - <%= reservation.end_date.strftime('%H:%M') %> </td>
+							<td><%= reservation.state %></td>
+							<td><%= button_to 'Elimina', reservation, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-outline-info" %></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
 </body>
 </html>

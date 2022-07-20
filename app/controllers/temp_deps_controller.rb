@@ -20,29 +20,17 @@ class TempDepsController < ApplicationController
 
   # Pagina di registrazione del dipartimento (creazione dei dati temporanei)
   def new
-    if (Department.where(manager: current_user.email).count == 1)
+    # Controlla se l'utente ha effettuato l'accesso e se è manager, altrimenti lo reindirizza
+    if !user_signed_in? or !current_user.is_manager?
+      redirect_to '/home'
+      flash[:alert] = "ATTENZIONE: non essendo manager non puoi accedere a questa pagina!"
+    # Controlla se il manager ha un dipartimento e se si lo reindirizza ad esso
+    elsif (Department.where(manager: current_user.email).count == 1)
       redirect_to '/manager_department'
       flash[:alert] = "Hai gia creato un dipartimento! Eccolo quì!"
-    else
-      if TempDep.where(manager: current_user.email).count == 0
-        @temp_dep = TempDep.new
-        res = new_dep_map(current_user.email)
-        @dep_map = res[0]
-        @dep_event = res[1]
-      end
+    elsif TempDep.where(manager: current_user.email).count == 0
+      @temp_dep = TempDep.new
     end
-  end
-
-  # Crea nuovo dipartimento su seats.io e un evento collegato ad esso
-  def new_dep_map manager_name
-    client = Seatsio::Client.new(Seatsio::Region.EU(), ENV['SEATS_IO_SECRET'])
-    name = current_user.email
-    chart = client.charts.copy("547d22f4-9842-4816-aab3-55fa3b935c56")
-    event = client.events.create chart_key: chart.key
-    client.charts.update key: chart.key, new_name: name
-    client.charts.publish_draft_version(chart.key)
-    print "\n\n\n"+event.key+"\n\n\n\n"+chart.key+"\n\n"
-    return [chart.key,event.key]
   end
 
   def create

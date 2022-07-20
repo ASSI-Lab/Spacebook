@@ -1,11 +1,9 @@
-<!-- Modal di modifica che permette ad un manager di aggiornare i campi del suo dipartimento temporaneo -->
-
-<div class="modal fade" id="tempDepID<%= mydep.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="tempDepID<%= mydep.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content form-c-label">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel"> Modifica "<%= mydep.name %>" </h5>
-                <button type="button" class="btn bi bi-x-lg" data-bs-dismiss="modal" aria-label="Close"></button>
+                <label class="h4"> Modifica "<%= mydep.name %>" </label>
+                <button class="btn bi bi-x-lg" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                     <%= form_with(model: mydep) do |form| %>
@@ -21,61 +19,67 @@
                     <% end %>
 
                     <!-- Campi inseriti dal manager -->
-                    <div class="label h6"> 
+                    <div class="label h6">
                         Dati del dipartimento
                     </div>
-                    <div class="form-floating mb-3">                            
-                        <%= form.text_field :name, class: "form-control", id: "depName", placeholder: "plh" %>
-                        <label for="depName"> Nome </label>
-                    </div>
-
                     <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3">                            
+                                <%= form.text_field :name, class: "form-control", required: :true, id: "depName", placeholder: "plh"%>
+                                <label for="depName"> Nome </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3">
+                                <%= form.number_field :floors, class: "form-control", id: "numPiani", placeholder: "plh"%>
+                                <label for="numPiani"> Numero dei piani dell'edificio </label>
+                            </div>
+                        </div>
+
                         <div class="col-sm-3">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :via, class: "form-control", id: "via", placeholder: "plh" %>
+                                <%= form.text_field :via, class: "form-control", required: :true, id: "via", placeholder: "plh"%>
                                 <label for="via"> Via, Viale, Piazza... </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :civico, class: "form-control", id: "civico", placeholder: "plh" %>
+                                <%= form.text_field :civico, class: "form-control", required: :true, id: "civico", placeholder: "plh"%>
                                 <label for="civico"> n° civico </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :cap, class: "form-control", id: "cap", placeholder: "plh" %>
+                                <%= form.text_field :cap, class: "form-control", required: :true, id: "cap", placeholder: "plh"%>
                                 <label for="cap"> Cap </label>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :citta, class: "form-control", id: "citta", placeholder: "plh" %>
+                                <%= form.text_field :citta, class: "form-control", required: :true, id: "citta", placeholder: "plh"%>
                                 <label for="citta"> Città </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-floating mb-3">
-                                <%= form.text_field :provincia, class: "form-control", id: "provincia", placeholder: "plh" %>
+                                <%= form.text_field :provincia, class: "form-control", required: :true, id: "provincia", placeholder: "plh"%>
                                 <label for="provincia"> Provincia </label>
                             </div>
                         </div>
                     </div>
 
-                    <br>
-
+                    <div class="label h6">
+                        Descrizione del dipartimento
+                    </div>
                     <div class="form-floating mb-3">
-                        <div class="label h6">
-                            <%= form.label 'Descrizione del dipartimento' %>
-                        </div>
                         <div class="field"> 
-                            <%= form.text_area :description, :class=>"form-control", rows: 5, :style=>"width:100%" %>
+                            <%= form.text_area :description, class: "form-control", rows: 5, style: "width:100%" %>
                         </div>
                     </div>
 
-                    <!-- Tasto per aggiornare o per annullare -->
+                    <!-- Tasto per aggiornare -->
                     <div class="actions">
-                        <%= form.submit class:"btn btn-info", value: 'Aggiorna', style: 'width:100%'%>
+                        <%= form.submit "Aggiorna", class:"btn btn-info", style: "width: 100%"%>
                     </div>
 
                 <% end %>

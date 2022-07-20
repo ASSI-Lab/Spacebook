@@ -17,7 +17,7 @@
 				scrollX: true,
 				filter: 'false',
 				pagingType: "simple_numbers",
-				pageLength: 10,
+				pageLength: 7,
 				language: {
 					zeroRecords: 'Nessuna prenotazione',
 					paginate: {
@@ -37,36 +37,36 @@
 	<div class="row mt-4 justify-content-center">
 		<div class="col-lg-10">
 			<div class="card">
-				<div class="card-header text-center">
-					<h3 class="font-weight-light my-1"> Le tue prenotazioni </h3>
+				<div class="card-header">
+					<label class="h4 ml-2 my-3"> Le tue prenotazioni </label>
 				</div>
 				<div class="card-body">
 					<table id="datatablePrenotazioni" class="display table-responsive table-striped table-hover" width="100%">
 						<thead>
 							<tr>
-								<td class="h5">Dipartimento</td>
-								<td class="h5">Tipologia - Spazio</td>
-								<td class="h5">Piano</td>
-								<td class="h5">Posto</td>
-								<td class="h5">Data</td>
-								<td class="h5">Orario</td>
-								<td class="h5">Stato</td>
-								<td class="h5">Sincronizzata su calendar</td>
-								<td class="h5 opt-no-sort">Opzioni</td>
+								<td class="h5" width="25%"> Dipartimento </td>
+								<td class="h5" width="15%"> Tipologia </td>
+								<td class="h5" width="15%"> Spazio </td>
+								<td class="h5" width="5%"> Piano </td>
+								<td class="h5" width="5%"> Posto </td>
+								<td class="h5" width="10%"> Data </td>
+								<td class="h5" width="10%"> Orario </td>
+								<td class="h5" width="10%"> Stato </td>
+								<td class="h5 opt-no-sort" width="5%"> Elimina </td>
 							</tr>
 						</thead>
 						<tbody>
-							<% Reservation.where(email: current_user.email).each do |reservation| %>
+							<% Reservation.where(user_id: current_user.id).each do |reservation| %>
 								<tr>
 									<td><%= reservation.dep_name %></td>
-									<td><%= reservation.typology %> - <%= reservation.space_name %></td>
+									<td><%= reservation.typology %></td>
+									<td><%= reservation.space_name %></td>
 									<td><%= reservation.floor %></td>
 									<td><%= reservation.seat_num %></td>
 									<td><%= reservation.start_date.mday %>-<%= reservation.start_date.mon %>-<%= reservation.start_date.year %></td>
 									<td><%= reservation.start_date.strftime('%H:%M') %> - <%= reservation.end_date.strftime('%H:%M') %> </td>
 									<td><%= reservation.state %></td>
-									<td><%= (reservation.is_sync!=nil)? "Si" : "No" %></td>
-									<td><%= button_to 'Rimuovi', reservation, method: :delete, data: { confirm: 'Are you sure?' },  :class => "btn btn-outline-info" %></td>
+									<td><%= link_to '', reservation, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style: "width: 100%" %></td>
 								</tr>
 							<% end %>
 						</tbody>

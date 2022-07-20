@@ -40,13 +40,12 @@
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main>
-                <!-- Page content-->
                 <div class="container">
                     <div class="row justify-content-center my-5">
                         <div class="col-lg-12">
                             <% if (TempDep.where(manager: current_user.email).count == 0) %>
                                 <!-- Mostra il form di registrazione del dipartimento -->
-                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4"> Registra il tuo dipartimento </h3></div>
                                     <div class="card-body">
                                         <%= form_with(model: @temp_dep) do |form| %>
@@ -64,8 +63,6 @@
                                             <!-- Campi inseriti automaticamente -->
                                             <%= form.number_field :user_id, required: true, value:current_user.id, readonly: true, style: 'display:none' %>
                                             <%= form.text_field :manager, required: true, value:current_user.email, readonly: true, style: 'display:none'%>
-                                            <%= form.text_field :dep_map, required: true, value:@dep_map, readonly: true, style: 'display:none'%>
-                                            <%= form.text_field :dep_event, required: true, value:@dep_event, readonly: true, style: 'display:none'%>
 
                                             <!-- Campi inseriti dal manager -->
                                             <div class="label h6"> 
@@ -74,7 +71,7 @@
                                             <div class="row">
                                                 <div class="col-sm-9">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.text_field :name, class: "form-control", id: "depName", placeholder: "plh"%>
+                                                        <%= form.text_field :name, class: "form-control", required: true, id: "depName", placeholder: "plh"%>
                                                         <label class="form-c-label" for="depName"> Nome </label>
                                                     </div>
                                                 </div>
@@ -89,31 +86,31 @@
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.text_field :via, class: "form-control", id: "via", placeholder: "plh"%>
+                                                        <%= form.text_field :via, class: "form-control", required: true, id: "via", placeholder: "plh"%>
                                                         <label class="form-c-label" for="via"> Via, Viale, Piazza... </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.text_field :civico, class: "form-control", id: "civico", placeholder: "plh"%>
+                                                        <%= form.text_field :civico, class: "form-control", required: true, id: "civico", placeholder: "plh"%>
                                                         <label class="form-c-label" for="civico"> n° civico </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.text_field :cap, class: "form-control", id: "cap", placeholder: "plh"%>
+                                                        <%= form.text_field :cap, class: "form-control", required: true, id: "cap", placeholder: "plh"%>
                                                         <label class="form-c-label" for="cap"> Cap </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.text_field :citta, class: "form-control", id: "citta", placeholder: "plh"%>
+                                                        <%= form.text_field :citta, class: "form-control", required: true, id: "citta", placeholder: "plh"%>
                                                         <label class="form-c-label" for="citta"> Città </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-floating mb-3">
-                                                        <%= form.text_field :provincia, class: "form-control", id: "provincia", placeholder: "plh"%>
+                                                        <%= form.text_field :provincia, class: "form-control", required: true, id: "provincia", placeholder: "plh"%>
                                                         <label class="form-c-label" for="provincia"> Provincia </label>
                                                     </div>
                                                 </div>
@@ -143,10 +140,10 @@
                                 <!-- Raccoglie il dipartimento temporaneo appena creato --> 
                                 <% mydep = (TempDep.where(user_id: current_user.id)).first %>
 
-                                <!-- Mostra tramite il form per l'inserimento degli orari -->
                                 <% @twd = (TempWeekDay.where(temp_dep_id: mydep.id)) %>
                                 <% if @twd.count != 7 %>
-                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <!-- Mostra il form per l'inserimento degli orari -->
+                                    <div class="card mt-5">
                                         <div class="card-header text-center">
                                             <h4 class="font-weight-light mt-4 mb-0"> Imposta gli orari del dipartimento </h4>
                                             <div class="small text-muted"> Seleziona solo i giorni in cui il dipartimento è aerto </div>
@@ -199,7 +196,7 @@
                                 <% else %>
 
                                     <!-- Form di inserimento degli spazi + Spazi inseriti -->
-                                    <div class="card shadow-lg border-0 rounded-lg mt-4">
+                                    <div class="card mt-4">
                                         <div class="card-header text-center">
                                             <label class="font-weight-light h4 my-4"> Registra gli spazi prenotabili del tuo dipartimento </label>
                                         </div>
@@ -229,22 +226,22 @@
 
                                                         <!-- Campi inseriti dal manager -->
                                                         <div class="form-floating mb-3">
-                                                            <%= form.select( :typology, [["Aula"], ["Isola"], ["Biblioteca"], ["Laboratorio"]], {}, {class: "form-select", id: "tipSpazio"}) %>
+                                                            <%= form.select( :typology, [["Aula"], ["Zona studio"], ["Biblioteca"], ["Laboratorio"]], {}, {class: "form-select", id: "tipSpazio"}) %>
                                                             <label class="form-c-label" for="tipSpazio"> Seleziona la tipologia dello spazio </label>
                                                         </div>
 
                                                         <div class="form-floating mb-3">
-                                                            <%= form.text_field :name, class: "form-control", id: "spazioName", placeholder: "plh"%>
+                                                            <%= form.text_field :name, class: "form-control", required: true, id: "spazioName", placeholder: "plh"%>
                                                             <label class="form-c-label" for="spazioName"> Nome dello spazio </label>
                                                         </div>
 
                                                         <div class="form-floating mb-3">
-                                                            <%= form.number_field :floor, class: "form-control", id: "piano", placeholder: "plh"%>
+                                                            <%= form.number_field :floor, class: "form-control", required: true, id: "piano", placeholder: "plh"%>
                                                             <label class="form-c-label" for="piano"> Piano al quale si trova </label>
                                                         </div>
 
                                                         <div class="form-floating mb-3">
-                                                            <%= form.number_field :number_of_seats, class: "form-control", id: "numPosti", placeholder: "plh"%>
+                                                            <%= form.number_field :number_of_seats, class: "form-control", required: true, id: "numPosti", placeholder: "plh"%>
                                                             <label class="form-c-label" for="numPosti"> Numero di posti prenotabili </label>
                                                         </div>
 
@@ -307,35 +304,8 @@
                                         </div>
                                     </div>
 
-                                    <!-- Mostra il designer di Seats.io -->
-                                    <div class="card shadow-lg border-0 rounded-lg mt-4">
-                                        <div class="card-header text-center">
-                                            <label class="font-weight-light h4 mt-4 mb-0"> Designer pianta dipartimento </label>
-                                            <div class="small text-muted"> Clicca nell'area del designer per creare un modello per il tuo dipartimento. Puoi seguire il tutorial interattivo se è il tuo primo design. </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item px-0">
-                                                    <div style="displa:flex">
-                                                        <!-- Spazio per inserire renderer Seatsio per creazione pianta dipartimento -->
-                                                        <div id="chartDesigner"></div>
-                                                        <script src="https://cdn-eu.seatsio.net/chart.js"></script>
-
-                                                        <script>
-                                                            new seatsio.SeatingChartDesigner({
-                                                                divId: 'chartDesigner',
-                                                                secretKey: '<%= ENV['SEATS_IO_SECRET'] %>',
-                                                                chartKey: '<%= mydep.dep_map %>'
-                                                            }).render();
-                                                        </script>                                                        
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
                                     <!-- Mostra gli orari del dipartimento -->
-                                    <div class="card shadow-lg border-0 rounded-lg mt-4">
+                                    <div class="card mt-4">
                                         <div class="card-header text-center">
                                             <label class="font-weight-light h4 mt-4 mb-0"> Orari del dipartimento </label>
                                             <div class="small text-muted"> Clicca sulla pennina relativa ad uno dei giorni per modificarli </div>
@@ -362,7 +332,7 @@
                                     </div>
 
                                     <!-- Mostra il dipartimento appena creato -->
-                                    <div class="card shadow-lg border-0 rounded-lg mt-4">
+                                    <div class="card mt-4">
                                         <div class="card-header text-center">
                                             <!-- Icona interattiva per la modifica tramite modal -->
                                             <label class="label h4 font-weight-light mt-4 mb-2" data-bs-toggle="modal" data-bs-target="#tempDepID<%= mydep.id %>"> <%= mydep.name %> <i class="btn btn-sm btn-outline-info bi bi-pen px-1 py-0"></i></label>
@@ -380,7 +350,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="card shadow-lg border-0 rounded-lg mt-4">
+                                    <!-- Bottoni + form per seats.io -->
+                                    <div class="card mt-4">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-lg-6">

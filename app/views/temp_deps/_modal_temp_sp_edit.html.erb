@@ -1,10 +1,10 @@
 <!-- Modal di modifica per gli spazi temporanei inseriti nella tabella -->
 
-<div class="modal fade" id="tempSpID<%= jcs.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="tempSpID<%= jcs.id %>" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content form-c-label">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel"> modifica lo spazio "<%= jcs.typology %>: <%= jcs.name %>" </h5>
+                <label class="h4"> modifica lo spazio "<%= jcs.typology %>: <%= jcs.name %>" </label>
                 <button type="button" class="btn bi bi-x-lg" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -28,17 +28,17 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <%= form.text_field :name, class: "form-control", id: "spazioName", placeholder: "plh"%>
+                        <%= form.text_field :name, class: "form-control", required: :true, id: "spazioName", placeholder: "plh"%>
                         <label for="spazioName"> Nome dello spazio </label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <%= form.number_field :floor, class: "form-control", id: "piano", placeholder: "plh"%>
+                        <%= form.number_field :floor, class: "form-control", required: :true, id: "piano", placeholder: "plh"%>
                         <label for="piano"> Piano al quale si trova </label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <%= form.number_field :number_of_seats, class: "form-control", id: "numPosti", placeholder: "plh"%>
+                        <%= form.number_field :number_of_seats, class: "form-control", required: :true, id: "numPosti", placeholder: "plh"%>
                         <label for="numPosti"> Numero di posti prenotabili </label>
                     </div>
 

@@ -9,7 +9,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable, :trackable, :lockable, :recoverable, :rememberable, :validatable, :timeoutable, :omniauthable, omniauth_providers: [:google_oauth2]
-         
+
   #acts_as_user :roles => [ :manager, :admin, :user ]    #RUOLI DEFINITI PER IL CONTROLLO AUTORIZZAZIONI DI CANARD
   ROLES = %i[manager admin user]                        #RUOLI MOSTRATI NELLE CHECKBOX DI SIGNUP(MANTENERE LO STESSO ORDINE DI :roles !!!)
   
@@ -30,13 +30,13 @@ class User < ApplicationRecord
     end
   end
 
-  def is?(role)                                                                        #***
-    roles.include?(role.to_s)                                                          #
-  end                                                                                  #
+  def is?(role)
+    roles.include?(role.to_s)
+  end
 
   def has_role?(role)
     roles.include?(role)
-  end                                                                                 #***
+  end
 
   def is_manager?
     if self.role.include?("manager")

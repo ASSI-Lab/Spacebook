@@ -18,36 +18,41 @@
                                 <div class="card-body">
                                     <!-- Form -->
                                     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+
                                         <div class="form-floating mb-3">
-                                            <%= f.email_field :email, autofocus: true, autocomplete: "email", :class=>"form-control", required: :true, :id=>"email", :placeholder=>"plh" %>
+                                            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: :true, id: "email", placeholder: "plh" %>
                                             <label class="form-c-label" for="email"> Email </label>
                                         </div>
+
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
-                                                    <%= f.password_field :password, autocomplete: "new-password", :class=>"form-control", required: :true, :id=>"password", :placeholder=>"plh" %>
-                                                    <label class="form-c-label" for="password"> Password
+                                                    <%= f.password_field :password, class: "form-control", required: :true, id: "password", placeholder: "plh" %>
+                                                    <label class="form-c-label" for="password">
+                                                        Password
                                                         <% if @minimum_password_length %>
-                                                        <em>(<%= @minimum_password_length %> characters minimum)</em>
+                                                            (minimo <%= @minimum_password_length %> caratteri)
                                                         <% end %>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0">
-                                                    <%= f.password_field :password_confirmation, autocomplete: "new-password", :class=>"form-control", required: :true, :id=>"confirm-password", :placeholder=>"plh" %>
+                                                    <%= f.password_field :password_confirmation, class: "form-control", required: :true, id: "confirm-password", placeholder: "plh" %>
                                                     <label class="form-c-label" for="confirm-password"> Conferma password </label>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="form-check mb-3">
-                                        <!-- Tendina per selezione ruolo -->
-                                        <!--<%= f.collection_select(:role, User::ROLES, :to_s, lambda{|i| i.to_s.humanize}) %>-->
-                                        <td><label class="h5"> Richiedi ruolo Manager </label></td>
-                                        <%= f.check_box(:requested_manager, { class: "form-check-input", type: "checkbox" }, checked_value = "true", unchecked_value = "false") %>                                        </div>
+                                            <!-- Tendina per selezione ruolo -->
+                                            <!-- <% "f.collection_select(:role, User::ROLES, :to_s, lambda{|i| i.to_s.humanize})" %> -->
+                                            <label class="h5"> Richiedi ruolo Manager </label>
+                                            <%= f.check_box(:requested_manager, { class: "form-check-input", type: "checkbox" }, checked_value = "true", unchecked_value = "false") %>
+                                        </div>
 
                                         <div class="actions text-center py-3">
-                                            <%= f.submit class:"btn btn-outline-info", type:"submit", value:"Registrati"%> 
+                                            <%= f.submit "Registrati", class:"btn btn-outline-info", type:"submit"%> 
                                         </div>
                                     <% end %>
 
@@ -57,6 +62,7 @@
                                             <%= render "users/shared/links" %>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

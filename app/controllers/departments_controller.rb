@@ -186,6 +186,29 @@ class DepartmentsController < ApplicationController
     end
   end
 
+  def manager_map_initializer
+    res = new_dep_map(current_user.email)
+    mydep = Department.find(params[:dep_id])
+    mydep.update( dep_map: res[0], dep_event: res[1] )
+
+    respond_to do |format|
+      format.html { redirect_to '/manager_department' }
+      flash[:alert] = "Mappa inizializzata, puoi ora visualizzarla e modificarla della pagina del tuo dipartimento"
+    end
+  end
+
+  # Crea nuovo dipartimento su seats.io e un evento collegato ad esso
+  def new_dep_map manager_name
+    client = Seatsio::Client.new(Seatsio::Region.EU(), ENV['SEATS_IO_SECRET'])
+    name = current_user.email
+    chart = client.charts.copy("547d22f4-9842-4816-aab3-55fa3b935c56")
+    event = client.events.create chart_key: chart.key
+    client.charts.update key: chart.key, new_name: name
+    client.charts.publish_draft_version(chart.key)
+    print "\n\n\n"+event.key+"\n\n\n\n"+chart.key+"\n\n"
+    return [chart.key,event.key]
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_department
