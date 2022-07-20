@@ -220,10 +220,10 @@
 									<td><%= reservation.email %></td>
 									<td><%= reservation.dep_name %></td>
 									<td><%= reservation.typology %> </td>
-									<td> <%= reservation.space_name %></td>
+									<td><%= reservation.space_name %></td>
 									<td><%= reservation.seat_num %></td>
 									<td><%= reservation.start_date.strftime("%H:%M") %> - <%= reservation.end_date.strftime("%H:%M") %></td>
-									<td><%= (reservation.state == "Active")? "Attiva" : "Scaduta" %></td>
+									<td><%= reservation.state %></td>
 									<td><%= link_to '', reservation, method: :delete, data: { confirm: 'Sicuro?' }, class: "btn btn-sm btn-outline-info bi bi-trash", style: "width:100%" %>
 								</tr>
 							<% end %>

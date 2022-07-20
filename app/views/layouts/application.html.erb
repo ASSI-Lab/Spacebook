@@ -98,13 +98,20 @@
                         <a class="nav-link bi bi-house-fill py-3 mx-1" href='/home'> HOME </a>
                         <!-- Effettua prenotazione -->
                         <a class="nav-link bi bi-card-list py-3 mx-1" href='/make_reservation'> Effettua prenotazione </a>
-                        <% if user_signed_in? && current_user.is_manager? %> <!-- Controlla il ruolo dell'utente e ne visualizza le rispettive funzionalità -->
-                            <!-- Mio dipartimento -->
-                            <a class="nav-link bi bi-building py-3 mx-1" href='/manager_department'> Mio dipartimento </a>
-                        <% elsif user_signed_in? && current_user.is_admin? %>
-                            <!-- Gestione sito -->
-                            <a class="nav-link bi bi-gear-wide-connected py-3 mx-1" href='/management'> Gestione sito </a>
+
+                        <% if user_signed_in? %>
+                            <!-- Area personale -->
+                            <a class="nav-link bi bi-person-circle py-3 mx-1" href='/personal_area'> Area personale </a>
+                            <!-- Controlla il ruolo dell'utente e ne visualizza le rispettive funzionalità -->
+                            <% if current_user.is_manager? %>
+                                <!-- Mio dipartimento -->
+                                <a class="nav-link bi bi-building py-3 mx-1" href='/manager_department'> Mio dipartimento </a>
+                            <% elsif current_user.is_admin? %>
+                                <!-- Gestione sito -->
+                                <a class="nav-link bi bi-gear-wide-connected py-3 mx-1" href='/management'> Gestione sito </a>
+                            <% end %>
                         <% end %>
+
                         <!-- Informazioni -->
                         <a class="nav-link bi bi-info-circle py-3 mx-1" href='/informations'> Informazioni </a>
                     </div>
