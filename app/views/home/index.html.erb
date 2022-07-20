@@ -5,12 +5,11 @@
 
 	<title> Home - Spacebook </title>
 	<%= javascript_pack_tag 'leaflet' %>
-	<%= stylesheet_link_tag 'leaflet',media: 'all', 'data-turbolinks-track': 'reload' %>
+	<%= stylesheet_link_tag 'leaflet', media: 'all', 'data-turbolinks-track': 'reload' %>
 	<%= javascript_pack_tag 'leaflet-routing-machine' %>
 	<%= stylesheet_link_tag 'leaflet-routing-machine',media: 'all', 'data-turbolinks-track': 'reload' %> 
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
-	
-	<script src="../../assets/images/leaflet.routing.icons.png"></script>
+
 	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
@@ -46,13 +45,13 @@
 										<label class="h3"> Prenotazione rapida </label>
 										<div class="small"> Verrà prenotato il primo orario disponibile in data odierna per lo spazio sotto riportato </div>
 									</td>
-									<td class="px-2"> <a class="btn btn-sm btn-outline-info" style="float: right" href="/make_quick_res"> <i class='bi bi-cursor'></i> <br> Prenota </a> </td>
+									<td class="px-2"> <a class="btn btn-sm btn-outline-info" style="float: right" onclick="window.location.href='/make_quick_res'"> <i class='bi bi-cursor'></i> <br> Prenota </a> </td>
 								<% else %>
 									<td>
 										<label class="h3"> Prenotazione rapida </label>
 										<div class="small"> Verrà prenotato il primo orario disponibile in data odierna per lo spazio che imposterai </div>
 									</td>
-									<td class="px-2"> <a class="btn btn-sm btn-outline-info" style="float: right" href="/make_reservation"> <i class='bi bi-pen'></i> <br> Imposta </a> </td>
+									<td class="px-2"> <a class="btn btn-sm btn-outline-info" style="float: right" onclick="window.location.href='/make_reservation'"> <i class='bi bi-pen'></i> <br> Imposta </a> </td>
 								<% end %>
 							</tr>
 						</table>

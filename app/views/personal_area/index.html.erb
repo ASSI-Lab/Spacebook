@@ -55,60 +55,60 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-4">
-							<div class="card" style="height: 100%">
+							<div class="card" style="height: 100%; cursor: pointer">
 								<div class="card-header px-0 py-0">
 									<img class="card-img-top" id="personalAreaImg" src="https://i.pinimg.com/736x/fc/e0/f6/fce0f6027d2fcbbd232fddcd71873f03.jpg">
 								</div>
 								<div class="card-footer px-2" style="height: 100%">
 									<p class="h6 bi bi-list-check my-2"> Le mie prenotazioni </p>
-									<a class="stretched-link" href="/user_reservations"></a>
+									<a class="stretched-link" onclick="window.location.href='/user_reservations'"></a>
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-4">
-							<div class="card" style="height: 100%">
+							<div class="card" style="height: 100%; cursor: pointer">
 								<div class="card-header px-0 py-0">
 									<img class="card-img-top" id="personalAreaImg" src="https://i.pinimg.com/564x/26/fb/7e/26fb7edd0ac89f5e36d7a98bd6d1873e.jpg">
 								</div>
 								<div class="card-footer px-2" style="height: 100%">
 									<p class="h6 bi bi-bookmark-star my-2"> Spazi preferiti </p>
-									<a class="stretched-link" href="/favourite_spaces"></a>
+									<a class="stretched-link" onclick="window.location.href='/favourite_spaces'"></a>
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-4">
-							<div class="card" style="height: 100%">
+							<div class="card" style="height: 100%; cursor: pointer">
 								<div class="card-header px-0 py-0">
 									<img class="card-img-top" id="personalAreaImg" src="https://i.pinimg.com/564x/77/ae/db/77aedb455931b1132ba273846f0c21e4.jpg">
 								</div>
 								<div class="card-footer px-2" style="height: 100%">
 									<p class="h6 bi bi-card-list my-2"> Nuova prenotazione </p>
-									<a class="stretched-link" href="/make_reservation"></a>
+									<a class="stretched-link" onclick="window.location.href='/make_reservation'"></a>
 								</div>
 							</div>
 						</div>
 
 						<% if current_user.is_manager? %>
 							<div class="col-lg-12 pt-4">
-								<div class="card">
+								<div class="card" style="cursor: pointer">
 									<div class="card-header px-0 py-0">
 										<img class="card-img-top" id="personalAreaImg" src="https://i.pinimg.com/564x/9a/d9/46/9ad946ce786180f826b61cce48a1f9c8.jpg">
 									</div>
 									<div class="card-footer px-3" style="height: 100%">
 										<p class="h6 bi bi-building my-2"> Il mio dipartimento </p>
-										<a class="stretched-link" href="/manager_department"></a>
+										<a class="stretched-link" onclick="window.location.href='/manager_department'"></a>
 									</div>
 								</div>
 							</div>
 						<% elsif current_user.is_admin? %>
 							<div class="col-lg-12 pt-4">
-								<div class="card">
+								<div class="card" style="cursor: pointer">
 									<div class="card-header px-0 py-0">
 										<img class="card-img-top" id="personalAreaImg" src="https://i.pinimg.com/564x/75/0d/7c/750d7cc6ea932b46e2a2856c862b6a24.jpg">
 									</div>
 									<div class="card-footer px-3" style="height: 100%">
 										<p class="h6 bi bi-gear-wide-connected my-2"> Gestione sito </p>
-										<a class="stretched-link" href="/management"></a>
+										<a class="stretched-link" onclick="window.location.href='/management'"></a>
 									</div>
 								</div>
 							</div>
