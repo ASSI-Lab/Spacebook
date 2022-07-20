@@ -225,7 +225,7 @@
 						</div>
 						<div class="card-body text-center">
 							<% if local_assigns.has_key? :icon %>
-								<label class="bg-white px-2 py-1" style="border-radius: 0.25rem; width: fit-content"><img src= <%=image_path(icon)%> ></label>
+								<label class="bg-white px-2 py-2" style="border-radius: 0.25rem; width: fit-content"><img src= <%=image_path(icon)%> ></label>
 								<div class="row mt-4">
 									<div class="col-xl-12">
 										<table width="100%">
@@ -247,8 +247,8 @@
 										<table width="100%">
 											<tr><td colspan="2"><label class="h6 mb-0"><i class="bi bi-wind"> Vento </i></label></td></tr>
 											<tr>
-												<td width="50%"><label> velocità </label></td>
-												<td width="50%"><label> direzione </label></td>
+												<td width="50%"><label> <b>velocità</b> </label></td>
+												<td width="50%"><label> <b>direzione</b> </label></td>
 											</tr>
 											<tr>
 												<td width="50%"><label class="small mb-3"> <%=velocità%> </label></td>
@@ -260,8 +260,8 @@
 										<table width="100%">
 											<tr><td colspan="2"><label class="h6 mb-0"><i class="bi bi-cloud-rain"> Precipitazioni </i></label></td></tr>
 											<tr>
-												<td width="50%"><label> Tipo </label></td>
-												<td width="50%"><label> Quantità </label></td>
+												<td width="50%"><label> <b>tipo</b> </label></td>
+												<td width="50%"><label> <b>quantità</b> </label></td>
 											</tr>
 											<tr>
 												<td width="50%"><label class="small mb-3"> <%=prec_type%> </label></td>
