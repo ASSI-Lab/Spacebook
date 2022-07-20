@@ -58,12 +58,12 @@
                 <!-- Icona interattiva per visualizzare le notifiche flash da spacebook -->
                 <td width="3%" style="text-align: right">
                     <% if flash_messages.size != 0%>
-                        <div class="btn btn-outline-info bi bi-chat-text-fill me-2" data-bs-toggle="modal" id="flashNavModalButtonFill" data-bs-target="#flashNavModal">
+                        <div class="btn btn-outline-info bi bi-bell-fill me-2" data-bs-toggle="modal" id="flashNavModalButtonFill" data-bs-target="#flashNavModal">
                             <!-- Badge con il numero di messaggi -->
                             <span class="position-absolute badge rounded-pill bg-danger mt-1 px-2 py-1" style="border: 1px solid #fff"><%= flash_messages.size %></span>
                         </div>
                     <% else %>
-                        <div class="btn btn-outline-info bi bi-chat me-2" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal"></div>
+                        <div class="btn btn-outline-info bi bi-bell me-2" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal"></div>
                     <% end %>
                 </td>
                 <!-- Icona interattiva per visualizzare il modal dell'utente -->

@@ -5,12 +5,12 @@
         <div class="modal-content form-c-label">
             <% if !user_signed_in? %>
                 <div class="modal-header py-1">
-                    <label class="h5 my-1"> Non hai ancora effettuato l'accesso </label>
+                    <label class="h5 bi bi-person-x  my-1"> Non hai ancora effettuato l'accesso </label>
                     <button class="btn bi bi-x-lg" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <a href='/users/sign_in' class="dropdown-item" style="padding: 10px"> Accedi </a>
-                    <a href='/users/sign_up' class="dropdown-item" style="padding: 10px"> Registrati </a>
+                    <a href='/users/sign_in' class="dropdown-item bi bi-person-check" style="padding: 10px"> Accedi </a>
+                    <a href='/users/sign_up' class="dropdown-item bi bi-person-plus" style="padding: 10px"> Registrati </a>
                 </div>
             <% else %>
                 <div class="modal-header py-1">
