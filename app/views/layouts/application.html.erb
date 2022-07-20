@@ -60,7 +60,7 @@
                     <% if flash_messages.size != 0%>
                         <div class="btn btn-outline-info bi bi-chat-text-fill me-2" data-bs-toggle="modal" id="flashNavModalButtonFill" data-bs-target="#flashNavModal">
                             <!-- Badge con il numero di messaggi -->
-                            <span class="position-absolute badge rounded-pill bg-danger mt-1" style="border-color: white"><%= flash_messages.size %></span>
+                            <span class="position-absolute badge rounded-pill bg-danger mt-1 px-2 py-1" style="border: 1px solid #fff"><%= flash_messages.size %></span>
                         </div>
                     <% else %>
                         <div class="btn btn-outline-info bi bi-chat me-2" data-bs-toggle="modal" id="flashNavModalButton" data-bs-target="#flashNavModal"></div>
