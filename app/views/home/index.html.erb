@@ -152,104 +152,127 @@
 			</div>
 		</div>
 		<div class="col-lg-4 pb-4 ">
-			<!-- Mappa per geolocalizzazione -->
-			<div class="card mb-4" style="height: 500px">
-				<div class="card-header text-center">
-					<label class="h3"> Mappa <i class="bi bi-map mx-2"></i> </label>
+			<div class="row">
+				<div class="col-lg-12 col-md-6">
+					<!-- Mappa per geolocalizzazione -->
+					<div class="card mb-4" style="height: 95%">
+						<div class="card-header text-center">
+							<label class="h3"> Mappa <i class="bi bi-map mx-2"></i> </label>
+						</div>
+						<div class="card-body pt-2">
+							<label class="h5 mb-0 px-2"> Zoom </label>
+							<label class="h5 mb-0 px-2" style="float: right"> Trova percorso </label>
+							<div id="map"></div>
+
+							<!-- Utilizzo LEAFLET e OSM per generare una mappa centrata su Roma -->
+							<script>
+								var map = L.map('map').setView([41.89333, 12.48302], 11);
+								L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+									maxZoom: 19,
+									attribution: '© OpenStreetMap'
+								}).addTo(map);
+
+								var EdIcon = L.icon({
+									iconUrl: '<%=image_path('depMarker.png')%>',
+									shadowUrl: '<%=image_path('marker-shadow.png')%>',
+									iconSize:     [30, 50], // size of the icon
+									shadowSize:   [30, 64], // size of the shadow
+									iconAnchor:   [17, 58], // point of the icon which will correspond to marker's location
+									shadowAnchor: [9, 75],  // the same for the shadow
+									popupAnchor:  [-3, -60] // point from which the popup should open relative to the iconAnchor
+								});
+							</script>
+
+							<% @departments.each do |department| %>
+								<script>
+									L.marker(["<%=department.latitude%>", "<%=department.longitude%>"],{icon: EdIcon}).addTo(map).bindPopup("<%=department.name%>"+"<br>"+"<%=department.via+" "+department.civico+" "+department.citta+" "+department.cap %>");
+								</script>
+							<%end%>
+
+							<script>
+								document.getElementById("centra").onclick = function() {centra_mappa()};
+								function centra_mappa(lat, lon, dep_n, dep) {
+									map.setView([lat, lon], 18);
+									var myIcon = L.icon({
+										iconUrl: '<%=image_path('marker-icon-2x.png')%>',
+										shadowUrl: '<%=image_path('marker-shadow.png')%>',
+										iconSize:     [30, 50], // size of the icon
+										shadowSize:   [30, 64], // size of the shadow
+										iconAnchor:   [17, 58], // point of the icon which will correspond to marker's location
+										shadowAnchor: [9, 75],  // the same for the shadow
+										popupAnchor:  [-3, -60] // point from which the popup should open relative to the iconAnchor
+									});
+									L.marker([lat, lon],{icon: myIcon}).addTo(map).bindPopup(dep_n+"<br>"+dep).openPopup();
+								}
+							</script>
+
+							<script>
+								L.Routing.control({
+									waypoints: [ L.latLng(), L.latLng() ],
+									routeWhileDragging: true,
+									geocoder: L.Control.Geocoder.nominatim(),
+								}).addTo(map);7
+							</script>
+
+						</div>
+					</div>
 				</div>
-				<div class="card-body pt-2">
-					<label class="h5 mb-0 px-2"> Zoom </label>
-					<label class="h5 mb-0 px-2" style="float: right"> Trova percorso </label>
-					<div id="map"></div>
-
-					<!-- Utilizzo LEAFLET e OSM per generare una mappa centrata su Roma -->
-					<script>
-						var map = L.map('map').setView([41.89333, 12.48302], 11);
-						L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-							maxZoom: 19,
-							attribution: '© OpenStreetMap'
-						}).addTo(map);
-
-						var EdIcon = L.icon({
-							iconUrl: '<%=image_path('depMarker.png')%>',
-							shadowUrl: '<%=image_path('marker-shadow.png')%>',
-							iconSize:     [30, 50], // size of the icon
-							shadowSize:   [30, 64], // size of the shadow
-							iconAnchor:   [17, 58], // point of the icon which will correspond to marker's location
-							shadowAnchor: [9, 75],  // the same for the shadow
-							popupAnchor:  [-3, -60] // point from which the popup should open relative to the iconAnchor
-						});
-					</script>
-
-					<% @departments.each do |department| %>
-						<script>
-							L.marker(["<%=department.latitude%>", "<%=department.longitude%>"],{icon: EdIcon}).addTo(map).bindPopup("<%=department.name%>"+"<br>"+"<%=department.via+" "+department.civico+" "+department.citta+" "+department.cap %>");
-						</script>
-					<%end%>
-
-					<script>
-						document.getElementById("centra").onclick = function() {centra_mappa()};
-						function centra_mappa(lat, lon, dep_n, dep) {
-							map.setView([lat, lon], 18);
-							var myIcon = L.icon({
-								iconUrl: '<%=image_path('marker-icon-2x.png')%>',
-								shadowUrl: '<%=image_path('marker-shadow.png')%>',
-								iconSize:     [30, 50], // size of the icon
-								shadowSize:   [30, 64], // size of the shadow
-								iconAnchor:   [17, 58], // point of the icon which will correspond to marker's location
-								shadowAnchor: [9, 75],  // the same for the shadow
-								popupAnchor:  [-3, -60] // point from which the popup should open relative to the iconAnchor
-							});
-							L.marker([lat, lon],{icon: myIcon}).addTo(map).bindPopup(dep_n+"<br>"+dep).openPopup();
-						}
-					</script>
-
-					<script>
-						L.Routing.control({
-							waypoints: [ L.latLng(), L.latLng() ],
-							routeWhileDragging: true,
-							geocoder: L.Control.Geocoder.nominatim(),
-						}).addTo(map);7
-					</script>
-
-				</div>
-			</div>
-
-			<!-- Meteo -->
-			<div class="card" style="height: fit-content">
-				<div class="card-header text-center"> 
-					<label class="h3"> Meteo <i class="bi bi-cloud-sun mx-2"></i> </label>
-				</div>
-				<div class="card-body text-center">
-					<% if local_assigns.has_key? :icon %>
-						<label class="bg-white px-2 py-1" style="border-radius: 0.25rem; width: fit-content"><img src= <%=image_path(icon)%> ></label>
-						<div class="row mt-4">
-							<div class="col-lg-4"><label class="h5 mb-0"> Temperatura <i class="bi bi-thermometer-half"></i></label></div>
-							<div class="col-lg-4"><label class="h5 mb-0"> Umidità <i class="bi bi-droplet-half"></i></label></div>
-							<div class="col-lg-4"><label class="h5 mb-0"> Nuvole <i class="bi bi-clouds"></i></label></div>
+				<div class="col-lg-12 col-md-6">
+					<!-- Meteo -->
+					<div class="card mb-4" style="height: 95%">
+						<div class="card-header text-center"> 
+							<label class="h3"> Meteo <i class="bi bi-cloud-sun mx-2"></i> </label>
 						</div>
-						<div class="row">
-							<div class="col-lg-4"><label class="small mb-3"> <%=temperatura%>°C </label></div>
-							<div class="col-lg-4"><label class="small mb-3"> <%=umidità%> </label></div>
-							<div class="col-lg-4"><label class="small mb-3"> <%=cc%> </label></div>
+						<div class="card-body text-center">
+							<% if local_assigns.has_key? :icon %>
+								<label class="bg-white px-2 py-1" style="border-radius: 0.25rem; width: fit-content"><img src= <%=image_path(icon)%> ></label>
+								<div class="row mt-4">
+									<div class="col-xl-12">
+										<table width="100%">
+											<tr>
+												<td width="33%"><label class="h6 mb-0"><i class="bi bi-thermometer-half"> Temperatura </i></label></td>
+												<td width="33%"><label class="h6 mb-0"><i class="bi bi-droplet-half"> Umidità </i></label></td>
+												<td width="33%"><label class="h6 mb-0"><i class="bi bi-clouds"> Nuvole </i></label></td>
+											</tr>
+											<tr>
+												<td width="33%"><label class="small mb-3"> <%=temperatura%>°C </label></td>
+												<td width="33%"><label class="small mb-3"> <%=umidità%> </label></td>
+												<td width="33%"><label class="small mb-3"> <%=cc%> </label></td>
+											</tr>
+										</table>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xl-6">
+										<table width="100%">
+											<tr><td colspan="2"><label class="h6 mb-0"><i class="bi bi-wind"> Vento </i></label></td></tr>
+											<tr>
+												<td width="50%"><label> velocità </label></td>
+												<td width="50%"><label> direzione </label></td>
+											</tr>
+											<tr>
+												<td width="50%"><label class="small mb-3"> <%=velocità%> </label></td>
+												<td width="50%"><label class="small mb-3"> <%=direzione_vento%> </label></td>
+											</tr>
+										</table>
+									</div>
+									<div class="col-xl-6">
+										<table width="100%">
+											<tr><td colspan="2"><label class="h6 mb-0"><i class="bi bi-cloud-rain"> Precipitazioni </i></label></td></tr>
+											<tr>
+												<td width="50%"><label> Tipo </label></td>
+												<td width="50%"><label> Quantità </label></td>
+											</tr>
+											<tr>
+												<td width="50%"><label class="small mb-3"> <%=prec_type%> </label></td>
+												<td width="50%"><label class="small mb-3"> <%=pa%> </label></td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							<%end%>
 						</div>
-						<div class="row">
-							<div class="col-lg-6"><label class="h5 mb-0"> Vento <i class="bi bi-wind"></i></label></div>
-							<div class="col-lg-6"><label class="h5 mb-0"> Precipitazioni <i class="bi bi-cloud-rain"></i></label></div>
-						</div>
-						<div class="row">
-							<div class="col-lg-3"><label class="h6 mb-0"> velocità <i class="bi bi-"></i></label></div>
-							<div class="col-lg-3"><label class="h6 mb-0"> direzione <i class="bi bi-"></i></label></div>
-							<div class="col-lg-3"><label class="h6 mb-0"> Tipo <i class="bi bi-"></i></label></div>
-							<div class="col-lg-3"><label class="h6 mb-0"> Quantità <i class="bi bi-"></i></label></div>
-						</div>
-						<div class="row">
-							<div class="col-lg-3"><label class="small mb-3"> <%=velocità%> </label></div>
-							<div class="col-lg-3"><label class="small mb-3"> <%=direzione_vento%> </label></div>
-							<div class="col-lg-3"><label class="small mb-3"> <%=prec_type%> </label></div>
-							<div class="col-lg-3"><label class="small mb-3"> <%=pa%> </label></div>
-						</div>
-					<%end%>
+					</div>
 				</div>
 			</div>
 		</div>

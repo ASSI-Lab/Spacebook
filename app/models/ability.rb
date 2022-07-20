@@ -44,7 +44,6 @@ class Ability
       cannot :manage, User
       can :manage, User, email: user.email
     end
-    
 
   end
 end
