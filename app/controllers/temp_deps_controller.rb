@@ -35,13 +35,36 @@ class TempDepsController < ApplicationController
 
   def create
     @temp_dep = TempDep.new(temp_dep_params)
-
+    coord = get_coord(@temp_dep.via+" "+@temp_dep.civico+" "+@temp_dep.citta+" "+@temp_dep.cap)
+    if coord=='error'
+      redirect_to '/make_department'
+      flash[:alert] = "Attenzione: Errore indirizzo dipartimento!\nControlla l'indirizzo inserito e la tua connessione internet e riprova!" # Notifica l'utente
+      return
+    else
+      @temp_dep.lat=coord[0]
+      @temp_dep.lon=coord[1]
+    end
+    authorize! :create, @temp_dep, :message => "Attenzione: Non sei autorizzato a creare un dipartimento!"
     respond_to do |format|
       if @temp_dep.save
         format.html { redirect_to '/make_department', notice: "Il dipartimento è stato registrato e potrai modificarlo successivamente. Procedi con la registrazione degli orari!" }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def get_coord ind
+    client = OpenStreetMap::Client.new
+    response = client.search(q: ind, format: 'json', addressdetails: '1', accept_language: 'en')
+    geo_data = response[0]
+    if geo_data==nil
+      return "error"
+    else
+      lat = geo_data["lat"]
+      lon = geo_data["lon"]
+      res =[lat,lon]
+      return res
     end
   end
 

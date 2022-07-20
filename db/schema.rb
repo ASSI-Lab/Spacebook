@@ -131,6 +131,8 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
     t.string "cap", null: false
     t.string "citta", null: false
     t.string "provincia", null: false
+    t.string "lat"
+    t.string "lon"
     t.text "description"
     t.integer "floors"
     t.integer "number_of_spaces"

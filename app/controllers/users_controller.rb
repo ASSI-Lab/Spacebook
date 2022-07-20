@@ -1,10 +1,5 @@
 class UsersController < ApplicationController
 
-    def reg
-        redirect_to '/users/sign_up'
-        flash[:notice] = "Errore registrazione!\nControlla i campi inseriti."
-    end
-
     def ban
         @user = User.find(params[:id])
         if @user.access_locked?

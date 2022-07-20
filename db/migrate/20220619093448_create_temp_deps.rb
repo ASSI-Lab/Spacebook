@@ -12,6 +12,8 @@ class CreateTempDeps < ActiveRecord::Migration[6.1]
       t.string :cap, null: false
       t.string :citta, null: false
       t.string :provincia, null: false
+      t.string :lat
+      t.string :lon
 
       t.text :description
       t.integer :floors

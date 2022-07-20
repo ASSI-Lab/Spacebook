@@ -35,14 +35,32 @@ class Ability
     end
 
     if user.is_manager?
-      can :manage, Department
+      if Department.where(manager: user.email).count != 0
+        can :manage, Reservation, :dep_name => Department.where(manager: user.email).first.name
+        can :destroy, Department, :name => Department.where(manager: user.email).first.name
+      end
+      can :access, Department
       can :manage, TempDep
+      can :manage, TempSp
+      can :manage, TempWeekDay
+      can :manage, Seat
+      can :manage, Space
+      can :manage, FavouriteSpace
+      can :manage, QuickReservation
     end
 
     if user.is_user?
-      can :manage, Reservation, email: user.email
+      can :manage, Reservation, :email => user.email
       cannot :manage, User
-      can :manage, User, email: user.email
+      can :manage, User, :email => user.email
+      canont :manage, Department
+      cannot :manage, TempDep
+      cannot :manage, TempSp
+      cannot :manage, TempWeekDay
+      cannot :manage, Seat
+      cannot :manage, Space
+      can :manage, FavouriteSpace
+      can :manage, QuickReservation
     end
 
   end

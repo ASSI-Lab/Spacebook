@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   resources :tasks
 
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", passwords: "passwords", confirmations: "confirmations" }
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", passwords: "passwords", confirmations: "confirmations", sessions: "sessions" }
 
   root "home#index"
 

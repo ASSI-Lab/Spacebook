@@ -23,10 +23,10 @@ class DepartmentsController < ApplicationController
           @temp_dep = @temp_dep.first                                                                 # Inizializza il dipartimento temporaneo
           @temp_week_day = TempWeekDay.where(temp_dep_id: @temp_dep.id)                               # Raccoglie gli orari temporanei relativi al dipartimento temporaneo
           @temp_sps = TempSp.where(temp_dep_id: @temp_dep.id)                                         # Raccoglie gli spazi temporanei relativi al dipartimento temporaneo
-          coord = get_coord(@temp_dep.via+" "+@temp_dep.civico+" "+@temp_dep.citta+" "+@temp_dep.cap) # Raccoglie le coordinate del dipartimento temporaneo
+  
 
           # Crea il dipartimento effettivo con i dati temporanei
-          @department = Department.create(user_id: current_user.id, name: @temp_dep.name, manager: @temp_dep.manager, via: @temp_dep.via, civico: @temp_dep.civico, cap: @temp_dep.cap, citta: @temp_dep.citta, provincia: @temp_dep.provincia,latitude: coord[0],longitude: coord[1], description: @temp_dep.description, floors: @temp_dep.floors, number_of_spaces: @temp_sps.count, dep_map: @temp_dep.dep_map, dep_event: @temp_dep.dep_event)
+          @department = Department.create(user_id: current_user.id, name: @temp_dep.name, manager: @temp_dep.manager, via: @temp_dep.via, civico: @temp_dep.civico, cap: @temp_dep.cap, citta: @temp_dep.citta, provincia: @temp_dep.provincia,latitude: @temp_dep.lat,longitude: @temp_dep.lon, description: @temp_dep.description, floors: @temp_dep.floors, number_of_spaces: @temp_sps.count, dep_map: @temp_dep.dep_map, dep_event: @temp_dep.dep_event)
 
           @temp_week_day.each do |twd| # Crea gli orari effettivi
             WeekDay.create(department_id: @department.id, dep_name: @department.name, day: twd.day, state:twd.state, apertura: twd.apertura, chiusura: twd.chiusura)
@@ -133,15 +133,6 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  def get_coord ind
-    client = OpenStreetMap::Client.new
-    response = client.search(q: ind, format: 'json', addressdetails: '1', accept_language: 'en')
-    geo_data = response[0]
-    lat = geo_data["lat"]
-    lon = geo_data["lon"]
-    res =[lat,lon]
-    return res
-  end
 
   # Mostra all'admin il dipartimento selezionato da gestione sito (/management)
   def show
