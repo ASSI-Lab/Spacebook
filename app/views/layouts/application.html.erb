@@ -12,7 +12,7 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-    <% if user_signed_in?%>
+    <% if user_signed_in? && current_user.remember_created_at==nil%>
         <!-- INIZIALIIZZA IL TIMER DI INATTIVITÀ -->
         <%= javascript_pack_tag 'optimised_session_timeout_poller'%>
     <% end %>

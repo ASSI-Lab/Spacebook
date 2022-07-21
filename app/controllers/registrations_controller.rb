@@ -36,7 +36,7 @@ class RegistrationsController < Devise::RegistrationsController
 
     # Chiamo l'email verifier di AbstractApi per la verifica dell'esistenza dellla mail inserita (gestisco tutto tramite chiamate http)
     def make_abstract_request(email)
-        uri = URI("https://emailvalidation.abstractapi.com/v1/?api_key=#{ENV['ABSTRACT_KEY']}&email=#{email}")
+        uri = URI("https://emailvalidation.abstractapi.com/v1/?api_key=#{ENV['ABSTRACT_EMAIL_KEY']}&email=#{email}")
     
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true

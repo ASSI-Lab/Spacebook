@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_17_142636) do
+ActiveRecord::Schema.define(version: 2022_07_21_081542) do
 
   create_table "departments", force: :cascade do |t|
     t.integer "user_id"
@@ -202,6 +202,8 @@ ActiveRecord::Schema.define(version: 2022_07_17_142636) do
     t.string "locking_reason"
     t.string "role"
     t.string "requested_manager"
+    t.string "longitude"
+    t.string "latitude"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

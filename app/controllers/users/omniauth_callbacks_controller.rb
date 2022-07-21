@@ -13,19 +13,49 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           @user.refresh_token = auth.credentials.refresh_token  # AGGIUNGO TOKEN DI REFRESH AL DATABASE
           @user.provider = "Google"
           @user.save!
-          if @user.role != nil                            ####################
-            print "\n\n\n",@user.role,"\n\n\n"            #
-          else                                                  #
-            print "\n\n\n SENZA RUOLO \n\n\n"                   #
-            u = @user                                           # FUNZIONALITÀ CHE ASSOCIA A CHI USA LOGIN GOOGLE IL RUOLO DI ADMIN(SOLO TEST!!!)
-            u.role = 'admin'                                 #
-            u.save                                              #
-            print "\n\n\n",u.role,"\n\n\n"                #
-          end                                                   ####################
+          get_user_coord(@user)
           sign_in_and_redirect @user, event: :authentication
         else
           session['devise.google_data'] = request.env['omniauth.auth'].except('extra') # Removing extra as it can overflow some session stores
           redirect_to new_user_registration_url, alert: @user.errors.full_messages.join("\n")
         end
     end
-  end
+
+    def get_user_coord(user)
+      if user.longitude!=nil && user.latitude!=nil
+        return
+      else
+        user_coord = make_abstract_request
+        if user_coord!='error'
+          user.latitude=user_coord[0]
+          user.longitude=user_coord[1]
+          user.save
+          return
+        else
+          user.latitude="41.89333"
+          user.longitude="12.48302"
+          user.save
+          return
+        end
+      end
+    end
+  
+    def make_abstract_request
+        uri = URI("https://ipgeolocation.abstractapi.com/v1/?api_key=#{ENV['ABSTRACT_GEO_KEY']}")
+
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+
+        request =  Net::HTTP::Get.new(uri)
+
+        response = http.request(request)
+        puts "Status code: #{ response.code }"
+        puts "Response body: #{ response.body }"
+        deliv = JSON.parse(response.body)
+        return [deliv["latitude"],deliv["longitude"]]
+    rescue StandardError => error
+        puts "Error (#{ error.message })"
+        return "error"
+    end   
+end

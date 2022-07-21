@@ -9,17 +9,7 @@
                 <button type="button" class="btn bi bi-x-lg" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <% if department.dep_map!=nil%>
-                    <div id="chartDesigner"></div>
-                    <script src="https://cdn-eu.seatsio.net/chart.js"></script>
-                    <script>
-                        new seatsio.SeatingChartDesigner({
-                            divId: 'chartDesigner',
-                            secretKey: '<%= ENV['SEATS_IO_SECRET'] %>',
-                            chartKey: '<%= department.dep_map %>'
-                        }).render();
-                    </script>
-                <% end %>
+
             </div>
         </div>
     </div>

@@ -14,8 +14,12 @@
 		<!-- Calendario per sincronizzazione AL MOMENTO SE SI È COLLEGATI TRAMITE GOOGLE IL CALENDARIO VIENE FORMATO CON I PROSSIMI 10 EVENTI ALL'INTERNO -->
 		<div class="col-lg-7 pb-2">
 			<div class="card">
-				<div class="card-header"> 
+				<div class="card-header">
+				<% if current_user.access_token != nil %> 
 					<label class="h4 bi bi-calendar2-week my-2"> Google Calendar </label>
+				<% else %>
+					<label class="h4 bi bi-calendar2-week my-2"> Calendario </label>
+				<% end %>
 				</div>
 				<div class="card-body px-3" style="display: flex; align-items: center">
 					<% if current_user.access_token!=nil%> <!-- SE IL TOKEN È PRESENTE VIENE INVIATA LA RICHIESTA A CALENDAR -->
@@ -38,6 +42,15 @@
 					<% else %>                             <!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI -->
 						<%= month_calendar do |date| %>
 							<%= date.day %>
+								<% Reservation.where(user_id: current_user.id).each do |reservation| %>
+									<% if reservation.start_date.strftime("%Y-%m-%d").to_s == date.to_s %>
+										<font size="-2"><%= reservation.dep_name %></font>
+										<font size="-3" color="blue"><%= reservation.typology %></font>
+										<font size="-3" color="blue"><%= reservation.space_name %></font></br>
+										<font size="-3" color="blue"><%= reservation.start_date.strftime("%H:%M")%></font></br>
+									<% end %>
+
+								<% end %>
 						<% end %>
 					<% end %>
 				</div>

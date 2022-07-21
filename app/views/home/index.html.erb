@@ -98,7 +98,7 @@
 											<label class="h3 mt-3 mb-1"> <%= department.name %> </label>
 											<div class="small">
 												<%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %>
-												<label onclick='centra_mappa("<%= department.latitude %>","<%= department.longitude %>","<%= department.name %>", "<%=department.via+" "+department.civico+" "+department.citta+" "+department.cap %>")', class="colorLink bi bi-geo-fill px-2"> </label>
+												<label onclick='centra_mappa("<%= department.latitude %>","<%= department.longitude %>","<%= department.name %>", "<%=department.via+" "+department.civico+" "+department.citta+" "+department.cap %>","18","true")', class="colorLink bi bi-geo-fill px-2"> </label>
 											</div>
 										</td>
 										<td>
@@ -190,8 +190,8 @@
 
 							<script>
 								document.getElementById("centra").onclick = function() {centra_mappa()};
-								function centra_mappa(lat, lon, dep_n, dep) {
-									map.setView([lat, lon], 18);
+								function centra_mappa(lat, lon, dep_n, dep, zoom, marker) {
+									map.setView([lat, lon], parseInt(zoom));
 									var myIcon = L.icon({
 										iconUrl: '<%=image_path('marker-icon-2x.png')%>',
 										shadowUrl: '<%=image_path('marker-shadow.png')%>',
@@ -201,7 +201,9 @@
 										shadowAnchor: [9, 75],  // the same for the shadow
 										popupAnchor:  [-3, -60] // point from which the popup should open relative to the iconAnchor
 									});
-									L.marker([lat, lon],{icon: myIcon}).addTo(map).bindPopup(dep_n+"<br>"+dep).openPopup();
+									if (marker=='true'){
+										L.marker([lat, lon],{icon: myIcon}).addTo(map).bindPopup(dep_n+"<br>"+dep).openPopup();
+									}
 								}
 							</script>
 
@@ -212,7 +214,11 @@
 									geocoder: L.Control.Geocoder.nominatim(),
 								}).addTo(map);7
 							</script>
-
+							<%if current_user%> <!-- Se l'utente è registrato viene geolocalizzato e la mappa ricentrata sulla sua posizione approssimativa -->
+								<script>
+									centra_mappa("<%= current_user.latitude %>","<%= current_user.longitude %>",'La tua posizione', 'Posizione approssimativa','9','false');
+								</script>
+							<% end %>
 						</div>
 					</div>
 				</div>

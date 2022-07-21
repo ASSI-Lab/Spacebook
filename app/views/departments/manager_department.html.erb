@@ -101,7 +101,7 @@
 								<!-- Icona interattiva per visualizzare il modal della descrizione completa -->
 								<i class="colorLink bi bi-card-text" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>DescModal"> continua a leggere </i>
 								<!-- Modal descrizione -->
-								<%= render 'modal_dep_desc', department: @department %>
+								
 							</p>
 
 							<label class="label h5 pt-0 mb-0"> Posizione: </label> <%= (@department).via %>, <%= (@department).civico %>, <%= (@department).cap %>, <%= (@department).citta %>, <%= (@department).provincia %><br>
@@ -264,6 +264,30 @@
 							},
 						});
 					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
+		<!-- Editor mappa interattiva  -->
+		<div class="col">
+			<div class="card">
+				<div class="card-header text-center">
+					<h3 class="font-weight-light my-3"> Editor mappa interattiva </h3>
+				</div>
+				<div class="card-body">
+					<% if @department.dep_map!=nil%>
+						<div id="chartDesigner"></div>
+						<script src="https://cdn-eu.seatsio.net/chart.js"></script>
+						<script>
+							new seatsio.SeatingChartDesigner({
+								divId: 'chartDesigner',
+								secretKey: '<%= ENV['SEATS_IO_SECRET'] %>',
+								chartKey: '<%= @department.dep_map %>'
+							}).render();
+						</script>
+					<% end %>
 				</div>
 			</div>
 		</div>
