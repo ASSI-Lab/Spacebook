@@ -105,8 +105,6 @@
 						<% if @department.dep_map != nil%>
 							<div class="col-lg-6">
 								<button class="btn btn-outline-info" style="width: 100%" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>MapModal"> Mostra pianta </button>
-								<!-- Modal editor seats.io -->
-								<%= render 'modal_dep_map', department: @department %>
 							</div>
 						<% end %>
 					</div>
