@@ -9,7 +9,6 @@ class HomeController < ApplicationController
     @week_days = WeekDay.all
     @quick_reservation = QuickReservation.where(user_id: current_user.id).first if user_signed_in?
 
-   
     lati = params[:lati]
     long = params[:long]
 
@@ -119,7 +118,7 @@ class HomeController < ApplicationController
         direzione_vento = wind10m["direction"]
         prec_type = info_g1["prec_type"]
 
-        format.html { render :index, locals: {icon: icon, temperatura: temperatura, umidità: umidità, cc: cc, direzione_vento: direzione_vento, velocità: velocità, prec_type: prec_type, pa: pa, lati: lati, long: long}}
+        format.html { render :index, locals: {icon: icon, temperatura: temperatura, umidità: umidità, cc: cc, direzione_vento: direzione_vento, velocità: velocità, prec_type: prec_type, pa: pa}}
       end
     end
 

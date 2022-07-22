@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
     before_action :configure_permitted_parameters, if: :devise_controller?                  # Aggiunge parametri al controllo di sicurezza di devise
     helper_method :require_department
+    helper_method :get_coord
 
     protected
 
@@ -24,5 +25,20 @@ class ApplicationController < ActionController::Base
         redirect_to '/make_department'                                                                                                                # Reindirizza alla pagina di creazione del dipartimento
         flash[:alert] = "Attenzione: Avendo effettuato la registrazione come manager devi registrare il tuo dipartimento per poter accedere al sito!" # Mostra messagio di spiegazione
     end   
+
+    # Raccoglie e aggiorna le coordinate geografiche dell'indirizzo inserito. (metoco utilizzato nella create dei temp_dep e nella update dei temp_dei e dei department)
+    def get_coord ind
+        client = OpenStreetMap::Client.new
+        response = client.search(q: ind, format: 'json', addressdetails: '1', accept_language: 'en')
+        geo_data = response[0]
+        if geo_data==nil
+            return "error"
+        else
+            lat = geo_data["lat"]
+            lon = geo_data["lon"]
+            res =[lat,lon]
+            return res
+        end
+      end
 
 end

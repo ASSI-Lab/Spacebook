@@ -155,7 +155,17 @@ class DepartmentsController < ApplicationController
 
   def update
     authorize! :update, @department, :message => "Attenzione: Non sei autorizzato ad aggiornare i dipartimenti."
-    
+
+    coord = get_coord(@department.via+" "+@department.civico+" "+@department.citta+" "+@department.cap)
+    if coord=='error'
+      redirect_to '/manager_department'
+      flash[:alert] = "Attenzione: Errore indirizzo dipartimento!\nControlla l'indirizzo inserito e la tua connessione internet e riprova!" # Notifica l'utente
+      return
+    else
+      @department.latitude=coord[0]
+      @department.longitude=coord[1]
+    end
+
     respond_to do |format|
       if @department.update(department_params)
         format.html { redirect_to '/manager_department', notice: "Il dipartimento è stato aggiornato correttamente" }

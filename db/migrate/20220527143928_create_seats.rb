@@ -10,7 +10,7 @@ class CreateSeats < ActiveRecord::Migration[6.1]
       t.datetime :start_date, null: false
       t.datetime :end_date, null: false
 
-      t.string :state
+      t.string :state, null: false
 
       t.timestamps
     end

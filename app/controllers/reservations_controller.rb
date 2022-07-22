@@ -31,7 +31,7 @@ class ReservationsController < ApplicationController
         seat.update(position: seat.position+1)
 
         # Controllo se l'utente ha spuntato o meno la check di calendar
-        if sync_calendar == "1" # In caso positivo inizializzo con i dati opportuni la variabile res e chiamo sync_event
+        if sync_calendar=="1" # In caso positivo inizializzo con i dati opportuni la variabile res e chiamo sync_event
 
           res={}
           res["res_id"]=jcr.id
@@ -58,19 +58,10 @@ class ReservationsController < ApplicationController
 
       # Se il param è riferito ad un check per rimuovere uno spazio dai preferiti
       elsif (check[1] == "RmFavSp")
-        FavouriteSpace.find(check[0]).destroy # Raccoglie lo spazio preferito relativo e lo rimuove
+        FavouriteSpace.find((check[0].to_i)*(-1)).destroy # Raccoglie lo spazio preferito relativo e lo rimuove
       # Se il param è riferito ad un check per impostare uno spazio come prenotazione rapida
       elsif (check[1] == "SetQkRes")
-        # Ottiene l'id dello spazio da impostare
-        id_str = ""
-        check[0].each_char do |char|
-          if char=="0" or char=="1" or char=="2" or char=="3" or char=="4" or char=="5" or char=="6" or char=="7" or char=="8" or char=="9"
-            id_str.concat(char)
-          end
-        end
-        id_int = id_str.to_i
-
-        space = Space.find(id_int)                        # Raccoglie lo spazio relativo
+        space = Space.find(qk_parse(check[0]))            # Raccoglie lo spazio relativo
         department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
 
         # Imposta lo spazio come prenotazione rapida
@@ -78,44 +69,31 @@ class ReservationsController < ApplicationController
 
       # Se il param è riferito ad un check per sostituire uno spazio alla prenotazione rapida
       elsif (check[1] == "UpdateQkRes")
-
         qk_res = QuickReservation.where(user_id: current_user.id) # Raccoglie la prenotazione rapida relativa
-
-        # Ottiene l'id dello spazio da sostituire
-        id_str = ""
-        check[0].each_char do |char|
-          if char=="0" or char=="1" or char=="2" or char=="3" or char=="4" or char=="5" or char=="6" or char=="7" or char=="8" or char=="9"
-             id_str.concat(char)
-          end
-        end
-        id_int = id_str.to_i
-
-        space = Space.find(id_int)                        # Raccoglie lo spazio relativo
-        department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
+        space = Space.find(qk_parse(check[0]))                    # Raccoglie lo spazio relativo
+        department = Department.find(space.department_id)         # Raccoglie il dipartimento relativo
 
         # Aggiorna la prenotazione rapida
         qk_res.update(department_id: department.id, space_id: space.id, dep_name: department.name, typology: space.typology, space_name: space.name)
 
       # Se il param è riferito ad un check per rimuovere lo spazio dalla prenotazione rapida
       elsif (check[1] == "RmQkRes")
-
-        # Ottiene l'id dello spazio da rimuovere
-        id_str = ""
-        check[0].each_char do |char|
-          if char=="0" or char=="1" or char=="2" or char=="3" or char=="4" or char=="5" or char=="6" or char=="7" or char=="8" or char=="9"
-            id_str.concat(char)
-          end
-        end
-        id_int = id_str.to_i
-
-        QuickReservation.where(user_id: current_user.id, space_id: id_int).first.destroy # Rimuove la prenotazione rapida
-
+        QuickReservation.where(user_id: current_user.id, space_id: qk_parse(check[0])).first.destroy # Rimuove la prenotazione rapida
       end
     end
 
     respond_to do |format|
       format.html { render :reserved, locals: { make_res_parameters: params } }
     end
+  end
+
+  # Estrapola tramite parsing della striga l'id richiesto dalle check relative alla QuickReservation in /mmake_reservation
+  def qk_parse(qk_id)
+    id_str = ""
+    qk_id.each_char do |char|
+      id_str.concat(char) if [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ].include? char
+    end
+    return id_str.to_i
   end
 
   def create
@@ -125,6 +103,8 @@ class ReservationsController < ApplicationController
     respond_to do |format|
       if @reservation.save
         format.html { redirect_to '/user_reservations', notice: "Prenotazione '"+@reservation.typology+" - "+@reservation.space_name+"' effettuata correttamente" }
+      else
+        format.html { redirect_to request.referrer, status: :unprocessable_entity }
       end
     end
   end
@@ -148,7 +128,7 @@ class ReservationsController < ApplicationController
       @seat = Seat.find(@reservation.seat_id)
       @seat.update(position: @seat.position-1)
     end
-
+    
     # CONTROLLA SE LA PRENOTAZIONE È STATA SINCRONIZZATA SU CALENDAR RIMUOVENDOLA ANCHE DA LÌ IN CASO AFFERMATIVO
     if @reservation.is_sync!=nil
       remove_from_calendar @reservation
@@ -189,14 +169,14 @@ class ReservationsController < ApplicationController
     client_authorization.access_token = current_user.access_token
     client_authorization.refresh_token = current_user.refresh_token
     client_authorization.expires_at = current_user.expires_at
-
+    
     if current_user.expires_at <= Time.now.to_i
       redirect_to "/session_timeout"
     end
-
+    
     client.authorization = client_authorization
     client.authorization.grant_type = "refresh_token"
-
+    
     return client
   end
 

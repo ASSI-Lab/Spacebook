@@ -405,7 +405,7 @@
 																								<!-- Se l'utente ha aggiunto lo spazio corrente tra i preferiti, propone la rimozione -->
 																								<% if current_fav_sp.count == 1 %>
 																									<td><label class="h5"> Rimuovi spazio dalla lista preferiti </label></td>
-																									<td><%= form.check_box((current_fav_sp.first.id.to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "RmFavSp", unchecked_value = "0") %></td>
+																									<td><%= form.check_box((((current_fav_sp.first.id)*(-1)).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "RmFavSp", unchecked_value = "0") %></td>
 																								<!-- Se l'utente ha aggiunto lo spazio corrente tra i preferiti, propone l'aggiunta -->
 																								<% else %>
 																									<td><label class="h5"> Aggiungi spazio ai preferiti </label></td>
