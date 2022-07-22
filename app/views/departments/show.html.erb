@@ -195,5 +195,30 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="row mt-4">
+		<!-- Mappa del dipartimento -->
+		<div class="col">
+			<div class="card">
+				<div class="card-header text-center">
+					<label class="h3 mt-3 mb-0"> Pianta del dipartimento </label>
+					<div class="small"> Clicca sulla pianta per esplorare gli spazi del dipartimento selezionato. </div>
+				</div>
+				<div class="card-body">
+					<% if @department.dep_map!=nil %>
+						<div class="card bg-white" id="chart"></div>
+						<script src="https://cdn-eu.seatsio.net/chart.js"></script>
+						<script>
+							new seatsio.SeatingChart({
+								divId: 'chart',
+								workspaceKey: '<%= ENV['SEATS_IO_PUBLIC'] %>',
+								event: '<%= @department.dep_event %>'
+							}).render();
+						</script>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

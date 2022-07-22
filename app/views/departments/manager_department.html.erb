@@ -121,27 +121,10 @@
 					</div>
 				</div>
 				<div class="card-footer">
-					<div class="row">
-						<!-- Tasto per l'update -->
-						<div class="col-lg-6">
-							<button class="btn btn-outline-info" style="width: 100%" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>EditModal"> Modifica </button>
-							<!-- Modal edit department -->
-							<%= render 'modal_dep_edit', mydep: @department %>
-						</div>
-						<!-- Tasto per l'editor della pianta/per richiederlo -->
-						<div class="col-lg-6">
-							<% if @department.dep_map != nil %>
-								<button class="btn btn-outline-info" style="width: 100%" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>MapModal"> Mostra pianta </button>
-								<!-- Modal editor seats.io -->
-								<%= render 'modal_edit_map', department: @department %>
-							<% else %>
-								<%= form_with url: manager_map_initializer_path, local: true, method: :post do |form| %>
-									<%= form.number_field :dep_id, value: @department.id, readonly: true, style: 'display:none'%>
-									<button class="btn btn-outline-info" style="width: 100%"> Crea pianta </button>
-								<% end %>
-							<% end %>
-						</div>
-					</div>
+					<!-- Tasto per l'update -->
+					<button class="btn btn-outline-info" style="width: 100%" data-bs-toggle="modal" data-bs-target="#dep<%= @department.id %>EditModal"> Modifica </button>
+					<!-- Modal edit department -->
+					<%= render 'modal_dep_edit', mydep: @department %>
 				</div>
 			</div>
 		</div>
@@ -190,8 +173,8 @@
 		</div>
 	</div>
 
+	<!-- Prenotazioni del dipartimento -->
 	<div class="row mt-4">
-		<!-- Prenotazioni del dipartimento -->
 		<div class="col">
 			<div class="card">
 				<div class="card-header text-center">
@@ -239,9 +222,9 @@
 	</div>
 
 	<div class="row mt-4">
-		<!-- Grafico -->
-		<div class="col">
-			<div class="card">
+		<div class="col-lg-6">
+			<!-- Grafico -->
+			<div class="card" style="height: 100%">
 				<div class="card-header text-center">
 					<h3 class="font-weight-light my-3"> Disponibilità settimanale posti </h3>
 				</div>
@@ -267,16 +250,13 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	
-	<% if @department.dep_map != nil %>
-		<div class="row mt-4">
+		<div class="col-lg-6">
 			<!-- Editor mappa interattiva  -->
-			<div class="col">
-				<div class="card">
-					<div class="card-header text-center">
-						<h3 class="font-weight-light my-3"> Editor mappa interattiva </h3>
-					</div>
+			<div class="card" style="height: 100%">
+				<div class="card-header text-center">
+					<h3 class="font-weight-light my-3"> Mappa interattiva </h3>
+				</div>
+				<% if @department.dep_map != nil %>
 					<div class="card-body">
 						<div id="chartDesigner"></div>
 						<script src="https://cdn-eu.seatsio.net/chart.js"></script>
@@ -288,9 +268,22 @@
 							}).render();
 						</script>
 					</div>
-				</div>
+					<div class="card-footer">
+						<button class="btn btn-outline-info" style="width: 100%"> Elimina pianta </button>
+					</div>
+				<% else %>
+					<div class="card-body">
+						<p> Al momento non hai creato una pianta del tuo dipartimento... </p>
+					</div>
+					<div class="card-footer">
+						<%= form_with url: manager_map_initializer_path, local: true, method: :post do |form| %>
+							<%= form.number_field :dep_id, value: @department.id, readonly: true, style: 'display:none'%>
+							<button class="btn btn-outline-info" style="width: 100%"> Crea pianta </button>
+						<% end %>
+					</div>
+				<% end %>
 			</div>
 		</div>
-	<% end %>
+	</div>
 </body>
 </html>

@@ -31,7 +31,7 @@ class ReservationsController < ApplicationController
         seat.update(position: seat.position+1)
 
         # Controllo se l'utente ha spuntato o meno la check di calendar
-        if sync_calendar=="1" # In caso positivo inizializzo con i dati opportuni la variabile res e chiamo sync_event
+        if sync_calendar == "1" # In caso positivo inizializzo con i dati opportuni la variabile res e chiamo sync_event
 
           res={}
           res["res_id"]=jcr.id
@@ -125,8 +125,6 @@ class ReservationsController < ApplicationController
     respond_to do |format|
       if @reservation.save
         format.html { redirect_to '/user_reservations', notice: "Prenotazione '"+@reservation.typology+" - "+@reservation.space_name+"' effettuata correttamente" }
-      else
-        format.html { redirect_to request.referrer, status: :unprocessable_entity }
       end
     end
   end
@@ -150,7 +148,7 @@ class ReservationsController < ApplicationController
       @seat = Seat.find(@reservation.seat_id)
       @seat.update(position: @seat.position-1)
     end
-    
+
     # CONTROLLA SE LA PRENOTAZIONE È STATA SINCRONIZZATA SU CALENDAR RIMUOVENDOLA ANCHE DA LÌ IN CASO AFFERMATIVO
     if @reservation.is_sync!=nil
       remove_from_calendar @reservation
@@ -191,14 +189,14 @@ class ReservationsController < ApplicationController
     client_authorization.access_token = current_user.access_token
     client_authorization.refresh_token = current_user.refresh_token
     client_authorization.expires_at = current_user.expires_at
-    
+
     if current_user.expires_at <= Time.now.to_i
       redirect_to "/session_timeout"
     end
-    
+
     client.authorization = client_authorization
     client.authorization.grant_type = "refresh_token"
-    
+
     return client
   end
 

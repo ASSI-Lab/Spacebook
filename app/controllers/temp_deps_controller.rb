@@ -21,7 +21,7 @@ class TempDepsController < ApplicationController
   # Pagina di registrazione del dipartimento (creazione dei dati temporanei)
   def new
     # Controlla se l'utente ha effettuato l'accesso e se è manager, altrimenti lo reindirizza
-    if !user_signed_in? or !current_user.is_manager?
+    if !current_user.is_manager?
       redirect_to '/home'
       flash[:alert] = "ATTENZIONE: non essendo manager non puoi accedere a questa pagina!"
     # Controlla se il manager ha un dipartimento e se si lo reindirizza ad esso

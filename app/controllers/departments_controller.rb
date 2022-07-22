@@ -23,7 +23,6 @@ class DepartmentsController < ApplicationController
           @temp_dep = @temp_dep.first                                                                 # Inizializza il dipartimento temporaneo
           @temp_week_day = TempWeekDay.where(temp_dep_id: @temp_dep.id)                               # Raccoglie gli orari temporanei relativi al dipartimento temporaneo
           @temp_sps = TempSp.where(temp_dep_id: @temp_dep.id)                                         # Raccoglie gli spazi temporanei relativi al dipartimento temporaneo
-  
 
           # Crea il dipartimento effettivo con i dati temporanei
           @department = Department.create(user_id: current_user.id, name: @temp_dep.name, manager: @temp_dep.manager, via: @temp_dep.via, civico: @temp_dep.civico, cap: @temp_dep.cap, citta: @temp_dep.citta, provincia: @temp_dep.provincia,latitude: @temp_dep.lat,longitude: @temp_dep.lon, description: @temp_dep.description, floors: @temp_dep.floors, number_of_spaces: @temp_sps.count, dep_map: @temp_dep.dep_map, dep_event: @temp_dep.dep_event)
