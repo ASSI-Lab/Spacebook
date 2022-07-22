@@ -38,6 +38,7 @@ class Ability
       if Department.where(manager: user.email).count != 0
         can :manage, Reservation, :dep_name => Department.where(manager: user.email).first.name
         can :destroy, Department, :name => Department.where(manager: user.email).first.name
+        can :update, Department, :name => Department.where(manager: user.email).first.name
       end
       can :access, Department
       can :manage, TempDep

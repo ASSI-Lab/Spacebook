@@ -155,7 +155,7 @@ class DepartmentsController < ApplicationController
 
   def update
     authorize! :update, @department, :message => "Attenzione: Non sei autorizzato ad aggiornare i dipartimenti."
-
+    
     respond_to do |format|
       if @department.update(department_params)
         format.html { redirect_to '/manager_department', notice: "Il dipartimento è stato aggiornato correttamente" }
