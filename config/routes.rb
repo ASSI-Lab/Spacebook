@@ -42,7 +42,7 @@ Rails.application.routes.draw do
   # Prenotazioni
   get "/make_reservation", to: "reservations#new"
   post '/make_reservation', to: 'reservations#set_department', as: 'set_department'
-  post '/user_reservations', to: 'reservations#make_res', as: 'make_res'
+  post '/user_reservations', to: 'reservations#make_actions', as: 'make_actions'
   get "/make_quick_res", to: "quick_reservations#make_quick_res"
 
   post "/find_on_map", to:"home#find_on_map"

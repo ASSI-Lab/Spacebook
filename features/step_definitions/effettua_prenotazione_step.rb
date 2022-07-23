@@ -1,36 +1,33 @@
-Given('mi sono autenticato') do
+Given('mi sono autenticato MakeRes') do
     @utente = User.find(1)
     visit '/users/sign_in'
     fill_in 'email', with: 'fra.user@gmail.com'
     fill_in 'password', with: 'password'
     click_button 'Accedi'
 end
-  
-And('sono nella pagina per effettuare una prenotazione') do
+
+And('vado alla pagina per effettuare una prenotazione MakeRes') do
     visit '/make_reservation'
 end
-  
-When('seleziono un dipartimento tra i dipartimenti dal menu a tendina') do
+
+When('seleziono un dipartimento MakeRes') do
     @posto = Seat.find(743)
     @num_posto = @posto.position
     @spazio = Space.find(@posto.space_id)
     @dipartimento = Department.find(@spazio.department_id)
-end
-
-And('clicco il bottone per filtrare il dipartimento') do
     click_button 'Filtra dipartimento'
 end
 
-And('seleziono una casella di un posto dello spazio') do
+And('seleziono una casella di un posto da prenotare') do
     check(@posto.id)
 end
-  
-And('confermo tramite l\'apposito bottone') do
+
+And('confermo tramite l\'apposito bottone MakeRes') do
     click_button 'Conferma'
 end
-  
+
 Then('dovrei essere reindirizzato alla pagina di mie prenotazione') do
-    expect(page).to have_current_path('/user_reservations') 
+    expect(page).to have_current_path('/user_reservations')
 end
 
 And('nella tabella trovo i dati della prenotazione appena effettuata') do

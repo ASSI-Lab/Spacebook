@@ -7,3 +7,8 @@ rake db:migrate
 rake db:seed
 reset
 rails s
+
+rake db:create RAILS_ENV=test
+rake db:schema:load RAILS_ENV=test
+rake db:test:prepare
+rake db:seed RAILS_ENV=test

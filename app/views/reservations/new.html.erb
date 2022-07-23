@@ -237,7 +237,7 @@
 		</div>
 
 		<!-- Form per selezionare gli spazi e gli orari da prenotare -->
-		<%= form_with url: make_res_path, local: true, method: :post do |form| %>
+		<%= form_with url: make_actions_path, local: true, method: :post do |form| %>
 			<div class="row">
 				<div class="col">
 					<div class="card mt-4">
@@ -433,7 +433,7 @@
 																									<!-- Se invece lo spazio coente è lo stesso della prenotazione rapida, propone la rimozione -->
 																									<% else %>
 																										<td><label class="h5"> Rimuovi prenotazione rapida </label></td>
-																										<td><%= form.check_box(("QR").concat((current_sp.id).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "RmQkRes", unchecked_value = "0") %></td>
+																										<td><%= form.check_box(("QR").concat((current_qk_res.first.id).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "RmQkRes", unchecked_value = "0") %></td>
 																									<% end %>
 																								<!-- Se invece l'utente non ha impostato una prenotazione rapida, propone di impostarla -->
 																								<% else %>
@@ -476,10 +476,6 @@
 				<%= form.submit "Conferma", data: { confirm: "Prenotare gli orari selezionati e procedere con le azioni selezionate per gli spazi?" }, type: "submit", class: "btn btn-outline-info mt-2" %>
 			</div>
 		<% end %>
-
-		<div class="row mt-4">
-			
-		</div>
 	<% end %>
 
 	<!-- Modal che si sovrappone al sito durante i caricamenti -->

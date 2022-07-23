@@ -1,6 +1,7 @@
 class ReservationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_reservation, only: %i[ show edit update destroy ]
+  helper_method :miao
 
   # Raccoglie il nome del dipartimento selezionato dall'utente, ne carica gli spazi e reindirizza a '/make_rexservation'
   def set_department
@@ -12,7 +13,7 @@ class ReservationsController < ApplicationController
   end
 
   # Raccoglie le azioni e gli spazi richiesti dall'utente e agisce di conseguenza, infine reindirizza a '/user_reservation'
-  def make_res
+  def make_actions
 
     sync_calendar = params["calendar_check"] # Raccoglie lo stato della check di calendar (Spuntata o meno)
 
@@ -21,64 +22,33 @@ class ReservationsController < ApplicationController
       # Se il param è riferito ad un check degli spazi da prenotare
       if (check[1] == "MakeRes")
 
-        seat = Seat.find(check[0])                        # Raccoglie il posto relativo
-        space = Space.find(seat.space_id)                 # Raccoglie lo spazio relativo
-        department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
-
-        # Crea la prenotazione con i dati sopra raccolti
-        jcr = Reservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, seat_id: seat.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name, floor: space.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Valida")
-        # Modifica il posto per renderlo occupato
-        seat.update(position: seat.position+1)
-
-        # Controllo se l'utente ha spuntato o meno la check di calendar
-        if sync_calendar=="1" # In caso positivo inizializzo con i dati opportuni la variabile res e chiamo sync_event
-
-          res={}
-          res["res_id"]=jcr.id
-          res["name_dip"]=department.name
-          res["space"]=space.typology.concat(" - ",space.name)
-          res["seat"]=seat.position.to_s
-          res["place"]=department.via.concat(", ",department.civico,", ",department.cap,", ",department.citta,", ",department.provincia)
-          res["start_date"]=seat.start_date
-          res["end_date"]=seat.end_date
-
-          # INVIO L'HASH APPENA CREATO PER L'INVIO A GOOGLE CALENDAR
-          sync_event res
-
-        end
+        make_res(check[0].to_i, sync_calendar)
 
       # Se il param è riferito ad un check per aggiungere uno spazio ai preferiti
       elsif (check[1] == "AddFavSp")
 
-        space = Space.find((check[0].to_i)*(-1))          # Raccoglie lo spazio relativo
-        department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
-
-        # Aggiunge lo spazio alla lista dei preferiti
-        FavouriteSpace.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name)
+        add_fav_sp((check[0].to_i)*(-1))
 
       # Se il param è riferito ad un check per rimuovere uno spazio dai preferiti
       elsif (check[1] == "RmFavSp")
-        FavouriteSpace.find((check[0].to_i)*(-1)).destroy # Raccoglie lo spazio preferito relativo e lo rimuove
+
+        rm_fav_sp((check[0].to_i)*(-1))
+
       # Se il param è riferito ad un check per impostare uno spazio come prenotazione rapida
       elsif (check[1] == "SetQkRes")
-        space = Space.find(qk_parse(check[0]))            # Raccoglie lo spazio relativo
-        department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
 
-        # Imposta lo spazio come prenotazione rapida
-        QuickReservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.id, dep_name: department.name, typology: space.typology, space_name: space.name)
+        set_qk_res(qk_parse(check[0]))
 
       # Se il param è riferito ad un check per sostituire uno spazio alla prenotazione rapida
       elsif (check[1] == "UpdateQkRes")
-        qk_res = QuickReservation.where(user_id: current_user.id) # Raccoglie la prenotazione rapida relativa
-        space = Space.find(qk_parse(check[0]))                    # Raccoglie lo spazio relativo
-        department = Department.find(space.department_id)         # Raccoglie il dipartimento relativo
 
-        # Aggiorna la prenotazione rapida
-        qk_res.update(department_id: department.id, space_id: space.id, dep_name: department.name, typology: space.typology, space_name: space.name)
+        update_qk_res(qk_parse(check[0]))
 
       # Se il param è riferito ad un check per rimuovere lo spazio dalla prenotazione rapida
       elsif (check[1] == "RmQkRes")
-        QuickReservation.where(user_id: current_user.id, space_id: qk_parse(check[0])).first.destroy # Rimuove la prenotazione rapida
+
+        update_qk_res(qk_parse(check[0]))
+
       end
     end
 
@@ -89,12 +59,92 @@ class ReservationsController < ApplicationController
 
   # Estrapola tramite parsing della striga l'id richiesto dalle check relative alla QuickReservation in /mmake_reservation
   def qk_parse(qk_id)
+
     id_str = ""
+
     qk_id.each_char do |char|
       id_str.concat(char) if [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ].include? char
     end
+
     return id_str.to_i
+
   end
+
+  # Prenota il posto richiesto
+  def make_res(id_seat, sync_cal)
+
+    seat = Seat.find(id_seat)                         # Raccoglie il posto relativo
+    space = Space.find(seat.space_id)                 # Raccoglie lo spazio relativo
+    department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
+
+    # Crea la prenotazione con i dati sopra raccolti
+    jcr = Reservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, seat_id: seat.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name, floor: space.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Valida")
+    # Modifica il posto per renderlo occupato
+    seat.update(position: seat.position+1)
+
+    # Controllo se l'utente ha spuntato o meno la check di calendar
+    if sync_cal=="1" # In caso positivo inizializzo con i dati opportuni la variabile res e chiamo sync_event
+
+      res = {}
+      res["res_id"] = jcr.id
+      res["name_dip"] = department.name
+      res["space"] = space.typology.concat(" - ",space.name)
+      res["seat"] = seat.position.to_s
+      res["place"] = department.via.concat(", ",department.civico,", ",department.cap,", ",department.citta,", ",department.provincia)
+      res["start_date"] = seat.start_date
+      res["end_date"] = seat.end_date
+
+      # INVIO L'HASH APPENA CREATO PER L'INVIO A GOOGLE CALENDAR
+      sync_event res
+
+    end
+
+  end
+
+  # Aggiunge ai preferiti lo spazio richiesto
+  def add_fav_sp(id_space)
+
+    space = Space.find(id_space)                      # Raccoglie lo spazio relativo
+    department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
+
+    # Aggiunge lo spazio alla lista dei preferiti
+    FavouriteSpace.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name)
+
+  end
+
+  # Rimuove dai preferiti lo spazio richiesto
+  def rm_fav_sp(id_fav_space)
+    FavouriteSpace.find(id_fav_space).destroy # Raccoglie lo spazio preferito relativo e lo rimuove
+  end
+
+  # Imposta la prenotazione rapida sullo spazio richiesto
+  def set_qk_res(id_space)
+
+    space = Space.find(id_space)                      # Raccoglie lo spazio relativo
+    department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
+
+    # Imposta lo spazio come prenotazione rapida
+    QuickReservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.id, dep_name: department.name, typology: space.typology, space_name: space.name)
+
+  end
+
+  # Sostituisce la prenotazione rapida con lo spazio richiesto
+  def update_qk_res(id_space)
+
+    qk_res = QuickReservation.where(user_id: current_user.id) # Raccoglie la prenotazione rapida relativa
+    space = Space.find(id_space)                              # Raccoglie lo spazio relativo
+    department = Department.find(space.department_id)         # Raccoglie il dipartimento relativo
+
+    # Aggiorna la prenotazione rapida
+    qk_res.update(department_id: department.id, space_id: space.id, dep_name: department.name, typology: space.typology, space_name: space.name)
+
+  end
+
+  # Toglie lo spazio richiesto dalla prenotazione rapida
+  def rm_qk_res(id_qk_space)
+    QuickReservation.find(id_qk_space).destroy # Rimuove la prenotazione rapida
+  end
+
 
   def create
     authorize! :create, @reservation, :message => "Attenzione: Non sei autorizzato ad effettuare prenotazioni!"
@@ -124,11 +174,11 @@ class ReservationsController < ApplicationController
   def destroy
 
     # Libera il posto della prenotazione eliminata
-    if ( @reservation.start_date.strftime("%Y%m%d%T") > DateTime.now.strftime("%Y%m%d%T") )
+    if @reservation.state == "Valida"
       @seat = Seat.find(@reservation.seat_id)
       @seat.update(position: @seat.position-1)
     end
-    
+
     # CONTROLLA SE LA PRENOTAZIONE È STATA SINCRONIZZATA SU CALENDAR RIMUOVENDOLA ANCHE DA LÌ IN CASO AFFERMATIVO
     if @reservation.is_sync!=nil
       remove_from_calendar @reservation

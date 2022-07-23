@@ -6,7 +6,7 @@ class SessionsController < Devise::SessionsController
         yield resource if block_given?
         respond_with(resource, serialize_options(resource))
     end
-    
+
     def create
         self.resource = warden.authenticate!(auth_options)
         set_flash_message!(:notice, :signed_in)
@@ -49,7 +49,7 @@ class SessionsController < Devise::SessionsController
           end
         end
     end
-    
+
     def make_abstract_request
         uri = URI("https://ipgeolocation.abstractapi.com/v1/?api_key=#{ENV['ABSTRACT_GEO_KEY']}")
 
@@ -67,6 +67,6 @@ class SessionsController < Devise::SessionsController
     rescue StandardError => error
         puts "Error (#{ error.message })"
         return "error"
-    end    
+    end
 
 end
