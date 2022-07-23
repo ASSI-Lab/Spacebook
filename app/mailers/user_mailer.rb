@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-    default from: 'notifications@example.com'
+    default from: 'spacebook.adm@gmail.com'
  
   def blocked_account_email
     @user = params[:user]

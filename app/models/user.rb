@@ -73,4 +73,12 @@ class User < ApplicationRecord
     user
   end
 
+  def is_banned?
+    if self.locked_at!=nil
+      return 'true'
+    else
+      return 'false'
+    end
+  end
+
 end

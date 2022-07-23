@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 2022_07_21_081542) do
     t.integer "position", null: false
     t.datetime "start_date", null: false
     t.datetime "end_date", null: false
-    t.string "state"
+    t.string "state", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["dep_name", "typology", "space_name", "position", "start_date", "end_date", "state"], name: "seats_index", unique: true
