@@ -52,6 +52,7 @@ Rails.application.routes.draw do
       get :confirm_email
       patch :ban
       patch :set_manager
+      patch :manager_req
     end
   end
 

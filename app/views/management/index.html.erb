@@ -120,7 +120,11 @@
 								<% end %>
 								<% if user.role!='admin'%>
 									<td><%= button_to ban_status(user), ban_user_path(user) , method: :patch, id:user.id.to_s+ban_status(user), class: "btn btn-sm btn-outline-info", style: "width:100%"%></td>
-									<td><%= button_to manager_status(user), set_manager_user_path(user) , method: :patch, class: "btn btn-sm btn-outline-info", style: "width:100%"%></td>
+									<% if user.requested_manager!=nil || user.is_manager?%>
+										<td><%= button_to manager_status(user), set_manager_user_path(user) , method: :patch, class: "btn btn-sm btn-outline-info", style: "width:100%"%></td>
+									<% else %>
+										<td></td>
+									<% end %>
 								<% else %>
 									<td></td>
 									<td></td>

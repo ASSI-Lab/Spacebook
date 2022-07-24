@@ -28,12 +28,25 @@ class UsersController < ApplicationController
             @user.save
             UserMailer.with(user: @user).accepted_manager_email.deliver_now
         end
+        @user.requested_manager = nil
+        @user.save
         redirect_to request.referrer
         flash[:notice] = "All' account (\"#{@user.email}\") è stato #{@user.is_manager? ? "aggiunto" : "rimosso"} il ruolo di Manager con successo!"
     end
 
     def user_params
         params.require(:user).permit(:name, :email, :password, :password_confirmation, :role, :requested_manager)
+    end
+
+    def manager_req
+        @user = User.find(params[:id])
+        @user.requested_manager = 'true'
+        @user.save
+        User.where(role: 'admin').each do |admin|
+        AdminMailer.with(user: @user).request_manager_role_email(admin.email).deliver_now
+        end
+        redirect_to request.referrer
+        flash[:notice] = "Hai richiesto il ruolo di Manager con successo!"
     end
 
 end

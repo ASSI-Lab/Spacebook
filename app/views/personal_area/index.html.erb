@@ -60,11 +60,19 @@
 			<div class="row">
 				<!-- Link alle varie pagine -->
 				<div class="col-lg-12 pb-4">
-					<div class="card mb-4">
-						<div class="card-header"> 
-							<label class="h4 bi bi-person-lines-fill my-2"> <%= current_user.email %> </label>
+					<div class='row'>
+						<div class="card mb-4">
+							<div class="card-header"> 
+								<label class="h4 bi bi-person-lines-fill my-2"> <%= current_user.email %> </label>
+								
+							</div>
 						</div>
 					</div>
+				<% if current_user.is_user? && current_user.requested_manager==nil%>
+					<div class='row mb-4'>
+						<%= button_to 'Richiedi ruolo Manager', manager_req_user_path(current_user) , method: :patch, class: "btn btn-sm btn-outline-info", style: "width:100%"%>
+					</div>
+				<% end %>
 					<div class="row">
 						<div class="col-lg-4">
 							<div class="card" style="height: 100%; cursor: pointer">
