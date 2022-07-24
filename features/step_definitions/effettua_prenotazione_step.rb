@@ -19,7 +19,7 @@ When('seleziono un dipartimento MakeRes') do
 end
 
 And('seleziono una casella di un posto da prenotare') do
-    check(@posto.id)
+    check(@posto.id.to_s)
 end
 
 And('confermo tramite l\'apposito bottone MakeRes') do

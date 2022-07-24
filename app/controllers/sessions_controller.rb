@@ -60,8 +60,8 @@ class SessionsController < Devise::SessionsController
         request =  Net::HTTP::Get.new(uri)
 
         response = http.request(request)
-        puts "Status code: #{ response.code }"
-        puts "Response body: #{ response.body }"
+        #puts "Status code: #{ response.code }"
+        #puts "Response body: #{ response.body }"
         deliv = JSON.parse(response.body)
         return [deliv["latitude"],deliv["longitude"]]
     rescue StandardError => error

@@ -16,7 +16,7 @@ describe 'make reservation process', type: :feature do
             visit '/make_reservation'
             click_button 'Filtra dipartimento'
 
-            check(@seat.id)
+            check(@seat.id.to_s)
             click_button 'Conferma'
         end
 

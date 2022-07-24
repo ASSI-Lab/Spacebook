@@ -433,7 +433,7 @@
 																									<!-- Se invece lo spazio coente è lo stesso della prenotazione rapida, propone la rimozione -->
 																									<% else %>
 																										<td><label class="h5"> Rimuovi prenotazione rapida </label></td>
-																										<td><%= form.check_box(("QR").concat((current_sp.id).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "RmQkRes", unchecked_value = "0") %></td>
+																										<td><%= form.check_box(("QR").concat((current_qk_res.first.id).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "RmQkRes", unchecked_value = "0") %></td>
 																									<% end %>
 																								<!-- Se invece l'utente non ha impostato una prenotazione rapida, propone di impostarla -->
 																								<% else %>

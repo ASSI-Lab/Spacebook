@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2022_07_21_081542) do
     t.string "dep_map"
     t.string "dep_event"
     t.text "description"
-    t.integer "floors", null: false
+    t.integer "floors"
     t.integer "number_of_spaces"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
