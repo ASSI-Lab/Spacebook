@@ -2,6 +2,7 @@ Feature: aggiungi lo spazio selezionato ai preferiti
 
 Background:
     Given mi sono autenticato AddFavSp
+    And è presente un dipartimento AddFavSp
     And vado alla pagina per effettuare una prenotazione AddFavSp
     And seleziono un dipartimento AddFavSp
 

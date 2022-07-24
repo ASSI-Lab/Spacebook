@@ -1,5 +1,5 @@
 Given('mi sono già registrato come utente') do
-    @utente = User.find(1)
+    @user = FactoryBot.create(:user_user)
 end
 
 And('mi trovo nella pagina di login') do
@@ -7,11 +7,11 @@ And('mi trovo nella pagina di login') do
 end
 
 When('inserisco email e password') do
-    fill_in 'email', with: 'fra.user@gmail.com'
-    fill_in 'password', with: 'password'
+    fill_in 'email', with: @user.email
+    fill_in 'password', with: @user.password
 end
 
-And('clicco sul bottone accedi - bene') do
+And('clicco sul bottone accedi va a buon fine') do
     click_button 'Accedi'
 end
 
@@ -22,11 +22,11 @@ end
 
 
 When('inserisco email e\/o password errata') do
-    fill_in 'email', with: 'fra.user@gmail.com'
-    fill_in 'password', with: 'password1'
+    fill_in 'email', with: @user.email
+    fill_in 'password', with: 'passwordErrata'
 end
 
-And('clicco sul bottone accedi - male') do
+And('clicco sul bottone accedi non va a buon fine') do
     click_button 'Accedi'
 end
 

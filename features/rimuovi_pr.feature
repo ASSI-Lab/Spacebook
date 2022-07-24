@@ -2,6 +2,7 @@ Feature: rimuovi prenotazione rapida
 
 Background:
     Given mi sono autenticato RmQkRes
+    And è presente un dipartimento RmQkRes
     And vado alla pagina per effettuare una prenotazione RmQkRes
     And seleziono un dipartimento RmQkRes
     And ho impostato uno spazio come prenotazione rapida RmQkRes

@@ -7,10 +7,10 @@
 # Se volete cambiare alcuni dati nel seed assicuratevi che siano della giusta tipologia relativa al campo che state inserendo
 
 # Creazione degli utenti base. Effettuate l'accesso con questi dati per eventuali test.
-User.create(email: "fra.user@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
-User.create(email: "matteo.user@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
-User.create(email: "michela.user@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
-User.create(email: "donia.user@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
+@fra_usr = User.create(email: "fra.user@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
+@mat_usr = User.create(email: "matteo.user@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
+@mic_usr = User.create(email: "michela.user@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
+@don_usr = User.create(email: "donia.user@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'user')
 
 # Creazione degli utenti manager. Effettuate l'accesso con questi dati per eventuali test.
 @fra_man = User.create(email: "fra.manager@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
@@ -19,10 +19,10 @@ User.create(email: "donia.user@gmail.com",   password: "password", created_at: T
 @don_man = User.create(email: "donia.manager@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'manager')
 
 # Creazione degli utenti admin. Effettuate l'accesso con questi dati per eventuali test.
-User.create(email: "fra.admin@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
-User.create(email: "matteo.admin@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
-User.create(email: "michela.admin@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
-User.create(email: "donia.admin@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+@fra_adm = User.create(email: "fra.admin@gmail.com",     password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+@mat_adm = User.create(email: "matteo.admin@gmail.com",  password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+@mic_adm = User.create(email: "michela.admin@gmail.com", password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
+@don_adm = User.create(email: "donia.admin@gmail.com",   password: "password", created_at: Time.zone.now, confirmed_at: Time.zone.now, role: 'admin')
 
 # Insieme dei dati per creare i dipartimenti
 dep_set = [
@@ -46,7 +46,7 @@ dep_set = [
     },
 
     {user_id: @don_man.id, name: "Dipartimento di Donia", manager: @don_man.email,
-     via: "Via Eudossiana", civico: "18", cap: "00184", citta: "Roma", provincia: "RM", latitude: "41.8932591", longitude: "12.4930178",
+     via: "Via mura dei francesi", civico: "10", cap: "00043", citta: "Ciampino", provincia: "RM", latitude: "41.80299", longitude: "12.59893",
      description: "Per gestire o testare questo dipartimento accedi come 'donia.manager@gmail.com'",
      floors: 4, number_of_spaces: 4
     }
@@ -75,8 +75,8 @@ dep_set.each do |dep|
 
     # Insieme dei dati per creare gli spazi
     sp_set = [
-        {department_id: curr_dep.id, dep_name: curr_dep.name, typology: "Isola", name: "D", description: "Prese di corrente inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
         {department_id: curr_dep.id, dep_name: curr_dep.name, typology: "Isola", name: "C", description: "Prese di corrente ancora più inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
+        {department_id: curr_dep.id, dep_name: curr_dep.name, typology: "Isola", name: "D", description: "Prese di corrente inutili", floor: 1, number_of_seats: 2, state: "Abilitato"},
         {department_id: curr_dep.id, dep_name: curr_dep.name, typology: "Aula", name: "106", description: "Microfono non funzionante", floor: 1, number_of_seats: 4, state: "Abilitato"},
         {department_id: curr_dep.id, dep_name: curr_dep.name, typology: "Aula", name: "204", description: "Forma strana", floor: 2, number_of_seats: 8, state: "Abilitato"}
     ]
@@ -123,6 +123,51 @@ dep_set.each do |dep|
             end
         end
     end
+
+    # Aggiunta degli spazi preferiti
+    FavouriteSpace.create( user_id: @fra_usr.id, department_id: 4, space_id: 13, email: @fra_usr.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @mat_usr.id, department_id: 4, space_id: 13, email: @mat_usr.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @mic_usr.id, department_id: 4, space_id: 13, email: @mic_usr.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @don_usr.id, department_id: 4, space_id: 13, email: @don_usr.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @fra_usr.id, department_id: 4, space_id: 16, email: @fra_usr.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+    FavouriteSpace.create( user_id: @mat_usr.id, department_id: 4, space_id: 16, email: @mat_usr.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+    FavouriteSpace.create( user_id: @mic_usr.id, department_id: 4, space_id: 16, email: @mic_usr.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+    FavouriteSpace.create( user_id: @don_usr.id, department_id: 4, space_id: 16, email: @don_usr.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+
+    FavouriteSpace.create( user_id: @fra_man.id, department_id: 4, space_id: 13, email: @fra_man.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @mat_man.id, department_id: 4, space_id: 13, email: @mat_man.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @mic_man.id, department_id: 4, space_id: 13, email: @mic_man.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @don_man.id, department_id: 4, space_id: 13, email: @don_man.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @fra_man.id, department_id: 4, space_id: 16, email: @fra_man.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+    FavouriteSpace.create( user_id: @mat_man.id, department_id: 4, space_id: 16, email: @mat_man.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+    FavouriteSpace.create( user_id: @mic_man.id, department_id: 4, space_id: 16, email: @mic_man.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+    FavouriteSpace.create( user_id: @don_man.id, department_id: 4, space_id: 16, email: @don_man.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+
+    FavouriteSpace.create( user_id: @fra_adm.id, department_id: 4, space_id: 13, email: @fra_adm.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @mat_adm.id, department_id: 4, space_id: 13, email: @mat_adm.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @mic_adm.id, department_id: 4, space_id: 13, email: @mic_adm.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @don_adm.id, department_id: 4, space_id: 13, email: @don_adm.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "C" )
+    FavouriteSpace.create( user_id: @fra_adm.id, department_id: 4, space_id: 16, email: @fra_adm.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+    FavouriteSpace.create( user_id: @mat_adm.id, department_id: 4, space_id: 16, email: @mat_adm.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+    FavouriteSpace.create( user_id: @mic_adm.id, department_id: 4, space_id: 16, email: @mic_adm.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+    FavouriteSpace.create( user_id: @don_adm.id, department_id: 4, space_id: 16, email: @don_adm.email, dep_name: "Dipartimento di Donia", typology: "Aula", space_name: "204" )
+
+    # Aggiunta delle prenotazioni rapide
+    QuickReservation.create( user_id: @fra_usr.id, department_id: 4, space_id: 14, email: @fra_usr.email, dep_name: "Dipartimento di donia", typology: "Isola", space_name: "D" )
+    QuickReservation.create( user_id: @mat_usr.id, department_id: 4, space_id: 14, email: @mat_usr.email, dep_name: "Dipartimento di donia", typology: "Isola", space_name: "D" )
+    QuickReservation.create( user_id: @mic_usr.id, department_id: 4, space_id: 14, email: @mic_usr.email, dep_name: "Dipartimento di donia", typology: "Isola", space_name: "D" )
+    QuickReservation.create( user_id: @don_usr.id, department_id: 4, space_id: 14, email: @don_usr.email, dep_name: "Dipartimento di donia", typology: "Isola", space_name: "D" )
+
+    QuickReservation.create( user_id: @fra_man.id, department_id: 4, space_id: 14, email: @fra_man.email, dep_name: "Dipartimento di donia", typology: "Isola", space_name: "D" )
+    QuickReservation.create( user_id: @mat_man.id, department_id: 4, space_id: 14, email: @mat_man.email, dep_name: "Dipartimento di donia", typology: "Isola", space_name: "D" )
+    QuickReservation.create( user_id: @mic_man.id, department_id: 4, space_id: 14, email: @mic_man.email, dep_name: "Dipartimento di donia", typology: "Isola", space_name: "D" )
+    QuickReservation.create( user_id: @don_man.id, department_id: 4, space_id: 14, email: @don_man.email, dep_name: "Dipartimento di donia", typology: "Isola", space_name: "D" )
+
+    QuickReservation.create( user_id: @fra_adm.id, department_id: 4, space_id: 14, email: @fra_adm.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "D" )
+    QuickReservation.create( user_id: @mat_adm.id, department_id: 4, space_id: 14, email: @mat_adm.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "D" )
+    QuickReservation.create( user_id: @mic_adm.id, department_id: 4, space_id: 14, email: @mic_adm.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "D" )
+    QuickReservation.create( user_id: @don_adm.id, department_id: 4, space_id: 14, email: @don_adm.email, dep_name: "Dipartimento di Donia", typology: "Isola", space_name: "D" )
+
 end
 
 

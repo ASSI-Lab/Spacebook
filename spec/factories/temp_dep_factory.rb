@@ -2,7 +2,7 @@ FactoryBot.define do
     factory :temp_dep do
         user_id             {1}
         name                {'Test department'}
-        manager             {'john.manager@doe.com'}
+        manager             {'test.manager@gmail.com'}
         via                 {'Via eudossiana'}
         civico              {'8'}
         cap                 {'00185'}

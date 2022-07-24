@@ -1,9 +1,26 @@
 Given('mi sono autenticato RmQkRes') do
-    @utente = User.find(1)
+    @manager = FactoryBot.create(:user_manager)
+
     visit '/users/sign_in'
-    fill_in 'email', with: 'fra.user@gmail.com'
-    fill_in 'password', with: 'password'
+    fill_in 'Email', with: @manager.email
+    fill_in 'Password', with: @manager.password
     click_button 'Accedi'
+end
+
+And ('è presente un dipartimento RmQkRes') do
+    @temp_dep = FactoryBot.create(:temp_dep)
+
+    @temp_week_day_lunedi = FactoryBot.create(:temp_week_day_lunedi)
+    @temp_week_day_martedi = FactoryBot.create(:temp_week_day_martedi)
+    @temp_week_day_mercoledi = FactoryBot.create(:temp_week_day_mercoledi)
+    @temp_week_day_giovedi = FactoryBot.create(:temp_week_day_giovedi)
+    @temp_week_day_venerdi = FactoryBot.create(:temp_week_day_venerdi)
+    @temp_week_day_sabato = FactoryBot.create(:temp_week_day_sabato)
+    @temp_week_day_domenica = FactoryBot.create(:temp_week_day_domenica)
+
+    @temp_sp_1 = FactoryBot.create(:temp_sp_1)
+
+    visit '/manager_department'
 end
 
 And('vado alla pagina per effettuare una prenotazione RmQkRes') do
@@ -15,7 +32,7 @@ And('seleziono un dipartimento RmQkRes') do
 end
 
 And('ho impostato uno spazio come prenotazione rapida RmQkRes') do
-    check("QR15")
+    check("QR1")
     click_button 'Conferma'
 end
 

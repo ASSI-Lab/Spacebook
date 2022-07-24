@@ -1,11 +1,14 @@
 Eseguire questi comandi ad ogni pull: Il primo comando è solo per me perche sono pigro :)
 
 cd Scrivania/ASSI/Spacebook
+
+# dopo ogni pull
 bundle install
 rake db:drop
 rake db:migrate
 rake db:seed
 rake db:test:prepare
-rake db:seed RAILS_ENV=test
-reset
 rails s
+
+# per eseguire tutti i test insieme
+rake

@@ -3,21 +3,21 @@ FactoryBot.define do
     factory :user do
 
       factory :user_user do
-        email { "john.user@doe.com" }
+        email { "test.user@gmail.com" }
         password  { "password" }
         confirmed_at { Time.now }
         role {'user'}
       end
 
       factory :user_manager do
-        email { "john.manager@doe.com" }
+        email { "test.manager@gmail.com" }
         password  { "password" }
         confirmed_at { Time.now }
         role {'manager'}
       end
 
       factory :user_admin do
-        email { "john.admin@doe.com" }
+        email { "test.admin@gmail.com" }
         password  { "password" }
         confirmed_at { Time.now }
         role {'admin'}

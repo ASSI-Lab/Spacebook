@@ -123,7 +123,7 @@ class ReservationsController < ApplicationController
     department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
 
     # Imposta lo spazio come prenotazione rapida
-    QuickReservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.id, dep_name: department.name, typology: space.typology, space_name: space.name)
+    QuickReservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name)
 
   end
 

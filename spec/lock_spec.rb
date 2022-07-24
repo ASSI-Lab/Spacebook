@@ -3,12 +3,12 @@ require 'rails_helper'
 describe 'lock_user process', type: :feature do
 
     before(:each) do
-        @user = User.find(9)
-        @target = User.find(1)
+        @admin = FactoryBot.create(:user_admin)
+        @target = FactoryBot.create(:user_user)
 
         visit '/users/sign_in'
-        fill_in 'email', with: @user.email
-        fill_in 'password', with: 'password'
+        fill_in 'email', with: @admin.email
+        fill_in 'password', with: @admin.password
         click_button 'Accedi'
 
         visit '/management'
@@ -17,7 +17,7 @@ describe 'lock_user process', type: :feature do
 
     context 'locking seen by the locking admin' do
         before(:each) do
-            @target = User.find(1)
+            @target = User.find(2)
         end
 
         it "should have the locking_reason not null for the locked user" do

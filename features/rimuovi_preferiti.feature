@@ -2,6 +2,7 @@ Feature: rimuovi lo spazio selezionato dai preferiti
 
 Background:
     Given mi sono autenticato RmFavSp
+    And è presente un dipartimento RmFavSp
     And vado alla pagina per effettuare una prenotazione RmFavSp
     And seleziono un dipartimento RmFavSp
     And ho aggiunto uno spazio ai preferiti

@@ -1,9 +1,26 @@
 Given('mi sono autenticato SetQkRes') do
-    @utente = User.find(1)
+    @manager = FactoryBot.create(:user_manager)
+
     visit '/users/sign_in'
-    fill_in 'email', with: 'fra.user@gmail.com'
-    fill_in 'password', with: 'password'
+    fill_in 'Email', with: @manager.email
+    fill_in 'Password', with: @manager.password
     click_button 'Accedi'
+end
+
+And ('è presente un dipartimento SetQkRes') do
+    @temp_dep = FactoryBot.create(:temp_dep)
+
+    @temp_week_day_lunedi = FactoryBot.create(:temp_week_day_lunedi)
+    @temp_week_day_martedi = FactoryBot.create(:temp_week_day_martedi)
+    @temp_week_day_mercoledi = FactoryBot.create(:temp_week_day_mercoledi)
+    @temp_week_day_giovedi = FactoryBot.create(:temp_week_day_giovedi)
+    @temp_week_day_venerdi = FactoryBot.create(:temp_week_day_venerdi)
+    @temp_week_day_sabato = FactoryBot.create(:temp_week_day_sabato)
+    @temp_week_day_domenica = FactoryBot.create(:temp_week_day_domenica)
+
+    @temp_sp_1 = FactoryBot.create(:temp_sp_1)
+
+    visit '/manager_department'
 end
 
 And('vado alla pagina per effettuare una prenotazione SetQkRes') do
@@ -11,12 +28,12 @@ And('vado alla pagina per effettuare una prenotazione SetQkRes') do
 end
 
 And('seleziono un dipartimento SetQkRes') do
-    @spazio = Space.find(15)
     click_button 'Filtra dipartimento'
 end
 
 When('seleziono la casella per impostare uno spazio come prenotazione rapida') do
-    check("QR15")
+    @seat = Space.find(1)
+    check("QR1")
 end
 
 And('confermo tramite l\'apposito bottone SetQkRes') do
@@ -28,5 +45,5 @@ And('vado alla home SetQkRes') do
 end
 
 Then('nella card della prenotazione rapida trovo i dati dello spazio appena impostato') do
-    expect(page).to have_text("Dipartimento:\n#{@spazio.dep_name}\nTipologia - Spazio:\n#{@spazio.typology} - #{@spazio.name}")
+    expect(page).to have_text("Dipartimento:\n#{@seat.dep_name}\nTipologia - Spazio:\n#{@seat.typology} - #{@seat.name}")
 end

@@ -1,0 +1,88 @@
+<!-- Pagina Home -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+
+	<title> Home - Spacebook </title>
+	<%= javascript_pack_tag 'leaflet' %>
+	<%= stylesheet_link_tag 'leaflet', media: 'all', 'data-turbolinks-track': 'reload' %>
+	<%= javascript_pack_tag 'leaflet-routing-machine' %>
+	<%= stylesheet_link_tag 'leaflet-routing-machine',media: 'all', 'data-turbolinks-track': 'reload' %> 
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+</head>
+
+<body>
+    <!-- Mappa per geolocalizzazione -->
+    <div class="card mb-4" style="height: 685px">
+        <div class="card-header text-center">
+            <label class="h2 my-3"> Mappa <i class="bi bi-map mx-2"></i> </label>
+        </div>
+        <div class="card-body pt-2">
+            <label class="h5 mb-0 px-2"> Zoom </label>
+            <label class="h5 mb-0 px-2" style="float: right"> Inserisci destinazione e arrivo e premi invio per confermare </label>
+            <div id="map" style="height: 95% !important"></div>
+
+            <!-- Utilizzo LEAFLET e OSM per generare una mappa centrata su Roma -->
+            <script>
+                var map = L.map('map').setView([41.89333, 12.48302], 11);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap'
+                }).addTo(map);
+
+                var EdIcon = L.icon({
+                    iconUrl: '<%=image_path('pin.png')%>',
+                    shadowUrl: '<%=image_path('marker-shadow.png')%>',
+                    iconSize:     [30, 50], // size of the icon
+                    shadowSize:   [30, 64], // size of the shadow
+                    iconAnchor:   [17, 58], // point of the icon which will correspond to marker's location
+                    shadowAnchor: [9, 75],  // the same for the shadow
+                    popupAnchor:  [-3, -60] // point from which the popup should open relative to the iconAnchor
+                });
+            </script>
+
+            <% @departments.each do |department| %>
+                <script>
+                    L.marker(["<%=department.latitude%>", "<%=department.longitude%>"],{icon: EdIcon}).addTo(map).bindPopup("<%=department.name%>"+"<br>"+"<%=department.via+" "+department.civico+" "+department.citta+" "+department.cap %>");
+                </script>
+            <%end%>
+
+            <script>
+                document.getElementById("centra").onclick = function() {centra_mappa()};
+                function centra_mappa(lat, lon, dep_n, dep, zoom, marker) {
+                    map.setView([lat, lon], parseInt(zoom));
+                    var myIcon = L.icon({
+                        iconUrl: '<%=image_path('marker-icon-2x.png')%>',
+                        shadowUrl: '<%=image_path('marker-shadow.png')%>',
+                        iconSize:     [30, 50], // size of the icon
+                        shadowSize:   [30, 64], // size of the shadow
+                        iconAnchor:   [17, 58], // point of the icon which will correspond to marker's location
+                        shadowAnchor: [9, 75],  // the same for the shadow
+                        popupAnchor:  [-3, -60] // point from which the popup should open relative to the iconAnchor
+                    });
+                    if (marker=='true'){
+                        L.marker([lat, lon],{icon: myIcon}).addTo(map).bindPopup(dep_n+"<br>"+dep).openPopup();
+                    }
+                }
+            </script>
+
+            <script>
+                L.Routing.control({
+                    waypoints: [ L.latLng(), L.latLng() ],
+                    routeWhileDragging: true,
+                    geocoder: L.Control.Geocoder.nominatim(),
+                }).addTo(map);7
+            </script>
+            <%if current_user%> <!-- Se l'utente è registrato viene geolocalizzato e la mappa ricentrata sulla sua posizione approssimativa -->
+                <script>
+                    centra_mappa("<%= current_user.latitude %>","<%= current_user.longitude %>",'La tua posizione', 'Posizione approssimativa','9','false');
+                </script>
+            <% end %>
+        </div>
+    </div>
+</body>
+</html>

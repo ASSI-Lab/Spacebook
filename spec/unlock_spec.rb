@@ -3,14 +3,14 @@ require 'rails_helper'
 describe 'unlock_user process', type: :feature do
 
     before(:each) do
-        @user = User.find(9)
-        @target = User.find(1)
+        @admin = FactoryBot.create(:user_admin)
+        @target = FactoryBot.create(:user_user)
         @target.locked_at = Time.now
         @target.save
 
         visit '/users/sign_in'
-        fill_in 'email', with: @user.email
-        fill_in 'password', with: 'password'
+        fill_in 'email', with: @admin.email
+        fill_in 'password', with: @admin.password
         click_button 'Accedi'
 
         visit '/management'
@@ -18,9 +18,12 @@ describe 'unlock_user process', type: :feature do
     end
 
     context 'unlocking seen by the locking admin' do
+        before(:each) do
+            @target = User.find(2)
+        end
 
         it "should have the locking_reason null for the just unlocked user" do
-            expect(User.find(1).locking_reason).to eq(nil)
+            expect(@target.locking_reason).to eq(nil)
         end
 
         it "should have sent an email to the right user with the unlock notification" do
@@ -29,7 +32,6 @@ describe 'unlock_user process', type: :feature do
         end
 
         it "should have changed the button of the locked user from 'Sblocca' to 'Blocca'" do
-            @target = User.find(1)
             expect(page.find('#'+@target.id.to_s+'Blocca')).to be_truthy
         end
 

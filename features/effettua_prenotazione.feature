@@ -2,6 +2,7 @@ Feature: effettua una nuova prenotazione
 
 Background:
     Given mi sono autenticato MakeRes
+    And è presente un dipartimento MakeRes
     And vado alla pagina per effettuare una prenotazione MakeRes
 
 Scenario: la prenotazione è stata effettuata correttamente

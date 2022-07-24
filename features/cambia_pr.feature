@@ -2,6 +2,7 @@ Feature: sostituisci lo spazio della prenotazione rapida
 
 Background:
     Given mi sono autenticato UpdateQkRes
+    And è presente un dipartimento UpdateQkRes
     And vado alla pagina per effettuare una prenotazione UpdateQkRes
     And seleziono un dipartimento UpdateQkRes
     And ho impostato uno spazio come prenotazione rapida UpdateQkRes

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   # Generali
   get "/home", to: "home#index"
   post '/home', to: 'home#index', as: 'get_meteo_info'
+  get "/leaflet_osm_map", to: "leaflet_osm#index"
   get "/personal_area", to: "personal_area#index"
   get "/informations", to: "informations#index"
 

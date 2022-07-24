@@ -167,11 +167,11 @@
 					<!-- Mappa per geolocalizzazione -->
 					<div class="card mb-4" style="height: 95%">
 						<div class="card-header text-center">
-							<label class="h3 my-3"> Mappa <i class="bi bi-map mx-2"></i> </label>
+							<label class="h3 mt-3 mb-1"> Mappa <i class="bi bi-map mx-2"></i> </label>
 						</div>
 						<div class="card-body pt-2">
 							<label class="h5 mb-0 px-2"> Zoom </label>
-							<label class="h5 mb-0 px-2" style="float: right"> Trova percorso </label>
+							<label class="h5 mb-0 px-2" style="float: right"> Inserisci i dati e premi invio per confermare </label>
 							<div id="map"></div>
 
 							<!-- Utilizzo LEAFLET e OSM per generare una mappa centrata su Roma -->
@@ -230,6 +230,9 @@
 									centra_mappa("<%= current_user.latitude %>","<%= current_user.longitude %>",'La tua posizione', 'Posizione approssimativa','9','false');
 								</script>
 							<% end %>
+						</div>
+						<div class="card-footer">
+							<button class="btn btn-sm btn-outline-info mt-1 mb-2" style="width: 100%" onclick="window.location.href='/leaflet_osm_map'"> Visualizza a schermo intero </button>
 						</div>
 					</div>
 				</div>

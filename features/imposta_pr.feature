@@ -2,6 +2,7 @@ Feature: imposta prenotazione rapida
 
 Background:
     Given mi sono autenticato SetQkRes
+    And è presente un dipartimento SetQkRes
     And vado alla pagina per effettuare una prenotazione SetQkRes
     And seleziono un dipartimento SetQkRes
 

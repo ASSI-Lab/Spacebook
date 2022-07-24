@@ -142,85 +142,86 @@
 			</div>
 		<% end %>
 
+
 		<!-- Dipartimento + mappa + legenda -->
-		<div class="row">
-			<div class="col-lg-5">
-				<div class="row">
-					<div class="col-lg-12">
-						<!-- Mostra il dipartimento in cui prenotare -->
-						<div class="card">
-							<div class="card-header">
-								<label class="h3 my-2"><i class="bi bi-building"> <%= (selected_department).name %> </i></label>
-							</div>
-							<div class="card-body">
-									<div class="row">
-										<div class="col-lg-6">
-											<!-- Truncate Icona interattiva per visualizzare il modal della descrizione completa -->
-											<label class="h5 mb-0"> Descrizione: </label><i class="h5 colorLink bi bi-plus-square-dotted mx-2" data-bs-toggle="modal" data-bs-target="#dep<%= selected_department.id %>DescModal"></i><br>
-											<!-- Descrizione truncate tramite modal -->
-											<label class="text-truncate my-0 py-0" style="width: 90%"> <%= (selected_department).description %> </label>
-											<!-- Modal descrizione -->
-											<%= render '/departments/modal_dep_desc', department: selected_department %>
+		<% if selected_department.dep_map!=nil %>
+			<div class="row">
+				<div class="col-lg-5">
+					<div class="row">
+						<div class="col-lg-12">
+							<!-- Mostra il dipartimento in cui prenotare -->
+							<div class="card">
+								<div class="card-header">
+									<label class="h3 my-2"><i class="bi bi-building"> <%= (selected_department).name %> </i></label>
+								</div>
+								<div class="card-body">
+										<div class="row">
+											<div class="col-lg-6">
+												<!-- Truncate Icona interattiva per visualizzare il modal della descrizione completa -->
+												<label class="h5 mb-0"> Descrizione: </label><i class="h5 colorLink bi bi-plus-square-dotted mx-2" data-bs-toggle="modal" data-bs-target="#dep<%= selected_department.id %>DescModal"></i><br>
+												<!-- Descrizione truncate tramite modal -->
+												<label class="text-truncate my-0 py-0" style="width: 90%"> <%= (selected_department).description %> </label>
+												<!-- Modal descrizione -->
+												<%= render '/departments/modal_dep_desc', department: selected_department %>
+											</div>
+											<div class="col-lg-6">
+												<label class="label h5  my-0 py-0"> Posizione: </label><br>
+												<%= (selected_department).via %>, <%= (selected_department).civico %>, <%= (selected_department).cap %>, <%= (selected_department).citta %>, <%= (selected_department).provincia %>
+											</div>
 										</div>
-										<div class="col-lg-6">
-											<label class="label h5  my-0 py-0"> Posizione: </label><br>
-											<%= (selected_department).via %>, <%= (selected_department).civico %>, <%= (selected_department).cap %>, <%= (selected_department).citta %>, <%= (selected_department).provincia %>
+										<div class="row mt-3">
+											<div class="col-lg-6">
+												<label class="label h5  my-0 py-0"> Numero piani: </label>
+												<%= (selected_department).floors %>
+											</div>
+											<div class="col-lg-6">
+												<label class="label h5  my-0 py-0"> Numero spazi: </label>
+												<%= (selected_department).number_of_spaces %>
+											</div>
 										</div>
-									</div>
-									<div class="row mt-3">
-										<div class="col-lg-6">
-											<label class="label h5  my-0 py-0"> Numero piani: </label>
-											<%= (selected_department).floors %>
-										</div>
-										<div class="col-lg-6">
-											<label class="label h5  my-0 py-0"> Numero spazi: </label>
-											<%= (selected_department).number_of_spaces %>
-										</div>
-									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-lg-12">
-						<!-- Legenda -->
-						<div class="card mt-4">
-							<div class="card-header">
-								<label class="h3 my-2"><i class="bi bi-list-ul"> Legenda </i></label>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="col-lg-4"><i class="h6 bi bi-x-circle"> Chiuso: </i> </div>
-									<div class="col-lg-8"><label class="small"> Il dipartimento è chiuso in questo orario </label></div>
+						<div class="col-lg-12">
+							<!-- Legenda -->
+							<div class="card mt-4">
+								<div class="card-header">
+									<label class="h3 my-2"><i class="bi bi-list-ul"> Legenda </i></label>
 								</div>
-								<div class="row">
-									<div class="col-lg-4"><i class="h6 bi bi-clock"> Scaduto: </i> </div>
-									<div class="col-lg-8"><label class="small"> Questo orario non è più disponibile oggi </label></div>
-								</div>
-								<div class="row">
-									<div class="col-lg-4"><i class="h6 bi bi-check-circle"> Prenotato: </i></div>
-									<div class="col-lg-8"><label class="small"> Hai prenotato già questo posto </label></div>
-								</div>
-								<div class="row">
-									<div class="col-lg-4"><i class="h6 bi bi-exclamation-circle"> Non disponibile: </i></div>
-									<div class="col-lg-8"><label class="small"> Hai prenotato già questo orario in un altro spazio </label></div>
-								</div>
-								<div class="row">
-									<div class="col-lg-4"><i class="h6 bi bi-dash-circle"> Completo: </i></div>
-									<div class="col-lg-8"><label class="small"> Lo spazio è al completo in questo orario </label></div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-lg-4"><i class="h6 bi bi-x-circle"> Chiuso: </i> </div>
+										<div class="col-lg-8"><label class="small"> Il dipartimento è chiuso in questo orario </label></div>
+									</div>
+									<div class="row">
+										<div class="col-lg-4"><i class="h6 bi bi-clock"> Scaduto: </i> </div>
+										<div class="col-lg-8"><label class="small"> Questo orario non è più disponibile oggi </label></div>
+									</div>
+									<div class="row">
+										<div class="col-lg-4"><i class="h6 bi bi-check-circle"> Prenotato: </i></div>
+										<div class="col-lg-8"><label class="small"> Hai prenotato già questo posto </label></div>
+									</div>
+									<div class="row">
+										<div class="col-lg-4"><i class="h6 bi bi-exclamation-circle"> Non disponibile: </i></div>
+										<div class="col-lg-8"><label class="small"> Hai prenotato già questo orario in un altro spazio </label></div>
+									</div>
+									<div class="row">
+										<div class="col-lg-4"><i class="h6 bi bi-dash-circle"> Completo: </i></div>
+										<div class="col-lg-8"><label class="small"> Lo spazio è al completo in questo orario </label></div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- Mappa del dipartimento -->
-			<div class="col-lg-7">
-				<div class="card" style="height: 100%">
-					<div class="card-header text-center">
-						<label class="h3 mt-3 mb-0 pb-0"> Pianta del dipartimento </label>
-						<p class="small my-0 pt-0"> Clicca sulla pianta per esplorare gli spazi del dipartimento selezionato. </p>
-					</div>
-					<div class="card-body">
-						<% if selected_department.dep_map!=nil %>
+				<!-- Mappa del dipartimento -->
+				<div class="col-lg-7">
+					<div class="card" style="height: 100%">
+						<div class="card-header text-center">
+							<label class="h3 mt-3 mb-0 pb-0"> Pianta del dipartimento </label>
+							<p class="small my-0 pt-0"> Clicca sulla pianta per esplorare gli spazi del dipartimento selezionato. </p>
+						</div>
+						<div class="card-body">
 							<div class="card bg-white" id="chart"></div>
 							<script src="https://cdn-eu.seatsio.net/chart.js"></script>
 							<script>
@@ -230,11 +231,78 @@
 									event: '<%= selected_department.dep_event %>'
 								}).render();
 							</script>
-						<% end %>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		<% else %>
+			<div class="row">
+				<div class="col-lg-6">
+					<!-- Mostra il dipartimento in cui prenotare -->
+					<div class="card" style="height: 100%">
+						<div class="card-header">
+							<label class="h3 my-2"><i class="bi bi-building"> <%= (selected_department).name %> </i></label>
+						</div>
+						<div class="card-body" style="height: 100%">
+								<div class="row">
+									<div class="col-lg-6">
+										<!-- Truncate Icona interattiva per visualizzare il modal della descrizione completa -->
+										<label class="h5 mb-0"> Descrizione: </label><i class="h5 colorLink bi bi-plus-square-dotted mx-2" data-bs-toggle="modal" data-bs-target="#dep<%= selected_department.id %>DescModal"></i><br>
+										<!-- Descrizione truncate tramite modal -->
+										<label class="text-truncate my-0 py-0" style="width: 90%"> <%= (selected_department).description %> </label>
+										<!-- Modal descrizione -->
+										<%= render '/departments/modal_dep_desc', department: selected_department %>
+									</div>
+									<div class="col-lg-6">
+										<label class="label h5  my-0 py-0"> Posizione: </label><br>
+										<%= (selected_department).via %>, <%= (selected_department).civico %>, <%= (selected_department).cap %>, <%= (selected_department).citta %>, <%= (selected_department).provincia %>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col-lg-6">
+										<label class="label h5  my-0 py-0"> Numero piani: </label>
+										<%= (selected_department).floors %>
+									</div>
+									<div class="col-lg-6">
+										<label class="label h5  my-0 py-0"> Numero spazi: </label>
+										<%= (selected_department).number_of_spaces %>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<!-- Legenda -->
+					<div class="card">
+						<div class="card-header">
+							<label class="h3 my-2"><i class="bi bi-list-ul"> Legenda </i></label>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-lg-4"><i class="h6 bi bi-x-circle"> Chiuso: </i> </div>
+								<div class="col-lg-8"><label class="small"> Il dipartimento è chiuso in questo orario </label></div>
+							</div>
+							<div class="row">
+								<div class="col-lg-4"><i class="h6 bi bi-clock"> Scaduto: </i> </div>
+								<div class="col-lg-8"><label class="small"> Questo orario non è più disponibile oggi </label></div>
+							</div>
+							<div class="row">
+								<div class="col-lg-4"><i class="h6 bi bi-check-circle"> Prenotato: </i></div>
+								<div class="col-lg-8"><label class="small"> Hai prenotato già questo posto </label></div>
+							</div>
+							<div class="row">
+								<div class="col-lg-4"><i class="h6 bi bi-exclamation-circle"> Non disponibile: </i></div>
+								<div class="col-lg-8"><label class="small"> Hai prenotato già questo orario in un altro spazio </label></div>
+							</div>
+							<div class="row">
+								<div class="col-lg-4"><i class="h6 bi bi-dash-circle"> Completo: </i></div>
+								<div class="col-lg-8"><label class="small"> Lo spazio è al completo in questo orario </label></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% end %>
 
 		<!-- Form per selezionare gli spazi e gli orari da prenotare -->
 		<%= form_with url: make_actions_path, local: true, method: :post do |form| %>
