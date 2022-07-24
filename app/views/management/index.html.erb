@@ -97,10 +97,11 @@
 		<div class="card-body">
 			<table id="datatableUtenti" class="display table-responsive table-striped table-hover" width="100%">
 				<thead>
-					<td class="h5" width="30%"> Email </td>
-					<td class="h5" width="25%"> Ruolo </td>
-					<td class="h5" width="30%"> Motivo blocco </td>
-					<td class="h5 opt-no-sort" width="15%"> Opzioni </td>
+					<td class="h5" width="25%"> Email </td>
+					<td class="h5" width="20%"> Ruolo </td>
+					<td class="h5" width="25%"> Motivo blocco </td>
+					<td class="h5 opt-no-sort" width="15%"> Blocca/Sblocca </td>
+					<td class="h5 opt-no-sort" width="15%"> Rendi manager </td>
 				</thead>
 				<tbody>
 					<% @users.each do |user| %>
@@ -117,12 +118,13 @@
 								<% else %>
 									<td></td>
 								<% end %>
-								<td>
-									<% if user.role!='admin'%>
-										<%= button_to ban_status(user), ban_user_path(user) , method: :patch, id:user.id.to_s+ban_status(user), class: "btn btn-sm btn-outline-info", style: "width:100%"%>
-										<%= button_to manager_status(user), set_manager_user_path(user) , method: :patch, class: "btn btn-sm btn-outline-info", style: "width:100%"%>
-									<% end %>
-								</td>
+								<% if user.role!='admin'%>
+									<td><%= button_to ban_status(user), ban_user_path(user) , method: :patch, id:user.id.to_s+ban_status(user), class: "btn btn-sm btn-outline-info", style: "width:100%"%></td>
+									<td><%= button_to manager_status(user), set_manager_user_path(user) , method: :patch, class: "btn btn-sm btn-outline-info", style: "width:100%"%></td>
+								<% else %>
+									<td></td>
+									<td></td>
+								<% end %>
 							</tr>
 						<% end %>
 					<% end %>

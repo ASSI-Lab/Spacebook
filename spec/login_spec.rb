@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-describe 'the signin process', type: :feature do
- before :each do
-   User.create(email: 'user1@gmail.com', password: 'password', confirmed_at: Time.now, role:'user')
- end
- it 'signs @user in' do
-   visit '/users/sign_in'
-   fill_in 'Email', with: 'user1@gmail.com'
-   fill_in 'Password', with: 'password'
-   click_button 'Accedi'
-  expect(current_path).to eq(root_path)
-  expect(page).to have_text('Accesso effettuato con successo.')
- end
+describe 'sign_in process', type: :feature do
+    it 'signs in test' do
+        @user = User.find(1)
+        @sign_in_count = @user.sign_in_count
+
+        visit '/users/sign_in'
+        fill_in 'Email', with: @user.email
+        fill_in 'Password', with: 'password'
+        click_button 'Accedi'
+
+        expect(User.find(1).sign_in_count).to eq(@sign_in_count + 1)
+    end
 end

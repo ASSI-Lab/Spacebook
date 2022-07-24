@@ -75,7 +75,7 @@
 			<div class="card">
 				<div class="card-header">
 					<label class="h2 my-3"> Ecco il tuo dipartimento </label>
-					<p> In questa pagina puoi gestirlo, modificare gli spazi, le piante caricate e sbirciare tutte le prenotazioni ihihih </p>
+					<p> In questa pagina puoi modificare le informazioni del dipartimento, gestire gli spazi, creare/modificare la pianta interattiva e controllare le attività tramite le prenotazioni </p>
 				</div>
 			</div>
 		</div>
@@ -87,7 +87,9 @@
 				<div class="card-header"> 
 					<label class="h3 my-3"> <%= (@department).name %> </label>
 					<!-- Tasto per l'eliminazione -->
-					<%= link_to '', @department, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, class: "btn btn-outline-info bi bi-trash my-3", style: "float: right" %>
+					<label class="mx-0 my-0 px-0 py-0" style="float: right" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
+						<%= link_to '', @department, method: :delete, data: { confirm: 'Sicuro di voler rimuovere il dipartimento?' }, class: "btn btn-outline-info bi bi-trash my-3" %>
+					</label>
 				</div>
 				<div class="card-body">
 					<div class="row">
@@ -272,18 +274,25 @@
 						<button class="btn btn-outline-info" style="width: 100%"> Elimina pianta </button>
 					</div>
 				<% else %>
-					<div class="card-body">
-						<p> Al momento non hai creato una pianta del tuo dipartimento... </p>
+					<div class="card-body text-center">
+						<p class="my-5 py-5">
+							In questa sezione potrai modificare una pianta interattiva del tuo dipartimento in modo che gli altri utenti possano visionare la disposizione degli spazi e dei posti. <br>
+							Al momento non hai ancora creato la pianta. Se desideri farlo basta premere su "Crea pianta"!
+						</p>
 					</div>
 					<div class="card-footer">
 						<%= form_with url: manager_map_initializer_path, local: true, method: :post do |form| %>
 							<%= form.number_field :dep_id, value: @department.id, readonly: true, style: 'display:none'%>
-							<button class="btn btn-outline-info" style="width: 100%"> Crea pianta </button>
+							<button class="btn btn-outline-info" style="width: 100%" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento"> Crea pianta </button>
 						<% end %>
 					</div>
 				<% end %>
 			</div>
 		</div>
 	</div>
+
+	<!-- Modal che si sovrappone al sito durante i caricamenti -->
+	<%= render 'layouts/modal_loading' %>
+
 </body>
 </html>

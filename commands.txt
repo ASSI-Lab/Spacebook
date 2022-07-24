@@ -5,10 +5,11 @@ bundle install
 rake db:drop
 rake db:migrate
 rake db:seed
-reset
-rails s
-
 rake db:create RAILS_ENV=test
 rake db:schema:load RAILS_ENV=test
 rake db:test:prepare
 rake db:seed RAILS_ENV=test
+reset
+rails s
+
+git commit -m "Piccolo miglioramento grafico e logico del sito + aggiunta dei test con RSpec + aggiunte di alcuni vincoli"

@@ -28,7 +28,7 @@ And('seleziono lo stesso dipartimento di prima RmQkRes') do
 end
 
 When('seleziono la casella per rimuovere uno spazio dalla prenotazione rapida') do
-    check("QR15")
+    check("QR1")
 end
 
 And('confermo tramite l\'apposito bottone RmQkRes') do

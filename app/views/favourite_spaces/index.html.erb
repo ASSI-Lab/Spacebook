@@ -68,7 +68,7 @@
 										<% form.submit '' %>
 									<% end %>
 								</td>
-								<td><%= link_to '', favourite_space, method: :delete, data: { confirm: 'Sei sicuro?' }, class: "btn btn-outline-info bi bi-trash", style: "width: 100%" %></td>
+								<td><%= link_to '', favourite_space, method: :delete, data: { confirm: 'Sei sicuro?' }, class: "btn btn-outline-info bi bi-trash", id: favourite_space.id.to_s, style: "width: 100%" %></td>
 							</tr>
 						<% end %>
 					</tbody>

@@ -18,7 +18,7 @@
                     <button class="btn bi bi-x-lg" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <%= link_to ' Esci', destroy_user_session_path, method: :delete, class: "dropdown-item bi bi-door-open", style: "padding: 10px" %>
+                    <%= link_to ' Esci', destroy_user_session_path, method: :delete, class: "dropdown-item bi bi-door-open", id: "Esci", style: "padding: 10px" %>
                     <%= link_to " Annulla la registrazione ed elimina l'utente", "/users#destroy", method: :delete, data: { confirm: "Sei sicuro di voler eliminare l'account?" }, class: "dropdown-item bi bi-trash", style: "padding: 10px" %>
                 </div>
             <% end %>

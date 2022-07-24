@@ -33,12 +33,12 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <%= form.number_field :floor, class: "form-control", required: :true, id: "piano", placeholder: "plh"%>
+                        <%= form.number_field :floor, class: "form-control", required: :true, min:0, max: mydep.floors-1, id: "piano", placeholder: "plh"%>
                         <label for="piano"> Piano al quale si trova </label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <%= form.number_field :number_of_seats, class: "form-control", required: :true, id: "numPosti", placeholder: "plh"%>
+                        <%= form.number_field :number_of_seats, class: "form-control", min: 1, required: :true, id: "numPosti", placeholder: "plh"%>
                         <label for="numPosti"> Numero di posti prenotabili </label>
                     </div>
 

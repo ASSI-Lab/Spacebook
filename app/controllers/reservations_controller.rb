@@ -1,7 +1,6 @@
 class ReservationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_reservation, only: %i[ show edit update destroy ]
-  helper_method :miao
 
   # Raccoglie il nome del dipartimento selezionato dall'utente, ne carica gli spazi e reindirizza a '/make_rexservation'
   def set_department
@@ -47,7 +46,7 @@ class ReservationsController < ApplicationController
       # Se il param è riferito ad un check per rimuovere lo spazio dalla prenotazione rapida
       elsif (check[1] == "RmQkRes")
 
-        update_qk_res(qk_parse(check[0]))
+        rm_qk_res(qk_parse(check[0]))
 
       end
     end

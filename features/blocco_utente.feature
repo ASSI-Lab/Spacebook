@@ -16,5 +16,3 @@ Scenario: il blocco di un utente va a buon fine
     And ottengo di nuovo un risultato
     And viene mostrato il motivo del blocco
     And per l'utente appena bloccato compare il bottone per sbloccarlo
-
-

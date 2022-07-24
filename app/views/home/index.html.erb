@@ -21,13 +21,14 @@
 			<!-- Introduzione -->
 			<div class="card" style="height:100%">
 				<div class="card-header" style="height:100%">
-					<label class="h2 my-3"> Benvenuto </label>
-					<p class="card-text">
-						Speriamo ti troverai bene nel nostro sito, siamo super fighi e strabravi perciò vedi di non rompere e non fare danni!
-						Registrati e prenota tutti gli spazi che vuoi in pochi e semplici passi (se non ci riesci hai dei problemi)
-						<br>
+					<label class="h2 mt-3 mb-1"> Benvenuto </label>
+					<p class="card-text mb-2">
+						Su Spacebook puoi prenotare gli spazi in pochi e semplici passi! Esplora liberamente i dipartimenti quì sotto e trova quello che ti interessa.<br>
+						Puoi effettuare le prenotazioni sia visitando 'Effettua prenotazione' nel menù laterale, sia facendo click su "prenota" nel dipartimento che ti interessa.
+						Per saperne di più visita la pagina di informazioni accessibile dal menù laterale.<br>
+						Speriamo ti troverai bene nel nostro sito. Buona navigazione!<br>
 						<% if !user_signed_in? %>
-							Per effettuare una prenotazione <%= link_to "accedi", "/users/sign_in", class: "colorLink" %> o <%= link_to "registrati", "/users/sign_up", class: "colorLink" %>
+							(per effettuare una prenotazione <%= link_to "accedi", "/users/sign_in", class: "colorLink" %> o <%= link_to "registrati", "/users/sign_up", class: "colorLink" %>)
 						<% end %>
 					</p>
 				</div>
@@ -42,16 +43,24 @@
 							<tr>
 								<% if @quick_reservation %>
 									<td>
-										<label class="h3 my-3"> Prenotazione rapida </label>
+										<label class="h3 mt-3 mb-1"> Prenotazione rapida </label>
 										<div class="small"> Verrà prenotato il primo orario disponibile in data odierna per lo spazio sotto riportato </div>
 									</td>
-									<td class="px-2"> <a class="btn btn-sm btn-outline-info" style="float: right" onclick="window.location.href='/make_quick_res'"> <i class='bi bi-cursor'></i> <br> Prenota </a> </td>
+									<td class="px-2">
+										<label class="mx-0 my-0 px-0 py-0" style="float: right" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
+											<a class="btn btn-sm btn-outline-info" onclick="window.location.href='/make_quick_res'"> <i class='bi bi-cursor'></i> <br> Prenota </a>
+										</label>
+									</td>
 								<% else %>
 									<td>
-										<label class="h3"> Prenotazione rapida </label>
+										<label class="h3 mt-3 mb-1"> Prenotazione rapida </label>
 										<div class="small"> Verrà prenotato il primo orario disponibile in data odierna per lo spazio che imposterai </div>
 									</td>
-									<td class="px-2"> <a class="btn btn-sm btn-outline-info" style="float: right" onclick="window.location.href='/make_reservation'"> <i class='bi bi-pen'></i> <br> Imposta </a> </td>
+									<td class="px-2">
+										<label class="mx-0 my-0 px-0 py-0" style="float: right" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
+											<a class="btn btn-sm btn-outline-info" style="float: right" onclick="window.location.href='/make_reservation'"> <i class='bi bi-pen'></i> <br> Imposta </a>
+										</label>
+									</td>
 								<% end %>
 							</tr>
 						</table>
@@ -129,7 +138,9 @@
 										<%= form_with url: get_meteo_info_path, local: true, method: :post do |form| %>
 											<%= form.number_field :lati, value: "#{department.latitude}", :style=>'display:none'%>
 											<%= form.number_field :long, value: "#{department.longitude}", :style=>'display:none'%>
-											<button class="btn btn-sm btn-outline-info" style="float: right; width: 100%"><i class='bi bi-cloud-sun mx-2'></i>Meteo</button>
+											<label class="mx-0 my-0 px-0 py-0" style="width: 100%" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
+												<button class="btn btn-sm btn-outline-info" style="float: right; width: 100%"><i class='bi bi-cloud-sun mx-2'></i>Meteo</button>
+											</label>
 											<%= form.submit '', style: "display: none" %>
 										<% end %>
 									</div>
@@ -137,7 +148,9 @@
 										<%= form_with url: set_department_path, local: true, method: :post do |form| %>
 											<%= form.text_field :selected_dep_name, value: "#{department.name}", style: "display: none" %>
 											<%= form.text_field :filter, value: "Dep", style: "display: none" %>
-											<button class="btn btn-sm btn-outline-info" style="float: right; width: 100%"><i class='bi bi-cursor mx-2'></i>Prenota</button>
+											<label class="mx-0 my-0 px-0 py-0" style="width: 100%" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
+												<button class="btn btn-sm btn-outline-info" style="float: right; width: 100%"><i class='bi bi-cursor mx-2'></i>Prenota</button>
+											</label>
 											<% form.submit '' %>
 										<% end %>
 									</div>
@@ -280,6 +293,9 @@
 			</div>
 		</div>
 	</div>
+
+    <!-- Modal che si sovrappone al sito durante i caricamenti -->
+    <%= render 'layouts/modal_loading' %>
 
 </body>
 </html>

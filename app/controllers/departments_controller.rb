@@ -51,47 +51,19 @@ class DepartmentsController < ApplicationController
 
                 # Tramite (1) & (2) sopra riportati calcola la data da inserire a seconda dei casi:
                 if (@day=="Lunedì")       # Calcola la data del prossimo lunedì
-                  if @monday.past?
-                    @date = @monday + 7
-                  else
-                    @date = @monday
-                  end
+                  @date = ((@monday+0).past?)? (@monday + 7) : (@monday)
                 elsif (@day=="Martedì")   # Calcola la data del prossimo martedì
-                  if (@monday+1).past?
-                    @date = @monday + 8
-                  else
-                    @date = @monday + 1
-                  end
+                  @date = ((@monday+1).past?)? (@monday + 8) : (@monday + 1)
                 elsif (@day=="Mercoledì") # Calcola la data del prossimo mercoledì
-                  if (@monday+2).past?
-                    @date = @monday + 9
-                  else
-                    @date = @monday + 2
-                  end
+                  @date = ((@monday+2).past?)? (@monday + 9) : (@monday + 2)
                 elsif (@day=="Giovedì")   # Calcola la data del prossimo giovedì
-                  if (@monday+3).past?
-                    @date = @monday + 10
-                  else
-                    @date = @monday + 3
-                  end
+                  @date = ((@monday+3).past?)? (@monday + 10) : (@monday + 3)
                 elsif (@day=="Venerdì")   # Calcola la data del prossimo venerdì
-                  if (@monday+4).past?
-                    @date = @monday + 11
-                  else
-                    @date = @monday + 4
-                  end
+                  @date = ((@monday+4).past?)? (@monday + 11) : (@monday + 4)
                 elsif (@day=="Sabato")    # Calcola la data del prossimo sabato
-                  if (@monday+5).past?
-                    @date = @monday + 12
-                  else
-                    @date = @monday + 5
-                  end
+                  @date = ((@monday+5).past?)? (@monday + 12) : (@monday + 5)
                 elsif (@day=="Domenica")  # Calcola la data della prossimo domenica
-                  if (@monday+6).past?
-                    @date = @monday + 13
-                  else
-                    @date = @monday + 6
-                  end
+                  @date = ((@monday+6).past?)? (@monday + 13) : (@monday + 6)
                 end
 
                 # Per ogni slot da un ora contenuto negli orari di (1)
