@@ -20,10 +20,12 @@ class FavouriteSpacesController < ApplicationController
   end
 
   def destroy
+    typ = @favourite_space.typology
+    nm = @favourite_space.space_name
     @favourite_space.destroy
 
     respond_to do |format|
-      format.html { redirect_to request.referrer, notice: "Lo spazio '"+@favourite_space.typology+" - "+@favourite_space.name+"' è stato rimosso dai preferiti." }
+      format.html { redirect_to request.referrer, notice: "Lo spazio '"+typ+" - "+nm+"' è stato rimosso dai preferiti." }
     end
   end
 

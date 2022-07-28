@@ -54,6 +54,7 @@ Rails.application.routes.draw do
       patch :ban
       patch :set_manager
       patch :manager_req
+      patch :get_user_coord
     end
   end
 

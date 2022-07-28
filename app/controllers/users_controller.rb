@@ -49,4 +49,43 @@ class UsersController < ApplicationController
         flash[:notice] = "Hai richiesto il ruolo di Manager con successo!"
     end
 
+    def get_user_coord
+        user = User.find(params[:id])
+        user_coord = make_abstract_request
+        if user_coord!='error'
+            user.latitude=user_coord[0]
+            user.longitude=user_coord[1]
+            user.save
+            redirect_to request.referrer
+            flash[:notice] = "Posizione rilevata correttamente. Mappa centrata sulla tua posizione!"
+            return
+        else
+            user.latitude="41.89333"
+            user.longitude="12.48302"
+            user.save
+            redirect_to request.referrer
+            flash[:notice] = "Posizione non rilevata! Mappa centrata su Roma!"
+            return
+        end
+    end
+
+    def make_abstract_request
+        uri = URI("https://ipgeolocation.abstractapi.com/v1/?api_key=#{ENV["ABSTRACT_GEO_KEY"]}")
+
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+
+        request =  Net::HTTP::Get.new(uri)
+
+        response = http.request(request)
+        #puts "Status code: #{ response.code }"
+        #puts "Response body: #{ response.body }"
+        deliv = JSON.parse(response.body)
+        return [deliv["latitude"],deliv["longitude"]]
+    rescue StandardError => error
+        puts "Error (#{ error.message })"
+        return "error"
+    end
+
 end

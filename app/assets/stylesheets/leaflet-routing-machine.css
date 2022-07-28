@@ -223,8 +223,8 @@
 
 .leaflet-routing-container-hide .leaflet-routing-collapse-btn {
     position: relative;
-    left: 4px;
-    top: 4px;
+    left: 1px;
+    top: 0;
     display: block;
     width: 26px;
     height: 23px;

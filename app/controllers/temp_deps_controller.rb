@@ -14,7 +14,8 @@ class TempDepsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :new }
+      format.html { redirect_to "/make_department" }
+      flash[:alert] = "Orari impostati correttamente! Prosegui con a registrazione degli spazi!"
     end
   end
 
@@ -49,7 +50,7 @@ class TempDepsController < ApplicationController
     authorize! :create, @temp_dep, :message => "Attenzione: Non sei autorizzato a creare un dipartimento!"
     respond_to do |format|
       if @temp_dep.save
-        format.html { redirect_to '/make_department', notice: "Il dipartimento è stato registrato e potrai modificarlo successivamente. Procedi con la registrazione degli orari!" }
+        format.html { redirect_to '/make_department', notice: "Il dipartimento è stato registrato. Procedi con la registrazione degli orari!" }
       else
         format.html { render :new, status: :unprocessable_entity }
       end

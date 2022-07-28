@@ -75,12 +75,12 @@
                     waypoints: [ L.latLng(), L.latLng() ],
                     routeWhileDragging: true,
                     geocoder: L.Control.Geocoder.nominatim(),
-                }).addTo(map);7
+                }).addTo(map);
             </script>
-            <%if current_user%> <!-- Se l'utente è registrato viene geolocalizzato e la mappa ricentrata sulla sua posizione approssimativa -->
-                <script>
-                    centra_mappa("<%= current_user.latitude %>","<%= current_user.longitude %>",'La tua posizione', 'Posizione approssimativa','9','false');
-                </script>
+        </div>
+        <div class="card-footer">
+            <% if current_user %>
+                <%= button_to 'Cerca intorno a te', get_user_coord_user_path(current_user) , method: :patch, class: "btn btn-sm btn-outline-info my-1", style: "width:100%"%>
             <% end %>
         </div>
     </div>

@@ -52,7 +52,7 @@ class ReservationsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :reserved, locals: { make_res_parameters: params } }
+      format.html { redirect_to "/personal_area" }
     end
   end
 
@@ -77,7 +77,7 @@ class ReservationsController < ApplicationController
     department = Department.find(space.department_id) # Raccoglie il dipartimento relativo
 
     # Crea la prenotazione con i dati sopra raccolti
-    jcr = Reservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, seat_id: seat.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name, floor: space.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Valida")
+    jcr = Reservation.create(user_id: current_user.id, department_id: department.id, space_id: space.id, seat_id: seat.id, email: current_user.email, dep_name: department.name, typology: space.typology, space_name: space.name, floor: space.floor, seat_num: seat.position, start_date: seat.start_date, end_date: seat.end_date, state: "Active")
     # Modifica il posto per renderlo occupato
     seat.update(position: seat.position+1)
 
@@ -173,7 +173,7 @@ class ReservationsController < ApplicationController
   def destroy
 
     # Libera il posto della prenotazione eliminata
-    if @reservation.state == "Valida"
+    if @reservation.state == "Active"
       @seat = Seat.find(@reservation.seat_id)
       @seat.update(position: @seat.position-1)
     end

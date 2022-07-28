@@ -41,15 +41,16 @@
 						<% end %>
 					<% else %>                              <!-- IN CASO L'ACCESSO NON SIA STATO EFFETTUATO TRAMITE GOOGLE VIENE PRODOTTO UN CALENDARIO SENZA EVENTI -->
 						<%= month_calendar do |date| %>
-							<%= date.day %>
+							<%= date.day %><br>
 							<% Reservation.where(user_id: current_user.id).each do |reservation| %>
 								<% if reservation.start_date.strftime("%Y-%m-%d").to_s == date.to_s %>
 									<font size="-2"><%= reservation.dep_name %></font>
-									<font size="-3" color="blue"><%= reservation.typology %></font>
-									<font size="-3" color="blue"><%= reservation.space_name %></font></br>
-									<font size="-3" color="blue"><%= reservation.start_date.strftime("%H:%M")%></font></br>
+									<font size="-3" color="blue"><%= reservation.typology %> - <%= reservation.space_name %></font></br>
+									<font size="-3" color="blue"><%= reservation.start_date.strftime("%H:%M")%> - <%= reservation.end_date.strftime("%H:%M")%></font>
+									<% break %>
 								<% end %>
 							<% end %>
+
 						<% end %>
 					<% end %>
 				</div>
@@ -61,18 +62,49 @@
 				<!-- Link alle varie pagine -->
 				<div class="col-lg-12 pb-4">
 					<div class='row'>
-						<div class="card mb-4">
-							<div class="card-header"> 
-								<label class="h4 bi bi-person-lines-fill my-2"> <%= current_user.email %> </label>
-								
+						<div class='col-lg-12'>
+							<div class="card mb-4">
+								<div class="card-header"> 
+									<label class="h4 bi bi-person-lines-fill my-2" style="width: 100%"> <%= current_user.email %> </label>
+								</div>
+							</div>
+						</div>
+						<div class='col-lg-12'>
+							<!-- Card per la prenotazione rapida -->
+							<div class="card mb-4">
+								<div class="card-header">
+									<table width="100%">
+										<tr>
+											<% if @quick_reservation %>
+												<td>
+													<label class="h4 mt-1 mb-1"> Prenotazione rapida </label>
+													<p class="small mb-0"> <%= (@quick_reservation)? ""+@quick_reservation.dep_name.to_s+": "+@quick_reservation.typology.to_s+"-"+@quick_reservation.space_name.to_s+"" : "Non impostata" %></p>
+												</td>
+												<td class="px-2">
+													<label class="mx-0 my-0 px-0 py-0" style="float: right" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
+														<a class="btn btn-sm btn-outline-info" onclick="window.location.href='/make_quick_res'"> <i class='bi bi-cursor'></i> <br> Prenota </a>
+													</label>
+												</td>
+											<% else %>
+												<td>
+													<label class="h4 mt-1 mb-1"> Prenotazione rapida </label>
+													<p class="small mb-0"> Non impostata </p>
+												</td>
+												<td class="px-2">
+													<label class="mx-0 my-0 px-0 py-0" style="float: right" type="button" data-bs-toggle="modal" id="modalCaricamentoButton" data-bs-target="#modalCaricamento">
+														<a class="btn btn-sm btn-outline-info" style="float: right" onclick="window.location.href='/make_reservation'"> <i class='bi bi-pen'></i> <br> Imposta </a>
+													</label>
+												</td>
+											<% end %>
+										</tr>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
-				<% if current_user.is_user? && current_user.requested_manager==nil%>
-					<div class='row mb-4'>
-						<%= button_to 'Richiedi ruolo Manager', manager_req_user_path(current_user) , method: :patch, class: "btn btn-sm btn-outline-info", style: "width:100%"%>
-					</div>
-				<% end %>
+					<% if current_user.is_user? && current_user.requested_manager==nil%>
+							<%= button_to 'Richiedi il ruolo di Manager', manager_req_user_path(current_user) , method: :patch, class: "btn btn-sm btn-outline-info mb-4", style: "width:100%"%>
+					<% end %>
 					<div class="row">
 						<div class="col-lg-4">
 							<div class="card" style="height: 100%; cursor: pointer">

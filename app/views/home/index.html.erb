@@ -7,7 +7,7 @@
 	<%= javascript_pack_tag 'leaflet' %>
 	<%= stylesheet_link_tag 'leaflet', media: 'all', 'data-turbolinks-track': 'reload' %>
 	<%= javascript_pack_tag 'leaflet-routing-machine' %>
-	<%= stylesheet_link_tag 'leaflet-routing-machine',media: 'all', 'data-turbolinks-track': 'reload' %> 
+	<%= stylesheet_link_tag 'leaflet-routing-machine',media: 'all', 'data-turbolinks-track': 'reload' %>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
 
 	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
@@ -104,7 +104,7 @@
 								<label class="h3 mt-3 mb-1"> <%= department.name %> </label>
 								<div class="small">
 									<%= department.via %>, <%= department.civico %>, <%= department.cap %>, <%= department.citta %>, <%= department.provincia %>
-									<label onclick='centra_mappa("<%= department.latitude %>","<%= department.longitude %>","<%= department.name %>", "<%=department.via+" "+department.civico+" "+department.citta+" "+department.cap %>","18","true")', class="colorLink bi bi-geo-fill px-2"> </label>
+									<label onclick='centra_mappa("<%= department.latitude %>","<%= department.longitude %>","<%= department.name %>", "<%=department.via+" "+department.civico+" "+department.citta+" "+department.cap %>","18","false")', class="colorLink bi bi-geo-fill px-2"> </label>
 								</div>
 							</div>
 							<div class="card-body">
@@ -223,7 +223,7 @@
 									waypoints: [ L.latLng(), L.latLng() ],
 									routeWhileDragging: true,
 									geocoder: L.Control.Geocoder.nominatim(),
-								}).addTo(map);7
+								}).addTo(map);
 							</script>
 							<%if current_user%> <!-- Se l'utente è registrato viene geolocalizzato e la mappa ricentrata sulla sua posizione approssimativa -->
 								<script>
@@ -233,6 +233,9 @@
 						</div>
 						<div class="card-footer">
 							<button class="btn btn-sm btn-outline-info mt-1 mb-2" style="width: 100%" onclick="window.location.href='/leaflet_osm_map'"> Visualizza a schermo intero </button>
+							<% if current_user %>
+								<%= button_to 'Cerca intorno a te', get_user_coord_user_path(current_user) , method: :patch, class: "btn btn-sm btn-outline-info mb-2", style: "width:100%"%>
+							<% end %>
 						</div>
 					</div>
 				</div>

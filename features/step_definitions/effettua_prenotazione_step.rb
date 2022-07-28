@@ -43,10 +43,10 @@ And('confermo tramite l\'apposito bottone MakeRes') do
     click_button 'Conferma'
 end
 
-Then('dovrei essere reindirizzato alla pagina di mie prenotazione') do
-    expect(page).to have_current_path('/user_reservations')
+Then('vado alla pagina delle mie prenotazione') do
+    visit '/user_reservations'
 end
 
 And('nella tabella trovo i dati della prenotazione appena effettuata') do
-    expect(page).to have_text("#{@department.name} #{@space.typology} #{@space.name} #{@space.floor} #{@num_seat} #{@seat.start_date.mday}-#{@seat.start_date.mon}-#{@seat.start_date.year} #{@seat.start_date.strftime('%H:%M')} - #{@seat.end_date.strftime('%H:%M')} Valida")
+    expect(page).to have_text("#{@department.name} #{@space.typology} #{@space.name} #{@space.floor} #{@num_seat} #{@seat.start_date.mday}-#{@seat.start_date.mon}-#{@seat.start_date.year} #{@seat.start_date.strftime('%H:%M')} - #{@seat.end_date.strftime('%H:%M')} Attiva")
 end

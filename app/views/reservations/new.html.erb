@@ -319,7 +319,7 @@
 								<div class="row">
 									<div class="col">
 										<div class="row">
-											<div class="col-lg-2">
+											<div class="col-lg-1">
 												<!-- Label interattiva per visualizzare il collapse con gli spazi della tipologia corrente -->
 												<label class="labelCollapseMakeRes px-2" data-bs-toggle="collapse" data-bs-target="#spTypology<%= current_ty[0] %>ResTableCollapse" aria-expanded="false" aria-controls="collapseExample"> <%= current_ty[0] %> </label> 
 											</div>
@@ -336,7 +336,7 @@
 														<% current_fav_sp = FavouriteSpace.where(user_id: current_user.id, space_id: current_sp.id) %>
 
 														<div class="row">
-															<div class="col-lg-2">
+															<div class="col-lg-1">
 																<!-- Label interattiva per visualizzare il collapse dello spazio corrente -->
 																<label class="labelCollapseMakeRes px-4" data-bs-toggle="collapse" data-bs-target="#spName<%= current_sp.id %>ResTableCollapse" aria-expanded="false" aria-controls="collapseExample">
 																	<%= current_sp.name %>
@@ -345,7 +345,7 @@
 																	<% end %>
 																</label>
 															</div>
-															<div class="col-lg-10 mb-4">
+															<div class="col-lg-11 mb-4">
 																<!-- Collapse dello spazio corrente -->
 																<div class="collapse my-0" id="spName<%= current_sp.id %>ResTableCollapse">
 																	<div class="row">
@@ -493,9 +493,11 @@
 																									<% if current_qk_res.first.space_id != current_sp.id %>
 																										<td>
 																											<label class="h5 mb-1"> Prenotazione rapida attuale: </label><br>
-																											<%= current_qk_res.first.dep_name %>: <%= current_qk_res.first.typology %> - <%= current_qk_res.first.space_name %><br>
+																											<%= current_qk_res.first.dep_name %> <br>
+																											<%= current_qk_res.first.typology %> - <%= current_qk_res.first.space_name %><br>
 																											<label class="h5 mb-1"> Sostituisci con: </label><br>
-																											<%= current_sp.dep_name %>: <%= current_sp.typology %> - <%= current_sp.name %>
+																											<%= current_sp.dep_name %> <br>
+																											<%= current_sp.typology %> - <%= current_sp.name %>
 																										</td>
 																										<td><%= form.check_box(("QR").concat((current_sp.id).to_s), { class: "form-check-input mx-3 px-0", type: "checkbox", style: "float: right !important" }, checked_value = "UpdateQkRes", unchecked_value = "0") %></td>
 																									<!-- Se invece lo spazio coente è lo stesso della prenotazione rapida, propone la rimozione -->

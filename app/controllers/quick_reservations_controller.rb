@@ -4,7 +4,7 @@ class QuickReservationsController < ApplicationController
 
   # Effettua la prenotazione rapida sullo spazio impostato e mostra il risultato all'utente
   def make_quick_res
-    @qk_res = QuickReservation.where(user_id: current_user.id).first                    # Raccoglie la prenotazione rapida
+    @qk_res = QuickReservation.where(user_id: current_user.id).first                   # Raccoglie la prenotazione rapida
     user_res = Reservation.where(user_id: current_user.id, space_id: @qk_res.space_id) # Raccoglie le prenotazioni dell'utente fatte sullo stesso spazio della prenotazione rapida
     now_date = DateTime.now
     alredy_reserved = 0                                                                 # Variabile di controllo

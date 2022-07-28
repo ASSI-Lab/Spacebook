@@ -3,6 +3,10 @@ class PersonalAreaController < ApplicationController
     helper_method :load_events
     CALENDAR_ID = 'primary'
 
+  def index
+    @quick_reservation = QuickReservation.where(user_id: current_user.id).first
+  end
+
     def load_events
       begin
         client = Google::Apis::CalendarV3::CalendarService.new

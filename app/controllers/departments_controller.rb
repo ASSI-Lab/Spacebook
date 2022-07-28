@@ -50,21 +50,13 @@ class DepartmentsController < ApplicationController
                 @monday = Date.today.monday # (2) data del lunedì della settimana corrente
 
                 # Tramite (1) & (2) sopra riportati calcola la data da inserire a seconda dei casi:
-                if (@day=="Lunedì")       # Calcola la data del prossimo lunedì
-                  @date = ((@monday+0).past?)? (@monday + 7) : (@monday)
-                elsif (@day=="Martedì")   # Calcola la data del prossimo martedì
-                  @date = ((@monday+1).past?)? (@monday + 8) : (@monday + 1)
-                elsif (@day=="Mercoledì") # Calcola la data del prossimo mercoledì
-                  @date = ((@monday+2).past?)? (@monday + 9) : (@monday + 2)
-                elsif (@day=="Giovedì")   # Calcola la data del prossimo giovedì
-                  @date = ((@monday+3).past?)? (@monday + 10) : (@monday + 3)
-                elsif (@day=="Venerdì")   # Calcola la data del prossimo venerdì
-                  @date = ((@monday+4).past?)? (@monday + 11) : (@monday + 4)
-                elsif (@day=="Sabato")    # Calcola la data del prossimo sabato
-                  @date = ((@monday+5).past?)? (@monday + 12) : (@monday + 5)
-                elsif (@day=="Domenica")  # Calcola la data della prossimo domenica
-                  @date = ((@monday+6).past?)? (@monday + 13) : (@monday + 6)
-                end
+                @date = ((@monday+0).past?)? (@monday + 7 ) : (@monday + 0) if (@day=="Lunedì")    # Calcola la data del   prossimo lunedì
+                @date = ((@monday+1).past?)? (@monday + 8 ) : (@monday + 1) if (@day=="Martedì")   # Calcola la data del   prossimo martedì
+                @date = ((@monday+2).past?)? (@monday + 9 ) : (@monday + 2) if (@day=="Mercoledì") # Calcola la data del   prossimo mercoledì
+                @date = ((@monday+3).past?)? (@monday + 10) : (@monday + 3) if (@day=="Giovedì")   # Calcola la data del   prossimo giovedì
+                @date = ((@monday+4).past?)? (@monday + 11) : (@monday + 4) if (@day=="Venerdì")   # Calcola la data del   prossimo venerdì
+                @date = ((@monday+5).past?)? (@monday + 12) : (@monday + 5) if (@day=="Sabato")    # Calcola la data del   prossimo sabato
+                @date = ((@monday+6).past?)? (@monday + 13) : (@monday + 6) if (@day=="Domenica")  # Calcola la data della prossima domenica
 
                 # Per ogni slot da un ora contenuto negli orari di (1)
                 ((wd.chiusura.hour-wd.apertura.hour)).times do |h|
