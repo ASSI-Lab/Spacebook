@@ -2,6 +2,14 @@ Eseguire questi comandi ad ogni pull: Il primo comando è solo per me perche son
 
 cd Scrivania/ASSI/Spacebook
 
+# nel caso di partenza da 0 ovvero senza ruby etc. seguire le istruzioni
+1) installare rvm e la versione ruby 3.1.1 (specificare la versione altrimenti l'installazione non andrà a buon fine per qualche oscuro motivo)
+2) installare nodejs versione 16.x.x (fondamentale altrimenti nè webpacker nè yarn compileranno)(NVM FORTEMENTE CONSIGLIATO)
+3) fare pull della repo e nella cartella principale spacebook eseguire "bundle install"
+4) installare yarn con comando "npm install --global yarn"
+5) installare webpacker con comando "bundle exec rails webpacker:install"
+6) eseguire l'app con comando "rails s"
+
 # dopo ogni pull
 bundle install
 rake db:drop
